@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/a.out", // Path to your compiled executable
+            "args": [], // Command-line arguments for your program
+            "stopAtEntry": false, // True to stop at the main function entry point
+            "cwd": "${workspaceFolder}", // Working directory for the debugger
+            "environment": [], // Environment variables
+            "externalConsole": false, // True to use an external console for program output
+            "MIMode": "gdb", // Debugger mode (GDB in this case)
+            "miDebuggerPath": "/usr/bin/gdb", // Path to your GDB executable
+            "setupCommands": [
+                {
+                    "description": "Enable pretty printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build" // Optional: Task to run before launching the debugger (e.g., build task)
+        }
+    ]
+}

@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 12:57:59 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/04 13:57:14 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/04 18:44:40 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ int	main(void)
 {
 	char	*line;
 
-	line = readline("minishell$> ");
+	handle_signals();
+	rl_catch_signals = 0;
+	line = readline(PROMPT);
 	while (line)
 	{
 		if (!line)
@@ -27,6 +29,6 @@ int	main(void)
 		printf("line: %s\n", line);
 		add_history(line);
 		free(line);
-		line = readline("minishell$> ");
+		line = readline(PROMPT);
 	}
 }

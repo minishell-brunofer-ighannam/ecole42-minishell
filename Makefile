@@ -8,15 +8,20 @@ LIGHT_CYAN=\033[96m
 # ============== MAIN INFO =================
 NAME = minishell
 
+# ============== LIBFT COMMANDS =================
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT_INCLUDES = -I $(LIBFT_DIR)/includes -I $(LIBFT_DIR)/dependency_includes
+
 # ============== COMPILATION COMMANDS =================
-INCLUDES = -I includes
+INCLUDES = -I includes $(LIBFT_INCLUDES)
 CC = cc
 # CFLAGS = -Wall -Werror -Wextra -g3 -Ofast -march=native -flto -funroll-loops $(INCLUDES)
 CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
 
 # ============== SRC FILES =================
 
-SRC_FILES =
+SRC_FILES = src/signals.c
 
 # ============== PROGRAM FILES =================
 MAIN_PROGRAM=src/main.c
@@ -31,7 +36,7 @@ SLEEP = 0.07
 # ============== COMPILATION =================
 OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
-COMPILATION_DEPENDENCIES = $(OBJS) $(OBJ_MAIN_PROGRAM)
+COMPILATION_DEPENDENCIES = $(OBJS) $(OBJ_MAIN_PROGRAM) $(LIBFT)
 
 
 # ***************************************************************************************************
@@ -44,7 +49,12 @@ all: $(NAME)
 
 $(NAME): $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@echo "$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)"
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+
+$(LIBFT):
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@make -s -C $(LIBFT_DIR) SLEEP="$(SLEEP)"
 
 %.o: %.c
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$<$(RESET)..." && sleep $(SLEEP)

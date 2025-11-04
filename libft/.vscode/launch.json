@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C++ Launch (GDB)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/a.out", // Path to your compiled executable
+            "args": [], // Command-line arguments for your program (if any)
+            "stopAtEntry": false, // Set to true to stop at the program's entry point
+            "cwd": "${workspaceFolder}", // Working directory for the debugger
+            "environment": [], // Environment variables (if any)
+            "externalConsole": true, // Set to true to use an external console for input/output
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb", // Path to your GDB executable
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build_project" // Optional: Task to run before launching debugger (e.g., build)
+        }
+    ]
+}
