@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:28:00 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/05 17:45:23 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:57:05 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ int ft_hash(char *key);
 void ft_include_ht(t_env **env, char *key, char *value);
 t_env **ft_init_ht(char **envp);
 void	ft_env(t_env **env);
+char *ft_find_env_value(char *key, t_env **env);
+void ft_remove_ht(t_env **env, char *key);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:29:53 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/05 19:10:11 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:17:57 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,11 @@ void	ft_include_ht(t_env **env, char *key, char *value)
 	{
 		if (ft_strncmp(entry->key, key, ft_strlen(key) + 1) == 0)
 		{
-			free(entry->value);
-			entry->value = ft_strdup(value);
+			if (value)
+			{
+				free(entry->value);
+				entry->value = ft_strdup(value);
+			}
 			return ;
 		}
 		entry = entry->next;
@@ -48,6 +51,33 @@ void	ft_include_ht(t_env **env, char *key, char *value)
 	new_entry->value = ft_strdup(value);
 	new_entry->next = env[ft_hash(key)];
 	env[ft_hash(key)] = new_entry;
+}
+
+void ft_remove_ht(t_env **env, char *key)
+{
+	t_env	*entry;
+	t_env	*prev;
+	unsigned long index;
+
+	index = ft_hash(key);
+	entry = env[index];
+	prev = NULL;
+	while (entry)
+	{
+		if (ft_strncmp(entry->key, key, ft_strlen(key) + 1) == 0)
+		{
+			if (prev)
+				prev->next = entry->next;
+			else
+				env[index] = entry->next;
+			free(entry->key);
+			free(entry->value);
+			free(entry);
+			return ;
+		}
+		prev = entry;
+		entry = entry->next;
+	}
 }
 
 t_env	**ft_init_ht(char **envp)
@@ -79,6 +109,24 @@ t_env	**ft_init_ht(char **envp)
 	return (env);
 }
 
+char *ft_find_env_value(char *key, t_env **env)
+{
+	t_env *found;
+	unsigned long index;
+
+	if (!key || !env)
+		return (NULL);
+	index = ft_hash(key);
+	found = env[index];
+	while (found)
+	{
+		if (ft_strncmp(key, found->key, ft_strlen(key) + 1) == 0)
+			return (found->value);
+		found = found->next;
+	}
+	return (NULL);
+}
+
 void	ft_env(t_env **env)
 {
 	int		i;
@@ -94,13 +142,37 @@ void	ft_env(t_env **env)
 			entry = env[i];
 			while (entry)
 			{
-				printf("%s=%s\n", entry->key, entry->value);
+				if (entry->value)
+					printf("%s=%s\n", entry->key, entry->value);
 				entry = entry->next;
 			}
 		}
 		i++;
 	}
-	
+}
+
+void	ft_export(t_env **env, char *key, char *value)
+{
+	int i;
+	int j;
+
+	if (!key)
+	{
+		i = 0;
+		while (i < ENV_HASH_SIZE - 1)
+		{
+			j = i + 1;
+			while (j < )
+			{
+				/* code */
+			}
+			
+		}
+		
+		
+		return ;
+	}
+	ft_include_ht(env, key, value);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -109,6 +181,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	env = ft_init_ht(envp);
-	ft_env(env);
+	//ft_env(env);
+	printf("%s\n", ft_find_env_value("PATH", env));
 	return (0);
 }
