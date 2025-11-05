@@ -11,8 +11,12 @@ typedef enum e_token_type {
     TOKEN_CMD,				// comando
     TOKEN_ARG,				// argumento
     TOKEN_PIPE,				// pipe
+	TOKEN_OR,				// or
+	TOKEN_AND,				// and
     TOKEN_REDIRECT_IN,		// redirect de entrada
     TOKEN_REDIRECT_OUT,		// redirect de saída
+	TOKEN_HERE_DOC_IN,		// here-doc de entrada
+	TOKEN_HERE_DOC_OUT,		// here-doc de saída
     TOKEN_PAREN_OPEN,		// abertura de parênteses
     TOKEN_PAREN_CLOSE,		// fechamento de parênteses
     TOKEN_END				// fim da frase
