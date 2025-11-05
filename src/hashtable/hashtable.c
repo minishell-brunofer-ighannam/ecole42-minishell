@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:29:53 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/05 18:40:54 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:10:11 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	ft_env(t_env **env)
 		}
 		i++;
 	}
+	
 }
 
 int	main(int argc, char **argv, char **envp)
