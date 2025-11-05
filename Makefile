@@ -22,9 +22,11 @@ CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
 # ============== SRC FILES =================
 
 SRC_FILES = src/signals.c
+	
 
 # ============== PROGRAM FILES =================
 MAIN_PROGRAM=src/main.c
+TEST_PROGRAM=src/hashtable/hashtable.c
 
 # ============== PROGRAM DEPENDENCIES =================
 
@@ -37,6 +39,9 @@ SLEEP = 0.07
 OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
 COMPILATION_DEPENDENCIES = $(OBJS) $(OBJ_MAIN_PROGRAM) $(LIBFT)
+
+OBJ_TEST_PROGRAM = $(TEST_PROGRAM:%.c=%.o)
+COMPILATION_DEPENDENCIES_TEST = $(OBJ_TEST_PROGRAM) $(LIBFT)
 
 
 # ***************************************************************************************************
@@ -55,6 +60,10 @@ $(NAME): $(COMPILATION_DEPENDENCIES)
 $(LIBFT):
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@make -s -C $(LIBFT_DIR) SLEEP="$(SLEEP)"
+
+test: $(COMPILATION_DEPENDENCIES_TEST)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
 %.o: %.c
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$<$(RESET)..." && sleep $(SLEEP)
