@@ -19,6 +19,9 @@
 - Tratamento de sinais --> *BRUNO*
 - set (ex.: echo teste=1) --> é diferente de export - não sei se precisamos tratar
 - true e false - não sei se precisamos tratar
+- env - só printa o env em qqr ordem
+- export - printa env em ordem alfabética e com detalhes antes e na formatação
+- impressão de env e export - olhar como fica quando você declara uma variável como NULL ou não coloca nenhum valor para ela (comentários Bia)
 
 ## sobre globs (wildcards no shell)
 - pode conter mais de um asterisco num glob, exempo \*ou\*in\*\*
