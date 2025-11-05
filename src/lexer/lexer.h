@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 00:14:45 by valero            #+#    #+#             */
-/*   Updated: 2025/11/05 16:05:46 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:37:46 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LEXER_H
 
 # include <stdbool.h>
+# include "libft.h"
 
 /**
  * # Token Type
@@ -131,61 +132,105 @@ typedef struct s_expandable_object {
  * ---
  *
  * Represents a single lexical unit (token) extracted from the command line.
- * Each token contains information about its textual value, syntactic type,
- * quoting style, and possible expandability context.
+ * Each token contains information about its text, syntactic classification,
+ * quoting, expansion eligibility, and validation status.
  *
  * Fields:
  * - `value`:
- *     The literal text of the token as parsed from the input line.
- *     This string remains unmodified (not expanded).
+ *     The literal, immutable string of the token as parsed from the input line.
+ *     This pointer must never be modified; it refers to the original command text.
  *
  * - `type`:
- *     The syntactic classification of the token (see `t_token_type`),
+ *     The syntactic category of the token (see `t_token_type`),
  *     such as command, argument, operator, or redirection.
  *
  * - `position`:
- *     The position of this token in the token list or input stream.
- *     Used for maintaining execution order and syntax diagnostics.
+ *     The index of this token in the token list or input stream.
+ *     Useful for maintaining parsing order and for detailed error messages.
  *
  * - `arg_index`:
- *     The position of this token among the arguments of a command.
- *     Applies only when `type == TOKEN_ARG`.
+ *     The argument index within a command, starting from zero.
+ *     Relevant only when `type == TOKEN_ARG`.
  *
- * - `valid`:
- *     Boolean flag indicating whether this token was recognized as valid
- *     by the lexer. Invalid tokens can signal syntax or parsing errors.
+ * - `sintaxe_error`:
+ *     Indicates whether a syntax error was detected in this token.
+ *     Examples include unclosed quotes, misplaced operators, or invalid sequences.
+ *     When `true`, parsing or execution should handle this token as erroneous.
+ *
+ * - `feature_out_of_scope`:
+ *     Marks tokens that represent valid shell syntax but belong to features
+ *     intentionally excluded from the Minishell project scope.
+ *     Example: command substitution (`$(command)`), arithmetic expansion, etc.
+ *     When `true`, the parser should report the feature as unsupported rather than invalid.
  *
  * - `is_expandable`:
- *     Indicates whether this token **may allow expansion**, based solely on its
- *     syntactic and quoting context.
+ *     Indicates whether this token *may allow expansion*, based on context.
  *     It is set to `true` only when:
  *       - `type == TOKEN_ARG`, and
- *       - the token is either unquoted or enclosed in double quotes.
- *     The presence or absence of actual expandable sections is managed
- *     by `expandable_object`, not by this flag.
+ *       - the token is either unquoted or double-quoted.
+ *     This flag does not guarantee the presence of expandable content; that is
+ *     determined through the `expandable_object`.
  *
  * - `expandable_object`:
- *     Holds metadata and values related to the token’s variable and glob
- *     expansions (see `t_expandable_object`).
+ *     Stores metadata and values related to variable or glob expansions
+ *     within this token (see `t_expandable_object`).
  *
  * - `quote_type`:
- *     Specifies how the token is quoted (none, single, or double). This affects
- *     how expansions and parsing rules are applied.
+ *     Indicates the quoting context applied to this token (none, single, or double).
+ *     Quoting affects how expansions and parsing rules are interpreted.
  *
  * Notes:
- * - `value` remains immutable and serves as the canonical text reference.
- * - Expansions are processed through `expandable_object` only if the token is
- *   eligible for expansion (`is_expandable == true`).
+ * - `value` must be treated as read-only (`const`).
+ * - `sintaxe_error` and `feature_out_of_scope` are mutually exclusive in logic:
+ *   a token cannot be both syntactically invalid *and* a valid but unsupported feature.
+ * - Expansions should only be attempted if `is_expandable` is true.
  */
 typedef struct s_token {
 	const char				*value;
 	t_token_type			type;
 	int						position;
 	int						arg_index;
-	bool					valid;
+	bool					sintaxe_error;
+	bool					feature_out_of_scope;
 	bool					is_expandable;
 	t_expandable_object		expandable_object;
 	t_quote_type			quote_type;
 }	t_token;
+
+/**
+ * # Token Group
+ *
+ * ---
+ *
+ * Represents a full input line that has been tokenized into individual tokens.
+ *
+ * Each token group therefore corresponds to one complete shell command line
+ * ready for parsing and execution.
+ *
+ * Fields:
+ *
+ * - `tokens`:
+ *     A NULL-terminated array of pointers to `t_token` structures.
+ *     Each entry represents a single lexical token parsed from the input line.
+ *     The final element is always `NULL`, allowing safe iteration.
+ *
+ * - `size`:
+ *     The number of tokens contained in `tokens` (excluding the final NULL).
+ *     Useful for iteration, debugging, and validation.
+ *
+ * Notes:
+ * - A `t_token_group` represents exactly one shell command line — the portion
+ *   of input between two newline characters.
+ * - The newline (`\n`) is used only as a delimiter and is **not** stored in
+ *   any token value.
+ * - Memory ownership rules should remain consistent: the group owns the
+ *   `tokens` array, but each individual `t_token` is managed by the lexer.
+ * - Both the NULL terminator and the `size` field can be used for iteration,
+ *   depending on style and performance needs.
+ */
+typedef struct s_token_group {
+	t_token	**tokens;
+	int		size;
+}	t_token_group;
 
 #endif

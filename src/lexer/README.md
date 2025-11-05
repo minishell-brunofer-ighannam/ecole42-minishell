@@ -72,9 +72,9 @@ Podemos ter uma estrutura para uma linha, ou seja, o conjunto de tokens que form
 
 ```c
 typedef struct s_token_group {
-    t_token	**tokens;
+	t_token	**tokens;
 	int		size;
-}	t_token_group
+}	t_token_group;
 ```
 ## Checagem de Token Válido
 
