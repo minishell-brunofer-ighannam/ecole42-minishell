@@ -2,7 +2,7 @@
 
 ## Pontos gerais a serem desenvolvidos:
 - Tree --> *BRUNO*
-	- Fazer lexer/tokenizer ([`src/lexer/RADME.md`](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/lexer)) e parser:
+	- Fazer lexer/tokenizer ([`src/lexer/README.md`](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/lexer)) e parser:
 	- Obs.: "e""c""h""o" é a mesma coisa que echo. Qualquer palavra especial pode ter aspas duplas ou simples no meio dela
 	- Obs.: não precisa tratar () sem ser em && e ||. Ex.: não precisa tratar echo $(echo x)
 	- Em algum ponto na montagem da árvore já verifica se há erros de sintaxe
