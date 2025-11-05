@@ -8,43 +8,66 @@ Então o token será classificado em alguns tipos:
 
 ```c
 typedef enum e_token_type {
-    TOKEN_CMD,				// comando
-    TOKEN_ARG,				// argumento
-    TOKEN_PIPE,				// pipe
+	TOKEN_CMD,				// comando
+	TOKEN_ARG,				// argumento
+	TOKEN_PIPE,				// pipe
 	TOKEN_OR,				// or
 	TOKEN_AND,				// and
-    TOKEN_REDIRECT_IN,		// redirect de entrada
-    TOKEN_REDIRECT_OUT,		// redirect de saída
+	TOKEN_REDIRECT_IN,		// redirect de entrada
+	TOKEN_REDIRECT_OUT,		// redirect de saída
 	TOKEN_HERE_DOC_IN,		// here-doc de entrada
 	TOKEN_HERE_DOC_OUT,		// here-doc de saída
-    TOKEN_PAREN_OPEN,		// abertura de parênteses
-    TOKEN_PAREN_CLOSE,		// fechamento de parênteses
-    TOKEN_END				// fim da frase
-}   t_token_type;
+	TOKEN_PAREN_OPEN,		// abertura de parênteses
+	TOKEN_PAREN_CLOSE,		// fechamento de parênteses
+	TOKEN_END				// fim da frase
+}	t_token_type;
 ```
+
+## Tipo de Áspas
+
 E haverá lassificações do tipo de áspas que ele terá.
 
 ```c
 typedef enum e_quote_type {
-    QUOTE_NONE,
-    QUOTE_SINGLE,
-    QUOTE_DOUBLE
-}   t_quote_type;
+	QUOTE_NONE,
+	QUOTE_SINGLE,
+	QUOTE_DOUBLE
+}	t_quote_type;
 ```
+
+## Objeto Expandível
+
+Haverá uma estrutura para lidar com expansão dos tokens, caso ele seje expandível:
+
+```c
+typedef struct s_expandable_object {
+	char	*original_value;		// valor original do token
+	char	*expanded_value;		// valor com as variáveis já expandidas
+	char	*expanded_glob_value;	// valor com os globs já expandidos
+	int		**idx_expandable_chuncks;	// chuncks com as posições (inicial,final) das variáveis que devem ser expandidas
+	char	**expandable_chuncks;	// chuncks com as variáveis que devem ser expandidas
+	char	**expanded_chuncks;		// chuncks com os valores já expandidos
+}	t_expandable_object;
+```
+
+## Estrutura do Token
 
 Dessa forma a estrutura do token será essa:
 
 ```c
 typedef struct s_token {
-    char			*value;			// valor do token
-    t_token_type	type;			// tipo do token
-    int				position;		// índice na linha
-    int				arg_index;		// se for argumento, qual o número dele
-    bool			valid;			// se está numa posição sintaticamente válida
-	bool			is_expandable;	// se é expandível
-	t_quote_type	quote_type;		// tipo de áspas
-}   t_token;
+	char				*value;				// valor do token
+	t_token_type		type;				// tipo do token
+	int					position;			// índice na linha
+	int					arg_index;			// se for argumento, qual o número dele
+	bool				valid;				// se está numa posição sintaticamente válida
+	bool				is_expandable;		// se é expandível
+	t_expandable_object	expandable_object;	// objeto de expanção do token
+	t_quote_type		quote_type;			// tipo de áspas
+}	t_token;
 ```
+
+## Grupo de Tokens
 Podemos ter uma estrutura para uma linha, ou seja, o conjunto de tokens que formam a alinha:
 
 ```c
