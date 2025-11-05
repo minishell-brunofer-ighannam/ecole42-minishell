@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 00:14:45 by valero            #+#    #+#             */
-/*   Updated: 2025/11/05 17:37:46 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:16:33 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,5 +232,8 @@ typedef struct s_token_group {
 	t_token	**tokens;
 	int		size;
 }	t_token_group;
+
+void	ft_update_token_type(t_token *token, char **words, int idx);
+void	ft_update_token_metadata(t_token *token, char **words, int idx);
 
 #endif

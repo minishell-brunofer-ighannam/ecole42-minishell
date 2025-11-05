@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:56:21 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/05 18:27:37 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:16:52 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,12 @@ t_token_group	*ft_tokenizer(char *line)
 	return (token_group);
 }
 
-t_token	*ft_token(char **word, int idx)
+t_token	*ft_token(char **words, int idx)
 {
 	t_token	*token;
 	int		len_word;
 
-	len_word = ft_strlen(word);
-	if (*word[idx] == '\'' || *word[idx] == '"')
-		token->type = TOKEN_ARG;
-	else if (idx == 0)
-		token->type = TOKEN_CMD;
-	else if (len_word == 1 && word[idx][0] == '|')
-		token->type = TOKEN_PIPE;
-	else if (len_word == 2 && word[idx][0] == '|' && word[idx][1] == '|')
-		token->type = TOKEN_OR;
-	else if (len_word == 2 && word[idx][0] == '&' && word[idx][1] == '&')
-		token->type = TOKEN_AND;
-	else if (len_word == 1 && word[idx][0] == '(')
-		token->type = TOKEN_PAREN_OPEN;
-	else if (len_word == 1 && word[idx][0] == ')')
-		token->type = TOKEN_PAREN_CLOSE;
-	else if (len_word == 1 && word[idx][0] == '<')
-		token->type = TOKEN_REDIRECT_IN;
-	else if (len_word == 1 && word[idx][0] == '>')
-		token->type = TOKEN_REDIRECT_OUT;
-	else if (len_word == 1 && word[idx][0] == '<<')
-		token->type = TOKEN_HERE_DOC_IN;
-	else if (len_word == 1 && word[idx][0] == '>>')
-		token->type = TOKEN_HERE_DOC_OUT;
+	len_word = ft_strlen(words);
+	ft_update_token_metadata(token, words, idx);
+	ft_update_token_type(token, words, idx);
 }
