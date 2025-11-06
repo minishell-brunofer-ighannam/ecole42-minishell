@@ -7,4 +7,8 @@ Para guardar o env optamos por utilizar a estrutura de hashtable. A escolha se d
 Para gerar a hashtable com as variáveis do **envp, temos:
 - int ft_hash(char *key) --> retorna a posição do valor de "key" na table a partir da chave e de um valor pre-defindo ENV_HASH_SIZE 256. Função usada: djb2 hash function (hash = ((hash << 5) + hash) + *key;)
 
+-set --> fazer flag para separar o que for set (ISA=10 (sem o export antes) vai só para o set) --> nesse caso, proponho que o nome do comando seja set.
+-env --> imprime sempre a mesma coisa no _=
+-export --> não imprime nada no _=
+-OBS.: a última string do comando fica armazenada no _= no set
 
