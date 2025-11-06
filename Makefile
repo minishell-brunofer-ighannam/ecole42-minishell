@@ -22,7 +22,7 @@ CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
 # ============== SRC FILES =================
 
 SRC_FILES = src/signals.c
-	
+
 
 # ============== PROGRAM FILES =================
 MAIN_PROGRAM=src/main.c
@@ -64,6 +64,10 @@ $(LIBFT):
 test: $(COMPILATION_DEPENDENCIES_TEST)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+
+split: tests/split.c src/lexer/tokenizer/major_token_split.c $(LIBFT)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) -Wall -Werror -Wextra -g3 -I $(LIBFT_DIR)/includes -I $(LIBFT_DIR)/dependency_includes $^ -o $@
 
 %.o: %.c
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$<$(RESET)..." && sleep $(SLEEP)

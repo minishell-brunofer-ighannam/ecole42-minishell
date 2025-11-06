@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   update_token_metadata.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 20:10:16 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/05 20:16:24 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:27:59 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "tokenizer.h"
 
 void	ft_update_token_metadata(t_token *token, char **words, int idx)
 {
