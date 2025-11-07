@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:31:12 by valero            #+#    #+#             */
-/*   Updated: 2025/11/06 14:16:52 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/06 23:48:00 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,22 @@ bool	is_reserved_token_type(t_token *token)
 
 	type = token->type;
 	return (type == TOKEN_AND || type == TOKEN_OR								// && ||
+		|| type == TOKEN_PIPE || type == TOKEN_BACKGROUND						// | &
+		|| type == TOKEN_REDIRECT_IN || type == TOKEN_REDIRECT_OUT				// < >
+		|| type == TOKEN_HERE_DOC_IN || type == TOKEN_APPEND_OUT				// << >>
+		|| type == TOKEN_REDIRECT_FORCE_OUT || type == TOKEN_REDIRECT_ERR_OUT	// >| 2>
+		|| type == TOKEN_REDIRECT_OUT_ERR || type == TOKEN_REDIRECT_OUT_MERGE	// &> >&
+		|| type == TOKEN_REDIRECT_IN_OUT || type == TOKEN_SEMICOLON				// <> ;
+		|| type == TOKEN_PAREN_OPEN || type == TOKEN_PAREN_CLOSE				// ( )
+		);
+}
+
+bool	can_have_args(t_token *token)
+{
+	t_token_type	type;
+
+	type = token->type;
+	return (type == TOKEN_CMD || type == TOKEN_OR								// && ||
 		|| type == TOKEN_PIPE || type == TOKEN_BACKGROUND						// | &
 		|| type == TOKEN_REDIRECT_IN || type == TOKEN_REDIRECT_OUT				// < >
 		|| type == TOKEN_HERE_DOC_IN || type == TOKEN_APPEND_OUT				// << >>

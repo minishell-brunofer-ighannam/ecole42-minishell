@@ -21,7 +21,11 @@ CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
 
 # ============== SRC FILES =================
 
-SRC_FILES = src/signals.c
+TOKEN_DIR = src/lexer/tokenizer
+TOKEN_FILES = $(TOKEN_DIR)/splitter/raw_splitter.c $(TOKEN_DIR)/splitter/raw_splitter_utils.c \
+$(TOKEN_DIR)/splitter/granular_splitter.c $(TOKEN_DIR)/splitter/splitter_utils.c
+
+SRC_FILES = src/signals.c $(TOKEN_FILES)
 
 
 # ============== PROGRAM FILES =================
@@ -30,7 +34,7 @@ TEST_PROGRAM=src/hashtable/hashtable.c
 
 # ============== PROGRAM DEPENDENCIES =================
 
-DEPENDENCIES = -lreadline
+DEPENDENCIES = -lreadline -pie
 
 # ============== CUSOM SLEEP =================
 SLEEP = 0.07
@@ -38,10 +42,12 @@ SLEEP = 0.07
 # ============== COMPILATION =================
 OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
-COMPILATION_DEPENDENCIES = $(OBJS) $(OBJ_MAIN_PROGRAM) $(LIBFT)
+COMPILATION_DEPENDENCIES = $(OBJS) $(LIBFT)
 
 OBJ_TEST_PROGRAM = $(TEST_PROGRAM:%.c=%.o)
 COMPILATION_DEPENDENCIES_TEST = $(OBJ_TEST_PROGRAM) $(LIBFT)
+
+TEST_PROGRAMS = split test
 
 
 # ***************************************************************************************************
@@ -52,7 +58,7 @@ COMPILATION_DEPENDENCIES_TEST = $(OBJ_TEST_PROGRAM) $(LIBFT)
 
 all: $(NAME)
 
-$(NAME): $(COMPILATION_DEPENDENCIES)
+$(NAME): $(OBJ_MAIN_PROGRAM) $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@echo "$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)"
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
@@ -65,9 +71,9 @@ test: $(COMPILATION_DEPENDENCIES_TEST)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
-split: tests/split.c src/lexer/tokenizer/major_token_split.c $(LIBFT)
+split: tests/split.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) -Wall -Werror -Wextra -g3 -I $(LIBFT_DIR)/includes -I $(LIBFT_DIR)/dependency_includes $^ -o $@
+	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
 %.o: %.c
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$<$(RESET)..." && sleep $(SLEEP)
@@ -91,6 +97,8 @@ fclean: clean
 	@rm -rf $(NAME)
 	@echo "$(LIGHT_RED)>> $(BOLD)deletting$(RESET) $(LIGHT_CYAN)./$(BONUS)$(RESET)..." && sleep $(SLEEP)
 	@rm -rf $(BONUS)
+	@echo "$(LIGHT_RED)>> $(BOLD)deletting$(RESET) $(LIGHT_CYAN)$(TEST_PROGRAMS)$(RESET)..." && sleep $(SLEEP)
+	@rm -rf $(TEST_PROGRAMS)
 
 re: fclean all
 

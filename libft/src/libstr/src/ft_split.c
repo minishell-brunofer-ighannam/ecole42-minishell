@@ -6,15 +6,15 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 19:49:18 by brunofer          #+#    #+#             */
-/*   Updated: 2025/09/29 14:26:15 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/07 00:39:44 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libstr.h"
 
-static char	**run_split(char const *s, int	*coord_arr, int coord_arr_len);
-static void	delete_words(char ***str, int end);
-static int	split_with_coords(char const *src,
+static char	**ft_run_split(char const *s, int	*coord_arr, int coord_arr_len);
+static void	ft_delete_words(char ***str, int end);
+static int	ft_split_with_coords(char const *src,
 				int *coord_arr, int coord_arr_len, char **words);
 
 char	**ft_split(char const *s, char c)
@@ -42,24 +42,24 @@ char	**ft_split(char const *s, char c)
 	}
 	if (coord_arr_len % 2 != 0)
 		coord_arr[coord_arr_len++] = i - 1;
-	return (run_split(s, coord_arr, coord_arr_len));
+	return (ft_run_split(s, coord_arr, coord_arr_len));
 }
 
-static char	**run_split(char const *s, int	*coord_arr, int coord_arr_len)
+static char	**ft_run_split(char const *s, int	*coord_arr, int coord_arr_len)
 {
 	char	**words;
 
 	words = (char **)malloc(((coord_arr_len / 2) + 1) * sizeof(char *));
 	if (!words)
 		return (NULL);
-	if (!split_with_coords(s, coord_arr, coord_arr_len, words))
+	if (!ft_split_with_coords(s, coord_arr, coord_arr_len, words))
 		return (NULL);
 	free(coord_arr);
 	words[(coord_arr_len / 2)] = (void *)0;
 	return (words);
 }
 
-static void	delete_words(char ***str, int end)
+static void	ft_delete_words(char ***str, int end)
 {
 	while (end >= 0)
 	{
@@ -71,7 +71,7 @@ static void	delete_words(char ***str, int end)
 	*str = NULL;
 }
 
-static int	split_with_coords(char const *src,
+static int	ft_split_with_coords(char const *src,
 		int *coord_arr, int coord_arr_len, char **words)
 {
 	int	i_words;
@@ -86,7 +86,7 @@ static int	split_with_coords(char const *src,
 				);
 		if (!words[i_words])
 		{
-			delete_words(&words, i_words - 1);
+			ft_delete_words(&words, i_words - 1);
 			return (0);
 		}
 		i_src = coord_arr[i_words * 2];

@@ -6,16 +6,15 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:26:23 by valero            #+#    #+#             */
-/*   Updated: 2025/11/06 18:59:21 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/06 23:44:28 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 
-# include "libft.h"
+# include "splitter/splitter.h"
 # include "../../linkedlist/linkedlist.h"
-# include <stdbool.h>
 
 /**
  * # Token Type
@@ -282,8 +281,6 @@ typedef struct s_token_group
 	int					size;
 }						t_token_group;
 
-
-char	**ft_major_token_split(char const *s);
 void	ft_build_generic_token_types(
 			t_token *token, char **words, int idx, int len_word);
 bool	is_reserved_token_type(t_token *token);

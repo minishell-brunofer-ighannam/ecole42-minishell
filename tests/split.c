@@ -6,17 +6,24 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:13:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/06 18:58:29 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/06 23:47:08 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/lexer/tokenizer/tokenizer.h"
 #include <stdio.h>
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	char	**splitted = ft_major_token_split("echo \"hello Bruno \" | grep br");
-	int		i = -1;
+	char	**splitted;
+	int		i;
+
+	if (argc < 2)
+		splitted = ft_raw_splitter("echo \"hello Bruno \" | grep br");
+	else
+		splitted = ft_raw_splitter(argv[1]);
+	i = -1;
 	while (splitted[++i])
-		printf("%s\n", splitted[i]);
+		printf("[%s] ", splitted[i]);
+	printf("\n");
 }
