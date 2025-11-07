@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   tests.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 18:13:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 13:41:27 by valero           ###   ########.fr       */
+/*   Created: 2025/11/07 15:10:52 by valero            #+#    #+#             */
+/*   Updated: 2025/11/07 15:16:00 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef TESTS_H
+# define TESTS_H
 
-int	main(int argc, char **argv)
-{
-	char	**splitted;
-	int		i;
+# include <stdbool.h>
 
-	if (argc < 2)
-		splitted = ft_raw_splitter("echo \"hello Bruno \" | grep br");
-	else
-		splitted = ft_raw_splitter(argv[1]);
-	i = -1;
-	while (splitted[++i])
-		printf("[%s] ", splitted[i]);
-	printf("\n");
-}
+# define PRINT_BOLD "\033[1m"
+# define PRINT_RESET "\033[0m"
+# define PRINT_LIGHT_RED "\033[91m"
+# define PRINT_LIGHT_GREEN "\033[92m"
+# define PRINT_LIGHT_CYAN "\033[96m"
+
+char	*status(bool test_ok);
+
+#endif

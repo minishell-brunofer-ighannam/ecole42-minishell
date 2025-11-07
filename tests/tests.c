@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   tests.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 18:13:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 13:41:27 by valero           ###   ########.fr       */
+/*   Created: 2025/11/07 15:14:44 by valero            #+#    #+#             */
+/*   Updated: 2025/11/07 15:17:46 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "tests.h"
 
-int	main(int argc, char **argv)
+char	*status(bool test_ok)
 {
-	char	**splitted;
-	int		i;
-
-	if (argc < 2)
-		splitted = ft_raw_splitter("echo \"hello Bruno \" | grep br");
-	else
-		splitted = ft_raw_splitter(argv[1]);
-	i = -1;
-	while (splitted[++i])
-		printf("[%s] ", splitted[i]);
-	printf("\n");
+	if (test_ok)
+		return (PRINT_BOLD PRINT_LIGHT_GREEN"OK"PRINT_RESET);
+	return (PRINT_BOLD PRINT_LIGHT_RED"ERROR"PRINT_RESET);
 }

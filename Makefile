@@ -25,7 +25,9 @@ TOKEN_DIR = src/lexer/tokenizer
 TOKEN_FILES = $(TOKEN_DIR)/splitter/raw_splitter.c $(TOKEN_DIR)/splitter/raw_splitter_utils.c \
 $(TOKEN_DIR)/splitter/granular_splitter.c $(TOKEN_DIR)/splitter/splitter_utils.c
 
-SRC_FILES = src/signals.c $(TOKEN_FILES)
+STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c
+
+SRC_FILES = $(STRUCTURES) src/signals.c $(TOKEN_FILES)
 
 
 # ============== PROGRAM FILES =================
@@ -47,7 +49,7 @@ COMPILATION_DEPENDENCIES = $(OBJS) $(LIBFT)
 OBJ_TEST_PROGRAM = $(TEST_PROGRAM:%.c=%.o)
 COMPILATION_DEPENDENCIES_TEST = $(OBJ_TEST_PROGRAM) $(LIBFT)
 
-TEST_PROGRAMS = split test
+TEST_PROGRAMS = split test linkedkist
 
 
 # ***************************************************************************************************
@@ -71,7 +73,11 @@ test: $(COMPILATION_DEPENDENCIES_TEST)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
-split: tests/split.c $(COMPILATION_DEPENDENCIES)
+split: tests/split.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+
+linkedkist: tests/linkedkist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
