@@ -2,6 +2,7 @@
 	"files.associations": {
 		"signal.h": "c",
 		"readline.h": "c",
-		"signals.h": "c"
+		"signals.h": "c",
+		"lexer.h": "c"
 	}
 }

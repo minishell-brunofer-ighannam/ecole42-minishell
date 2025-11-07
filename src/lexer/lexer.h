@@ -6,11 +6,13 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 00:14:45 by valero            #+#    #+#             */
-/*   Updated: 2025/11/05 00:15:13 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/06 13:28:36 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
+
+# include "tokenizer/tokenizer.h"
 
 #endif
