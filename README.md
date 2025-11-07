@@ -1,5 +1,19 @@
 # Minishell
 
+
+| Info | Details |
+|------|----------|
+| **Project Start** | November 4, 2025 |
+| **Authors** | [Bruno Fernandes Valero](https://github.com/bruno-valero) & [Isadora Ghannam](https://github.com/isaghannam) |
+| **School / Program** | [42 São Paulo](https://www.42sp.org.br/) – Minishell Project |
+| **Language** | C |
+| **Description** | A custom shell implementation designed to replicate core Bash functionalities, with process management, pipes, environment handling, and command parsing. |
+| **Status** | 🚧 In progress |
+| **Modules** | [Lexer](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/lexer), [Environment](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/hashtable) and [Automated Tests](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/tests) |
+| **Documentation** | Every module has its own documentation, **click in the modules above** for full details |
+
+---
+
 ## Pontos gerais a serem desenvolvidos:
 - Tree --> *BRUNO*
 	- Fazer lexer/tokenizer ([`src/lexer/README.md`](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/lexer)) e parser:
