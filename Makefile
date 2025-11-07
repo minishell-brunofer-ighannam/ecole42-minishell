@@ -69,6 +69,13 @@ $(LIBFT):
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@make -s -C $(LIBFT_DIR) SLEEP="$(SLEEP)"
 
+tests: split linkedkist
+	@clear && echo "code% make tests"
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)split$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./split
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedkist$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedkist
+
 test: $(COMPILATION_DEPENDENCIES_TEST)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
