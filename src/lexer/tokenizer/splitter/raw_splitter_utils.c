@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:27:34 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 02:13:25 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/07 12:05:30 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
  *
  * ---
  *
- * Advances the internal quote state machine used
- * while parsing raw input text.
+ * Updates the quote parsing state within the given
+ * `t_quote_info` structure.
  *
- * Each call transitions the `quote_state` to the
- * next logical phase of quote handling.
+ * Each invocation transitions the state machine to
+ * the next logical phase of quote handling.
  *
  * ## Logic
  * - `NO_QUOTE_OPEN` → `QUOTE_OPEN`
@@ -30,13 +30,13 @@
  * - `CLOSED_QUOTE` → `NO_QUOTE_OPEN`
  *
  * ## Parameters
- * - `quote_state`: Pointer to the current quote state.
+ * - `quote_info`: Pointer to quote tracking data.
  *
  * ## Notes
- * - Called each time a quote is encountered.
- * - Ensures correct tracking of quote opening and closing.
- * - Keeps the lexer consistent when handling nested
- *   or consecutive quotes.
+ * - Called whenever a quote character is detected.
+ * - Keeps track of quote depth and closure.
+ * - `open_quote_type` remains unchanged here;
+ *   it should be set elsewhere when a quote opens.
  */
 static void	ft_raw_splitter_update_quote_state(t_quote_info *quote_info)
 {

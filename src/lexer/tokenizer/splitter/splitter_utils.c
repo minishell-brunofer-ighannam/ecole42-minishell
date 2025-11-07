@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:57:24 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 00:58:05 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/07 11:58:53 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,90 @@
  *
  * ---
  *
- * Checks if the character at a given index in `str`
- * is a valid, non-escaped quote.
+ * Checks if the character at `str[idx]` is a valid
+ * quote (`'` or `"`) considering escape rules.
  *
- * Used during raw string scanning to detect where
- * quotes open or close quoted segments.
+ * A quote is valid if:
+ * - It appears at the beginning of the string, or
+ * - It is not preceded by a valid backslash.
  *
  * ## Logic
- * - If `idx == 0` and the first character is `'` or `"`,
- *   returns **true**.
- * - Otherwise, returns **true** only if:
- *   - The previous char is **not** a backslash (`\`), and
- *   - The current char is `'` or `"`.
- * - In all other cases → returns **false**.
+ * - If index is 0 and character is a quote → true.
+ * - Otherwise, calls `ft_is_valid_backslash()` to
+ *   check if the quote was escaped.
+ * - Returns true only if not escaped.
  *
  * ## Parameters
- * - `str`: String being analyzed.
- * - `idx`: Index of the character to check.
+ * - `str`: Input string to inspect.
+ * - `idx`: Current index to check.
  *
  * ## Returns
- * - `true`: If the character is a valid quote.
- * - `false`: Otherwise.
+ * - `true` if position contains a valid quote.
+ * - `false` otherwise.
  *
  * ## Notes
- * - Escaped quotes (like `\"`) are ignored.
- * - Prevents false detections caused by escaped characters.
- * - The `idx == 0` check avoids out-of-bounds access.
+ * - Handles both single and double quotes.
+ * - Integrates with the raw splitter quote logic.
  */
 bool	ft_is_quote(const char *str, int idx)
 {
 	if (!idx && (str[idx] == '\'' || str[idx] == '"'))
 		return (true);
-	if (str[idx - 1] != '\\' && (str[idx] == '\'' || str[idx] == '"'))
+	if (!ft_is_valid_backslash(str, idx - 1)
+		&& (str[idx] == '\'' || str[idx] == '"'))
 		return (true);
 	return (false);
+}
+
+/**
+ * # ft_is_valid_backslash
+ *
+ * ---
+ *
+ * Determines if a backslash at `str[idx]` is valid,
+ * meaning it effectively escapes the next character.
+ *
+ * It counts consecutive backslashes backward from
+ * `idx` to decide if the sequence is odd (valid) or
+ * even (invalid).
+ *
+ * ## Logic
+ * - Scans backward from `idx` counting `\\`.
+ * - Stops when reaching a non-backslash or start.
+ * - If no backslashes → false.
+ * - Returns true if count is odd.
+ *
+ * ## Parameters
+ * - `str`: Input string to check.
+ * - `idx`: Index of suspected backslash.
+ *
+ * ## Returns
+ * - `true` if the backslash escapes the next char.
+ * - `false` if it is neutral or part of an even pair.
+ *
+ * ## Notes
+ * - Prevents false positives on `\\\\` sequences.
+ * - Used to validate quotes and escaped symbols.
+ */
+bool	ft_is_valid_backslash(const char *str, int idx)
+{
+	int	counter;
+
+	if (!idx)
+		return (str[idx] == '\\');
+	counter = 0;
+	while (idx >= 0)
+	{
+		if (str[idx] == '\\' && idx && str[idx - 1] != '\\')
+		{
+			counter++;
+			break ;
+		}
+		else if (str[idx] == '\\')
+			counter++;
+		idx--;
+	}
+	if (!counter)
+		return (false);
+	return (counter % 2);
 }
