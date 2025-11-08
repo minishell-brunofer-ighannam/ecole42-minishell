@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 12:05:21 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/08 13:37:27 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
  * - Prevents misinterpretation of separators and
  *   operators inside quotes.
  */
-typedef enum e_quote_state		t_quote_state;
+typedef enum e_quote_state			t_quote_state;
 enum e_quote_state
 {
 	NO_QUOTE_OPEN,
@@ -66,31 +66,38 @@ enum e_quote_state
  * - Used throughout raw splitting and lexing logic
  *   to maintain context.
  */
-typedef struct s_quote_info		t_quote_info;
+typedef struct s_quote_info			t_quote_info;
 struct s_quote_info
 {
 	t_quote_state	state;
 	int				open_quote_type;
 };
 
-typedef struct s_int_array		t_int_array;
+typedef struct s_int_array			t_int_array;
 struct s_int_array
 {
 	int	len;
 	int	*array;
 };
 
-typedef struct s_granilar_split	t_granilar_split;
-struct s_granilar_split
+typedef struct s_refined_splitter	t_refined_splitter;
+struct s_refined_splitter
 {
-	int	size;
-
+	int				size;
+	int				tokens_amount;
+	t_linkedlist	**token_list;
+	void			*(*push_token)(
+			t_refined_splitter *self, int idx, char *token);
+	void			*(*destroy)(t_refined_splitter **self);
 };
 
-bool	ft_is_valid_backslash(const char *str, int idx);
-bool	ft_is_quote(const char *str, int idx);
-void	ft_raw_splitter_get_words_position(
-			const char *str, t_int_array *array);
-char	**ft_raw_splitter(char const *str);
+bool				ft_is_valid_backslash(const char *str, int idx);
+bool				ft_is_quote(const char *str, int idx);
+int					is_reserved_token(char *str, int idx);
+void				ft_raw_splitter_get_words_position(
+						const char *str, t_int_array *array);
+char				**ft_raw_splitter(char const *str);
+t_refined_splitter	*ft_new_refined_splitter(int size);
+char				**ft_refined_splitter(char const *str);
 
 #endif

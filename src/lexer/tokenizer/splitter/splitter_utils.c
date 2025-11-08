@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:57:24 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 13:39:07 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/08 13:31:58 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,19 @@ bool	ft_is_valid_backslash(const char *str, int idx)
 	if (!counter)
 		return (false);
 	return (counter % 2);
+}
+
+int	is_reserved_token(char *str, int idx)
+{
+	if (idx > 0 && ft_is_valid_backslash(str, idx - 1))
+		return (0);
+	if ((str[idx] == '>' && ft_strchr("|&>", str[idx + 1]))		// >| >& >>
+		|| (str[idx] == '&' && ft_strchr("&>", str[idx + 1]))	// && &>
+		|| (str[idx] == '<' && ft_strchr("<>", str[idx + 1]))	// << <>
+		|| (str[idx] == '|' && str[idx + 1] == '|')				// ||
+		|| (str[idx] == '2' && str[idx + 1] == '>'))			// 2>
+		return (2);
+	if (ft_strchr("|()<>;&", str[idx]))							// | ( ) < > ; &
+		return (1);
+	return (0);
 }
