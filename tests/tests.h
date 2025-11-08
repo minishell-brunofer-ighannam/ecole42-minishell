@@ -6,13 +6,14 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 15:10:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 21:07:42 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/08 17:25:56 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TESTS_H
 # define TESTS_H
 
+# include <stdio.h>
 # include <stdbool.h>
 
 // ========================
@@ -74,6 +75,16 @@
 # define PRINT_GRAY_254     "\033[38;5;254m"
 # define PRINT_GRAY_255     "\033[38;5;255m" // almost white
 
+typedef struct s_test	t_test;
+struct s_test
+{
+	int		teste_number;
+	bool	test_ok;
+	char	*test_input;
+};
+
 char	*status(bool test_ok);
+void	print_test_and_result(
+			t_test test, void (*print_result)(void *arg), void *arg);
 
 #endif
