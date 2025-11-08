@@ -22,8 +22,8 @@ CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
 # ============== SRC FILES =================
 
 TOKEN_DIR = src/lexer/tokenizer
-TOKEN_FILES = $(TOKEN_DIR)/splitter/raw_splitter.c $(TOKEN_DIR)/splitter/raw_splitter_utils.c \
-$(TOKEN_DIR)/splitter/granular_splitter.c $(TOKEN_DIR)/splitter/splitter_utils.c
+TOKEN_FILES = $(TOKEN_DIR)/splitter/raw_splitter.c $(TOKEN_DIR)/splitter/raw_splitter_utils.c $(TOKEN_DIR)/splitter/splitter_utils.c \
+$(TOKEN_DIR)/splitter/refined_splitter.c $(TOKEN_DIR)/splitter/refined_splitter_structure.c
 
 STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c
 
@@ -49,7 +49,7 @@ COMPILATION_DEPENDENCIES = $(OBJS) $(LIBFT)
 OBJ_TEST_PROGRAM = $(TEST_PROGRAM:%.c=%.o)
 COMPILATION_DEPENDENCIES_TEST = $(OBJ_TEST_PROGRAM) $(LIBFT)
 
-TEST_PROGRAMS = split test linkedkist
+TEST_PROGRAMS = raw_splitter test linkedkist
 
 
 # ***************************************************************************************************
@@ -62,17 +62,16 @@ all: $(NAME)
 
 $(NAME): $(OBJ_MAIN_PROGRAM) $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@echo "$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)"
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
 $(LIBFT):
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@make -s -C $(LIBFT_DIR) SLEEP="$(SLEEP)"
 
-tests: split linkedkist
+tests: raw_splitter linkedkist
 	@clear && echo "code% make tests"
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)split$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./split
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)raw_splitter$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./raw_splitter
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedkist$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedkist
 
@@ -80,7 +79,11 @@ test: $(COMPILATION_DEPENDENCIES_TEST)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
-split: tests/split.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+raw_splitter: tests/raw_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+
+refined_splitter: tests/refined_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
