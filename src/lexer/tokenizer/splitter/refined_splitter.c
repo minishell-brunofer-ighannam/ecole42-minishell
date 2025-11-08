@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:52:01 by valero            #+#    #+#             */
-/*   Updated: 2025/11/08 13:28:35 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/08 15:56:27 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ char	**ft_refined_splitter(char const *str)
 	while (--idx >= 0)
 		ft_split_raw_token(
 			raw_split[idx], idx, splitter);
-	refined_split = ft_calloc(splitter->tokens_amount, sizeof(char *));
-	idx = 0;
+	refined_split = ft_calloc(splitter->tokens_amount + 1, sizeof(char *));
+	idx = splitter->tokens_amount - 1;
 	while (--splitter->size >= 0)
 	{
 		curr_node = splitter->token_list[splitter->size]->last;
 		while (curr_node)
 		{
-			refined_split[idx++] = ft_strdup(curr_node->content);
+			refined_split[idx--] = ft_strdup(curr_node->content);
 			curr_node = curr_node->prev;
 		}
 	}
@@ -58,7 +58,7 @@ static void	ft_split_raw_token(
 	int		token_len;
 
 	token_len = ft_strlen(token);
-	new_token = ft_calloc(token_len, sizeof(char));
+	new_token = ft_calloc(token_len + 1, sizeof(char));
 	new_token_idx = 0;
 	found_quote = 0;
 	idx = -1;
@@ -75,7 +75,15 @@ static void	ft_split_raw_token(
 				found_quote = token[idx];
 			else if (found_quote == token[idx])
 				found_quote = 0;
-			if (!ft_is_quote(token, idx))
+			if (token[idx] && token[idx + 1] && !token[idx - 1]
+				&& ft_is_quote(token, idx) && !ft_is_quote(token, idx + 1))
+				new_token[new_token_idx++] = token[idx];
+			else if (token[idx] && !token[idx + 1] && token[idx - 1]
+				&& ft_is_quote(token, idx) && !ft_is_quote(token, idx - 1))
+				new_token[new_token_idx++] = token[idx];
+			else if (token[idx] && token[idx + 1] && token[idx - 1]
+				&& ft_is_quote(token, idx) && !ft_is_quote(token, idx + 1)
+				&& ft_is_quote(token, idx) && !ft_is_quote(token, idx - 1))
 				new_token[new_token_idx++] = token[idx];
 		}
 		else
@@ -87,11 +95,14 @@ static void	ft_split_raw_token(
 						ft_strdup(new_token));
 				new_token_idx = 0;
 				ft_bzero(new_token, token_len * sizeof(char));
-				idx += is_reserved_token(token, idx);
 				splitter->push_token(splitter, curr_idx,
 					ft_substr(token, idx, is_reserved_token(token, idx)));
+				idx += is_reserved_token(token, idx);
 			}
-			new_token[new_token_idx++] = token[idx];
+			if (token[idx])
+				new_token[new_token_idx++] = token[idx];
+			else
+				break ;
 		}
 	}
 	if (new_token_idx > 0)
@@ -106,5 +117,5 @@ static void	ft_jump_useless_quotes(char *str, int *curr_idx)
 	idx = 0;
 	while (str[idx] && ft_is_quote(str, idx))
 		idx++;
-	*curr_idx += idx;
+	*curr_idx += idx - 1;
 }
