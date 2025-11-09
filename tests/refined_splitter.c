@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:13:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/08 17:40:03 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/08 20:47:22 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,7 @@ static void	test9(void)
 	test.teste_number = 9;
 	test.test_input = "out=`echo foo $(echo \"bar baz\")` ; echo \"$out\"";
 	splitted = ft_refined_splitter(test.test_input);
-	char	*expected[] = {"out=", "`echo foo $(echo \"bar baz\")`", ";", "echo", "\"$out\"", NULL};
+	char	*expected[] = {"out=", "`", "echo foo ", "$(", "echo \"bar baz\"", ")", "`", ";", "echo", "\"$out\"", NULL};
 	right_tokens = 0;
 	i = 0;
 	while (expected[i])
@@ -289,7 +289,7 @@ static void	test10(void)
 	test.teste_number = 10;
 	test.test_input = "command 2>&1 > file.txt 1>>log.txt";
 	splitted = ft_refined_splitter(test.test_input);
-	char	*expected[] = {"command", "2>&1", ">", "file.txt", "1>>", "log.txt", NULL};
+	char	*expected[] = {"command", "2", ">&", "1", ">", "file.txt", "1", ">>", "log.txt", NULL};
 	right_tokens = 0;
 	i = 0;
 	while (expected[i])

@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/08 13:37:27 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/08 22:47:17 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SPLITTER_H
 
 # include "../../../linkedlist/linkedlist.h"
+# include "../../../linkedlist_array/linkedlist_array.h"
 # include <stdbool.h>
 
 /**
@@ -80,24 +81,12 @@ struct s_int_array
 	int	*array;
 };
 
-typedef struct s_refined_splitter	t_refined_splitter;
-struct s_refined_splitter
-{
-	int				size;
-	int				tokens_amount;
-	t_linkedlist	**token_list;
-	void			*(*push_token)(
-			t_refined_splitter *self, int idx, char *token);
-	void			*(*destroy)(t_refined_splitter **self);
-};
-
 bool				ft_is_valid_backslash(const char *str, int idx);
-bool				ft_is_quote(const char *str, int idx);
+bool				ft_is_quote(const char *str, int idx, char *other_symbols);
 int					is_reserved_token(char *str, int idx);
 void				ft_raw_splitter_get_words_position(
 						const char *str, t_int_array *array);
 char				**ft_raw_splitter(char const *str);
-t_refined_splitter	*ft_new_refined_splitter(int size);
 char				**ft_refined_splitter(char const *str);
 
 #endif

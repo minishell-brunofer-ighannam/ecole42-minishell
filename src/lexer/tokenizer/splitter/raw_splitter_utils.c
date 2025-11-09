@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:27:34 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 20:56:58 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/08 20:16:39 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
  *   it should be set elsewhere when a quote opens.
  */
 static void	ft_raw_splitter_update_quote_state(
-				t_quote_info *quote_info, bool is_word_end)
+				t_quote_info *quote_info, char quote, bool is_word_end)
 {
 	if (is_word_end)
 	{
@@ -51,6 +51,8 @@ static void	ft_raw_splitter_update_quote_state(
 			quote_info->state = CLOSED_QUOTE;
 		else
 			quote_info->state = NO_QUOTE_OPEN;
+		if (quote_info->state == QUOTE_OPEN)
+			quote_info->open_quote_type = quote;
 		return ;
 	}
 	if (quote_info->state == NO_QUOTE_OPEN)
@@ -61,6 +63,8 @@ static void	ft_raw_splitter_update_quote_state(
 		quote_info->state = CLOSED_QUOTE;
 	else
 		quote_info->state = INSIDE_QUOTE;
+	if (quote_info->state == QUOTE_OPEN)
+			quote_info->open_quote_type = quote;
 }
 
 /**
@@ -91,15 +95,10 @@ static void	ft_raw_splitter_update_quote_state(
  * - Quotes are respected to avoid splitting quoted text.
  */
 static void	ft_raw_splitter_update_word_start(
-		t_quote_info *quote_info, t_int_array *array, int idx, char quote)
+		t_quote_info *quote_info, t_int_array *array, int idx)
 {
 	if (quote_info->state == NO_QUOTE_OPEN || quote_info->state == QUOTE_OPEN)
 		array->array[array->len++] = idx;
-	if (quote_info->state == QUOTE_OPEN)
-	{
-		ft_raw_splitter_update_quote_state(quote_info, false);
-		quote_info->open_quote_type = quote;
-	}
 }
 
 /**
@@ -137,7 +136,7 @@ static void	ft_raw_splitter_update_word_end(
 		array->array[array->len++] = idx - 1;
 		if (quote_info->state == CLOSED_QUOTE)
 		{
-			ft_raw_splitter_update_quote_state(quote_info, true);
+			ft_raw_splitter_update_quote_state(quote_info, '"', true);
 			quote_info->open_quote_type = 0;
 		}
 	}
@@ -191,13 +190,15 @@ void	ft_raw_splitter_get_words_position(
 	i = -1;
 	while (str[++i])
 	{
-		if (ft_is_quote(str, i) && !ft_is_quote(str, i + 1)
-			&& !ft_is_quote(str, i - 1) && (!quote_info.open_quote_type
+		if (!ft_is_quote(str, i, "`") && quote_info.state == QUOTE_OPEN)
+			quote_info.state = INSIDE_QUOTE;
+		if (ft_is_quote(str, i, "`") && !ft_is_quote(str, i + 1, "`")
+			&& !ft_is_quote(str, i - 1, "`") && (!quote_info.open_quote_type
 				|| quote_info.open_quote_type == str[i]))
-			ft_raw_splitter_update_quote_state(&quote_info, false);
+			ft_raw_splitter_update_quote_state(&quote_info, str[i], false);
 		if (((i == 0) && (str[i] != ' '))
 			|| ((i > 0) && (str[i] != ' ') && (str[i - 1] == ' ')))
-			ft_raw_splitter_update_word_start(&quote_info, array, i, str[i]);
+			ft_raw_splitter_update_word_start(&quote_info, array, i);
 		else if ((i > 0) && (str[i] == ' ' && str[i - 1] != ' '))
 			ft_raw_splitter_update_word_end(&quote_info, array, i);
 		else if ((str[i] != ' ' && str[i + 1] == '\0'))
