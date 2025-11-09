@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 13:16:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/04 19:42:26 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/09 16:56:24 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	sig_handler(int sig)
 		printf("SIGTERM: %d\n", sig);
 	if (sig == SIGQUIT)
 		printf("SIGQUIT: %d\n", sig);
+	set_sig(sig);
 }
 
 /**

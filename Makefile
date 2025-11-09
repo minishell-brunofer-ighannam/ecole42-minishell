@@ -27,7 +27,9 @@ $(TOKEN_DIR)/splitter/refined_splitter.c $(TOKEN_DIR)/splitter/refine_raw_token.
 
 STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c src/linkedlist_array/linkedlist_array.c
 
-SRC_FILES = $(STRUCTURES) src/signals.c $(TOKEN_FILES)
+PROCESS = src/process/child_process.c
+
+SRC_FILES = $(STRUCTURES) $(TOKEN_FILES) src/signals.c src/globals.c
 
 
 # ============== PROGRAM FILES =================
@@ -126,6 +128,9 @@ fclean: clean
 	@rm -rf $(BONUS)
 	@echo "$(LIGHT_RED)>> $(BOLD)deletting$(RESET) $(LIGHT_CYAN)$(TEST_PROGRAMS)$(RESET)..." && sleep $(SLEEP)
 	@rm -rf $(TEST_PROGRAMS)
+	@echo "$(LIGHT_RED)>> $(BOLD)deletting$(RESET) $(LIGHT_CYAN)$(OBJ_MAIN_PROGRAM)$(RESET)..." && sleep $(SLEEP)
+	@rm -rf $(OBJ_MAIN_PROGRAM)
+
 
 re: fclean all
 
