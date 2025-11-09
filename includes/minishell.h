@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 12:57:32 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/08 22:06:22 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/09 17:14:30 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,17 @@
 # include "../src/signals.h"
 # include "../src/lexer/lexer.h"
 # include "../src/linkedlist_array/linkedlist_array.h"
+# include "../src/proccess/process.h"
 
-# define PROMPT "minishell$> "
+# define PROMPT_GREEN	"\033[32m"
+# define PROMPT_MAGENTA	"\033[35m"
+# define PROMPT_RESET	"\033[0m"
+# define PROMPT_ISA		PROMPT_GREEN"isaghannam"PROMPT_RESET
+# define PROMPT_BRUNO	PROMPT_GREEN"brunovalero"PROMPT_RESET
+# define PROMPT_SHELL	PROMPT_MAGENTA"minishell"PROMPT_RESET
+# define PROMPT PROMPT_ISA"&"PROMPT_BRUNO":"PROMPT_SHELL"$> "
+
+int		get_sig(void);
+void	set_sig(int value);
 
 #endif
