@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 15:10:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/08 17:25:56 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/08 21:31:14 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ struct s_test
 };
 
 char	*status(bool test_ok);
+void	print_test(t_test test);
 void	print_test_and_result(
 			t_test test, void (*print_result)(void *arg), void *arg);
 
