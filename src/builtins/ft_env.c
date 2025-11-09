@@ -1,0 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/09 15:38:13 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/09 16:00:47 by ighannam         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/minishell.h"
+
+void	ft_env(t_env **env)
+{
+	int		i;
+	t_env	*entry;
+
+	if (!env)
+		return ;
+	i = 0;
+	while (i < ENV_HASH_SIZE)
+	{
+		if (env[i])
+		{
+			entry = env[i];
+			while (entry)
+			{
+				if (entry->value && entry->set == 0 && ft_strncmp(entry->key,
+						"_", ft_strlen(entry->key) + 1) != 0)
+					printf("%s=%s\n", entry->key, entry->value);
+				else if (entry->value && ft_strncmp(entry->key, "_",
+						ft_strlen(entry->key) + 1) == 0)
+					printf("_=/usr/bin/env\n");
+				entry = entry->next;
+			}
+		}
+		i++;
+	}
+}
