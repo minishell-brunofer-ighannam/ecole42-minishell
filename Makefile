@@ -17,7 +17,7 @@ LIBFT_INCLUDES = -I $(LIBFT_DIR)/includes -I $(LIBFT_DIR)/dependency_includes
 INCLUDES = -I includes $(LIBFT_INCLUDES)
 CC = cc
 # CFLAGS = -Wall -Werror -Wextra -g3 -Ofast -march=native -flto -funroll-loops $(INCLUDES)
-CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
+CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
 
 # ============== SRC FILES =================
 
@@ -25,11 +25,15 @@ TOKEN_DIR = src/lexer/tokenizer
 TOKEN_FILES = $(TOKEN_DIR)/splitter/raw_splitter.c $(TOKEN_DIR)/splitter/raw_splitter_utils.c $(TOKEN_DIR)/splitter/splitter_utils.c \
 $(TOKEN_DIR)/splitter/refined_splitter.c $(TOKEN_DIR)/splitter/refine_raw_token.c
 
-STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c src/linkedlist_array/linkedlist_array.c
+STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c src/linkedlist_array/linkedlist_array.c src/hashtable/hashtable.c
+
+
+BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c src/builtins/ft_unset.c
 
 PROCESS = src/process/child_process.c
 
-SRC_FILES = $(STRUCTURES) $(TOKEN_FILES) src/signals.c src/globals.c
+SRC_FILES = $(STRUCTURES) $(TOKEN_FILES) $(BUILTINS) src/signals.c src/globals.c
+
 
 
 # ============== PROGRAM FILES =================
@@ -48,10 +52,7 @@ OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
 COMPILATION_DEPENDENCIES = $(OBJS) $(LIBFT)
 
-OBJ_TEST_PROGRAM = $(TEST_PROGRAM:%.c=%.o)
-COMPILATION_DEPENDENCIES_TEST = $(OBJ_TEST_PROGRAM) $(LIBFT)
-
-TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter test
+TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op test
 
 
 # ***************************************************************************************************
@@ -83,10 +84,6 @@ tests: linkedlist linkedlist_array raw_splitter refined_splitter
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./refined_splitter
 
 
-test: $(COMPILATION_DEPENDENCIES_TEST)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
-
 linkedlist: tests/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
@@ -102,6 +99,10 @@ raw_splitter: tests/raw_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 refined_splitter: tests/refined_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+
+env_ht_op: tests/env_ht_op.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) -no-pie -o $@ $^ $(DEPENDENCIES)
 
 
 %.o: %.c
