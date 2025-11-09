@@ -6,116 +6,146 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:52:01 by valero            #+#    #+#             */
-/*   Updated: 2025/11/08 22:34:55 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/09 02:47:14 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "splitter.h"
 
-static void	ft_jump_useless_quotes(char *str, int *curr_idx);
-static void	ft_split_raw_token(
-				char *token, int curr_idx, t_linkedlist_array *container);
+static void	copy_to_matrix(t_linkedlist_array *refined_tokens, char **matrix);
+static void	refine_tokens(
+				t_linkedlist_array *refined_tokens,
+				char **raw_split, int len_raw_split);
 
+/**
+ * # ft_refined_splitter
+ *
+ * ---
+ *
+ * Splits a command line string into refined tokens,
+ * handling quotes and reserved tokens.
+ *
+ * Works as the second stage of lexical processing.
+ * Generates an array of cleaned tokens ready for
+ * parsing or execution.
+ *
+ * ## Logic
+ * - Calls `ft_raw_splitter()` to obtain raw tokens.
+ * - Allocates a linked list array to store refined tokens.
+ * - Calls `refine_tokens()` to process each raw token.
+ * - Converts the linked list array into a string matrix.
+ * - Frees intermediate data and returns refined tokens.
+ *
+ * ## Parameters
+ * - `str`: Raw input string to process.
+ *
+ * ## Returns
+ * - Array of strings (`char **`) with refined tokens,
+ *   NULL-terminated.
+ * - Returns `NULL` if allocation fails or `str` is NULL.
+ *
+ * ## Notes
+ * - Handles quote merging and token separation.
+ * - Reserved tokens (like `>`, `|`, `&&`) are split
+ *   into separate elements.
+ * - Escaped spaces and quotes are preserved.
+ */
 char	**ft_refined_splitter(char const *str)
 {
-	t_linkedlist_array	*container;
-	t_linkedlist_node	*curr_node;
-	int					idx;
+	t_linkedlist_array	*refined_tokens;
+	int					len_raw_split;
 	char				**raw_split;
 	char				**refined_split;
 
 	raw_split = ft_raw_splitter(str);
-	idx = 0;
-	while (raw_split[idx])
-		idx++;
-	container = ft_new_linkedlist_array(idx);
-	while (--idx >= 0)
-		ft_split_raw_token(
-			raw_split[idx], idx, container);
-	refined_split = ft_calloc(container->nodes_amount + 1, sizeof(char *));
-	idx = container->nodes_amount - 1;
-	while (--container->size >= 0)
-	{
-		curr_node = container->list[container->size]->last;
-		while (curr_node)
-		{
-			refined_split[idx--] = ft_strdup(curr_node->content);
-			curr_node = curr_node->prev;
-		}
-	}
-	container->destroy(&container, free);
+	len_raw_split = 0;
+	while (raw_split[len_raw_split])
+		len_raw_split++;
+	refined_tokens = ft_new_linkedlist_array(len_raw_split);
+	refine_tokens(refined_tokens, raw_split, len_raw_split);
+	refined_split = ft_calloc(refined_tokens->nodes_amount + 1, sizeof(char *));
+	copy_to_matrix(refined_tokens, refined_split);
+	refined_tokens->destroy(&refined_tokens, free);
 	ft_destroy_char_matrix(&raw_split);
 	return (refined_split);
 }
 
-static void	ft_split_raw_token(
-				char *token, int curr_idx, t_linkedlist_array *container)
+/**
+ * # refine_tokens
+ *
+ * ---
+ *
+ * Processes each raw token from `raw_split` and stores
+ * the refined version in `refined_tokens`.
+ *
+ * ## Logic
+ * - Iterates all raw tokens.
+ * - Calls `ft_refine_raw_token()` on each token.
+ *
+ * ## Parameters
+ * - `refined_tokens`: Linked list array to store output.
+ * - `raw_split`: Array of raw tokens from first split.
+ * - `len_raw_split`: Number of raw tokens.
+ *
+ * ## Returns
+ * - None (output stored in `refined_tokens`).
+ *
+ * ## Notes
+ * - Maintains original token order.
+ */
+static void	refine_tokens(
+				t_linkedlist_array *refined_tokens,
+				char **raw_split, int len_raw_split)
 {
-	char	*new_token;
-	int		new_token_idx;
-	int		idx;
-	int		found_quote;
-	int		token_len;
+	int		idx_raw_token;
+	char	*raw_token;
 
-	token_len = ft_strlen(token);
-	new_token = ft_calloc(token_len + 1, sizeof(char));
-	new_token_idx = 0;
-	found_quote = 0;
-	idx = -1;
-	while (token[++idx])
+	idx_raw_token = -1;
+	while (++idx_raw_token < len_raw_split)
 	{
-		if (ft_is_quote(token, idx, NULL))
-		{
-			if (idx > 0 && !found_quote)
-			{
-				found_quote = token[idx];
-				ft_jump_useless_quotes(token + idx, &idx);
-			}
-			else if (!found_quote)
-				found_quote = token[idx];
-			else if (found_quote == token[idx])
-				found_quote = 0;
-			if (token[idx] && token[idx + 1] && !token[idx - 1]
-				&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL))
-				new_token[new_token_idx++] = token[idx];
-			else if (token[idx] && !token[idx + 1] && token[idx - 1]
-				&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
-				new_token[new_token_idx++] = token[idx];
-			else if (token[idx] && token[idx + 1] && token[idx - 1]
-				&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL)
-				&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
-				new_token[new_token_idx++] = token[idx];
-		}
-		else
-		{
-			if (!found_quote && is_reserved_token(token, idx))
-			{
-				if (new_token_idx > 0)
-					container->push(container, curr_idx,
-						ft_strdup(new_token));
-				new_token_idx = 0;
-				ft_bzero(new_token, token_len * sizeof(char));
-				container->push(container, curr_idx,
-					ft_substr(token, idx, is_reserved_token(token, idx)));
-				idx += is_reserved_token(token, idx);
-			}
-			if (token[idx])
-				new_token[new_token_idx++] = token[idx];
-			else
-				break ;
-		}
+		raw_token = raw_split[idx_raw_token];
+		ft_refine_raw_token(raw_token, idx_raw_token, refined_tokens);
 	}
-	if (new_token_idx > 0)
-		container->push(container, curr_idx, ft_strdup(new_token));
-	free(new_token);
 }
 
-static void	ft_jump_useless_quotes(char *str, int *curr_idx)
-{
-	int	idx;
+/**
+ * # copy_to_matrix
+ *
+ * ---
+ *
+ * Converts a linked list array of refined tokens into
+ * a standard NULL-terminated string array.
+ *
+ * ## Logic
+ * - Iterates nodes in reverse to preserve order.
+ * - Copies each node's content using `ft_strdup()`.
+ *
+ * ## Parameters
+ * - `refined_tokens`: Linked list array of tokens.
+ * - `matrix`: Preallocated array to store copied strings.
+ *
+ * ## Returns
+ * - None (tokens copied to `matrix`).
+ *
+ * ## Notes
+ * - Caller must free the matrix after use.
+ */
 
-	idx = 0;
-	while (str[idx] && ft_is_quote(str, idx, NULL))
-		idx++;
-	*curr_idx += idx - 1;
+static void	copy_to_matrix(t_linkedlist_array *refined_tokens, char **matrix)
+{
+	t_linkedlist_node	*curr_node;
+	int					node_idx;
+	int					list_idx;
+
+	node_idx = refined_tokens->nodes_amount - 1;
+	list_idx = refined_tokens->size;
+	while (--list_idx >= 0)
+	{
+		curr_node = refined_tokens->list[list_idx]->last;
+		while (curr_node)
+		{
+			matrix[node_idx--] = ft_strdup(curr_node->content);
+			curr_node = curr_node->prev;
+		}
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/08 22:47:17 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/09 02:26:57 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
  * - Prevents misinterpretation of separators and
  *   operators inside quotes.
  */
-typedef enum e_quote_state			t_quote_state;
+typedef enum e_quote_state							t_quote_state;
 enum e_quote_state
 {
 	NO_QUOTE_OPEN,
@@ -67,18 +67,28 @@ enum e_quote_state
  * - Used throughout raw splitting and lexing logic
  *   to maintain context.
  */
-typedef struct s_quote_info			t_quote_info;
+typedef struct s_quote_info							t_quote_info;
 struct s_quote_info
 {
 	t_quote_state	state;
 	int				open_quote_type;
 };
 
-typedef struct s_int_array			t_int_array;
+typedef struct s_int_array							t_int_array;
 struct s_int_array
 {
 	int	len;
 	int	*array;
+};
+
+typedef struct s_refine_raw_token_params			t_refine_raw_token_vars;
+struct s_refine_raw_token_params
+{
+	char	*new_token;
+	int		idx_new_token;
+	int		idx;
+	int		found_quote;
+	int		token_len;
 };
 
 bool				ft_is_valid_backslash(const char *str, int idx);
@@ -87,6 +97,9 @@ int					is_reserved_token(char *str, int idx);
 void				ft_raw_splitter_get_words_position(
 						const char *str, t_int_array *array);
 char				**ft_raw_splitter(char const *str);
+void				ft_refine_raw_token(
+						char *token, int curr_idx,
+						t_linkedlist_array *container);
 char				**ft_refined_splitter(char const *str);
 
 #endif
