@@ -49,7 +49,7 @@ COMPILATION_DEPENDENCIES = $(OBJS) $(LIBFT)
 OBJ_TEST_PROGRAM = $(TEST_PROGRAM:%.c=%.o)
 COMPILATION_DEPENDENCIES_TEST = $(OBJ_TEST_PROGRAM) $(LIBFT)
 
-TEST_PROGRAMS = raw_splitter test linkedlist
+TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter test
 
 
 # ***************************************************************************************************
