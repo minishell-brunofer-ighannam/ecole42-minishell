@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:13:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/08 20:47:22 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/09 00:36:07 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	test2(void);
 static void	test3(void);
 static void	test4(void);
 static void	test5(void);
-// static void	test6(void);
+static void	test6(void);
 static void	test7(void);
 static void	test8(void);
 static void	test9(void);
@@ -45,7 +45,7 @@ int	main(int argc, char **argv)
 	test3();
 	test4();
 	test5();
-	// (void)test6;
+	test6();
 	test7();
 	test8();
 	test9();
@@ -70,7 +70,7 @@ static void	test1(void)
 	int		i;
 	int		right_tokens;
 
-	test.teste_number = 2;
+	test.teste_number = 1;
 	test.test_input = "echo \"hello Bruno \" | grep br";
 	splitted = ft_refined_splitter(test.test_input);
 	char	*expected[] = {"echo", "\"hello Bruno \"", "|", "grep", "br", NULL};
@@ -183,29 +183,29 @@ static void	test5(void)
 	ft_destroy_char_matrix(&splitted);
 }
 
-// static void	test6(void)
-// {
-// 	t_test	test;
-// 	char	**splitted;
-// 	int		i;
-// 	int		right_tokens;
+static void	test6(void)
+{
+	t_test	test;
+	char	**splitted;
+	int		i;
+	int		right_tokens;
 
-// 	test.teste_number = 6;
-// 	test.test_input = "echo 'it'\\''s fine' \" and \\\"ok\\\"\" ; ls -l";
-// 	splitted = ft_refined_splitter(test.test_input);
-// 	char	*expected[] = {"echo", "'it'\\''s fine'", "\" and \\\"ok\\\"\"", ";", "ls", "-l", NULL};
-// 	right_tokens = 0;
-// 	i = 0;
-// 	while (expected[i])
-// 	{
-// 		if (splitted[i] && !ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
-// 			right_tokens++;
-// 		i++;
-// 	}
-// 	test.test_ok = i == right_tokens;
-// 	print_test_and_result(test, print_result, splitted);
-// 	ft_destroy_char_matrix(&splitted);
-// }
+	test.teste_number = 6;
+	test.test_input = "echo 'it'\\''s fine' \" and \\\"ok\\\"\" ; ls -l";
+	splitted = ft_refined_splitter(test.test_input);
+	char	*expected[] = {"echo", "'it'\\''s fine'", "\" and \\\"ok\\\"\"", ";", "ls", "-l", NULL};
+	right_tokens = 0;
+	i = 0;
+	while (expected[i])
+	{
+		if (splitted[i] && !ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+			right_tokens++;
+		i++;
+	}
+	test.test_ok = i == right_tokens;
+	print_test_and_result(test, print_result, splitted);
+	ft_destroy_char_matrix(&splitted);
+}
 
 static void	test7(void)
 {

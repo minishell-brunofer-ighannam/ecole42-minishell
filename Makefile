@@ -23,7 +23,7 @@ CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
 
 TOKEN_DIR = src/lexer/tokenizer
 TOKEN_FILES = $(TOKEN_DIR)/splitter/raw_splitter.c $(TOKEN_DIR)/splitter/raw_splitter_utils.c $(TOKEN_DIR)/splitter/splitter_utils.c \
-$(TOKEN_DIR)/splitter/refined_splitter.c
+$(TOKEN_DIR)/splitter/refined_splitter.c $(TOKEN_DIR)/splitter/refine_raw_token.c
 
 STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c src/linkedlist_array/linkedlist_array.c
 
