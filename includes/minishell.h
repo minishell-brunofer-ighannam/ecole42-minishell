@@ -33,6 +33,7 @@ typedef struct s_env t_env;
 # include "../src/signals.h"
 # include "../src/lexer/lexer.h"
 # include "../src/linkedlist_array/linkedlist_array.h"
+# include "../src/proccess/process.h"
 #include "../src/hashtable/hashtable.h"
 
 /* ****************************   BUILTINS   ****************************** */
@@ -44,8 +45,15 @@ void	ft_unset(t_env **env, char *key);
 void	ft_export(t_env **env, char *key, char *value);
 
 
+# define PROMPT_GREEN	"\033[32m"
+# define PROMPT_MAGENTA	"\033[35m"
+# define PROMPT_RESET	"\033[0m"
+# define PROMPT_ISA		PROMPT_GREEN"isaghannam"PROMPT_RESET
+# define PROMPT_BRUNO	PROMPT_GREEN"brunovalero"PROMPT_RESET
+# define PROMPT_SHELL	PROMPT_MAGENTA"minishell"PROMPT_RESET
+# define PROMPT PROMPT_ISA"&"PROMPT_BRUNO":"PROMPT_SHELL"$> "
 
-
-# define PROMPT "minishell$> "
+int		get_sig(void);
+void	set_sig(int value);
 
 #endif

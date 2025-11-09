@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   reader.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 17:07:25 by valero            #+#    #+#             */
-/*   Updated: 2025/11/09 17:07:29 by valero           ###   ########.fr       */
+/*   Created: 2025/11/09 12:58:09 by valero            #+#    #+#             */
+/*   Updated: 2025/11/09 12:59:05 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef READER_H
+# define READER_H
 
-int	main(void)
-{
-	char	*line;
 
-	handle_signals();
-	rl_catch_signals = 0;
-	line = readline(PROMPT);
-	while (line)
-	{
-		if (!line)
-		{
-			free(line);
-			break ;
-		}
-		printf("line: %s\n", line);
-		add_history(line);
-		free(line);
-		line = readline(PROMPT);
-	}
-}
+
+#endif

@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   globals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 17:07:25 by valero            #+#    #+#             */
-/*   Updated: 2025/11/09 17:07:29 by valero           ###   ########.fr       */
+/*   Created: 2025/11/09 13:13:21 by valero            #+#    #+#             */
+/*   Updated: 2025/11/09 13:14:00 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+static int g_sig = 0;
 
-int	main(void)
+int get_sig(void)
 {
-	char	*line;
+    return g_sig;
+}
 
-	handle_signals();
-	rl_catch_signals = 0;
-	line = readline(PROMPT);
-	while (line)
-	{
-		if (!line)
-		{
-			free(line);
-			break ;
-		}
-		printf("line: %s\n", line);
-		add_history(line);
-		free(line);
-		line = readline(PROMPT);
-	}
+void set_sig(int value)
+{
+    g_sig = value;
 }
