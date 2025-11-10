@@ -27,12 +27,11 @@ $(TOKEN_DIR)/splitter/refined_splitter.c $(TOKEN_DIR)/splitter/refine_raw_token.
 
 STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c src/linkedlist_array/linkedlist_array.c src/hashtable/hashtable.c
 
-
 BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c src/builtins/ft_unset.c
 
 PROCESS = src/process/child_process.c
 
-SRC_FILES = $(STRUCTURES) $(TOKEN_FILES) $(BUILTINS) src/signals.c src/globals.c
+SRC_FILES = $(STRUCTURES) $(TOKEN_FILES) $(BUILTINS) $(PROCESS) src/signals.c src/globals.c
 
 
 
@@ -52,7 +51,7 @@ OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
 COMPILATION_DEPENDENCIES = $(OBJS) $(LIBFT)
 
-TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op test
+TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op child_process
 
 
 # ***************************************************************************************************
@@ -72,8 +71,10 @@ $(LIBFT):
 	@make -s -C $(LIBFT_DIR) SLEEP="$(SLEEP)"
 
 
-tests: linkedlist linkedlist_array raw_splitter refined_splitter
+tests: fclean child_process linkedlist linkedlist_array raw_splitter refined_splitter
 	@clear && echo "code% make tests"
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./child_process
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist_array$(RESET)..." && sleep $(SLEEP)
@@ -103,6 +104,10 @@ refined_splitter: tests/refined_splitter.c tests/tests.c $(COMPILATION_DEPENDENC
 env_ht_op: tests/env_ht_op.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) -no-pie -o $@ $^ $(DEPENDENCIES)
+
+child_process: tests/child_process.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
 
 %.o: %.c
