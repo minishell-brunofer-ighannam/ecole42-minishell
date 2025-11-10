@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 13:42:13 by valero            #+#    #+#             */
-/*   Updated: 2025/11/09 17:08:21 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/09 21:39:04 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,9 @@ struct s_child_process_callbacks
 			);
 	t_child_process_callback_args	args;
 };
+
+t_child_process	*ft_child_process(
+					int pipes_amount,
+					t_child_process_callbacks callbacks);
 
 #endif
