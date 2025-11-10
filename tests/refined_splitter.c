@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refined_splitter.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:13:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/09 00:36:07 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/10 13:36:39 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	test7(void);
 static void	test8(void);
 static void	test9(void);
 static void	test10(void);
+static void	test11(void);
 
 int	main(int argc, char **argv)
 {
@@ -50,6 +51,7 @@ int	main(int argc, char **argv)
 	test8();
 	test9();
 	test10();
+	test11();
 }
 
 static void	print_result(void *arg)
@@ -299,6 +301,38 @@ static void	test10(void)
 		i++;
 	}
 	test.test_ok = i == right_tokens;
+	print_test_and_result(test, print_result, splitted);
+	ft_destroy_char_matrix(&splitted);
+}
+
+static void	test11(void)
+{
+	t_test	test;
+	char	**splitted;
+	int		i;
+	int		right_tokens;
+
+	test.teste_number = 11;
+	test.test_input = "echo \\*.c";
+	splitted = ft_refined_splitter(test.test_input);
+	char	*expected[] = {"command", "2", ">&", "1", ">", "file.txt", "1", ">>", "log.txt", NULL};
+	right_tokens = 0;
+	i = 0;
+	int splitted_len = 0;
+	while (splitted[splitted_len])
+		++splitted_len;
+	int splitted_expected_len = 0;
+	while (expected[splitted_expected_len])
+		++splitted_expected_len;
+	while (expected[i])
+	{
+		if (!splitted[i])
+			break ;
+		if (!ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+			right_tokens++;
+		i++;
+	}
+	test.test_ok = right_tokens == splitted_expected_len;
 	print_test_and_result(test, print_result, splitted);
 	ft_destroy_char_matrix(&splitted);
 }

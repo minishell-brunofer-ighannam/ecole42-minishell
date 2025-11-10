@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/10 10:23:38 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/10 10:20:31 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/10 10:23:10 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
-#define EXECUTION_H
+#ifndef BUILTINS_H
+#define BUILTINS_H
 
-#include <stdio.h>
 #include "../includes/minishell.h"
 
-typedef enum e_node_type
-{
-    NODE_CMD,
-    NODE_PIPE,
-    NODE_AND,
-    NODE_OR,
-    NODE_SUBSHELL,
-    NODE_REDIR
-} t_node_type;
+typedef struct s_env	t_env;
 
-typedef struct s_node
-{
-	t_node_type		type;
-	char			**argv;
-	struct s_node	*left;
-	struct s_node	*right;
-	int				built_in;
-} t_node;
-
+void	ft_env(t_env **env);
+void	ft_unset(t_env **env, char *key);
+void	ft_export(t_env **env, char *key, char *value);
 
 #endif

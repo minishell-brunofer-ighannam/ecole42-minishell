@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:32:51 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 15:32:03 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/10 16:10:16 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@
  * - The `destroy` method sets the caller pointer to `NULL`.
  */
 typedef struct s_linkedlist_node	t_linkedlist_node;
-struct s_linkedlist_node
+struct								s_linkedlist_node
 {
-	void				*content;
-	t_linkedlist_node	*next;
-	t_linkedlist_node	*prev;
-	void				*(*destroy)(
-			t_linkedlist_node **self, void (*free_content)(void *arg));
+	void							*content;
+	t_linkedlist_node				*next;
+	t_linkedlist_node				*prev;
+	void							*(*destroy)(t_linkedlist_node **self,
+									void (*free_content)(void *arg));
 };
 
 /**
@@ -71,17 +71,22 @@ struct s_linkedlist_node
  * - After destruction, the list pointer is set to `NULL`.
  */
 typedef struct s_linkedlist			t_linkedlist;
-struct s_linkedlist
+struct								s_linkedlist
 {
-	int					size;
-	t_linkedlist_node	*first;
-	t_linkedlist_node	*last;
-	void				*(*push)(t_linkedlist *self, void *content);
-	void				*(*destroy)(
-			t_linkedlist **self, void (*free_content)(void *arg));
+	int								size;
+	t_linkedlist_node				*first;
+	t_linkedlist_node				*last;
+	void							*(*push)(t_linkedlist *self, void *content);
+	t_linkedlist_node				*(*detach)(t_linkedlist *self,
+						t_linkedlist_node *node);
+	void							*(*remove)(t_linkedlist *self,
+									t_linkedlist_node *node,
+									void (*free_content)(void *arg));
+	void							*(*destroy)(t_linkedlist **self,
+									void (*free_content)(void *arg));
 };
 
-t_linkedlist_node	*ft_new_node(void *content);
-t_linkedlist		*ft_new_linkedlist(void);
+t_linkedlist_node					*ft_new_node(void *content);
+t_linkedlist						*ft_new_linkedlist(void);
 
 #endif

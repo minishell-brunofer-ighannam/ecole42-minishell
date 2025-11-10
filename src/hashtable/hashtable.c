@@ -6,27 +6,12 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:29:53 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/09 16:34:42 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/10 18:32:17 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hashtable.h"
 #include "../includes/minishell.h"
-
-int	ft_hash(char *key)
-{
-	unsigned long	hash;
-
-	if (!key)
-		return (-1);
-	hash = 5381;
-	while (*key)
-	{
-		hash = ((hash << 5) + hash) + *key;
-		key++;
-	}
-	return (hash % ENV_HASH_SIZE);
-}
 
 void	ft_set(t_env **env, char *key, char *value, int set)
 {
@@ -129,16 +114,3 @@ char	*ft_find_env_value(char *key, t_env **env)
 	}
 	return (NULL);
 }
-
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_env **env;
-// 	(void)argc;
-// 	(void)argv;
-// 	env = ft_init_ht(envp);
-// 	//ft_env(env);
-// 	//printf("%s\n", ft_find_env_value("TEST2", env));
-// 	ft_export(env, NULL, NULL);
-// 	// printf("path: %s\n", ft_find_path(env, "wc"));
-// 	return (0);
-// }
