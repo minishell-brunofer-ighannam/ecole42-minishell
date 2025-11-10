@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   reader.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 12:58:09 by valero            #+#    #+#             */
-/*   Updated: 2025/11/09 12:59:05 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/10 19:03:32 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef READER_H
 # define READER_H
 
-
+	int	verify_quotes(char *line);
 
 #endif

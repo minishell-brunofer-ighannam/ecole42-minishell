@@ -31,6 +31,8 @@ BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c src/builtins/ft_unset.
 
 PROCESS = src/process/child_process.c
 
+READER = src/reader/reader.c
+
 SRC_FILES = $(STRUCTURES) $(TOKEN_FILES) $(BUILTINS) $(PROCESS) src/signals.c src/globals.c
 
 
