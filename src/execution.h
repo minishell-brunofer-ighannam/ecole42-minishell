@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/05 14:27:38 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/10 10:23:38 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define EXECUTION_H
 
 #include <stdio.h>
+#include "../includes/minishell.h"
 
 typedef enum e_node_type
 {

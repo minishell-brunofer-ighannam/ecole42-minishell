@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:28:00 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/09 15:57:21 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/10 18:59:20 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define ENV_HASH_SIZE 256
 
-#include "minishell.h"
+# include "minishell.h"
 
 typedef struct s_env
 {
@@ -25,10 +25,23 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-int					ft_hash(char *key);
-void				ft_set(t_env **env, char *key, char *value, int set);
-t_env				**ft_init_ht(char **envp);
-char				*ft_find_env_value(char *key, t_env **env);
-char				**ft_split_env(char *s);
+typedef struct s_ht
+{
+	char			*key;
+	void			*value;
+}					t_ht;
+
+typedef struct s_env_value
+{
+	char			*value;
+	int				set;
+}					t_env_value;
+
+int	ft_hash(char *key);
+t_linkedlist_array *ft_init_ht(int size, t_ht **key_value);
+void ft_free_item_ht(void *node_ht);
+void *ft_find_ht(t_linkedlist_array *ht ,char *key);
+void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new);
+void ft_remove_item_ht(t_linkedlist_array *ht, t_ht *new);
 
 #endif

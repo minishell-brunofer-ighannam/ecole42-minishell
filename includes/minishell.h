@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 12:57:32 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/10 00:39:11 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/10 10:22:39 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,7 @@
 # include "../src/linkedlist_array/linkedlist_array.h"
 # include "../src/process/process.h"
 # include "../src/hashtable/hashtable.h"
-
-/* ****************************   BUILTINS   ****************************** */
-/*env*/
-typedef struct s_env	t_env;
-
-void	ft_env(t_env **env);
-/*unset*/
-void	ft_unset(t_env **env, char *key);
-/*export*/
-void	ft_export(t_env **env, char *key, char *value);
+# include "../src/builtins/builtins.h"
 
 
 # define PROMPT_GREEN	"\033[32m"

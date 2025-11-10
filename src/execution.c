@@ -6,11 +6,19 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:26 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/09 15:42:20 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/10 11:14:09 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../includes/minishell.h"
+
+
+char *ft_remove_dupplicated_asterisk(char *)
+{
+	char *clean_glob;
+
+	
+}
 
 char	*ft_find_path(t_env **env, char *cmd)
 {

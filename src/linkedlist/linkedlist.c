@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:52:21 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 15:07:28 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/10 16:10:40 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "linkedlist.h"
 
-static void	*ft_linkedlist_destroy(
-				t_linkedlist **self, void (*free_content)(void *arg));
-static void	*ft_push_new_node(t_linkedlist *self, void *content);
+static void					*ft_linkedlist_destroy(t_linkedlist **self,
+								void (*free_content)(void *arg));
+static void					*ft_push_new_node(t_linkedlist *self,
+								void *content);
 
 /**
  * # ft_new_linkedlist
@@ -48,6 +49,8 @@ t_linkedlist	*ft_new_linkedlist(void)
 	if (!linkedlist)
 		return (NULL);
 	linkedlist->push = ft_push_new_node;
+	linkedlist->detach = ft_detach_node;
+	linkedlist->remove = ft_remove_node;
 	linkedlist->destroy = ft_linkedlist_destroy;
 	return (linkedlist);
 }
@@ -98,6 +101,37 @@ static void	*ft_push_new_node(t_linkedlist *self, void *content)
 	return (NULL);
 }
 
+static t_linkedlist_node	*ft_detach_node(t_linkedlist *self,
+		t_linkedlist_node *node)
+{
+	t_linkedlist_node	*prev;
+	t_linkedlist_node	*next;
+
+	prev = node->prev;
+	next = node->next;
+	if (self->first == node)
+		self->first = node->next;
+	if (self->last == node)
+		self->last = node->prev;
+	if (prev)
+		prev->next = node->next;
+	if (next)
+		next->prev = node->prev;
+	node->next = NULL;
+	node->prev = NULL;
+	self->size--;
+	return (node);
+}
+
+static void	*ft_remove_node(t_linkedlist *self, t_linkedlist_node *node,
+		void (*free_content)(void *arg))
+{
+	t_linkedlist	*removed;
+
+	removed = ft_detach_node(self, node);
+	return (removed->destroy(&removed, free_content));
+}
+
 /**
  * # ft_linkedlist_destroy
  *
@@ -127,8 +161,8 @@ static void	*ft_push_new_node(t_linkedlist *self, void *content)
  * - All nodes must be destroyed through this method
  *   to avoid memory leaks.
  */
-static void	*ft_linkedlist_destroy(
-				t_linkedlist **self, void (*free_content)(void *arg))
+static void	*ft_linkedlist_destroy(t_linkedlist **self,
+		void (*free_content)(void *arg))
 {
 	t_linkedlist_node	*curr_node;
 	t_linkedlist_node	*next_node;
