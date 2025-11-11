@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:52:21 by valero            #+#    #+#             */
-/*   Updated: 2025/11/10 16:10:40 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:47:33 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ static void					*ft_linkedlist_destroy(t_linkedlist **self,
 								void (*free_content)(void *arg));
 static void					*ft_push_new_node(t_linkedlist *self,
 								void *content);
+static t_linkedlist_node	*ft_detach_node(t_linkedlist *self,
+								t_linkedlist_node *node);
+static void					*ft_remove_node(t_linkedlist *self,
+								t_linkedlist_node *node,
+								void (*free_content)(void *arg));
+static void ft_iteri_linkedlist(t_linkedlist *self, void (*ft_iteri)(void *arg));
 
 /**
  * # ft_new_linkedlist
@@ -49,6 +55,7 @@ t_linkedlist	*ft_new_linkedlist(void)
 	if (!linkedlist)
 		return (NULL);
 	linkedlist->push = ft_push_new_node;
+	linkedlist->iteri = ft_iteri_linkedlist;
 	linkedlist->detach = ft_detach_node;
 	linkedlist->remove = ft_remove_node;
 	linkedlist->destroy = ft_linkedlist_destroy;
@@ -101,6 +108,20 @@ static void	*ft_push_new_node(t_linkedlist *self, void *content)
 	return (NULL);
 }
 
+static void ft_iteri_linkedlist(t_linkedlist *self, void (*ft_iteri)(void *arg))
+{
+	t_linkedlist_node *node;
+
+	if (!self)
+		return ;
+	node = self->first;
+	while (node)
+	{
+		ft_iteri(node);
+		node = node->next;
+	}
+}
+
 static t_linkedlist_node	*ft_detach_node(t_linkedlist *self,
 		t_linkedlist_node *node)
 {
@@ -126,7 +147,7 @@ static t_linkedlist_node	*ft_detach_node(t_linkedlist *self,
 static void	*ft_remove_node(t_linkedlist *self, t_linkedlist_node *node,
 		void (*free_content)(void *arg))
 {
-	t_linkedlist	*removed;
+	t_linkedlist_node	*removed;
 
 	removed = ft_detach_node(self, node);
 	return (removed->destroy(&removed, free_content));
