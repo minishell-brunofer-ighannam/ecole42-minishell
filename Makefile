@@ -33,7 +33,7 @@ PROCESS = src/process/child_process.c
 
 READER = src/reader/reader.c
 
-SRC_FILES = $(STRUCTURES) $(TOKEN_FILES) $(BUILTINS) $(PROCESS) src/signals.c src/globals.c
+SRC_FILES = $(STRUCTURES) $(TOKEN_FILES) $(BUILTINS) $(PROCESS) $(READER) src/signals.c src/globals.c
 
 
 
@@ -92,6 +92,10 @@ linkedlist: tests/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
 linkedlist_array: tests/linkedlist_array.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+
+reader: tests/reader.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
