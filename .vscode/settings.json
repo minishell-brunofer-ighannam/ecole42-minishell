@@ -4,6 +4,7 @@
 		"readline.h": "c",
 		"signals.h": "c",
 		"lexer.h": "c",
-		"hashtable.h": "c"
+		"hashtable.h": "c",
+		"minishell.h": "c"
 	}
 }
