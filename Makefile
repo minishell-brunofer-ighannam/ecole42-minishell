@@ -27,13 +27,17 @@ $(TOKEN_DIR)/splitter/refined_splitter.c $(TOKEN_DIR)/splitter/refine_raw_token.
 
 STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c src/linkedlist_array/linkedlist_array.c src/hashtable/hashtable.c
 
-BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c src/builtins/ft_unset.c
+BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c
 
 PROCESS = src/process/child_process.c
 
 READER = src/reader/reader.c
 
-SRC_FILES = $(STRUCTURES) $(TOKEN_FILES) $(BUILTINS) $(PROCESS) src/signals.c src/globals.c
+HASHTABLE = src/hashtable/hashtable.c src/hashtable/new_hashtable.c
+
+ENV = src/env/env.c
+
+SRC_FILES = $(STRUCTURES) $(TOKEN_FILES) $(BUILTINS) $(PROCESS) $(HASHTABLE) $(ENV) src/signals.c src/globals.c
 
 
 

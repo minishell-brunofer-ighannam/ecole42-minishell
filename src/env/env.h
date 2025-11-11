@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_ht_op.c                                        :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 16:02:13 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/11 18:04:45 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/11 10:52:08 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/11 12:54:48 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef ENV_H
+#define ENV_H
+
 #include "../includes/minishell.h"
 
-int main(int argc, char **argv, char **envp)
+typedef struct s_env_value
 {
-	argc = 2;
-	argv = NULL;
-	t_linkedlist_array *ht_env;
+	char			*value;
+	int				set;
+}					t_env_value;
 
-	ht_env = ft_init_ht_env(envp);
-	ft_export(ht_env, NULL);
-	ft_export(ht_env, "TEST8");
-	ft_export(ht_env, NULL);
-	ft_env(ht_env);
-	return (0);
-}
+t_linkedlist_array *ft_init_ht_env(char **envp);
+char	**ft_split_key_value(char *s);
+t_ht	*ft_content_node_ht(char *s);
+
+#endif

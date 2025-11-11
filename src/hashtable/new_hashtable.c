@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:33:35 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/10 18:59:08 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:21:27 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void ft_free_item_ht(void *node_ht)
 
 void *ft_find_ht(t_linkedlist_array *ht ,char *key)
 {
-	char *value;
 	t_linkedlist *entry;
 	t_ht	*key_value;
 	t_linkedlist_node *curr_node;
@@ -75,7 +74,7 @@ void *ft_find_ht(t_linkedlist_array *ht ,char *key)
 	{
 		key_value = (t_ht *)curr_node->content;
 		if (ft_strncmp(key, key_value->key, ft_strlen(key)) == 0)
-			return (key_value);
+			return (curr_node);
 		curr_node = curr_node->next;
 	}
 	return (NULL);
@@ -83,13 +82,15 @@ void *ft_find_ht(t_linkedlist_array *ht ,char *key)
 
 void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new)
 {
-	t_ht *found;
+	t_linkedlist_node *found;
 	t_linkedlist *list;
+	t_ht *content;
 
 	found = ft_find_ht(ht, new->key);
 	if (found)
 	{
-		list = ht->list[ft_hash(found->key)];
+		content = (t_ht *)found->content;
+		list = ht->list[ft_hash(content->key)];
 		list->remove(list, found, ft_free_item_ht);
 		list->push(list, new);
 		return ;
@@ -100,13 +101,15 @@ void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new)
 
 void ft_remove_item_ht(t_linkedlist_array *ht, t_ht *new)
 {
-	t_ht *found;
+	t_linkedlist_node *found;
 	t_linkedlist *list;
+	t_ht *content;
 
 	found = ft_find_ht(ht, new->key);
 	if (found)
 	{
-		list = ht->list[ft_hash(found->key)];
+		content = (t_ht *)found->content;
+		list = ht->list[ft_hash(content->key)];
 		list->remove(list, found, ft_free_item_ht);
 	}
 }
