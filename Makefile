@@ -44,7 +44,7 @@ STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c src/li
 
 
 # ------------ BUILTINS FILES -----------------
-BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c
+BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c src/builtins/ft_set.c src/builtins/ft_unset.c
 
 
 
@@ -52,13 +52,13 @@ BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c
 PROCESS = src/process/child_process.c
 
 
-
-
-HASHTABLE = src/hashtable/hashtable.c src/hashtable/new_hashtable.c
-
 ENV = src/env/env.c
 
-SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(BUILTINS) $(PROCESS) $(HASHTABLE) $(ENV) src/signals.c src/globals.c
+
+EXECUTER = src/executer/find_path.c
+
+
+SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(BUILTINS) $(PROCESS) $(ENV) $(EXECUTER) src/signals.c src/globals.c
 
 
 
@@ -77,9 +77,9 @@ SLEEP = 0.07
 # ============== COMPILATION =================
 OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
-COMPILATION_DEPENDENCIES = $(OBJS) $(LIBFT)
-
-TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op child_process prompt_validator
+COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS) 
+ 
+TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op child_process prompt_validator env_ht_op find_path
 
 
 # ***************************************************************************************************
@@ -90,16 +90,16 @@ TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht
 
 all: $(NAME)
 
-$(NAME): $(OBJ_MAIN_PROGRAM) $(COMPILATION_DEPENDENCIES)
+$(NAME): $(COMPILATION_DEPENDENCIES) $(OBJ_MAIN_PROGRAM) 
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) $(OBJS) $(OBJ_MAIN_PROGRAM) $(LIBFT)  -o $@ $(DEPENDENCIES)
 
 $(LIBFT):
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@make -s -C $(LIBFT_DIR) SLEEP="$(SLEEP)"
 
 
-tests: fclean child_process linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator
+tests: fclean child_process linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator env_ht_op find_path
 	@clear && echo "code% make tests"
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full --track-fds=yes ./child_process
@@ -113,35 +113,42 @@ tests: fclean child_process linkedlist linkedlist_array raw_splitter refined_spl
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./raw_splitter
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)refined_splitter$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./refined_splitter
-
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)env_ht_op$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./env_ht_op
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)find_path$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./find_path
 
 linkedlist: tests/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/linkedlist.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 linkedlist_array: tests/linkedlist_array.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/linkedlist_array.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 prompt_validator: tests/lexer/prompt_validator.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/lexer/prompt_validator.c  tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 raw_splitter: tests/lexer/raw_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/lexer/raw_splitter.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 refined_splitter: tests/lexer/refined_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/lexer/refined_splitter.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 env_ht_op: tests/env_ht_op.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) -no-pie -o $@ $^ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) -no-pie -o $@ tests/env_ht_op.c $(OBJS) $(LIBFT) $(DEPENDENCIES)
 
 child_process: tests/child_process.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/child_process.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+find_path: tests/find_path.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/find_path.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 
 %.o: %.c
@@ -160,8 +167,12 @@ minilibx:
 clean:
 	@echo "$(LIGHT_RED)>> $(BOLD)cleanning$(RESET) $(LIGHT_CYAN)./src$(RESET)..." && sleep $(SLEEP)
 	@rm -rf $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_RED)>> $(BOLD)cleanning$(RESET) $(LIGHT_CYAN)./$(LIBFT_DIR)$(RESET)..." && sleep $(SLEEP)
+	@make -s -C $(LIBFT_DIR) clean
 
 fclean: clean
+	@echo "$(LIGHT_RED)>> $(BOLD)deletting$(RESET) $(LIGHT_CYAN)$(LIBFT_DIR)$(RESET)..." && sleep $(SLEEP)
+	@make -s -C $(LIBFT_DIR) fclean
 	@echo "$(LIGHT_RED)>> $(BOLD)deletting$(RESET) $(LIGHT_CYAN)./$(NAME)$(RESET)..." && sleep $(SLEEP)
 	@rm -rf $(NAME)
 	@echo "$(LIGHT_RED)>> $(BOLD)deletting$(RESET) $(LIGHT_CYAN)./$(BONUS)$(RESET)..." && sleep $(SLEEP)

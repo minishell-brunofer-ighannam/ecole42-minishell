@@ -1,13 +1,15 @@
 NAME = libgnl.a
 INCLUDES = -I includes
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
+CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
 
 SRC = src
 SRC_FILES = get_next_line_utils.c get_next_line.c
 
 OBJ = obj
 OBJ_FILES := $(SRC_FILES:%.c=$(OBJ)/%.o)
+
+DEPENDENCIES = -pie
 
 all: $(NAME)
 

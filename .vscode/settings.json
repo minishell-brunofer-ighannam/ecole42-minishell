@@ -6,6 +6,14 @@
 		"lexer.h": "c",
 		"hashtable.h": "c",
 		"minishell.h": "c",
-		"builtins.h": "c"
+		"builtins.h": "c",
+		"array": "c",
+		"deque": "c",
+		"string": "c",
+		"vector": "c",
+		"memory_resource": "c",
+		"optional": "c",
+		"functional": "c",
+		"ranges": "c"
 	}
 }
