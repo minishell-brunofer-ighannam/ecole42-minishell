@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_ht_op.c                                        :+:      :+:    :+:   */
+/*   new_hashtable.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 16:02:13 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/11 18:04:45 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/11 11:15:08 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/11 11:17:37 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef NEW_HASHTABLE_H
+#define NEW_HASHTABLE_H
+
 #include "../includes/minishell.h"
 
-int main(int argc, char **argv, char **envp)
+typedef struct s_ht
 {
-	argc = 2;
-	argv = NULL;
-	t_linkedlist_array *ht_env;
+	char			*key;
+	void			*value;
+}					t_ht;
 
-	ht_env = ft_init_ht_env(envp);
-	ft_export(ht_env, NULL);
-	ft_export(ht_env, "TEST8");
-	ft_export(ht_env, NULL);
-	ft_env(ht_env);
-	return (0);
-}
+int	ft_hash(char *key);
+t_linkedlist_array *ft_init_ht(int size, t_ht **key_value);
+void ft_free_item_ht(void *node_ht);
+void *ft_find_ht(t_linkedlist_array *ht ,char *key);
+void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new);
+void ft_remove_item_ht(t_linkedlist_array *ht, t_ht *new);
+
+#endif
