@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   splitter.h                                         :+:      :+:    :+:   */
+/*   lexer_utils.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 22:40:02 by valero           ###   ########.fr       */
+/*   Created: 2025/11/11 21:19:06 by valero            #+#    #+#             */
+/*   Updated: 2025/11/11 23:11:09 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPLITTER_H
-# define SPLITTER_H
+#ifndef LEXER_UTILS_H
+# define LEXER_UTILS_H
 
-char	**ft_splitter(char const *str);
+# include <stdbool.h>
+
+bool	ft_is_valid_backslash(const char *str, int idx);
+int		is_reserved_token(char *str, int idx);
+bool	ft_is_special_char(const char *str, int idx, char *chars);
+void	print_structure_not_closed_error(char *src, int error_idx);
 
 #endif

@@ -125,3 +125,4 @@ static void	ft_print_export(t_linkedlist_array *ht, char *key)
 			printf("declare -x %s=\"\"\n", content->key);
 	}
 }
+

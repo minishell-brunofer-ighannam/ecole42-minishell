@@ -1,17 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   hashtable.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 14:29:53 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/11 11:03:55 by ighannam         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// /* ************************************************************************** */
+// /*                                                                            */
+// /*                                                        :::      ::::::::   */
+// /*   hashtable.c                                        :+:      :+:    :+:   */
+// /*                                                    +:+ +:+         +:+     */
+// /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+// /*                                                +#+#+#+#+#+   +#+           */
+// /*   Created: 2025/11/05 14:29:53 by ighannam          #+#    #+#             */
+// /*   Updated: 2025/11/10 18:32:17 by ighannam         ###   ########.fr       */
+// /*                                                                            */
+// /* ************************************************************************** */
 
-#include "hashtable.h"
-#include "../includes/minishell.h"
+// #include "hashtable.h"
+// #include "../includes/minishell.h"
 
 // void	ft_set(t_env **env, char *key, char *value, int set)
 // {
@@ -71,6 +71,31 @@
 // 	return (env);
 // }
 
+// char	**ft_split_env(char *s)
+// {
+// 	char	**key_value;
+// 	int		len;
+// 	char	*key;
+// 	char	*value;
+// 	int		i;
+
+// 	len = 0;
+// 	key_value = ft_calloc(3, sizeof(char *));
+// 	while (s[len] && s[len] != '=')
+// 		len++;
+// 	key = ft_calloc(len + 1, sizeof(char));
+// 	i = -1;
+// 	while (s[++i] && s[i] != '=')
+// 		key[i] = s[i];
+// 	i++;
+// 	value = ft_calloc(ft_strlen(s) - len + 1, sizeof(char));
+// 	len = 0;
+// 	while (s[i])
+// 		value[len++] = s[i++];
+// 	key_value[0] = key;
+// 	key_value[1] = value;
+// 	return (key_value);
+// }
 
 // char	*ft_find_env_value(char *key, t_env **env)
 // {

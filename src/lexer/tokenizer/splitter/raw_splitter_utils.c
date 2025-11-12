@@ -6,11 +6,11 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:27:34 by valero            #+#    #+#             */
-/*   Updated: 2025/11/08 20:16:39 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/11 22:44:32 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "splitter.h"
+#include "splitter_internal.h"
 
 /**
  * # ft_raw_splitter_update_quote_state

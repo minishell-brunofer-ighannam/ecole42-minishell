@@ -6,11 +6,11 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:52:01 by valero            #+#    #+#             */
-/*   Updated: 2025/11/09 02:47:14 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/11 22:44:11 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "splitter.h"
+#include "splitter_internal.h"
 
 static void	copy_to_matrix(t_linkedlist_array *refined_tokens, char **matrix);
 static void	refine_tokens(
