@@ -74,6 +74,7 @@ COMPILATION_DEPENDENCIES = $(OBJS) $(LIBFT)
 TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op child_process prompt_validator
 
 
+
 # ***************************************************************************************************
 # ********************************************           ********************************************
 # ********************************************  TARGETS  ********************************************

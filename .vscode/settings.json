@@ -6,6 +6,9 @@
 		"lexer.h": "c",
 		"hashtable.h": "c",
 		"minishell.h": "c",
-		"prompt_validator_internal.h": "c"
+		"prompt_validator_internal.h": "c",
+		"tokenize_internal.h": "c",
+		"tokenize.h": "c",
+		"linkedlist.h": "c"
 	}
 }
