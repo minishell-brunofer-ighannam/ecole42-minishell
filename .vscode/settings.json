@@ -6,6 +6,8 @@
 		"lexer.h": "c",
 		"hashtable.h": "c",
 		"minishell.h": "c",
+		"prompt_validator_internal.h": "c"
 		"builtins.h": "c"
+
 	}
 }

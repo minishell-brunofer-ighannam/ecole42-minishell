@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 21:20:04 by valero            #+#    #+#             */
-/*   Updated: 2025/11/10 00:26:32 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/12 12:27:28 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ static void	test_child_process_execve_ls(void)
 	ft_destroy_char_matrix(&command->command_argv);
 	free(command);
 	// Lê saída do comando pelo pipe[1]
+	fflush(stdout);
 	line = get_next_line(process->pipes[1][0]);
 	while (line)
 	{
