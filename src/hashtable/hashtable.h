@@ -3,33 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 14:28:00 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/10 23:20:31 by valero           ###   ########.fr       */
+/*   Created: 2025/11/11 11:15:08 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/12 11:53:01 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HASHTABLE_H
-# define HASHTABLE_H
+#define HASHTABLE_H
+
+#include "../includes/minishell.h"
 
 # define ENV_HASH_SIZE 256
 
-# include "minishell.h"
-
-typedef struct s_env
+typedef struct s_ht
 {
 	char			*key;
-	char			*value;
-	int				set;
-	struct s_env	*next;
-}					t_env;
+	void			*value;
+}					t_ht;
 
-// int	ft_hash(char *key);
-// t_linkedlist_array *ft_init_ht(int size, t_ht **key_value);
-// void ft_free_item_ht(void *node_ht);
-// void *ft_find_ht(t_linkedlist_array *ht ,char *key);
-// void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new);
-// void ft_remove_item_ht(t_linkedlist_array *ht, t_ht *new);
+int	ft_hash(char *key);
+void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new, void (*ft_free_item_ht)(void *arg));
+void *ft_find_ht(t_linkedlist_array *ht ,char *key);
+void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new, void (*ft_free_item_ht)(void *arg));
+void ft_remove_item_ht(t_linkedlist_array *ht, t_ht *new, void (*ft_free_item_ht)(void *arg));
 
 #endif
