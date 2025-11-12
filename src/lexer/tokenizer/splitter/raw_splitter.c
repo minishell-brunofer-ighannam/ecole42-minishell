@@ -6,11 +6,11 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:35:20 by valero            #+#    #+#             */
-/*   Updated: 2025/11/08 21:01:42 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/11 22:44:26 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "splitter.h"
+#include "splitter_internal.h"
 
 static char	**ft_run_split(char const *str, int	*coord_arr, int coord_arr_len);
 static void	ft_delete_words(char ***str, int end);

@@ -6,11 +6,11 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 01:29:30 by valero            #+#    #+#             */
-/*   Updated: 2025/11/09 02:48:23 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/11 22:44:20 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "splitter.h"
+#include "splitter_internal.h"
 
 static void	ft_jump_useless_quotes(char *str, int *curr_idx);
 static void	filter_reserved_tokens(
