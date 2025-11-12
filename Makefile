@@ -42,15 +42,24 @@ LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(LEXER_U_FILES)
 STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c src/linkedlist_array/linkedlist_array.c src/hashtable/hashtable.c
 
 
+
 # ------------ BUILTINS FILES -----------------
-BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c src/builtins/ft_unset.c
+BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c
+
 
 
 # ------------ PROCESS FILES -----------------
 PROCESS = src/process/child_process.c
 
 
-SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(BUILTINS) $(PROCESS) src/signals.c src/globals.c
+
+
+HASHTABLE = src/hashtable/hashtable.c src/hashtable/new_hashtable.c
+
+ENV = src/env/env.c
+
+SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(BUILTINS) $(PROCESS) $(HASHTABLE) $(ENV) src/signals.c src/globals.c
+
 
 
 

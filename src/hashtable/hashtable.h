@@ -25,23 +25,11 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-typedef struct s_ht
-{
-	char			*key;
-	void			*value;
-}					t_ht;
-
-typedef struct s_env_value
-{
-	char			*value;
-	int				set;
-}					t_env_value;
-
-int	ft_hash(char *key);
-t_linkedlist_array *ft_init_ht(int size, t_ht **key_value);
-void ft_free_item_ht(void *node_ht);
-void *ft_find_ht(t_linkedlist_array *ht ,char *key);
-void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new);
-void ft_remove_item_ht(t_linkedlist_array *ht, t_ht *new);
+// int	ft_hash(char *key);
+// t_linkedlist_array *ft_init_ht(int size, t_ht **key_value);
+// void ft_free_item_ht(void *node_ht);
+// void *ft_find_ht(t_linkedlist_array *ht ,char *key);
+// void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new);
+// void ft_remove_item_ht(t_linkedlist_array *ht, t_ht *new);
 
 #endif
