@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_validator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 23:14:30 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 23:40:51 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/12 09:20:18 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ static void	test_set2(void)
 	prompt = "echo (echo $(ls) \"test $(HOME\")";
 	test.test_input = "echo (echo $(ls) \"test $(HOME\")" " -> (parêntese com $() aberto e quotes fechados)";
 	result = prompt_validator(prompt);
-	test.test_ok = result == -1;
+	test.test_ok = result == 24;
 	print_test_and_result(test, print_result, &result);
 	print_structure_not_closed_error(prompt, result);
 
@@ -202,7 +202,7 @@ static void	test_set2(void)
 	prompt = "echo (echo $(ls) \"test)";
 	test.test_input = "echo (echo $(ls) \"test)" " -> (parêntese com $() fechado e quote aberta)";
 	result = prompt_validator(prompt);
-	test.test_ok = result == -1;
+	test.test_ok = result == 17;
 	print_test_and_result(test, print_result, &result);
 	print_structure_not_closed_error(prompt, result);
 }

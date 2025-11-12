@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:48:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 22:31:23 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/12 09:33:58 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,10 @@ int	get_end(const char *str, int idx,
 		}
 	}
 	return (i);
+}
+
+void	fill_int_array(int *array, int len, int value)
+{
+	while (--len >= 0)
+		array[len] = value;
 }

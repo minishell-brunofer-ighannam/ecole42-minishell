@@ -15,5 +15,8 @@
 		"optional": "c",
 		"functional": "c",
 		"ranges": "c"
+		"prompt_validator_internal.h": "c"
+		"builtins.h": "c"
+
 	}
 }
