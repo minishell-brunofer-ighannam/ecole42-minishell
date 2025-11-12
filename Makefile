@@ -21,19 +21,36 @@ CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
 
 # ============== SRC FILES =================
 
-TOKEN_DIR = src/lexer/tokenizer
-TOKEN_FILES = $(TOKEN_DIR)/splitter/raw_splitter.c $(TOKEN_DIR)/splitter/raw_splitter_utils.c $(TOKEN_DIR)/splitter/splitter_utils.c \
-$(TOKEN_DIR)/splitter/refined_splitter.c $(TOKEN_DIR)/splitter/refine_raw_token.c
 
+# ------------ LEXER FILES -----------------
+SPLITTER_DIR = src/lexer/tokenizer/splitter
+SPLITTER_FILES = $(SPLITTER_DIR)/raw_splitter.c $(SPLITTER_DIR)/raw_splitter_utils.c $(SPLITTER_DIR)/splitter_utils.c \
+$(SPLITTER_DIR)/refined_splitter.c $(SPLITTER_DIR)/refine_raw_token.c
+
+PROMPT_VAL_DIR = src/lexer/tokenizer/prompt_validator
+PROMPT_VAL_FILES = $(PROMPT_VAL_DIR)/prompt_validator.c $(PROMPT_VAL_DIR)/validate_backquotes.c \
+$(PROMPT_VAL_DIR)/validate_dollar_parens.c $(PROMPT_VAL_DIR)/validate_doublequotes.c \
+$(PROMPT_VAL_DIR)/validate_parens.c $(PROMPT_VAL_DIR)/validate_utils.c
+
+LEXER_U_DIR = src/lexer/lexer_utils
+LEXER_U_FILES = $(LEXER_U_DIR)/reserved_structures.c $(LEXER_U_DIR)/error_printer.c
+
+LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(LEXER_U_FILES)
+
+
+# ------------ STRUCTURE FILES -----------------
 STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c src/linkedlist_array/linkedlist_array.c src/hashtable/hashtable.c
 
+
+# ------------ BUILTINS FILES -----------------
 BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c src/builtins/ft_unset.c
 
+
+# ------------ PROCESS FILES -----------------
 PROCESS = src/process/child_process.c
 
-READER = src/reader/reader.c
 
-SRC_FILES = $(STRUCTURES) $(TOKEN_FILES) $(BUILTINS) $(PROCESS) $(READER) src/signals.c src/globals.c
+SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(BUILTINS) $(PROCESS) src/signals.c src/globals.c
 
 
 
@@ -53,7 +70,7 @@ OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
 COMPILATION_DEPENDENCIES = $(OBJS) $(LIBFT)
 
-TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op child_process
+TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op child_process prompt_validator
 
 
 # ***************************************************************************************************
@@ -73,10 +90,12 @@ $(LIBFT):
 	@make -s -C $(LIBFT_DIR) SLEEP="$(SLEEP)"
 
 
-tests: fclean child_process linkedlist linkedlist_array raw_splitter refined_splitter
+tests: fclean child_process linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator
 	@clear && echo "code% make tests"
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./child_process
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full --track-fds=yes ./child_process
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)prompt_validator$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./prompt_validator
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist_array$(RESET)..." && sleep $(SLEEP)
@@ -95,15 +114,15 @@ linkedlist_array: tests/linkedlist_array.c tests/tests.c $(COMPILATION_DEPENDENC
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
-reader: tests/reader.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+prompt_validator: tests/lexer/prompt_validator.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
-raw_splitter: tests/raw_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+raw_splitter: tests/lexer/raw_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
-refined_splitter: tests/refined_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+refined_splitter: tests/lexer/refined_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 

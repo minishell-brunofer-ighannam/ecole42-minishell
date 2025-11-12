@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   splitter.h                                         :+:      :+:    :+:   */
+/*   splitter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 22:40:02 by valero           ###   ########.fr       */
+/*   Created: 2025/11/11 22:36:19 by valero            #+#    #+#             */
+/*   Updated: 2025/11/11 22:39:46 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPLITTER_H
-# define SPLITTER_H
+#include "splitter_internal.h"
 
-char	**ft_splitter(char const *str);
+char	**ft_splitter(char const *str)
+{
+	char	**splitted;
 
-#endif
+	splitted = ft_refined_splitter(str);
+	return (splitted);
+}

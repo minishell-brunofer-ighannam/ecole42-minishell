@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:26:23 by valero            #+#    #+#             */
-/*   Updated: 2025/11/06 23:44:28 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/11 22:45:25 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "splitter/splitter.h"
 # include "../../linkedlist/linkedlist.h"
+# include <stdbool.h>
 
 /**
  * # Token Type
