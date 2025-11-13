@@ -10,5 +10,17 @@
 		"tokenize_internal.h": "c",
 		"tokenize.h": "c",
 		"linkedlist.h": "c"
+		"builtins.h": "c",
+		"array": "c",
+		"deque": "c",
+		"string": "c",
+		"vector": "c",
+		"memory_resource": "c",
+		"optional": "c",
+		"functional": "c",
+		"ranges": "c"
+		"prompt_validator_internal.h": "c"
+		"builtins.h": "c"
+
 	}
 }

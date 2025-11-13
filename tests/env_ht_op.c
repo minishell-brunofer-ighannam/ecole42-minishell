@@ -6,103 +6,138 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 16:02:13 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/09 16:29:51 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/12 13:47:31 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
 
-#define ASSERT_EQ_STR(msg, a, b) \
-	do { \
-		if (!a || !b || strcmp(a, b) != 0) \
-			printf("❌ %s\n  got: %s\n  expected: %s\n", msg, a ? a : "(null)", b ? b : "(null)"); \
-		else \
-			printf("✅ %s\n", msg); \
-	} while (0)
+static void	test_export_basic(t_linkedlist_array *ht_env);
+static void	test_export_update(t_linkedlist_array *ht_env);
+static void	test_unset(t_linkedlist_array *ht_env);
+static void	test_env_print(t_linkedlist_array *ht_env);
+static void	test_edge_cases(t_linkedlist_array *ht_env);
 
-#define ASSERT_TRUE(msg, cond) \
-	do { \
-		if (!(cond)) printf("❌ %s\n", msg); \
-		else printf("✅ %s\n", msg); \
-	} while (0)
-
-
-// Função auxiliar: captura saída de uma função que imprime no stdout
-static char	*capture_stdout(void (*func)(t_env **), t_env **env)
+int	main(int argc, char **argv, char **envp)
 {
-	int		fd[2];
-	int		save_stdout;
-	char	buffer[8192];
-	ssize_t	n;
-	char	*out;
+	(void)argc;
+	(void)argv;
 
-	pipe(fd);
-	save_stdout = dup(STDOUT_FILENO);
-	dup2(fd[1], STDOUT_FILENO);
-	close(fd[1]);
+	t_linkedlist_array *ht_env = ft_init_ht_env(envp);
 
-	func(env);
+	printf("\n===== TEST 1: export básico =====\n");
+	test_export_basic(ht_env);
 
-	fflush(stdout);
-	dup2(save_stdout, STDOUT_FILENO);
-	close(save_stdout);
+	printf("\n===== TEST 2: export (update valor existente) =====\n");
+	test_export_update(ht_env);
 
-	n = read(fd[0], buffer, sizeof(buffer) - 1);
-	close(fd[0]);
-	if (n <= 0)
-		return (strdup(""));
-	buffer[n] = '\0';
-	out = strdup(buffer);
-	return (out);
-}
+	printf("\n===== TEST 3: unset =====\n");
+	test_unset(ht_env);
 
-// 🔧 Testes individuais
-static void	test_export_and_find(void)
-{
-	extern char **environ;
-	t_env **env = ft_init_ht(environ);
+	printf("\n===== TEST 4: env =====\n");
+	test_env_print(ht_env);
 
-	ft_export(env, "TESTKEY", "42");
-	char *val = ft_find_env_value("TESTKEY", env);
-	ASSERT_EQ_STR("export + find_env_value", val, "42");
-}
+	printf("\n===== TEST 5: casos limite =====\n");
+	test_edge_cases(ht_env);
 
-static void	test_unset(void)
-{
-	extern char **environ;
-	t_env **env = ft_init_ht(environ);
-
-	ft_export(env, "HELLO", "WORLD");
-	ft_unset(env, "HELLO");
-	char *val = ft_find_env_value("HELLO", env);
-	ASSERT_TRUE("unset remove variable", val == NULL);
-}
-
-static void	test_env_output(void)
-{
-	extern char **environ;
-	t_env **env = ft_init_ht(environ);
-
-	char *output = capture_stdout(ft_env, env);
-	ASSERT_TRUE("env output contains PATH", strstr(output, "PATH=") != NULL);
-	free(output);
-}
-
-// 🚀 Main de testes
-int	main(void)
-{
-	printf("==== TESTES DE FUNÇÕES ENV ====\n\n");
-
-	test_export_and_find();
-	test_unset();
-	test_env_output();
-
-	printf("\n==== FIM DOS TESTES ====\n");
+	ht_env->destroy(&ht_env, ft_free_item_ht_env);
 	return (0);
+}
+
+/* ========================================================= */
+
+static void	test_export_basic(t_linkedlist_array *ht_env)
+{
+	ft_export(ht_env, "TEST1=teste");
+	t_linkedlist_node *node = (t_linkedlist_node *)ft_find_ht(ht_env, "TEST1");
+
+	if (!node)
+		printf("❌ TEST1 não foi encontrado!\n");
+	else
+	{
+		t_ht *found = (t_ht *)(node->content);
+		t_env_value *value = (t_env_value *)found->value;
+		printf("✅ TEST1 encontrado com valor: '%s'\n", value->value);
+	}
+}
+
+/* ========================================================= */
+
+static void	test_export_update(t_linkedlist_array *ht_env)
+{
+	ft_export(ht_env, "TEST1=atualizado");
+	t_linkedlist_node *node = (t_linkedlist_node *)ft_find_ht(ht_env, "TEST1");
+
+	if (!node)
+		printf("❌ TEST1 não foi encontrado após update!\n");
+	else
+	{
+		t_ht *found = (t_ht *)(node->content);
+		t_env_value *value = (t_env_value *)found->value;
+		if (strcmp(value->value, "atualizado") == 0)
+			printf("✅ TEST1 foi atualizado corretamente.\n");
+		else
+			printf("❌ TEST1 valor incorreto: '%s'\n", value->value);
+	}
+}
+
+/* ========================================================= */
+
+static void	test_unset(t_linkedlist_array *ht_env)
+{
+	ft_unset(ht_env, "TEST1");
+	t_linkedlist_node *node = (t_linkedlist_node *)ft_find_ht(ht_env, "TEST1");
+	if (node)
+		printf("❌ TEST1 ainda existe após unset!\n");
+	else
+		printf("✅ TEST1 removido com sucesso.\n");
+}
+
+/* ========================================================= */
+
+static void	test_env_print(t_linkedlist_array *ht_env)
+{
+	printf("🔹 Chamando ft_env():\n");
+	ft_env(ht_env);
+
+	printf("🔹 Chamando ft_export(NULL): (ordem alfabética esperada)\n");
+	ft_export(ht_env, NULL);
+}
+
+/* ========================================================= */
+
+static void	test_edge_cases(t_linkedlist_array *ht_env)
+{
+	printf("\n🧪 Teste: variável sem valor\n");
+	ft_export(ht_env, "EMPTY");
+	t_linkedlist_node *node = (t_linkedlist_node *)ft_find_ht(ht_env, "EMPTY");
+	if (!node)
+		printf("❌ 'EMPTY' não foi criada.\n");
+	else
+		printf("✅ 'EMPTY' criada sem valor.\n");
+
+	printf("\n🧪 Teste: unset variável inexistente\n");
+	ft_unset(ht_env, "INEXISTENTE");
+	printf("✅ Nenhum crash ao tentar remover variável inexistente.\n");
+
+	printf("\n🧪 Teste: set variável nova via ft_set()\n");
+	ft_set(ht_env, "NEW=ok");
+	node = (t_linkedlist_node *)ft_find_ht(ht_env, "NEW");
+	if (node)
+		printf("✅ NEW criada com sucesso.\n");
+	else
+		printf("❌ NEW não encontrada após ft_set().\n");
+
+	printf("\n🧪 Teste: update via ft_set()\n");
+	ft_set(ht_env, "NEW=atualizada");
+	node = (t_linkedlist_node *)ft_find_ht(ht_env, "NEW");
+	if (node)
+	{
+		t_ht *found = (t_ht *)(node->content);
+		t_env_value *value = (t_env_value *)found->value;
+		printf("Valor de NEW: '%s'\n", value->value);
+	}
 }

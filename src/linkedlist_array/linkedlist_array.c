@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 21:03:22 by valero            #+#    #+#             */
-/*   Updated: 2025/11/10 19:13:05 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/12 15:59:33 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@
 
 #include "linkedlist_array.h"
 
-static t_linkedlist_node	*ft_linkedlist_array_push_token(
-								t_linkedlist_array	*self,
+static t_linkedlist_node	*ft_linkedlist_array_push_token(t_linkedlist_array *self,
 								int idx, void *content);
-static void	*ft_linkedlist_array_destroy(
-				t_linkedlist_array **self_ref,
-				void (*free_content)(void *arg));
+static void					*ft_linkedlist_array_destroy(t_linkedlist_array **self_ref,
+								void (*free_content)(void *arg));
+static void					ft_linkedlist_array_iteri(t_linkedlist_array *self,
+								void (*ft_iteri)(void *arg));
+static t_linkedlist			*ft_array_to_list(t_linkedlist_array *self_ref);
 
 /**
  * # ft_new_linkedlist_array
@@ -69,6 +70,8 @@ t_linkedlist_array	*ft_new_linkedlist_array(int size)
 		return (NULL);
 	linkedlist_array->size = size;
 	linkedlist_array->push = ft_linkedlist_array_push_token;
+	linkedlist_array->iteri = ft_linkedlist_array_iteri;
+	linkedlist_array->array_to_list = ft_array_to_list;
 	linkedlist_array->destroy = ft_linkedlist_array_destroy;
 	linkedlist_array->list = ft_calloc(size + 1, sizeof(t_linkedlist));
 	while (--size >= 0)
@@ -77,8 +80,8 @@ t_linkedlist_array	*ft_new_linkedlist_array(int size)
 		if (!linkedlist_array->list[size])
 		{
 			while (++size < linkedlist_array->size)
-				linkedlist_array->list[size]->destroy(
-					&linkedlist_array->list[size], free);
+				linkedlist_array->list[size]->destroy(&linkedlist_array->list[size],
+					free);
 			free(linkedlist_array);
 			return (NULL);
 		}
@@ -118,8 +121,8 @@ t_linkedlist_array	*ft_new_linkedlist_array(int size)
  *   of the selected linked list.
  * - Content ownership remains with the caller.
  */
-static t_linkedlist_node	*ft_linkedlist_array_push_token(
-				t_linkedlist_array	*self, int idx, void *content)
+static t_linkedlist_node	*ft_linkedlist_array_push_token(t_linkedlist_array *self,
+		int idx, void *content)
 {
 	t_linkedlist	*list;
 
@@ -129,6 +132,51 @@ static t_linkedlist_node	*ft_linkedlist_array_push_token(
 	list->push(list, content);
 	self->nodes_amount++;
 	return (list->last);
+}
+
+static void	ft_linkedlist_array_iteri(t_linkedlist_array *self,
+		void (*ft_iteri)(void *arg))
+{
+	t_linkedlist		**list;
+	t_linkedlist_node	*node;
+	int					i;
+
+	list = self->list;
+	i = 0;
+	while (list[i])
+	{
+		node = list[i]->first;
+		while (node)
+		{
+			ft_iteri(node);
+			node = node->next;
+		}
+		i++;
+	}
+}
+
+
+static t_linkedlist	*ft_array_to_list(t_linkedlist_array *self_ref)
+{
+	t_linkedlist *list_return;
+	t_linkedlist **list;
+	t_linkedlist_node	*node;
+	int					i;
+
+	list_return = ft_new_linkedlist();
+	list = self_ref->list;
+	i = 0;
+	while (list[i])
+	{
+		node = list[i]->first;
+		while (node)
+		{
+			list_return->push(list_return, node->content);
+			node = node->next;
+		}
+		i++;
+	}
+	return (list_return);
 }
 
 /**
@@ -159,8 +207,8 @@ static t_linkedlist_node	*ft_linkedlist_array_push_token(
  * - Safe to call with partially initialized arrays.
  * - Prevents memory leaks by cleaning nested lists.
  */
-static void	*ft_linkedlist_array_destroy(
-		t_linkedlist_array **self_ref, void (*free_content)(void *arg))
+static void	*ft_linkedlist_array_destroy(t_linkedlist_array **self_ref,
+		void (*free_content)(void *arg))
 {
 	t_linkedlist_array	*self;
 	t_linkedlist		*list;

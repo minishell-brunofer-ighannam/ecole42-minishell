@@ -1,130 +1,128 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   ft_export.c                                        :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2025/11/09 15:40:29 by ighannam          #+#    #+#             */
-// /*   Updated: 2025/11/09 16:01:12 by ighannam         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/09 15:40:29 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/12 12:23:34 by ighannam         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// #include "../includes/minishell.h"
+#include "../includes/minishell.h"
 
-// static char	**ft_keys_array_export(t_env **env);
-// static int	ft_count_keys_export(t_env **env);
-// static void	ft_ordene_keys(char **all_keys);
-// static void	ft_swap_keys(int i, int j, char **all_keys);
+static void	ft_keys_export(t_linkedlist_array *export, char **keys_export);
+static void	ft_ordene_keys(char **keys_export);
+static void	ft_swap_keys(int i, int j, char **keys);
+static void	ft_print_export(t_linkedlist_array *ht, char *key);
 
-// void	ft_export(t_env **env, char *key, char *value)
-// {
-// 	int		i;
-// 	char	**keys_set;
-// 	int		count;
+void	ft_export(t_linkedlist_array *ht_env, char *key_value)
+{
+	char			**keys_export;
+	int				i;
+	t_ht *content;
+	t_env_value *value;
 
-// 	count = ft_count_keys_export(env);
-// 	if (!key)
-// 	{
-// 		keys_set = ft_keys_array_export(env);
-// 		ft_ordene_keys(keys_set);
-// 		i = -1;
-// 		while (++i < count)
-// 		{
-// 			if (keys_set[i])
-// 			{
-// 				if (ft_find_env_value(keys_set[i], env))
-// 					printf("declare -x %s=\"%s\"\n", keys_set[i],
-// 						ft_find_env_value(keys_set[i], env));
-// 				else
-// 					printf("declare -x %s\n", keys_set[i]);
-// 			}
-// 		}
-// 		free(keys_set);
-// 		return ;
-// 	}
-// 	ft_set(env, key, value, 0);
-// }
+	if (!key_value)
+	{
+		keys_export = ft_calloc(ht_env->nodes_amount + 1, sizeof(char *));
+		ft_keys_export(ht_env, keys_export);
+		ft_ordene_keys(keys_export);
+		i = 0;
+		while (keys_export[i])
+		{
+			ft_print_export(ht_env, keys_export[i]);
+			i++;
+		}
+		free(keys_export);
+		return ;
+	}
+	content = ft_content_node_ht(key_value);
+	value = content->value;
+	if (value->value || !ft_find_ht(ht_env, content->key))
+		ft_include_item_ht(ht_env, content, ft_free_item_ht_env);
+}
 
-// static int	ft_count_keys_export(t_env **env)
-// {
-// 	int		count;
-// 	int		i;
-// 	t_env	*entry;
+static void	ft_keys_export(t_linkedlist_array *export, char **keys_export)
+{
+	t_linkedlist_node	*node;
+	t_linkedlist		**list;
+	t_ht				*content;
+	int					i;
+	int					j;
 
-// 	count = 0;
-// 	i = 0;
-// 	while (i < ENV_HASH_SIZE)
-// 	{
-// 		if (env[i])
-// 		{
-// 			entry = env[i];
-// 			while (entry)
-// 			{
-// 				if (entry->set == 0 && ft_strncmp(entry->key, "_",
-// 						ft_strlen(entry->key) + 1))
-// 					count++;
-// 				entry = entry->next;
-// 			}
-// 		}
-// 		i++;
-// 	}
-// 	return (count);
-// }
+	list = export->list;
+	i = 0;
+	j = 0;
+	while (list[i])
+	{
+		node = list[i]->first;
+		while (node)
+		{
+			content = (t_ht *)node->content;
+			keys_export[j] = content->key;
+			j++;
+			node = node->next;
+		}
+		i++;
+	}
+}
 
-// static char	**ft_keys_array_export(t_env **env)
-// {
-// 	char	**all_keys;
-// 	int		i;
-// 	int		j;
-// 	t_env	*entry;
+static void	ft_ordene_keys(char **keys_export)
+{
+	int	i;
+	int	j;
+	int	size;
 
-// 	all_keys = ft_calloc(ft_count_keys_export(env) + 1, sizeof(char *));
-// 	i = -1;
-// 	j = -1;
-// 	while (++i < ENV_HASH_SIZE)
-// 	{
-// 		if (env[i])
-// 		{
-// 			entry = env[i];
-// 			while (entry)
-// 			{
-// 				if (entry->set == 0 && ft_strncmp(entry->key, "_",
-// 						ft_strlen(entry->key) + 1))
-// 					all_keys[++j] = entry->key;
-// 				entry = entry->next;
-// 			}
-// 		}
-// 	}
-// 	return (all_keys);
-// }
+	size = 0;
+	while (keys_export[size])
+		size++;
+	i = -1;
+	while (++i < size - 1)
+	{
+		j = i;
+		while (++j < size)
+		{
+			if (keys_export[i] && keys_export[j])
+			{
+				if (ft_strncmp(keys_export[i], keys_export[j],
+						ft_strlen(keys_export[i])) > 0)
+					ft_swap_keys(i, j, keys_export);
+			}
+		}
+	}
+}
 
-// static void	ft_ordene_keys(char **all_keys)
-// {
-// 	int	i;
-// 	int	j;
+static void	ft_swap_keys(int i, int j, char **keys)
+{
+	char	*temp;
 
-// 	i = -1;
-// 	while (all_keys[++i])
-// 	{
-// 		j = i;
-// 		while (all_keys[++j])
-// 		{
-// 			if (all_keys[i] && all_keys[j])
-// 			{
-// 				if (ft_strncmp(all_keys[i], all_keys[j],
-// 						ft_strlen(all_keys[i])) > 0)
-// 					ft_swap_keys(i, j, all_keys);
-// 			}
-// 		}
-// 	}
-// }
+	temp = keys[i];
+	keys[i] = keys[j];
+	keys[j] = temp;
+}
 
-// static void	ft_swap_keys(int i, int j, char **all_keys)
-// {
-// 	char	*temp;
+static void	ft_print_export(t_linkedlist_array *ht, char *key)
+{
+	t_ht				*content;
+	t_env_value			*env_value;
+	t_linkedlist_node	*n;
 
-// 	temp = all_keys[i];
-// 	all_keys[i] = all_keys[j];
-// 	all_keys[j] = temp;
-// }
+	n = (t_linkedlist_node *)ft_find_ht(ht, key);
+	if (n)
+	{
+		content = n->content;
+		if (!content || !content->key || ft_strncmp(content->key, "_",
+				ft_strlen(content->key)) == 0)
+			return ;
+		env_value = (t_env_value *)content->value;
+		if (env_value->set == 0 && env_value->value)
+			printf("declare -x %s=\"%s\"\n", content->key, env_value->value);
+		else if (env_value->set == 0 && !env_value->value)
+			printf("declare -x %s\n", content->key);
+		else if (env_value->set == 0 && *(env_value->value) == 0)
+			printf("declare -x %s=\"\"\n", content->key);
+	}
+}
+

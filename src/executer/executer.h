@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   executer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/10 10:23:38 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/12 14:57:37 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
-#define EXECUTION_H
+#ifndef EXECUTER_H
+#define EXECUTER_H
 
-#include <stdio.h>
 #include "../includes/minishell.h"
 
 typedef enum e_node_type
@@ -34,6 +33,8 @@ typedef struct s_node
 	struct s_node	*right;
 	int				built_in;
 } t_node;
+
+char	*ft_find_path(t_linkedlist_array *ht_env, char *cmd);
 
 
 #endif
