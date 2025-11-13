@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:32:51 by valero            #+#    #+#             */
-/*   Updated: 2025/11/13 02:09:40 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/13 14:41:33 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ struct								s_linkedlist
 	t_linkedlist_node				*first;
 	t_linkedlist_node				*last;
 	void							**(*to_array)(
-				t_linkedlist *self, void *(*free_content)(void *arg));
+				t_linkedlist *self,
+				void *(*dup_content)(void *content),
+				void (*free_content)(void *content));
 	void							*(*push)(t_linkedlist *self, void *content);
 	t_linkedlist_node				*(*detach)(t_linkedlist *self,
 				t_linkedlist_node *node);

@@ -33,10 +33,13 @@ $(PROMPT_VAL_DIR)/validate_dollar_parens.c $(PROMPT_VAL_DIR)/validate_doublequot
 $(PROMPT_VAL_DIR)/validate_parens.c $(PROMPT_VAL_DIR)/validate_utils.c $(PROMPT_VAL_DIR)/structure_jump.c \
 $(PROMPT_VAL_DIR)/validate_singlequotes.c
 
+TOKENIZE_DIR = src/lexer/tokenizer/tokenize
+TOKENIZE_FILES = $(TOKENIZE_DIR)/find_expandable.c $(TOKENIZE_DIR)/find_expandable_utils.c
+
 LEXER_U_DIR = src/lexer/lexer_utils
 LEXER_U_FILES = $(LEXER_U_DIR)/reserved_structures.c $(LEXER_U_DIR)/error_printer.c
 
-LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(LEXER_U_FILES)
+LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(TOKENIZE_FILES) $(LEXER_U_FILES)
 
 
 # ------------ STRUCTURE FILES -----------------
@@ -72,7 +75,8 @@ OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
 COMPILATION_DEPENDENCIES = $(OBJS) $(LIBFT)
 
-TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op child_process prompt_validator
+TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter \
+env_ht_op child_process prompt_validator find_expandable
 
 
 
@@ -93,10 +97,12 @@ $(LIBFT):
 	@make -s -C $(LIBFT_DIR) SLEEP="$(SLEEP)"
 
 
-tests: fclean child_process linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator
+tests: fclean child_process find_expandable linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator
 	@clear && echo "code% make tests"
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full --track-fds=yes ./child_process
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)find_expandable$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./find_expandable
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)prompt_validator$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./prompt_validator
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist$(RESET)..." && sleep $(SLEEP)
@@ -126,6 +132,10 @@ raw_splitter: tests/lexer/raw_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIE
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
 refined_splitter: tests/lexer/refined_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+
+find_expandable: tests/lexer/tokenize/find_expandable.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 

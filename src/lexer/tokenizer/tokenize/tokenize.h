@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/12 17:57:09 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/13 12:24:52 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZE_H
 # define TOKENIZE_H
 
-#include <stdbool.h>
+# include <stdbool.h>
 
-typedef enum e_token_type	t_token_type;
+typedef enum e_token_type			t_token_type;
 enum e_token_type
 {
 	TOKEN_CMD = 'c' << 16 | 'm' << 8 | 'd',
@@ -65,7 +65,7 @@ struct s_token
 	bool				sintaxe_error;
 	bool				feature_out_of_scope;
 	char				*(*expand_var)(char *token);
-	char				*(*expand_glob)(char *token);
+	char				**(*expand_glob)(char *token);
 	char				*(*build_expansion)(t_token *self);
 	t_expandable_object	*expandable_object;
 };

@@ -6,14 +6,14 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/13 01:10:10 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/13 12:38:52 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenize_internal.h"
 #include "tokenize.h"
 
-static int	**find_expandable(char *str);
+static int	**ft_find_expandable(char *str);
 static t_token_type	ft_get_token_type(char *token);
 
 t_token	*ft_create_token(const char *value, int position,
@@ -65,11 +65,11 @@ static t_expandable_object	*ft_create_expandable_object(t_token *token)
 	object->original_value = token->value;
 	object->expanded_value = NULL;
 	object->expanded_glob_value = NULL;
-	object->idx_on_token_src = find_expandable(token->value);
+	object->idx_on_token_src = ft_find_expandable(token->value);
 	object->expanded_chuncks = NULL;
 }
 
-static int	**find_expandable(char *str)
+static int	**ft_find_expandable(char *str)
 {
 	int				i;
 	t_linkedlist	*list;
