@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:32:51 by valero            #+#    #+#             */
 /*   Updated: 2025/11/11 14:41:04 by ighannam         ###   ########.fr       */
@@ -76,19 +76,21 @@ struct								s_linkedlist
 	int								size;
 	t_linkedlist_node				*first;
 	t_linkedlist_node				*last;
+	void							**(*to_array)(
+				t_linkedlist *self, void *(*free_content)(void *arg));
 	void							*(*push)(t_linkedlist *self, void *content);
 	void							(*iteri)(t_linkedlist *self,
 									void (*ft_iteri)(void *arg));
 	t_linkedlist_node				*(*detach)(t_linkedlist *self,
-						t_linkedlist_node *node);
+				t_linkedlist_node *node);
 	void							*(*remove)(t_linkedlist *self,
-									t_linkedlist_node *node,
-									void (*free_content)(void *arg));
+				t_linkedlist_node *node,
+				void (*free_content)(void *arg));
 	void							*(*destroy)(t_linkedlist **self,
-									void (*free_content)(void *arg));
+				void (*free_content)(void *arg));
 };
 
-t_linkedlist_node					*ft_new_node(void *content);
+t_linkedlist_node					*ft_new_linkedlist_node(void *content);
 t_linkedlist						*ft_new_linkedlist(void);
 
 #endif

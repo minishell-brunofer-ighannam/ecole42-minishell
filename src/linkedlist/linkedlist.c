@@ -6,11 +6,12 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:52:21 by valero            #+#    #+#             */
-/*   Updated: 2025/11/10 23:18:47 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/13 01:58:33 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "linkedlist.h"
+#include "linkedlist_internal.h"
 
 static void					*ft_linkedlist_destroy(t_linkedlist **self,
 								void (*free_content)(void *arg));
@@ -54,6 +55,7 @@ t_linkedlist	*ft_new_linkedlist(void)
 	linkedlist = ft_calloc(1, sizeof(t_linkedlist));
 	if (!linkedlist)
 		return (NULL);
+	linkedlist->to_array = ft_linkedlist_to_array;
 	linkedlist->push = ft_push_new_node;
 	linkedlist->iteri = ft_iteri_linkedlist;
 	linkedlist->detach = ft_detach_node;
@@ -72,7 +74,7 @@ t_linkedlist	*ft_new_linkedlist(void)
  * accordingly.
  *
  * ## Logic
- * - Allocates a new node using `ft_new_node`.
+ * - Allocates a new node using `ft_new_linkedlist_node`.
  * - Increments the list `size`.
  * - If the list was empty → sets `first` and `last`.
  * - Otherwise → links node after `last` and updates tail.
@@ -92,7 +94,7 @@ static void	*ft_push_new_node(t_linkedlist *self, void *content)
 {
 	t_linkedlist_node	*node;
 
-	node = ft_new_node(content);
+	node = ft_new_linkedlist_node(content);
 	if (!node)
 		return (NULL);
 	self->size++;

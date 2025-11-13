@@ -40,7 +40,8 @@ LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(LEXER_U_FILES)
 
 
 # ------------ STRUCTURE FILES -----------------
-STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c src/linkedlist_array/linkedlist_array.c src/hashtable/hashtable.c
+STRUCTURES = src/linkedlist/iteration.c src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c \
+src/linkedlist_array/linkedlist_array.c src/hashtable/hashtable.c
 
 
 
@@ -81,6 +82,7 @@ OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
 COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS) 
  
 TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op child_process prompt_validator env_ht_op find_path
+
 
 
 # ***************************************************************************************************

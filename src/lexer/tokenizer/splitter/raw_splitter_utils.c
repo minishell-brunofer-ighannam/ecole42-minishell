@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:27:34 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 22:44:32 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/13 00:11:13 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,9 @@ void	ft_raw_splitter_get_words_position(
 	{
 		if (!ft_is_quote(str, i, "`") && quote_info.state == QUOTE_OPEN)
 			quote_info.state = INSIDE_QUOTE;
+		if (quote_info.state == INSIDE_QUOTE && ft_is_quote(str, i, "`")
+			&& ft_is_quote(str, i + 1, "`") && str[i + 1] != quote_info.open_quote_type)
+			quote_info.open_quote_type = str[i + 1];
 		if (ft_is_quote(str, i, "`") && !ft_is_quote(str, i + 1, "`")
 			&& !ft_is_quote(str, i - 1, "`") && (!quote_info.open_quote_type
 				|| quote_info.open_quote_type == str[i]))

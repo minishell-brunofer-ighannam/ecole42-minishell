@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:13:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 22:41:03 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/13 00:13:52 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ static void	test8(void);
 static void	test9(void);
 static void	test10(void);
 static void	test11(void);
+static void	test12(void);
+static void	test13(void);
+static void	test14(void);
 
 int	main(int argc, char **argv)
 {
@@ -52,6 +55,9 @@ int	main(int argc, char **argv)
 	test9();
 	test10();
 	test11();
+	test12();
+	test13();
+	test14();
 }
 
 static void	print_result(void *arg)
@@ -147,7 +153,7 @@ static void	test4(void)
 	test.teste_number = 4;
 	test.test_input = "echo \" teste dois\"\"grudado\" |grep \" ola meu chapa \" ";
 	splitted = ft_refined_splitter(test.test_input);
-	char	*expected[] = {"echo", "\" teste doisgrudado\"", "|", "grep", "\" ola meu chapa \"", NULL};
+	char	*expected[] = {"echo", "\" teste dois\"\"grudado\"", "|", "grep", "\" ola meu chapa \"", NULL};
 	right_tokens = 0;
 	i = 0;
 	while (expected[i])
@@ -171,7 +177,7 @@ static void	test5(void)
 	test.teste_number = 5;
 	test.test_input = "echo \" teste dois\"\"\"\"grudado\" |grep \" ola meu chapa \" ";
 	splitted = ft_refined_splitter(test.test_input);
-	char	*expected[] = {"echo", "\" teste doisgrudado\"", "|", "grep", "\" ola meu chapa \"", NULL};
+	char	*expected[] = {"echo", "\" teste dois\"\"grudado\"", "|", "grep", "\" ola meu chapa \"", NULL};
 	right_tokens = 0;
 	i = 0;
 	while (expected[i])
@@ -315,7 +321,7 @@ static void	test11(void)
 	test.teste_number = 11;
 	test.test_input = "echo \\*.c";
 	splitted = ft_refined_splitter(test.test_input);
-	char	*expected[] = {"command", "2", ">&", "1", ">", "file.txt", "1", ">>", "log.txt", NULL};
+	char	*expected[] = {"echo", "\\*.c", NULL};
 	right_tokens = 0;
 	i = 0;
 	int splitted_len = 0;
@@ -337,4 +343,98 @@ static void	test11(void)
 	ft_destroy_char_matrix(&splitted);
 }
 
+static void	test12(void)
+{
+	t_test	test;
+	char	**splitted;
+	int		i;
+	int		right_tokens;
 
+	test.teste_number = 12;
+	test.test_input = "echo 'bruno ''fernandes' 'valero''nunes'";
+	splitted = ft_refined_splitter(test.test_input);
+	char	*expected[] = {"echo", "'bruno ''fernandes'", "'valero''nunes'", NULL};
+	right_tokens = 0;
+	i = 0;
+	int splitted_len = 0;
+	while (splitted[splitted_len])
+		++splitted_len;
+	int splitted_expected_len = 0;
+	while (expected[splitted_expected_len])
+		++splitted_expected_len;
+	while (expected[i])
+	{
+		if (!splitted[i])
+			break ;
+		if (!ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+			right_tokens++;
+		i++;
+	}
+	test.test_ok = right_tokens == splitted_expected_len;
+	print_test_and_result(test, print_result, splitted);
+	ft_destroy_char_matrix(&splitted);
+}
+
+static void	test13(void)
+{
+	t_test	test;
+	char	**splitted;
+	int		i;
+	int		right_tokens;
+
+	test.teste_number = 13;
+	test.test_input = "echo bruno'fernandes' 'valero'nunes";
+	splitted = ft_refined_splitter(test.test_input);
+	char	*expected[] = {"echo", "bruno'fernandes'", "'valero'nunes", NULL};
+	right_tokens = 0;
+	i = 0;
+	int splitted_len = 0;
+	while (splitted[splitted_len])
+		++splitted_len;
+	int splitted_expected_len = 0;
+	while (expected[splitted_expected_len])
+		++splitted_expected_len;
+	while (expected[i])
+	{
+		if (!splitted[i])
+			break ;
+		if (!ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+			right_tokens++;
+		i++;
+	}
+	test.test_ok = right_tokens == splitted_expected_len;
+	print_test_and_result(test, print_result, splitted);
+	ft_destroy_char_matrix(&splitted);
+}
+
+static void	test14(void)
+{
+	t_test	test;
+	char	**splitted;
+	int		i;
+	int		right_tokens;
+
+	test.teste_number = 14;
+	test.test_input = "echo \"bruno\"'fernandes' 'valero'\"nunes\"";
+	splitted = ft_refined_splitter(test.test_input);
+	char	*expected[] = {"echo", "\"bruno\"'fernandes'", "'valero'\"nunes\"", NULL};
+	right_tokens = 0;
+	i = 0;
+	int splitted_len = 0;
+	while (splitted[splitted_len])
+		++splitted_len;
+	int splitted_expected_len = 0;
+	while (expected[splitted_expected_len])
+		++splitted_expected_len;
+	while (expected[i])
+	{
+		if (!splitted[i])
+			break ;
+		if (!ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+			right_tokens++;
+		i++;
+	}
+	test.test_ok = right_tokens == splitted_expected_len;
+	print_test_and_result(test, print_result, splitted);
+	ft_destroy_char_matrix(&splitted);
+}
