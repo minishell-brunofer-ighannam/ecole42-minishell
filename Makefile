@@ -54,7 +54,7 @@ BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c src/builtins/ft_set.c 
 PROCESS = src/process/child_process.c
 
 
-ENV = src/env/env.c
+ENV = src/env/env.c src/env/expand_var.c
 
 
 EXECUTER = src/executer/find_path.c
@@ -81,7 +81,7 @@ OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
 COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS) 
  
-TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op child_process prompt_validator env_ht_op find_path
+TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter env_ht_op child_process prompt_validator env_ht_op find_path expand_var_test
 
 
 
@@ -102,7 +102,7 @@ $(LIBFT):
 	@make -s -C $(LIBFT_DIR) SLEEP="$(SLEEP)"
 
 
-tests: fclean child_process linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator env_ht_op find_path
+tests: fclean child_process linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator env_ht_op find_path expand_var_test
 	@clear && echo "code% make tests"
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full --track-fds=yes ./child_process
@@ -120,6 +120,8 @@ tests: fclean child_process linkedlist linkedlist_array raw_splitter refined_spl
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./env_ht_op
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)find_path$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./find_path
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)expand_var_test$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./expand_var_test
 
 linkedlist: tests/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
@@ -152,6 +154,10 @@ child_process: tests/child_process.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 find_path: tests/find_path.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) tests/find_path.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+expand_var_test: tests/expand_var_test.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/expand_var_test.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 
 %.o: %.c

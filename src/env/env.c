@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:25:06 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/12 15:58:50 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:31:08 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_linkedlist_array	*ft_init_ht_env(char **envp)
 			ft_free_item_ht_env);
 		envp++;
 	}
+	ft_set(ht_env, "?=0");
 	return (ht_env);
 }
 
