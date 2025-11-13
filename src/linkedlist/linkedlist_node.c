@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:42:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 15:06:14 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/13 01:52:14 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static	void	*ft_destroy_node(
 					t_linkedlist_node **self, void (*free_content)(void *arg));
 
 /**
- * # ft_new_node
+ * # ft_new_linkedlist_node
  *
  * ---
  *
@@ -39,7 +39,7 @@ static	void	*ft_destroy_node(
  * - Ownership of `content` is passed to the node.
  * - Node must be freed using its `destroy` method.
  */
-t_linkedlist_node	*ft_new_node(void *content)
+t_linkedlist_node	*ft_new_linkedlist_node(void *content)
 {
 	t_linkedlist_node	*node;
 

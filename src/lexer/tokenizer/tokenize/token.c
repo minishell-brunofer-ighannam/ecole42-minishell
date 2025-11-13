@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/12 19:20:58 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/13 01:10:10 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,46 @@ static t_expandable_object	*ft_create_expandable_object(t_token *token)
 
 static int	**find_expandable(char *str)
 {
-	int	i;
+	int				i;
 	t_linkedlist	*list;
+	bool			doublequote;
+	bool			singlequote;
+	int				section_idx;
 
+	list = ft_new_linkedlist();
 	i = -1;
 	while (str[++i])
 	{
-		if (ft_is_special_char(str, i, "$"))
+		if (!doublequote && !singlequote && ft_is_special_char(str, i, "'"))
+			singlequote = true;
+		if (singlequote && ft_is_special_char(str, i, "'"))
+			singlequote = false;
+		if (!doublequote && !singlequote && ft_is_special_char(str, i, "\""))
+			doublequote = true;
+		if (doublequote && ft_is_special_char(str, i, "\""))
+			doublequote = false;
+
+
+		section_idx = i;
+		if (!doublequote && !singlequote && !ft_is_special_char(str, section_idx, "\"'"))
+			section_idx++;
+		list->push(list, ft_substr(str, i, section_idx - i + 1));
+		i = section_idx;
+
+		section_idx = i;
+		if (doublequote && ft_is_special_char(str, section_idx + 1, "\""))
+			section_idx++;
+		if (ft_is_special_char(str, section_idx + 1, "\""))
 		{
-			if (is_variable_char(str[i], i == 0))
-
+			list->push(list, ft_substr(str, i, section_idx - i + 2));
+			i = section_idx + 1;
 		}
+		section_idx = i;
+		if (singlequote && ft_is_special_char(str, section_idx + 1, "'"))
+			section_idx++;
+		if (ft_is_special_char(str, section_idx + 1, "'"))
+			i = section_idx + 1;
 	}
-
 }
 
 static bool	is_variable_char(char c, bool is_first)

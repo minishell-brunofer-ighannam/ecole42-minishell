@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 15:14:44 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 23:19:47 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/13 00:16:52 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*status(bool test_ok)
 void	print_test_and_result(
 			t_test test, void (*print_result)(void *arg), void *arg)
 {
-	printf("test %d: %s  ", test.teste_number, status(test.test_ok));
+	printf("test %2d: %s  ", test.teste_number, status(test.test_ok));
 	fflush(stdout);
 	printf("%s%s%s\n", PRINT_LIGHT_BLACK,
 		test.test_input, PRINT_BOLD PRINT_GRAY_233);
@@ -36,7 +36,7 @@ void	print_test_and_result(
 
 void	print_test(t_test test)
 {
-	printf("test %d: %s", test.teste_number, status(test.test_ok));
+	printf("test %2d: %s", test.teste_number, status(test.test_ok));
 	fflush(stdout);
 	printf(" %s %s %s\n", PRINT_LIGHT_BLACK, test.test_input, PRINT_RESET);
 	fflush(stdout);

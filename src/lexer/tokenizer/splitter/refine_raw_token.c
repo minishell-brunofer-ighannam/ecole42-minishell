@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 01:29:30 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 22:44:20 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/12 23:15:38 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,16 +141,17 @@ static void	ft_merge_adjacent_strings(
 	idx = refine->idx;
 	new_token = refine->new_token;
 	idx_new_token = &refine->idx_new_token;
-	if (!idx && token[idx + 1]
-		&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL))
-		new_token[(*idx_new_token)++] = token[idx];
-	else if (token[idx] && !token[idx + 1] && token[idx - 1]
-		&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
-		new_token[(*idx_new_token)++] = token[idx];
-	else if (token[idx] && token[idx + 1] && token[idx - 1]
-		&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL)
-		&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
-		new_token[(*idx_new_token)++] = token[idx];
+	new_token[(*idx_new_token)++] = token[idx];
+	// if (!idx && token[idx + 1]
+	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL))
+	// 	new_token[(*idx_new_token)++] = token[idx];
+	// else if (token[idx] && !token[idx + 1] && token[idx - 1]
+	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
+	// 	new_token[(*idx_new_token)++] = token[idx];
+	// else if (token[idx] && token[idx + 1] && token[idx - 1]
+	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL)
+	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
+	// 	new_token[(*idx_new_token)++] = token[idx];
 }
 
 /**

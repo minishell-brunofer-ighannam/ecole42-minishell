@@ -40,7 +40,8 @@ LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(LEXER_U_FILES)
 
 
 # ------------ STRUCTURE FILES -----------------
-STRUCTURES = src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c src/linkedlist_array/linkedlist_array.c src/hashtable/hashtable.c
+STRUCTURES = src/linkedlist/iteration.c src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c \
+src/linkedlist_array/linkedlist_array.c src/hashtable/hashtable.c
 
 
 # ------------ BUILTINS FILES -----------------
