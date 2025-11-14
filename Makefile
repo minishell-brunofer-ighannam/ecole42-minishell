@@ -34,7 +34,8 @@ $(PROMPT_VAL_DIR)/validate_parens.c $(PROMPT_VAL_DIR)/validate_utils.c $(PROMPT_
 $(PROMPT_VAL_DIR)/validate_singlequotes.c
 
 TOKENIZE_DIR = src/lexer/tokenizer/tokenize
-TOKENIZE_FILES = $(TOKENIZE_DIR)/find_expandable.c $(TOKENIZE_DIR)/find_expandable_utils.c
+TOKENIZE_FILES = $(TOKENIZE_DIR)/find_expandable.c $(TOKENIZE_DIR)/find_expandable_utils.c \
+$(TOKENIZE_DIR)/find_keys_to_expand.c
 
 LEXER_U_DIR = src/lexer/lexer_utils
 LEXER_U_FILES = $(LEXER_U_DIR)/reserved_structures.c $(LEXER_U_DIR)/error_printer.c
@@ -98,21 +99,29 @@ $(LIBFT):
 
 
 tests: fclean child_process find_expandable linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator
+
 	@clear && echo "code% make tests"
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full --track-fds=yes ./child_process
+
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)find_expandable$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./find_expandable
+
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)find_keys_to_expand$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./find_keys_to_expand
+
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)prompt_validator$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./prompt_validator
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist_array$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist_array
+
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)raw_splitter$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./raw_splitter
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)refined_splitter$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./refined_splitter
+
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist_array$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist_array
 
 
 linkedlist: tests/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
@@ -136,6 +145,10 @@ refined_splitter: tests/lexer/refined_splitter.c tests/tests.c $(COMPILATION_DEP
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 
 find_expandable: tests/lexer/tokenize/find_expandable.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
+
+find_keys_to_expand: tests/lexer/tokenize/find_keys_to_expand.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $^ -o $@ $(DEPENDENCIES)
 

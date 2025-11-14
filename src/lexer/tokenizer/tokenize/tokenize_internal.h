@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/13 18:19:05 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/14 01:50:29 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,16 @@ struct s_expandable_section
 	t_linkedlist	*coord_list;
 	char			**array;
 	int				**coord_array;
+	void			*(*destroy)(t_expandable_section **self_ref);
 };
 t_expandable_section	*ft_create_expandable_sections(void);
+int						*ft_new_coord(int start, int end);
 int						*ft_coord_dup(int *coord);
 t_expandable_section	*ft_find_expandable(char *str);
+t_expandable_section	*find_keys_to_expand(
+							t_expandable_section *expandable_sections);
+
+// ============================ FIND EXPANDABLE ============================
 
 // ============================ BUILD EXPANSION ============================
 char					*ft_build_expansion(t_token *self);

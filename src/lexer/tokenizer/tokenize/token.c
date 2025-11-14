@@ -6,14 +6,14 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/13 12:38:52 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/14 00:28:10 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenize_internal.h"
 #include "tokenize.h"
 
-static int	**ft_find_expandable(char *str);
+static int			**ft_find_expandable(char *str);
 static t_token_type	ft_get_token_type(char *token);
 
 t_token	*ft_create_token(const char *value, int position,
