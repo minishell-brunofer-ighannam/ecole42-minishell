@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/15 15:38:40 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/15 18:34:41 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdbool.h>
 # include "./expandable_object/expandable_object.h"
+# include "../../../linkedlist_array/linkedlist_array.h"
 
 typedef enum e_token_type			t_token_type;
 enum e_token_type
@@ -65,9 +66,10 @@ struct s_token
 	int					coord_in_src[2];
 	bool				sintaxe_error;
 	bool				feature_out_of_scope;
-	char				*(*expand_var)(const char *token);
+	char				*(*expand_var)(
+			const char *token, t_linkedlist_array *ht_env);
 	char				**(*expand_glob)(const char *token);
-	t_expansion_build	*(*build_expansion)(t_token *self);
+	t_expansion_build	*(*build_expansion)(t_token *self, t_linkedlist_array *ht_env);
 	void				*(*destroy)(t_token **self_ref);
 	t_expandable_object	*expandable_object;
 };
@@ -75,7 +77,7 @@ struct s_token
 typedef struct s_expander_callbacks	t_expander_callbacks;
 struct s_expander_callbacks
 {
-	char	*(*expand_var)(const char *token);
+	char	*(*expand_var)(const char *token, t_linkedlist_array *ht_env);
 	char	**(*expand_glob)(const char *token);
 };
 

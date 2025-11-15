@@ -3,27 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:50:52 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/14 11:13:34 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/15 19:06:22 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*ft_remove_first_char(char *s);
+static char	*ft_remove_first_char(const char *s);
 static char	*ft_get_pid(void);
 static char	*ft_expand_regular(char *key, t_linkedlist_array *ht_env);
 
-char	*ft_expand_var(char *s, t_linkedlist_array *ht_env)
+char	*ft_expand_var(const char *s, t_linkedlist_array *ht_env)
 {
 	char	*key;
 	char	*expanded;
 
 	key = ft_remove_first_char(s);
 	if (!key)
-		return (NULL);
+	{
+		expanded = ft_calloc(1, sizeof(char));
+		return (expanded);
+	}
 	else if (key[0] == '$')
 		expanded = ft_get_pid();
 	else if (key[0] == '0')
@@ -32,7 +35,10 @@ char	*ft_expand_var(char *s, t_linkedlist_array *ht_env)
 		ft_strlcpy(expanded, "minishell", 10);
 	}
 	else if (ft_isalpha(key[0]) == 0 && key[0] != '?' && key[0] != '_')
-		return (NULL);
+	{
+		expanded = ft_calloc(1, sizeof(char));
+		return (expanded);
+	}
 	else
 		expanded = ft_expand_regular(key, ht_env);
 	free(key);
@@ -46,7 +52,10 @@ static char	*ft_expand_regular(char *key, t_linkedlist_array *ht_env)
 	int		len;
 
 	if (!ft_find_ht(ht_env, key))
-		return (NULL);
+	{
+		expanded = ft_calloc(1, sizeof(char));
+		return (expanded);
+	}
 	value = ((t_env_value *)((t_ht *)((t_linkedlist_node *)ft_find_ht(ht_env,
 						key))->content)->value)->value;
 	len = ft_strlen(value);
@@ -55,7 +64,7 @@ static char	*ft_expand_regular(char *key, t_linkedlist_array *ht_env)
 	return (expanded);
 }
 
-static char	*ft_remove_first_char(char *s)
+static char	*ft_remove_first_char(const char *s)
 {
 	char	*s_without_first;
 	int		len;
