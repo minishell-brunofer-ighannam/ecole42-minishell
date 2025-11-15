@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 10:20:31 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/12 13:23:37 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/11 10:52:08 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/15 15:43:36 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#ifndef ENV_H
+# define ENV_H
 
 # include "../includes/minishell.h"
 
-typedef struct s_env	t_env;
+typedef struct s_env_value
+{
+	char			*value;
+	int				set;
+}					t_env_value;
 
-void					ft_env(t_linkedlist_array *ht_env);
-void					ft_export(t_linkedlist_array *ht_env, char *key_value);
-void					ft_set(t_linkedlist_array *ht_env, char *key_value);
-void					ft_unset(t_linkedlist_array *ht_env, char *key);
+t_linkedlist_array	*ft_init_ht_env(char **envp);
+void				ft_split_key_value(char *s, char **key_value);
+t_ht				*ft_content_node_ht(char *s);
+void				ft_free_item_ht_env(void *node_ht);
+char				*ft_expand_var(char *s, t_linkedlist_array *ht_env);
+char				**ft_expand_glob(char *s);
+int					ft_matched_glob(char *after_removal, char *to_match);
 
 #endif

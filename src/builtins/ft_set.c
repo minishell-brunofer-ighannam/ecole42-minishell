@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   ft_set.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 15:39:10 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/12 13:46:46 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/11 12:52:24 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/13 17:39:16 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_unset(t_linkedlist_array *ht_env, char *key)
+void	ft_set(t_linkedlist_array *ht_env, char *key_value)
 {
-	t_linkedlist_node *found;
-	t_ht *remove;
-	
-	if (!key || !ht_env)
-		return ;
-	found = (t_linkedlist_node *)ft_find_ht(ht_env, key);
-	if (!found)
-		return ;
-	remove = (t_ht *)found->content;
-	ft_remove_item_ht(ht_env, remove, ft_free_item_ht_env);
+	t_ht				*item;
+	t_env_value			*value;
+	t_linkedlist_node	*found;
+
+	item = ft_content_node_ht(key_value);
+	value = (t_env_value *)item->value;
+	found = ft_find_ht(ht_env, item->key);
+	if (!found || !(found->content)
+		|| ((t_env_value *)((t_ht *)(found->content))->value)->set == 1)
+		value->set = 1;
+	else
+		value->set = 0;
+	ft_include_item_ht(ht_env, item, ft_free_item_ht_env);
 }

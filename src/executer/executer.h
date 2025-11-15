@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   executer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 15:39:10 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/12 13:46:46 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/12 14:57:37 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef EXECUTER_H
+#define EXECUTER_H
+
 #include "../includes/minishell.h"
 
-void	ft_unset(t_linkedlist_array *ht_env, char *key)
+typedef enum e_node_type
 {
-	t_linkedlist_node *found;
-	t_ht *remove;
-	
-	if (!key || !ht_env)
-		return ;
-	found = (t_linkedlist_node *)ft_find_ht(ht_env, key);
-	if (!found)
-		return ;
-	remove = (t_ht *)found->content;
-	ft_remove_item_ht(ht_env, remove, ft_free_item_ht_env);
-}
+    NODE_CMD,
+    NODE_PIPE,
+    NODE_AND,
+    NODE_OR,
+    NODE_SUBSHELL,
+    NODE_REDIR
+} t_node_type;
+
+typedef struct s_node
+{
+	t_node_type		type;
+	char			**argv;
+	struct s_node	*left;
+	struct s_node	*right;
+	int				built_in;
+} t_node;
+
+char	*ft_find_path(t_linkedlist_array *ht_env, char *cmd);
+
+
+#endif

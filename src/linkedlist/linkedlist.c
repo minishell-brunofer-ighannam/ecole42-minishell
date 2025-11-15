@@ -22,6 +22,7 @@ static t_linkedlist_node	*ft_detach_node(t_linkedlist *self,
 static void					*ft_remove_node(t_linkedlist *self,
 								t_linkedlist_node *node,
 								void (*free_content)(void *arg));
+static void ft_iteri_linkedlist(t_linkedlist *self, void (*ft_iteri)(void *arg));
 
 /**
  * # ft_new_linkedlist
@@ -56,6 +57,7 @@ t_linkedlist	*ft_new_linkedlist(void)
 		return (NULL);
 	linkedlist->to_array = ft_linkedlist_to_array;
 	linkedlist->push = ft_push_new_node;
+	linkedlist->iteri = ft_iteri_linkedlist;
 	linkedlist->detach = ft_detach_node;
 	linkedlist->remove = ft_remove_node;
 	linkedlist->destroy = ft_linkedlist_destroy;
@@ -106,6 +108,20 @@ static void	*ft_push_new_node(t_linkedlist *self, void *content)
 	self->last->next = node;
 	self->last = node;
 	return (NULL);
+}
+
+static void ft_iteri_linkedlist(t_linkedlist *self, void (*ft_iteri)(void *arg))
+{
+	t_linkedlist_node *node;
+
+	if (!self)
+		return ;
+	node = self->first;
+	while (node)
+	{
+		ft_iteri(node);
+		node = node->next;
+	}
 }
 
 static t_linkedlist_node	*ft_detach_node(t_linkedlist *self,
