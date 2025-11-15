@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 12:57:32 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/14 16:26:40 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/15 18:02:06 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@
 
 
 
-# define PROMPT_GREEN	"\033[32m"
-# define PROMPT_MAGENTA	"\033[35m"
-# define PROMPT_RESET	"\033[0m"
+# define PROMPT_GREEN	"\001\033[32m\002"
+# define PROMPT_MAGENTA	"\001\033[35m\002"
+# define PROMPT_RESET	"\001\033[0m\002"
 # define PROMPT_ISA		PROMPT_GREEN"isaghannam"PROMPT_RESET
 # define PROMPT_BRUNO	PROMPT_GREEN"brunovalero"PROMPT_RESET
 # define PROMPT_SHELL	PROMPT_MAGENTA"minishell"PROMPT_RESET
