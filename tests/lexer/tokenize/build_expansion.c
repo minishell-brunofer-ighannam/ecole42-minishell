@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:30:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/15 19:15:24 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/15 19:38:39 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 static void	test1(t_linkedlist_array	*env);
 static void	test2(t_linkedlist_array	*env);
+static void	test3(t_linkedlist_array	*env);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -28,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	env = ft_init_ht_env(envp);
 	test1(env);
 	test2(env);
+	test3(env);
 	env->destroy(&env, ft_free_item_ht_env);
 }
 
@@ -93,6 +95,33 @@ static void	test2(t_linkedlist_array	*env)
 	t_token *token = ft_create_token(ft_strdup(test.test_input), 0, coord, callbacks);
 	t_expansion_build	*result = token->build_expansion(token, env);
 	char	*expected = "hello\"my dear brunofer\"'its $VAR_TO_KEEP_UP good'\"to see you at bunker, in\"lengreaterothers";
+	test.test_ok = !ft_strncmp(expected, result->token_expanded, ft_strlen(expected) + 1);
+	print_test_and_result(test, print_result, result->token_expanded);
+	if (result->glob_error)
+		return ;
+	token->destroy(&token);
+	result->destroy(&result);
+}
+
+static void	test3(t_linkedlist_array	*env)
+{
+	t_test					test;
+
+	ft_set(env, "VAR_TO_KEEP_UP=teste");
+	ft_set(env, "MONICA_BAR=bunker");
+	ft_set(env, "LENGTH=len");
+	ft_set(env, "GREATER=greater");
+	ft_set(env, "THAN_OTHERS=others");
+	test.teste_number = 1;
+	test.test_input = "*";
+	int coord[2] = {0, 0};
+	t_expander_callbacks callbacks;
+	callbacks.expand_glob = NULL;
+	callbacks.expand_var = ft_expand_var;
+	callbacks.expand_glob = ft_expand_glob;
+	t_token *token = ft_create_token(ft_strdup(test.test_input), 0, coord, callbacks);
+	t_expansion_build	*result = token->build_expansion(token, env);
+	char	*expected = "/nfs/homes/brunofer/backup /nfs/homes/brunofer/Born2beroot-breno /nfs/homes/brunofer/Desktop /nfs/homes/brunofer/Documents /nfs/homes/brunofer/Downloads /nfs/homes/brunofer/francinette /nfs/homes/brunofer/game_jam /nfs/homes/brunofer/goinfre /nfs/homes/brunofer/mini-moulinette /nfs/homes/brunofer/Music /nfs/homes/brunofer/Pictures /nfs/homes/brunofer/projects /nfs/homes/brunofer/Public /nfs/homes/brunofer/ronaldo_so_long /nfs/homes/brunofer/rush /nfs/homes/brunofer/rush01 /nfs/homes/brunofer/sgoinfre /nfs/homes/brunofer/Templates /nfs/homes/brunofer/teste /nfs/homes/brunofer/testefinalrush /nfs/homes/brunofer/Videos /nfs/homes/brunofer/VirtualBox VMs";
 	test.test_ok = !ft_strncmp(expected, result->token_expanded, ft_strlen(expected) + 1);
 	print_test_and_result(test, print_result, result->token_expanded);
 	if (result->glob_error)
