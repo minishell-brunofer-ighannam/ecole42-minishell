@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/14 01:50:29 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/14 20:26:00 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,13 @@
 # include "libft.h"
 # include "../../../linkedlist/linkedlist.h"
 # include "../../lexer_utils/lexer_utils.h"
-
-typedef struct s_token				t_token;
-
-// ============================ FIND EXPANDABLE ============================
-typedef struct s_expandable_section	t_expandable_section;
-struct s_expandable_section
-{
-	t_linkedlist	*list;
-	t_linkedlist	*coord_list;
-	char			**array;
-	int				**coord_array;
-	void			*(*destroy)(t_expandable_section **self_ref);
-};
-t_expandable_section	*ft_create_expandable_sections(void);
-int						*ft_new_coord(int start, int end);
-int						*ft_coord_dup(int *coord);
-t_expandable_section	*ft_find_expandable(char *str);
-t_expandable_section	*find_keys_to_expand(
-							t_expandable_section *expandable_sections);
-
-// ============================ FIND EXPANDABLE ============================
+# include "./expandable_object/expandable_object.h"
+# include "tokenize.h"
 
 // ============================ BUILD EXPANSION ============================
 char					*ft_build_expansion(t_token *self);
+t_token					*ft_create_token(const char *value, int position,
+							int coord_in_src[2],
+							t_expander_callbacks callbacks);
 
 #endif

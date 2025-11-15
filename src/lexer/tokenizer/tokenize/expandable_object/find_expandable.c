@@ -6,26 +6,26 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 01:12:37 by valero            #+#    #+#             */
-/*   Updated: 2025/11/13 19:13:00 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/14 18:26:01 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenize_internal.h"
-#include "tokenize.h"
+#include "expandable_object.h"
+#include "expandable_object_internal.h"
 
 static void				update_token_section(
-							char *str, int *i,
+							const char *str, int *i,
 							bool *doublequote, bool *singlequote);
 static void				push_non_quote_section(
-							t_expandable_section *exp_sections, char *str,
+							t_expandable_section *exp_sections, const char *str,
 							int *i, bool single_double_quote[2]);
 static void				push_doublequote_section(
 							t_expandable_section *exp_sections,
-							char *str, int *i, bool doublequote);
+							const char *str, int *i, bool doublequote);
 static void				jump_singlequote_section(
-							char *str, int *i, bool singlequote);
+							const char *str, int *i, bool singlequote);
 
-t_expandable_section	*ft_find_expandable(char *str)
+t_expandable_section	*ft_find_expandable(const char *str)
 {
 	int						i;
 	t_expandable_section	*exp_sections;
@@ -33,6 +33,8 @@ t_expandable_section	*ft_find_expandable(char *str)
 
 	ft_bzero(single_double_quote, sizeof(single_double_quote));
 	exp_sections = ft_create_expandable_sections();
+	if (!exp_sections)
+		return (NULL);
 	i = -1;
 	while (str[++i])
 	{
@@ -52,7 +54,7 @@ t_expandable_section	*ft_find_expandable(char *str)
 }
 
 static void	update_token_section(
-				char *str, int *i,
+				const char *str, int *i,
 				bool *doublequote, bool *singlequote)
 {
 	if (!*doublequote && !*singlequote && ft_is_special_char(str, *i, "'"))
@@ -64,7 +66,8 @@ static void	update_token_section(
 		if (!*doublequote && !*singlequote && ft_is_special_char(str, *i, "\""))
 			*doublequote = true;
 	}
-	else if (!*doublequote && !*singlequote && ft_is_special_char(str, *i, "\""))
+	else if (!*doublequote && !*singlequote
+		&& ft_is_special_char(str, *i, "\""))
 		*doublequote = true;
 	else if (*doublequote && ft_is_special_char(str, *i, "\""))
 	{
@@ -76,7 +79,7 @@ static void	update_token_section(
 }
 
 static void	push_non_quote_section(
-				t_expandable_section *exp_sections, char *str,
+				t_expandable_section *exp_sections, const char *str,
 				int *i, bool single_double_quote[2])
 {
 	int	section_idx;
@@ -91,9 +94,7 @@ static void	push_non_quote_section(
 	{
 		exp_sections->list->push(exp_sections->list,
 			ft_substr(str, *i, section_idx - *i));
-		coord = ft_calloc(2, sizeof(int));
-		coord[0] = *i;
-		coord[1] = section_idx - 1;
+		coord = ft_new_coord(*i, section_idx - 1);
 		exp_sections->coord_list->push(exp_sections->coord_list, coord);
 		*i = section_idx - 1;
 	}
@@ -101,7 +102,7 @@ static void	push_non_quote_section(
 
 static void	push_doublequote_section(
 				t_expandable_section *exp_sections,
-				char *str, int *i, bool doublequote)
+				const char *str, int *i, bool doublequote)
 {
 	int	section_idx;
 	int	*coord;
@@ -116,16 +117,14 @@ static void	push_doublequote_section(
 	{
 		exp_sections->list->push(exp_sections->list,
 			ft_substr(str, *i, section_idx - *i + 1));
-		coord = ft_calloc(2, sizeof(int));
-		coord[0] = *i;
-		coord[1] = section_idx;
+		coord = ft_new_coord(*i, section_idx);
 		exp_sections->coord_list->push(exp_sections->coord_list, coord);
 		*i = section_idx - 1;
 	}
 }
 
 static void	jump_singlequote_section(
-				char *str, int *i, bool singlequote)
+				const char *str, int *i, bool singlequote)
 {
 	int	section_idx;
 

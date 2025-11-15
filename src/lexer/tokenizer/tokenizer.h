@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:26:23 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 22:45:25 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/14 18:18:27 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ typedef enum e_quote_type
  *		`original_value`. Index pairs use inclusive start and exclusive end
  * 		(start, end) convention.
  *
- * - `expandable_chuncks`:
+ * - `expandable_keys`:
  *		Array of the expandable substrings extracted from `original_value`
  *		that represent **variable** expansions only
  *		(e.g. `["$USER", "$HOME", "$$", "$HOME"]`). Globs (like "/\*") are NOT
@@ -147,11 +147,11 @@ typedef enum e_quote_type
 
 			*		Array of the corresponding expanded results for each entry in `expandable
  *		_chuncks` (e.g. `["bruno", "/home/bruno", "12345", "/home/bruno"]`).
- *		Order matches `expandable_chuncks` and `idx_expandable_chuncks`.
+ *		Order matches `expandable_keys` and `idx_expandable_chuncks`.
 
  *
  *Notes:
- * - `expandable_chuncks` and `expanded_chuncks` are parallel arrays and
+ * - `expandable_keys` and `expanded_chuncks` are parallel arrays and
  *   must have the same length as `idx_expandable_chuncks`.
  * - Any pointer field may be NULL when not applicable (e.g., no variables
  *   present, no glob patterns, or expansion error).
@@ -164,7 +164,7 @@ typedef struct s_expandable_object
 	char				*expanded_value;
 	char				*expanded_glob_value;
 	int					**idx_expandable_chuncks;
-	char				**expandable_chuncks;
+	char				**expandable_keys;
 	char				**expanded_chuncks;
 }						t_expandable_object;
 

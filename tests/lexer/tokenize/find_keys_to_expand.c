@@ -6,12 +6,12 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:30:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/14 02:30:11 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/14 16:29:22 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../tests.h"
-#include "../../../src/lexer/tokenizer/tokenize/tokenize_internal.h"
+#include "../../../src/lexer/tokenizer/tokenize/expandable_object/expandable_object_internal.h"
 
 static void	test1(void);
 
@@ -44,7 +44,7 @@ static void	test1(void)
 	test.teste_number = 1;
 	test.test_input = "hello\"my dear $USER\"'its good'\"to see you at $PLACE, in\"$TOWN$SATE$COUNTRY";
 	expandable_sections = ft_find_expandable(test.test_input);
-	keys_to_expand = find_keys_to_expand(expandable_sections);
+	keys_to_expand = ft_find_keys_to_expand(expandable_sections);
 	splitted = keys_to_expand->array;
 	coords = keys_to_expand->coord_array;
 	char	*expected_array[] = {"$USER", "$PLACE", "$TOWN", "$SATE", "$COUNTRY", NULL};

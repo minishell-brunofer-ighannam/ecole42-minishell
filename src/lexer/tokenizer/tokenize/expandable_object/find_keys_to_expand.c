@@ -6,12 +6,12 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 23:05:14 by valero            #+#    #+#             */
-/*   Updated: 2025/11/14 02:18:45 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/14 16:53:42 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenize.h"
-#include "tokenize_internal.h"
+#include "expandable_object.h"
+#include "expandable_object_internal.h"
 
 static bool	ft_is_key_char(char key_char, bool is_first);
 static bool	ft_is_special_key_char(char key_char);
@@ -22,7 +22,7 @@ static void	ft_track_keys(
 				int *section_idx, char *token_section,
 				int *coords, t_expandable_section *exp_keys);
 
-t_expandable_section	*find_keys_to_expand(
+t_expandable_section	*ft_find_keys_to_expand(
 		t_expandable_section *expandable_sections)
 {
 	t_expandable_section	*exp_keys;
@@ -31,6 +31,8 @@ t_expandable_section	*find_keys_to_expand(
 	int						idx;
 
 	exp_keys = ft_create_expandable_sections();
+	if (!exp_keys)
+		return (expandable_sections->destroy(&expandable_sections));
 	idx = -1;
 	while (expandable_sections->array[++idx])
 		ft_extract_keys(expandable_sections->array[idx],
@@ -55,7 +57,7 @@ static void	ft_extract_keys(
 	section_idx = -1;
 	while (token_section[++section_idx])
 	{
-		if (token_section[section_idx] == '$')
+		if (ft_is_special_char(token_section, section_idx, "$"))
 		{
 			if (ft_is_special_key_char(token_section[section_idx + 1]))
 			{
