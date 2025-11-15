@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:09:42 by valero            #+#    #+#             */
-/*   Updated: 2025/11/14 21:19:34 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/14 22:05:18 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*ft_build_expansion(t_token *token)
 		return (ft_strdup(token->value));
 	ft_build_chuncks(token);
 	merge_expansion(token);
+	token->last_build = ft_strdup(token->expandable_object->expanded_value);
 	return (ft_strdup(token->expandable_object->expanded_value));
 }
 
