@@ -77,7 +77,9 @@ struct								s_linkedlist
 	t_linkedlist_node				*first;
 	t_linkedlist_node				*last;
 	void							**(*to_array)(
-				t_linkedlist *self, void *(*free_content)(void *arg));
+				t_linkedlist *self,
+				void *(*dup_content)(void *content),
+				void (*free_content)(void *content));
 	void							*(*push)(t_linkedlist *self, void *content);
 	void							(*iteri)(t_linkedlist *self,
 									void (*ft_iteri)(void *arg));

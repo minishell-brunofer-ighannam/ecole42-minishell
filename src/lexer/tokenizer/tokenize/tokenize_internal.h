@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_internal.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/13 01:13:20 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/15 15:22:07 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,17 @@
 # include "libft.h"
 # include "../../../linkedlist/linkedlist.h"
 # include "../../lexer_utils/lexer_utils.h"
+# include "./expandable_object/expandable_object.h"
+# include "tokenize.h"
 
-char	**find_expandable(char *str);
-char	*ft_build_expansion(t_token *self);
+// ============================ BUILD EXPANSION ============================
+char					*ft_normilize_char_matrix(char **matrix);
+t_expansion_build		*ft_build_expansion_result(
+							t_token *token, char *glob_input);
+t_expansion_build		*ft_expansion_build_dup(t_expansion_build *last_build);
+t_expansion_build		*ft_build_expansion(t_token *self);
+t_token					*ft_create_token(const char *value, int position,
+							int coord_in_src[2],
+							t_expander_callbacks callbacks);
 
 #endif

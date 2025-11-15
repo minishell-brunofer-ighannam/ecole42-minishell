@@ -6,18 +6,21 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/12 17:57:09 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/15 15:38:40 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZE_H
 # define TOKENIZE_H
 
-#include <stdbool.h>
+# include <stdbool.h>
+# include "./expandable_object/expandable_object.h"
 
-typedef enum e_token_type	t_token_type;
+typedef enum e_token_type			t_token_type;
 enum e_token_type
 {
+	TOKEN_UNKNOWN = 'u' << 16 | 'n' << 8 | 'k',
+
 	TOKEN_CMD = 'c' << 16 | 'm' << 8 | 'd',
 	TOKEN_ARG = 'a' << 16 | 'r' << 8 | 'g',
 
@@ -44,37 +47,36 @@ enum e_token_type
 	TOKEN_END = '\0'
 };
 
-typedef struct s_expandable_object	t_expandable_object;
-struct s_expandable_object
+typedef struct s_expansion_build	t_expansion_build;
+struct s_expansion_build
 {
-	const char			*original_value;
-	char				*expanded_value;
-	char				*expanded_glob_value;
-	int					**idx_on_token_src;
-	char				**expandable_chuncks;
-	char				**expanded_chuncks;
+	char	*glob_error;
+	char	*token_expanded;
+	void	*(*destroy)(t_expansion_build **self_ref);
 };
 
 typedef struct s_token				t_token;
 struct s_token
 {
 	const char			*value;
+	t_expansion_build	*last_build;
 	t_token_type		type;
 	int					position;
 	int					coord_in_src[2];
 	bool				sintaxe_error;
 	bool				feature_out_of_scope;
-	char				*(*expand_var)(char *token);
-	char				*(*expand_glob)(char *token);
-	char				*(*build_expansion)(t_token *self);
+	char				*(*expand_var)(const char *token);
+	char				**(*expand_glob)(const char *token);
+	t_expansion_build	*(*build_expansion)(t_token *self);
+	void				*(*destroy)(t_token **self_ref);
 	t_expandable_object	*expandable_object;
 };
 
 typedef struct s_expander_callbacks	t_expander_callbacks;
 struct s_expander_callbacks
 {
-	char	*(*expand_var)(char *token);
-	char	*(*expand_glob)(char *token);
+	char	*(*expand_var)(const char *token);
+	char	**(*expand_glob)(const char *token);
 };
 
 #endif
