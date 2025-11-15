@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:09:42 by valero            #+#    #+#             */
-/*   Updated: 2025/11/14 22:05:18 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/15 15:50:45 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,35 @@
 
 static void	ft_build_chuncks(t_token *token);
 static int	ft_create_expanded_value(t_token *token);
-static void	merge_expansion(t_token *token);
+static void	ft_merge_expansion(t_token *token);
+static char	*ft_expand_globs(t_token *token);
 
-char	*ft_build_expansion(t_token *token)
+t_expansion_build	*ft_build_expansion(t_token *token)
 {
+	t_expansion_build	*expansion_build;
+	t_expandable_object	*object;
+	char				*glob_input;
+
+	object = token->expandable_object;
 	if (token->last_build)
-		return (ft_strdup(token->last_build));
+		return (ft_expansion_build_dup(token->last_build));
 	if (!token->expandable_object)
-		return (ft_strdup(token->value));
+		return (ft_build_expansion_result(token, NULL));
 	ft_build_chuncks(token);
-	merge_expansion(token);
-	token->last_build = ft_strdup(token->expandable_object->expanded_value);
-	return (ft_strdup(token->expandable_object->expanded_value));
+	ft_merge_expansion(token);
+	glob_input = ft_expand_globs(token);
+	expansion_build = ft_build_expansion_result(token, glob_input);
+	if (!expansion_build)
+		return (NULL);
+	token->last_build = ft_expansion_build_dup(expansion_build);
+	if (!token->last_build)
+	{
+		free(glob_input);
+		expansion_build->destroy(&expansion_build);
+		return (NULL);
+	}
+	free(glob_input);
+	return (expansion_build);
 }
 
 static void	ft_build_chuncks(t_token *token)
@@ -69,7 +86,7 @@ static int	ft_create_expanded_value(t_token *token)
 	return (value_len);
 }
 
-static void	merge_expansion(t_token *token)
+static void	ft_merge_expansion(t_token *token)
 {
 	int					idx;
 	int					value_len;
@@ -103,4 +120,26 @@ static void	merge_expansion(t_token *token)
 			idx++;
 		}
 	}
+}
+
+static char	*ft_expand_globs(t_token *token)
+{
+	t_expandable_object	*object;
+	char				*glob_input;
+
+	object = token->expandable_object;
+	if (object->has_globs)
+	{
+		if (object->expanded_value)
+			object->expanded_glob_value = ft_normilize_char_matrix(
+				token->expand_glob(object->expanded_value));
+		else
+			object->expanded_glob_value = ft_normilize_char_matrix(
+					token->expand_glob(object->original_value));
+	}
+	if (object->expanded_value)
+		glob_input = ft_strdup(object->expanded_value);
+	else
+		glob_input = ft_strdup(object->original_value);
+	return (glob_input);
 }

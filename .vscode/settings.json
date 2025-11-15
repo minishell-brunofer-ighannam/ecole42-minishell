@@ -9,6 +9,9 @@
 		"prompt_validator_internal.h": "c",
 		"tokenize_internal.h": "c",
 		"tokenize.h": "c",
-		"linkedlist.h": "c"
+		"linkedlist.h": "c",
+		"lexer_utils.h": "c",
+		"expandable_object.h": "c",
+		"lexer_utils_internal.h": "c"
 	}
 }

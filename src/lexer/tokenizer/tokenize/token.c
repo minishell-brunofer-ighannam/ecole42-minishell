@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/14 21:41:25 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/15 15:47:40 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	*ft_destroy_token(t_token **self_ref)
 	if (self->expandable_object)
 		self->expandable_object->destroy(&self->expandable_object);
 	if (self->last_build)
-		free(self->last_build);
+		self->last_build->destroy(&self->last_build);
 	free(self);
 	*self_ref = NULL;
 	return (NULL);

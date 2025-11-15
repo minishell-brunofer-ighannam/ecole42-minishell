@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/14 21:38:54 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/15 15:38:40 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,19 @@ enum e_token_type
 	TOKEN_END = '\0'
 };
 
+typedef struct s_expansion_build	t_expansion_build;
+struct s_expansion_build
+{
+	char	*glob_error;
+	char	*token_expanded;
+	void	*(*destroy)(t_expansion_build **self_ref);
+};
+
 typedef struct s_token				t_token;
 struct s_token
 {
 	const char			*value;
-	char				*last_build;
+	t_expansion_build	*last_build;
 	t_token_type		type;
 	int					position;
 	int					coord_in_src[2];
@@ -59,7 +67,7 @@ struct s_token
 	bool				feature_out_of_scope;
 	char				*(*expand_var)(const char *token);
 	char				**(*expand_glob)(const char *token);
-	char				*(*build_expansion)(t_token *self);
+	t_expansion_build	*(*build_expansion)(t_token *self);
 	void				*(*destroy)(t_token **self_ref);
 	t_expandable_object	*expandable_object;
 };
