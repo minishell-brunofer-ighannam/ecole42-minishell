@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:50:52 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/13 18:09:46 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/14 11:13:34 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_expand_var(char *s, t_linkedlist_array *ht_env)
 		expanded = ft_calloc(10, sizeof(char));
 		ft_strlcpy(expanded, "minishell", 10);
 	}
-	else if (ft_isdigit(key[0]) == 1)
+	else if (ft_isalpha(key[0]) == 0 && key[0] != '?' && key[0] != '_')
 		return (NULL);
 	else
 		expanded = ft_expand_regular(key, ht_env);

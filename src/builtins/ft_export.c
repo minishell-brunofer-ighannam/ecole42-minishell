@@ -6,15 +6,13 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 15:40:29 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/12 12:23:34 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/14 18:56:59 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static void	ft_keys_export(t_linkedlist_array *export, char **keys_export);
-static void	ft_ordene_keys(char **keys_export);
-static void	ft_swap_keys(int i, int j, char **keys);
 static void	ft_print_export(t_linkedlist_array *ht, char *key);
 
 void	ft_export(t_linkedlist_array *ht_env, char *key_value)
@@ -28,7 +26,7 @@ void	ft_export(t_linkedlist_array *ht_env, char *key_value)
 	{
 		keys_export = ft_calloc(ht_env->nodes_amount + 1, sizeof(char *));
 		ft_keys_export(ht_env, keys_export);
-		ft_ordene_keys(keys_export);
+		ft_ordene_array_str(keys_export);
 		i = 0;
 		while (keys_export[i])
 		{
@@ -67,40 +65,6 @@ static void	ft_keys_export(t_linkedlist_array *export, char **keys_export)
 		}
 		i++;
 	}
-}
-
-static void	ft_ordene_keys(char **keys_export)
-{
-	int	i;
-	int	j;
-	int	size;
-
-	size = 0;
-	while (keys_export[size])
-		size++;
-	i = -1;
-	while (++i < size - 1)
-	{
-		j = i;
-		while (++j < size)
-		{
-			if (keys_export[i] && keys_export[j])
-			{
-				if (ft_strncmp(keys_export[i], keys_export[j],
-						ft_strlen(keys_export[i])) > 0)
-					ft_swap_keys(i, j, keys_export);
-			}
-		}
-	}
-}
-
-static void	ft_swap_keys(int i, int j, char **keys)
-{
-	char	*temp;
-
-	temp = keys[i];
-	keys[i] = keys[j];
-	keys[j] = temp;
 }
 
 static void	ft_print_export(t_linkedlist_array *ht, char *key)
