@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/14 20:49:05 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/14 21:38:54 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ struct s_token
 	char				*(*expand_var)(const char *token);
 	char				**(*expand_glob)(const char *token);
 	char				*(*build_expansion)(t_token *self);
+	void				*(*destroy)(t_token **self_ref);
 	t_expandable_object	*expandable_object;
 };
 

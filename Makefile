@@ -104,7 +104,7 @@ $(LIBFT):
 
 
 tests: fclean child_process find_expandable find_keys_to_expand create_expandable_object \
-linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator
+linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator build_expansion
 
 	@clear && echo "code% make tests"
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
@@ -119,6 +119,9 @@ linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator
 
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)create_expandable_object$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./create_expandable_object
+
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)build_expansion$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./build_expansion
 
 #	=================== PROMPT & SPLITTING TESTS =====================
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)prompt_validator$(RESET)..." && sleep $(SLEEP)
