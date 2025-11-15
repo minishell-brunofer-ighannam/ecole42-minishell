@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 12:57:32 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/12 14:32:21 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:26:40 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # include "../src/builtins/builtins.h"
 # include "../src/env/env.h"
 # include "../src/executer/executer.h"
+# include "../src/utils/utils.h"
 
 
 

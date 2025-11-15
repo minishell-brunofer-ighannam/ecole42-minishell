@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 10:52:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/15 15:43:36 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/14 16:25:02 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/14 18:56:46 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#ifndef UTILS_H
+# define UTILS_H
 
 # include "../includes/minishell.h"
 
-typedef struct s_env_value
-{
-	char			*value;
-	int				set;
-}					t_env_value;
-
-t_linkedlist_array	*ft_init_ht_env(char **envp);
-void				ft_split_key_value(char *s, char **key_value);
-t_ht				*ft_content_node_ht(char *s);
-void				ft_free_item_ht_env(void *node_ht);
-char				*ft_expand_var(char *s, t_linkedlist_array *ht_env);
-char				**ft_expand_glob(char *s);
-int					ft_matched_glob(char *after_removal, char *to_match);
+void	ft_ordene_array_str(char **list);
+void	ft_swap_array_str(int i, int j, char **list);
+void	ft_clean_array_str(char **list);
 
 #endif

@@ -6,14 +6,13 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:26 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/12 15:39:41 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/15 15:50:31 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static char **ft_possible_paths(t_linkedlist_array *ht_env);
-static void	ft_free_possible_paths(char **possible_paths);
 
 static char **ft_possible_paths(t_linkedlist_array *ht_env)
 {
@@ -31,21 +30,6 @@ static char **ft_possible_paths(t_linkedlist_array *ht_env)
 		return (NULL);
 	possible_paths = ft_split(value->value, ':');
 	return (possible_paths);
-}
-
-static void	ft_free_possible_paths(char **possible_paths)
-{
-	int	i;
-
-	if (!possible_paths)
-		return ;
-	i = 0;
-	while (possible_paths[i])
-	{
-		free(possible_paths[i]);
-		i++;
-	}
-	free(possible_paths);
 }
 
 char	*ft_find_path(t_linkedlist_array *ht_env, char *cmd)
@@ -71,14 +55,14 @@ char	*ft_find_path(t_linkedlist_array *ht_env, char *cmd)
 		free(path_temp);
 		if (access(path, X_OK) == 0)
 		{
-			ft_free_possible_paths(possible_paths);
+			ft_clean_array_str(possible_paths);
 			return (path);
 		}
 		else
 			free(path);
 	}
 	printf("command not found: %s\n", cmd);
-	ft_free_possible_paths(possible_paths);
+	ft_clean_array_str(possible_paths);
 	return (NULL);
 }
 
