@@ -211,15 +211,15 @@ find_expandable: tests/lexer/tokenize/find_expandable.c tests/tests.c $(COMPILAT
 
 find_keys_to_expand: tests/lexer/tokenize/find_keys_to_expand.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/tokenize/find_expandable.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/lexer/tokenize/find_keys_to_expand.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 create_expandable_object: tests/lexer/tokenize/create_expandable_object.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/tokenize/find_expandable.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/lexer/tokenize/create_expandable_object.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 build_expansion: tests/lexer/tokenize/build_expansion.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/tokenize/find_expandable.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/lexer/tokenize/build_expansion.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 
 %.o: %.c

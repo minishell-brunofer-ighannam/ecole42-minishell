@@ -6,19 +6,21 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:09:42 by valero            #+#    #+#             */
-/*   Updated: 2025/11/15 15:50:45 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/15 18:48:26 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenize_internal.h"
 #include "tokenize.h"
 
-static void	ft_build_chuncks(t_token *token);
+static void	ft_build_chuncks(t_token *token, t_linkedlist_array *ht_env);
 static int	ft_create_expanded_value(t_token *token);
 static void	ft_merge_expansion(t_token *token);
 static char	*ft_expand_globs(t_token *token);
 
-t_expansion_build	*ft_build_expansion(t_token *token)
+t_expansion_build	*ft_build_expansion(
+						t_token *token,
+						t_linkedlist_array *ht_env)
 {
 	t_expansion_build	*expansion_build;
 	t_expandable_object	*object;
@@ -29,7 +31,7 @@ t_expansion_build	*ft_build_expansion(t_token *token)
 		return (ft_expansion_build_dup(token->last_build));
 	if (!token->expandable_object)
 		return (ft_build_expansion_result(token, NULL));
-	ft_build_chuncks(token);
+	ft_build_chuncks(token, ht_env);
 	ft_merge_expansion(token);
 	glob_input = ft_expand_globs(token);
 	expansion_build = ft_build_expansion_result(token, glob_input);
@@ -46,7 +48,7 @@ t_expansion_build	*ft_build_expansion(t_token *token)
 	return (expansion_build);
 }
 
-static void	ft_build_chuncks(t_token *token)
+static void	ft_build_chuncks(t_token *token, t_linkedlist_array *ht_env)
 {
 	char				**keys;
 	int					len_keys;
@@ -61,7 +63,8 @@ static void	ft_build_chuncks(t_token *token)
 	object->expanded_chuncks = ft_calloc(len_keys + 1, sizeof(char *));
 	len_keys = -1;
 	while (keys[++len_keys])
-		object->expanded_chuncks[len_keys] = token->expand_var(keys[len_keys]);
+		object->expanded_chuncks[len_keys] = token->expand_var(
+				keys[len_keys], ht_env);
 }
 
 static int	ft_create_expanded_value(t_token *token)

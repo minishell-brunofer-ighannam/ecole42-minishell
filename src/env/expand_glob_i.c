@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   expand_glob_i.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 11:08:11 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/15 15:43:04 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/15 18:41:01 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*ft_remove_duplicated_stars(char *s);
+static char	*ft_remove_duplicated_stars(const char *s);
 static char	**ft_list_curr_repo(void);
 static int	ft_count_curr_dir_entries(void);
 static char	**ft_match_glob(char **curr_repo, char *after_removal);
 
-char	**ft_expand_glob(char *s)
+char	**ft_expand_glob(const char *s)
 {
 	char	*after_removal;
 	char	**list_curr_repo;
@@ -39,7 +39,7 @@ char	**ft_expand_glob(char *s)
 	return (matched);
 }
 
-static char	*ft_remove_duplicated_stars(char *s)
+static char	*ft_remove_duplicated_stars(const char *s)
 {
 	char	*after_removal;
 	int		len;
