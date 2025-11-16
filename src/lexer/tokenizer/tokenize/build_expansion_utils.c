@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 13:48:52 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/16 00:26:22 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/16 00:37:30 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ char	*ft_normilize_char_matrix(char **matrix)
 		while (matrix[matix_idx][++str_idx])
 			result[matrix_size++] = matrix[matix_idx][str_idx];
 	}
+	ft_destroy_char_matrix(&matrix);
 	return (result);
 }
 
