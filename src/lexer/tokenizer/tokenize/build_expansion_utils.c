@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_expansion_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 13:48:52 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/15 15:42:57 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/16 00:26:22 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	*ft_normilize_char_matrix(char **matrix)
 	int		str_idx;
 	char	*result;
 
+	if (!matrix)
+		return (NULL);
 	matrix_size = 0;
 	matix_idx = -1;
 	while (matrix[++matix_idx])

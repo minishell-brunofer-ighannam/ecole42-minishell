@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:09:42 by valero            #+#    #+#             */
-/*   Updated: 2025/11/15 18:48:26 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/16 00:19:12 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_expansion_build	*ft_build_expansion(
 	t_expandable_object	*object;
 	char				*glob_input;
 
+	(void)object;
 	object = token->expandable_object;
 	if (token->last_build)
 		return (ft_expansion_build_dup(token->last_build));
@@ -54,6 +55,8 @@ static void	ft_build_chuncks(t_token *token, t_linkedlist_array *ht_env)
 	int					len_keys;
 	t_expandable_object	*object;
 
+	if (!token->expandable_object->expandable_keys)
+		return ;
 	object = token->expandable_object;
 	keys = object->expandable_keys;
 	len_keys = 0;
@@ -92,34 +95,36 @@ static int	ft_create_expanded_value(t_token *token)
 static void	ft_merge_expansion(t_token *token)
 {
 	int					idx;
-	int					value_len;
 	t_expandable_object	*object;
 	int					**coords;
 	int					original_i;
 	int					expanded_i;
-	int					len_added;
 	int					chunck_i;
 
+	if (!token->expandable_object->expandable_keys)
+		return ;
 	object = token->expandable_object;
 	coords = object->expandable_coord_keys;
-	value_len = ft_create_expanded_value(token);
-	len_added = 0;
+	ft_create_expanded_value(token);
 	expanded_i = 0;
 	idx = 0;
-	original_i = -1;
-	while (coords[idx] && expanded_i < value_len && object->original_value[++original_i] && expanded_i < coords[idx][1] + len_added)
+	original_i = 0;
+	while ((coords && coords[idx]) || object->original_value[original_i])
 	{
-		if (original_i < coords[idx][0])
-		{
-			object->expanded_value[expanded_i++] = object->original_value[original_i];
-		}
+		if (coords && coords[idx] && original_i < coords[idx][0])
+			object->expanded_value[expanded_i++] = object->original_value[original_i++];
+		else if ((!coords && object->original_value[original_i]))
+			object->expanded_value[expanded_i++] = object->original_value[original_i++];
+		else if (coords && coords[idx] && original_i < coords[idx][0] && !coords[idx + 1] && object->original_value[original_i])
+			object->expanded_value[expanded_i++] = object->original_value[original_i++];
+		else if (coords && !coords[idx] && object->original_value[original_i])
+			object->expanded_value[expanded_i++] = object->original_value[original_i++];
 		else
 		{
 			chunck_i = -1;
 			while (object->expanded_chuncks[idx][++chunck_i])
 				object->expanded_value[expanded_i++] = object->expanded_chuncks[idx][chunck_i];
-			len_added += chunck_i;
-			original_i = coords[idx][1];
+			original_i = coords[idx][1] + 1;
 			idx++;
 		}
 	}

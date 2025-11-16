@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:05:15 by valero            #+#    #+#             */
-/*   Updated: 2025/11/14 18:50:22 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/15 23:24:02 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,28 @@ t_expandable_object	*ft_create_expandable_object(t_token *token)
 	return (object);
 }
 
+static bool	ft_copy_expansion_into_object(
+				t_expandable_object **object,
+				t_expandable_section *keys_to_expand)
+{
+	int	keys_amount;
+
+	keys_amount = 0;
+	while (keys_to_expand->array[keys_amount])
+		keys_amount++;
+	if (keys_amount)
+	{
+		(*object)->expandable_coord_keys = keys_to_expand->copy_coord_array(
+				keys_to_expand);
+		if (!(*object)->expandable_coord_keys)
+			return (!!ft_destroy_expandable_object(object));
+		(*object)->expandable_keys = keys_to_expand->copy_array(keys_to_expand);
+		if (!(*object)->expandable_keys)
+			return (!!ft_destroy_expandable_object(object));
+	}
+	return (true);
+}
+
 static	t_expandable_object	*ft_create_expansion_data(
 								t_expandable_object **object,
 								t_token *token)
@@ -55,13 +77,11 @@ static	t_expandable_object	*ft_create_expansion_data(
 	keys_to_expand = ft_find_keys_to_expand(expandable_sections);
 	if (!keys_to_expand)
 		return (ft_destroy_expandable_object(object));
-	(*object)->expandable_coord_keys = keys_to_expand->copy_coord_array(
-			keys_to_expand);
-	if (!(*object)->expandable_coord_keys)
-		return (ft_destroy_expandable_object(object));
-	(*object)->expandable_keys = keys_to_expand->copy_array(keys_to_expand);
-	if (!(*object)->expandable_keys)
-		return (ft_destroy_expandable_object(object));
+	if (!ft_copy_expansion_into_object(object, keys_to_expand))
+	{
+		keys_to_expand->destroy(&keys_to_expand);
+		return (NULL);
+	}
 	keys_to_expand->destroy(&keys_to_expand);
 	return (*object);
 }
