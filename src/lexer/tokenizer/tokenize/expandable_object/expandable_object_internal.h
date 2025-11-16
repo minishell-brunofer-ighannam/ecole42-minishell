@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:05:35 by valero            #+#    #+#             */
-/*   Updated: 2025/11/14 18:26:30 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/16 15:03:01 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "../../../../linkedlist/linkedlist.h"
 # include "../../../lexer_utils/lexer_utils.h"
+# include "../../tokenizer_internal.h"
 
 typedef struct s_expandable_section	t_expandable_section;
 struct s_expandable_section
@@ -29,8 +30,6 @@ struct s_expandable_section
 	void			*(*destroy)(t_expandable_section **self_ref);
 };
 t_expandable_section	*ft_create_expandable_sections(void);
-int						*ft_new_coord(int start, int end);
-int						*ft_coord_dup(int *coord);
 t_expandable_section	*ft_find_expandable(const char *str);
 t_expandable_section	*ft_find_keys_to_expand(
 							t_expandable_section *expandable_sections);

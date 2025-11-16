@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:13:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 22:40:45 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/16 16:33:53 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	test9(void);
 
 int	main(int argc, char **argv)
 {
-	char	**splitted_argv;
+	t_splited_prompt *splitted_argv;
 	int		i;
 
 	splitted_argv = NULL;
@@ -33,10 +33,10 @@ int	main(int argc, char **argv)
 	{
 		splitted_argv = ft_raw_splitter(argv[1]);
 		i = -1;
-		while (splitted_argv[++i])
-			printf("[%s] ", splitted_argv[i]);
+		while (splitted_argv->chuncks[++i])
+			printf("[%s] ", splitted_argv->chuncks[i]);
 		printf("\n");
-		ft_destroy_char_matrix(&splitted_argv);
+		splitted_argv->destroy(&splitted_argv);
 	}
 	test1();
 	test2();
@@ -62,10 +62,10 @@ static void	print_result(void *arg)
 
 static void	test1(void)
 {
-	t_test	test;
-	char	**splitted;
-	int		i;
-	int		right_tokens;
+	t_test				test;
+	t_splited_prompt	*splitted;
+	int					i;
+	int					right_tokens;
 
 	test.teste_number = 1;
 	test.test_input = "echo \"hello Bruno \" | grep br";
@@ -75,21 +75,21 @@ static void	test1(void)
 	i = 0;
 	while (expected[i])
 	{
-		if (!ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+		if (!ft_strncmp(expected[i], splitted->chuncks[i], ft_strlen(expected[i]) + 1))
 			right_tokens++;
 		i++;
 	}
 	test.test_ok = i == right_tokens;
-	print_test_and_result(test, print_result, splitted);
-	ft_destroy_char_matrix(&splitted);
+	print_test_and_result(test, print_result, splitted->chuncks);
+	splitted->destroy(&splitted);
 }
 
 static void	test2(void)
 {
-	t_test	test;
-	char	**splitted;
-	int		i;
-	int		right_tokens;
+	t_test				test;
+	t_splited_prompt	*splitted;
+	int					i;
+	int					right_tokens;
 
 	test.teste_number = 2;
 	test.test_input = "echo \"ola eu sou o 'bruno'    \" && echo ' teste 2 ' > \"$HOME\" && echo \"Moro em \\\" Jd. Real \\\"\"";
@@ -99,21 +99,21 @@ static void	test2(void)
 	i = 0;
 	while (expected[i])
 	{
-		if (splitted[i] && !ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+		if (splitted->chuncks[i] && !ft_strncmp(expected[i], splitted->chuncks[i], ft_strlen(expected[i]) + 1))
 			right_tokens++;
 		i++;
 	}
 	test.test_ok = i == right_tokens;
-	print_test_and_result(test, print_result, splitted);
-	ft_destroy_char_matrix(&splitted);
+	print_test_and_result(test, print_result, splitted->chuncks);
+	splitted->destroy(&splitted);
 }
 
 static void	test3(void)
 {
-	t_test	test;
-	char	**splitted;
-	int		i;
-	int		right_tokens;
+	t_test				test;
+	t_splited_prompt	*splitted;
+	int					i;
+	int					right_tokens;
 
 	test.teste_number = 3;
 	test.test_input = "echo \" teste dois\"|\"grudado\" |grep \" ola meu chapa \" ";
@@ -123,21 +123,21 @@ static void	test3(void)
 	i = 0;
 	while (expected[i])
 	{
-		if (splitted[i] && !ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+		if (splitted->chuncks[i] && !ft_strncmp(expected[i], splitted->chuncks[i], ft_strlen(expected[i]) + 1))
 			right_tokens++;
 		i++;
 	}
 	test.test_ok = i == right_tokens;
-	print_test_and_result(test, print_result, splitted);
-	ft_destroy_char_matrix(&splitted);
+	print_test_and_result(test, print_result, splitted->chuncks);
+	splitted->destroy(&splitted);
 }
 
 static void	test4(void)
 {
-	t_test	test;
-	char	**splitted;
-	int		i;
-	int		right_tokens;
+	t_test				test;
+	t_splited_prompt	*splitted;
+	int					i;
+	int					right_tokens;
 
 	test.teste_number = 4;
 	test.test_input = "echo \" teste dois\"\"grudado\" |grep \" ola meu chapa \" ";
@@ -147,21 +147,21 @@ static void	test4(void)
 	i = 0;
 	while (expected[i])
 	{
-		if (splitted[i] && !ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+		if (splitted->chuncks[i] && !ft_strncmp(expected[i], splitted->chuncks[i], ft_strlen(expected[i]) + 1))
 			right_tokens++;
 		i++;
 	}
 	test.test_ok = i == right_tokens;
-	print_test_and_result(test, print_result, splitted);
-	ft_destroy_char_matrix(&splitted);
+	print_test_and_result(test, print_result, splitted->chuncks);
+	splitted->destroy(&splitted);
 }
 
 static void	test5(void)
 {
-	t_test	test;
-	char	**splitted;
-	int		i;
-	int		right_tokens;
+	t_test				test;
+	t_splited_prompt	*splitted;
+	int					i;
+	int					right_tokens;
 
 	test.teste_number = 5;
 	test.test_input = "echo 'it'\\''s fine' \" and \\\"ok\\\"\" ; ls -l";
@@ -171,21 +171,21 @@ static void	test5(void)
 	i = 0;
 	while (expected[i])
 	{
-		if (splitted[i] && !ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+		if (splitted->chuncks[i] && !ft_strncmp(expected[i], splitted->chuncks[i], ft_strlen(expected[i]) + 1))
 			right_tokens++;
 		i++;
 	}
 	test.test_ok = i == right_tokens;
-	print_test_and_result(test, print_result, splitted);
-	ft_destroy_char_matrix(&splitted);
+	print_test_and_result(test, print_result, splitted->chuncks);
+	splitted->destroy(&splitted);
 }
 
 static void	test6(void)
 {
-	t_test	test;
-	char	**splitted;
-	int		i;
-	int		right_tokens;
+	t_test				test;
+	t_splited_prompt	*splitted;
+	int					i;
+	int					right_tokens;
 
 	test.teste_number = 6;
 	test.test_input = "FOO=\"foo bar\"; echo $FOO \"$FOO\"";
@@ -195,21 +195,21 @@ static void	test6(void)
 	i = 0;
 	while (expected[i])
 	{
-		if (splitted[i] && !ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+		if (splitted->chuncks[i] && !ft_strncmp(expected[i], splitted->chuncks[i], ft_strlen(expected[i]) + 1))
 			right_tokens++;
 		i++;
 	}
 	test.test_ok = i == right_tokens;
-	print_test_and_result(test, print_result, splitted);
-	ft_destroy_char_matrix(&splitted);
+	print_test_and_result(test, print_result, splitted->chuncks);
+	splitted->destroy(&splitted);
 }
 
 static void	test7(void)
 {
-	t_test	test;
-	char	**splitted;
-	int		i;
-	int		right_tokens;
+	t_test				test;
+	t_splited_prompt	*splitted;
+	int					i;
+	int					right_tokens;
 
 	test.teste_number = 7;
 	test.test_input = "echo \"today is $(date +\"%Y-%m-%d\")\" && printf 'ok\\n'";
@@ -219,21 +219,21 @@ static void	test7(void)
 	i = 0;
 	while (expected[i])
 	{
-		if (splitted[i] && !ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+		if (splitted->chuncks[i] && !ft_strncmp(expected[i], splitted->chuncks[i], ft_strlen(expected[i]) + 1))
 			right_tokens++;
 		i++;
 	}
 	test.test_ok = i == right_tokens;
-	print_test_and_result(test, print_result, splitted);
-	ft_destroy_char_matrix(&splitted);
+	print_test_and_result(test, print_result, splitted->chuncks);
+	splitted->destroy(&splitted);
 }
 
 static void	test8(void)
 {
-	t_test	test;
-	char	**splitted;
-	int		i;
-	int		right_tokens;
+	t_test				test;
+	t_splited_prompt	*splitted;
+	int					i;
+	int					right_tokens;
 
 	test.teste_number = 8;
 	test.test_input = "out=`echo foo $(echo \"bar baz\")` ; echo \"$out\"";
@@ -243,21 +243,21 @@ static void	test8(void)
 	i = 0;
 	while (expected[i])
 	{
-		if (splitted[i] && !ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+		if (splitted->chuncks[i] && !ft_strncmp(expected[i], splitted->chuncks[i], ft_strlen(expected[i]) + 1))
 			right_tokens++;
 		i++;
 	}
 	test.test_ok = i == right_tokens;
-	print_test_and_result(test, print_result, splitted);
-	ft_destroy_char_matrix(&splitted);
+	print_test_and_result(test, print_result, splitted->chuncks);
+	splitted->destroy(&splitted);
 }
 
 static void	test9(void)
 {
-	t_test	test;
-	char	**splitted;
-	int		i;
-	int		right_tokens;
+	t_test				test;
+	t_splited_prompt	*splitted;
+	int					i;
+	int					right_tokens;
 
 	test.teste_number = 9;
 	test.test_input = "command 2>&1 > file.txt 1>>log.txt";
@@ -267,11 +267,11 @@ static void	test9(void)
 	i = 0;
 	while (expected[i])
 	{
-		if (splitted[i] && !ft_strncmp(expected[i], splitted[i], ft_strlen(expected[i]) + 1))
+		if (splitted->chuncks[i] && !ft_strncmp(expected[i], splitted->chuncks[i], ft_strlen(expected[i]) + 1))
 			right_tokens++;
 		i++;
 	}
 	test.test_ok = i == right_tokens;
-	print_test_and_result(test, print_result, splitted);
-	ft_destroy_char_matrix(&splitted);
+	print_test_and_result(test, print_result, splitted->chuncks);
+	splitted->destroy(&splitted);
 }

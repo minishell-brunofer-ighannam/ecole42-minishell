@@ -1,33 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion_utils.c                                  :+:      :+:    :+:   */
+/*   tokenizer_internal.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 18:14:58 by valero            #+#    #+#             */
-/*   Updated: 2025/11/14 16:34:00 by valero           ###   ########.fr       */
+/*   Created: 2025/11/16 14:57:15 by valero            #+#    #+#             */
+/*   Updated: 2025/11/16 15:30:11 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expandable_object_internal.h"
+#ifndef TOKENIZER_INTERNAL_H
+# define TOKENIZER_INTERNAL_H
 
-int	*ft_coord_dup(int *coord)
-{
-	int	*new_coord;
+# include <stdlib.h>
 
-	new_coord = malloc(2 * sizeof(int));
-	new_coord[0] = coord[0];
-	new_coord[1] = coord[1];
-	return (new_coord);
-}
+int	*ft_new_coord(int start, int end);
+int	*ft_coord_dup(int *coord);
 
-int	*ft_new_coord(int start, int end)
-{
-	int	*new_coord;
-
-	new_coord = malloc(2 * sizeof(int));
-	new_coord[0] = start;
-	new_coord[1] = end;
-	return (new_coord);
-}
+#endif

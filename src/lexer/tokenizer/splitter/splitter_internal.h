@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 22:38:01 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/16 15:28:13 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "../../../linkedlist/linkedlist.h"
 # include "../../../linkedlist_array/linkedlist_array.h"
 # include "../../lexer_utils/lexer_utils.h"
+# include "../tokenizer_internal.h"
+# include "splitter.h"
 # include <stdbool.h>
 
 /**
@@ -92,15 +94,26 @@ struct s_refine_raw_token_params
 	int		token_len;
 };
 
-bool				ft_is_valid_backslash(const char *str, int idx);
+typedef struct s_chunck								t_chunck;
+struct s_chunck
+{
+	char	*chunck;
+	int		*coord;
+	void	*(*destroy)(t_chunck **self_ref);
+};
+
+t_chunck			*ft_create_chunck(
+						char *token,
+						int coord_start,
+						int coord_end);
+t_splited_prompt	*ft_create_splited_prompt(void);
 bool				ft_is_quote(const char *str, int idx, char *other_symbols);
-int					is_reserved_token(char *str, int idx);
 void				ft_raw_splitter_get_words_position(
 						const char *str, t_int_array *array);
-char				**ft_raw_splitter(char const *str);
+t_splited_prompt	*ft_raw_splitter(char const *str);
 void				ft_refine_raw_token(
-						char *token, int curr_idx,
+						t_chunck raw_token, int curr_idx,
 						t_linkedlist_array *container);
-char				**ft_refined_splitter(char const *str);
+t_splited_prompt	*ft_refined_splitter(char const *str);
 
 #endif
