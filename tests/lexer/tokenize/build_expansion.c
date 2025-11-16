@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:30:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/16 00:27:03 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/16 00:53:01 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,6 @@ static void	test3(t_linkedlist_array	*env)
 	else
 		test.test_ok = false;
 	print_test_and_result(test, print_result, result->token_expanded);
-	if (result->glob_error)
-		return ;
 	token->destroy(&token);
 	result->destroy(&result);
 }
