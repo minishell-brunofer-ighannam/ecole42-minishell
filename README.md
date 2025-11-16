@@ -14,6 +14,185 @@
 
 ---
 
+
+# Planejamento do Projeto MiniShell
+
+Trabalho em paralelo --- Tokenização (Bruno) + Environment/Expansões
+(Isadora)
+
+Este documento descreve exatamente **como o projeto está sendo
+desenvolvido**, destacando a execução **em paralelo** e o fluxo completo
+de trabalho até as próximas fases.
+
+------------------------------------------------------------------------
+
+## 📌 Visão Geral do Projeto
+
+O MiniShell está sendo desenvolvido em etapas bem delimitadas.
+Cada etapa segue sempre o mesmo ciclo:
+
+    Implementar → Testar → Pausar → Revisar → Documentar → Revisão Cruzada → Próxima Fase
+
+Esse ciclo se repete em **todas** as fases do projeto.
+
+## 📌 Fluxo Geral do Projeto
+
+	[ Tokenização (Bruno) ]    ← paralelo →    [ Env + Expansões (Isadora) ]
+				 ↓
+	[ Parser + AST (Bruno) ]    ← paralelo →    [ Execução da Árvore (Isadora) ]
+				 ↓
+	[ Built-ins (Ambos, em paralelo) ]
+				 ↓
+	[ Leitura do Prompt com Termios (Ambos) ]
+				 ↓
+	[ Integração Final ]
+
+------------------------------------------------------------------------
+
+## 📍 FASE ATUAL --- Execução em Paralelo
+
+### **1. Tokenização (Bruno)**
+
+Responsável por:
+
+-   Divisão do prompt:
+    -   Espaços
+    -   Aspas simples
+    -   Aspas duplas
+-   Separação de símbolos grudados:
+    -   `|`, `<`, `>`, `>>`, `<<`
+-   Divisão avançada:
+    -   Tokens com partes misturadas (trechos sem aspas, trechos entre
+        aspas)
+-   Identificação de trechos elegíveis para expansão
+-   Criação do pipeline de callbacks:
+    -   Expansão de variáveis (callback)
+    -   Expansão de glob (callback)
+-   Testes unitários da tokenização
+
+
+> #### ***Pendências:***
+> -   Criar o **array final de tokens**
+> -   Classificar os tokens
+> -   Garante validações globais (ex.: erros de sintaxe simples)
+> -   Preparar os tokens para o parser
+
+### **2. Environment / Expansões (Isadora)**
+
+Responsável por:
+
+-   Implementação da tabela de variáveis de ambiente
+    -   `set`
+    -   `unset`
+    -   `extend`
+-   Expansão de variáveis
+-   Expansão de glob:
+    -   *Pendências:*
+        -   Suporte a caminhos completos (ex: `/home/user/*`)
+        -   Diferenciar glob dentro/fora de aspas
+-   Fornecer a função de expansão como callback para a tokenização
+-   Testes unitários das expansões
+
+> #### ***Pendências:***
+> -   Suporte a caminhos completos (ex: `/home/user/*`)
+> -   Diferenciar glob dentro/fora de aspas
+
+**Bruno e Isadora trabalham em paralelo** nessa fase:
+- Bruno fornece tokens "pré-processados"
+- Isadora fornece a função de expansão
+- Ambos usam **mocks** para testar quando o módulo do outro ainda não
+está pronto
+- Comunicação constante para manter a mesma abstração e semântica
+
+------------------------------------------------------------------------
+
+## 📍 Fase Seguinte --- Parsing + Construção da Árvore (AST) + Execução
+
+Trabalho **em paralelo novamente**, mas com funções diferentes:
+
+### **Bruno**
+
+-   Faz o **parser**
+-   Monta a **AST**
+-   Valida estrutura
+-   Define nós da árvore e tipos de operações
+
+### **Isadora**
+
+-   Implementa a **execução da árvore**, usando mocks até a AST final
+    existir:
+    -   Pipeline
+    -   Redireções
+    -   Execução de comandos
+
+------------------------------------------------------------------------
+
+## 📍 Etapa Posterior --- Built-ins (PARALELO)
+
+Ambos trabalham juntos, cada um pega alguns built-ins:
+
+-   `cd`
+-   `echo`
+-   `cat`
+-   Outros necessários
+
+Desenvolvidos **em paralelo**, seguindo o mesmo ciclo:
+
+    Implementar → Testar → Revisar → Documentar → Revisão Cruzada
+
+------------------------------------------------------------------------
+
+## 📍 Última Grande Fase --- Leitura do Prompt (Termios, Termcap)
+
+Trabalho **conjunto**, em paralelo:
+
+-   Abandonar `readline`
+-   Implementar a leitura manual:
+    -   Raw mode
+    -   Histórico
+    -   Movimentação do cursor
+    -   Redesenho da linha
+    -   Backspace, delete, etc.
+-   Testes unitários onde possível
+
+Essa etapa só começa quando tudo antes estiver **estável e bem
+documentado**.
+
+------------------------------------------------------------------------
+
+## 📌 Metodologia de Trabalho (sempre igual)
+
+Para cada grande módulo:
+
+1.  Implementação
+2.  Testes unitários
+3.  Pausa intencional
+4.  Revisão do próprio código
+5.  Documentação
+6.  Um revisa o do outro
+7.  Mais testes
+8.  Só então → próxima fase
+
+------------------------------------------------------------------------
+
+## ✔️ Estado Atual
+
+-   Tokenização micro: **quase finalizada**
+-   Expansão de variáveis: **pronta**
+-   Expansão de glob: **falta melhorar**
+-   Pipeline de callback: **integrado e funcionando**
+-   Próximas tarefas:
+    -   Refinar glob
+    -   Finalizar tokenização macro
+    -   Revisar e documentar tudo
+    -   Entrar juntos na fase da AST
+
+------------------------------------------------------------------------
+
+
+
+---
+
 ## Pontos gerais a serem desenvolvidos:
 - Tree --> *BRUNO*
 	- Fazer lexer/tokenizer ([`src/lexer/README.md`](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/lexer)) e parser:
