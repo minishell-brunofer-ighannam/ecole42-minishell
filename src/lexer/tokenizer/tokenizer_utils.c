@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   splitter.h                                         :+:      :+:    :+:   */
+/*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/16 15:28:54 by valero           ###   ########.fr       */
+/*   Created: 2025/11/16 14:58:31 by valero            #+#    #+#             */
+/*   Updated: 2025/11/16 15:29:35 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPLITTER_H
-# define SPLITTER_H
+#include "tokenizer_internal.h"
 
-typedef struct s_splited_prompt	t_splited_prompt;
-struct s_splited_prompt
+int	*ft_coord_dup(int *coord)
 {
-	char	**chuncks;
-	int		**coords;
-	int		len;
-	void	*(*destroy)(t_splited_prompt **self_ref);
-};
+	int	*new_coord;
 
-t_splited_prompt	*ft_splitter(char const *str);
+	new_coord = malloc(2 * sizeof(int));
+	new_coord[0] = coord[0];
+	new_coord[1] = coord[1];
+	return (new_coord);
+}
 
-#endif
+int	*ft_new_coord(int start, int end)
+{
+	int	*new_coord;
+
+	new_coord = malloc(2 * sizeof(int));
+	new_coord[0] = start;
+	new_coord[1] = end;
+	return (new_coord);
+}
+

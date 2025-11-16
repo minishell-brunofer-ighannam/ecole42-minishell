@@ -35,12 +35,12 @@ $(PROMPT_VAL_DIR)/validate_singlequotes.c
 
 TOKENIZE_DIR = src/lexer/tokenizer/tokenize
 EXP_OBJECT_DIR = $(TOKENIZE_DIR)/expandable_object
-EXP_OBJECT_FILES = $(EXP_OBJECT_DIR)/find_expandable.c $(EXP_OBJECT_DIR)/expansion_utils.c \
-$(EXP_OBJECT_DIR)/expansion_object_utils.c $(EXP_OBJECT_DIR)/find_keys_to_expand.c \
-$(EXP_OBJECT_DIR)/expandable_object.c
+EXP_OBJECT_FILES = $(EXP_OBJECT_DIR)/expandable_object.c $(EXP_OBJECT_DIR)/expansion_object_utils.c \
+$(EXP_OBJECT_DIR)/find_expandable.c $(EXP_OBJECT_DIR)/find_keys_to_expand.c
+
 
 TOKENIZE_FILES = $(EXP_OBJECT_FILES) $(TOKENIZE_DIR)/build_expansion.c $(TOKENIZE_DIR)/build_expansion_utils.c \
-$(TOKENIZE_DIR)/token.c
+$(TOKENIZE_DIR)/token.c src/lexer/tokenizer/tokenizer_utils.c
 
 LEXER_U_DIR = src/lexer/lexer_utils
 LEXER_U_FILES = $(LEXER_U_DIR)/reserved_structures.c $(LEXER_U_DIR)/error_printer.c

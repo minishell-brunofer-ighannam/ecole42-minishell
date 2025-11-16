@@ -6,16 +6,21 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:35:20 by valero            #+#    #+#             */
-/*   Updated: 2025/11/11 22:44:26 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/16 16:34:56 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "splitter_internal.h"
 
-static char	**ft_run_split(char const *str, int	*coord_arr, int coord_arr_len);
-static void	ft_delete_words(char ***str, int end);
-static int	ft_split_with_coords(char const *src,
-				int *coord_arr, int coord_arr_len, char **words);
+static t_splited_prompt	*ft_run_split(
+							char const *str,
+							int *coord_arr,
+							int coord_arr_len);
+static void				ft_delete_words(char ***str, int end);
+static int				ft_split_with_coords(char const *src,
+							int *coord_arr,
+							int coord_arr_len,
+							char **words);
 
 /**
  * # ft_raw_splitter
@@ -54,7 +59,7 @@ static int	ft_split_with_coords(char const *src,
  *   `ft_raw_splitter_update_quote_state()`.
  * - Escaped quotes and spaces are preserved.
  */
-char	**ft_raw_splitter(char const *str)
+t_splited_prompt	*ft_raw_splitter(char const *str)
 {
 	int			*coord_arr;
 	t_int_array	array;
@@ -103,18 +108,33 @@ char	**ft_raw_splitter(char const *str)
  * - Does not modify `str`.
  * - Returned array must be freed by the caller.
  */
-static char	**ft_run_split(char const *str, int	*coord_arr, int coord_arr_len)
+static t_splited_prompt	*ft_run_split(
+							char const *str,
+							int *coord_arr,
+							int coord_arr_len)
 {
-	char	**words;
+	char				**words;
+	t_splited_prompt	*splited_prompt;
+	int					i;
 
-	words = (char **)malloc(((coord_arr_len / 2) + 1) * sizeof(char *));
+	splited_prompt = ft_create_splited_prompt();
+	words = (char **)ft_calloc(((coord_arr_len / 2) + 1), sizeof(char *));
 	if (!words)
 		return (NULL);
 	if (!ft_split_with_coords(str, coord_arr, coord_arr_len, words))
 		return (NULL);
+	splited_prompt->chuncks = words;
+	splited_prompt->coords = ft_calloc(coord_arr_len / 2 + 1, sizeof(int *));
+	i = -1;
+	while (++i < (coord_arr_len / 2))
+	{
+		splited_prompt->coords[i] = ft_calloc(2, sizeof(int));
+		splited_prompt->coords[i][0] = coord_arr[i * 2];
+		splited_prompt->coords[i][1] = coord_arr[i * 2 + 1];
+	}
+	splited_prompt->len = coord_arr_len / 2;
 	free(coord_arr);
-	words[(coord_arr_len / 2)] = (void *)0;
-	return (words);
+	return (splited_prompt);
 }
 
 /**

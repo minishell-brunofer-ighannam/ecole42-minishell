@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 01:29:30 by valero            #+#    #+#             */
-/*   Updated: 2025/11/12 23:15:38 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/16 19:51:15 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	ft_jump_useless_quotes(char *str, int *curr_idx);
 static void	filter_reserved_tokens(
-				char *token, int curr_idx, t_linkedlist_array *refineds,
+				t_chunck token, int curr_idx, t_linkedlist_array *refineds,
 				t_refine_raw_token_vars *refine);
 static void	manage_quote_behavior(
 				char *token, t_refine_raw_token_vars *refine);
@@ -48,32 +48,48 @@ static void	manage_quote_behavior(
  * - Preserves escaped characters.
  */
 void	ft_refine_raw_token(
-				char *raw_token,
+				t_chunck raw_token,
 				int idx_raw_token,
 				t_linkedlist_array *refineds)
 {
 	t_refine_raw_token_vars	var;
+	int						new_token_start_idx;
 
-	var.token_len = ft_strlen(raw_token);
+	var.token_len = raw_token.coord[1] - raw_token.coord[0] + 1;
 	var.new_token = ft_calloc(var.token_len + 1, sizeof(char));
 	var.idx_new_token = 0;
 	var.found_quote = 0;
 	var.idx = -1;
-	while (raw_token[++var.idx])
+	while (raw_token.chunck[++var.idx])
 	{
-		if (ft_is_quote(raw_token, var.idx, NULL))
-			manage_quote_behavior(raw_token, &var);
+		if (ft_is_quote(raw_token.chunck, var.idx, NULL))
+			manage_quote_behavior(raw_token.chunck, &var);
 		else
 		{
 			filter_reserved_tokens(raw_token, idx_raw_token, refineds, &var);
-			if (raw_token[var.idx])
-				var.new_token[var.idx_new_token++] = raw_token[var.idx];
+			if (raw_token.chunck[var.idx])
+				var.new_token[var.idx_new_token++] = raw_token.chunck[var.idx];
 			else
 				break ;
 		}
 	}
 	if (var.idx_new_token > 0)
-		refineds->push(refineds, idx_raw_token, ft_strdup(var.new_token));
+	{
+		if (!refineds->list[idx_raw_token]->size)
+		{
+			new_token_start_idx = raw_token.coord[0];
+			refineds->push(refineds, idx_raw_token,
+				ft_create_chunck(
+					var.new_token, new_token_start_idx, new_token_start_idx + var.token_len - 1));
+		}
+		else
+		{
+			new_token_start_idx = ((t_chunck *)refineds->list[idx_raw_token]->last->content)->coord[1] + 1;
+			refineds->push(refineds, idx_raw_token,
+				ft_create_chunck(
+					var.new_token, new_token_start_idx, new_token_start_idx + ft_strlen(var.new_token) - 1));
+		}
+	}
 	free(var.new_token);
 }
 
@@ -131,28 +147,28 @@ static void	ft_jump_useless_quotes(char *str, int *curr_idx)
  * ## Notes
  * - Prevents accidental token splitting at quotes.
  */
-static void	ft_merge_adjacent_strings(
-				char *token, t_refine_raw_token_vars *refine)
-{
-	int		idx;
-	char	*new_token;
-	int		*idx_new_token;
+// static void	ft_merge_adjacent_strings(
+// 				char *token, t_refine_raw_token_vars *refine)
+// {
+// 	int		idx;
+// 	char	*new_token;
+// 	int		*idx_new_token;
 
-	idx = refine->idx;
-	new_token = refine->new_token;
-	idx_new_token = &refine->idx_new_token;
-	new_token[(*idx_new_token)++] = token[idx];
-	// if (!idx && token[idx + 1]
-	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL))
-	// 	new_token[(*idx_new_token)++] = token[idx];
-	// else if (token[idx] && !token[idx + 1] && token[idx - 1]
-	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
-	// 	new_token[(*idx_new_token)++] = token[idx];
-	// else if (token[idx] && token[idx + 1] && token[idx - 1]
-	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL)
-	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
-	// 	new_token[(*idx_new_token)++] = token[idx];
-}
+// 	idx = refine->idx;
+// 	new_token = refine->new_token;
+// 	idx_new_token = &refine->idx_new_token;
+// 	new_token[(*idx_new_token)++] = token[idx];
+// 	// if (!idx && token[idx + 1]
+// 	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL))
+// 	// 	new_token[(*idx_new_token)++] = token[idx];
+// 	// else if (token[idx] && !token[idx + 1] && token[idx - 1]
+// 	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
+// 	// 	new_token[(*idx_new_token)++] = token[idx];
+// 	// else if (token[idx] && token[idx + 1] && token[idx - 1]
+// 	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL)
+// 	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
+// 	// 	new_token[(*idx_new_token)++] = token[idx];
+// }
 
 /**
  * # filter_reserved_tokens
@@ -180,21 +196,31 @@ static void	ft_merge_adjacent_strings(
  * - Only applies outside of quotes.
  */
 static void	filter_reserved_tokens(
-				char *token, int curr_idx, t_linkedlist_array *refineds,
+				t_chunck token, int curr_idx, t_linkedlist_array *refineds,
 				t_refine_raw_token_vars *refine)
 {
-	if (!refine->found_quote && is_reserved_token(token, refine->idx))
+	char	*reserved;
+	int		reserved_len;
+
+	reserved_len = is_reserved_token(token.chunck, refine->idx);
+	if (!refine->found_quote && reserved_len)
 	{
 		if (refine->idx_new_token > 0)
 			refineds->push(refineds, curr_idx,
-				ft_strdup(refine->new_token));
+				ft_create_chunck(
+					refine->new_token,
+					token.coord[0] + refine->idx - refine->idx_new_token,
+					token.coord[0] + refine->idx - 1));
 		refine->idx_new_token = 0;
 		ft_bzero(refine->new_token, refine->token_len * sizeof(char));
+		reserved = ft_substr(token.chunck, refine->idx, reserved_len);
 		refineds->push(refineds, curr_idx,
-			ft_substr(token,
-				refine->idx,
-				is_reserved_token(token, refine->idx)));
-		refine->idx += is_reserved_token(token, refine->idx);
+			ft_create_chunck(
+				reserved,
+				token.coord[0] + refine->idx,
+				token.coord[0] + refine->idx + reserved_len - 1));
+		free(reserved);
+		refine->idx += reserved_len;
 	}
 }
 
@@ -233,5 +259,5 @@ static void	manage_quote_behavior(
 		refine->found_quote = token[refine->idx];
 	else if (refine->found_quote == token[refine->idx])
 		refine->found_quote = 0;
-	ft_merge_adjacent_strings(token, refine);
+	refine->new_token[refine->idx_new_token++] = token[refine->idx];
 }
