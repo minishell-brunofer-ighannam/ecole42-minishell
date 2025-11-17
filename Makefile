@@ -25,7 +25,7 @@ CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
 # ------------ LEXER FILES -----------------
 SPLITTER_DIR = src/lexer/tokenizer/splitter
 SPLITTER_FILES = $(SPLITTER_DIR)/raw_splitter.c $(SPLITTER_DIR)/raw_splitter_utils.c $(SPLITTER_DIR)/splitter_utils.c \
-$(SPLITTER_DIR)/refined_splitter.c $(SPLITTER_DIR)/refine_raw_token.c
+$(SPLITTER_DIR)/refined_splitter.c $(SPLITTER_DIR)/refine_raw_token.c $(SPLITTER_DIR)/splitter.c
 
 PROMPT_VAL_DIR = src/lexer/tokenizer/prompt_validator
 PROMPT_VAL_FILES = $(PROMPT_VAL_DIR)/prompt_validator.c $(PROMPT_VAL_DIR)/validate_backquotes.c \
@@ -40,12 +40,13 @@ $(EXP_OBJECT_DIR)/find_expandable.c $(EXP_OBJECT_DIR)/find_keys_to_expand.c
 
 
 TOKENIZE_FILES = $(EXP_OBJECT_FILES) $(TOKENIZE_DIR)/build_expansion.c $(TOKENIZE_DIR)/build_expansion_utils.c \
-$(TOKENIZE_DIR)/token.c src/lexer/tokenizer/tokenizer_utils.c
+$(TOKENIZE_DIR)/token.c $(TOKENIZE_DIR)/tokenize.c
 
 LEXER_U_DIR = src/lexer/lexer_utils
 LEXER_U_FILES = $(LEXER_U_DIR)/reserved_structures.c $(LEXER_U_DIR)/error_printer.c
 
-LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(TOKENIZE_FILES) $(LEXER_U_FILES)
+LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(TOKENIZE_FILES) $(LEXER_U_FILES) \
+src/lexer/tokenizer/tokenizer.c src/lexer/tokenizer/tokenizer_utils.c
 
 
 # ------------ STRUCTURE FILES -----------------
@@ -96,7 +97,8 @@ COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 
 TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
-create_expandable_object build_expansion  find_path expand_var_test expand_glob_test
+create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
+tokenizer
 
 
 
@@ -220,6 +222,10 @@ create_expandable_object: tests/lexer/tokenize/create_expandable_object.c tests/
 build_expansion: tests/lexer/tokenize/build_expansion.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) tests/lexer/tokenize/build_expansion.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+tokenizer: tests/lexer/tokenizer.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/lexer/tokenizer.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 
 %.o: %.c
