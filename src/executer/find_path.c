@@ -3,23 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:26 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/17 02:26:37 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/17 12:58:06 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-static char **ft_possible_paths(t_linkedlist_array *ht_env);
+static char	**ft_possible_paths(t_linkedlist_array *ht_env);
+static char	*ft_aux_find_path(char **possible_paths, char *cmd);
 
-static char **ft_possible_paths(t_linkedlist_array *ht_env)
+char	*ft_find_path(t_linkedlist_array *ht_env, char *cmd)
 {
-	t_linkedlist_node *node_path;
-	t_ht *content;
-	t_env_value *value;
-	char **possible_paths;
+	char	*path;
+	char	**posiible_paths;
+
+	posiible_paths = ft_possible_paths(ht_env);
+	path = ft_aux_find_path(posiible_paths, cmd);
+	ft_clean_array_str(posiible_paths);
+	return (path);
+}
+
+static char	**ft_possible_paths(t_linkedlist_array *ht_env)
+{
+	t_linkedlist_node	*node_path;
+	t_ht				*content;
+	t_env_value			*value;
+	char				**possible_paths;
 
 	node_path = (t_linkedlist_node *)ft_find_ht(ht_env, "PATH");
 	if (!node_path)
@@ -32,18 +44,14 @@ static char **ft_possible_paths(t_linkedlist_array *ht_env)
 	return (possible_paths);
 }
 
-char	*ft_find_path(t_linkedlist_array *ht_env, char *cmd)
+static char	*ft_aux_find_path(char **possible_paths, char *cmd)
 {
 	int		i;
 	char	*path;
 	char	*path_temp;
-	char	**possible_paths;
 
 	if (ft_strchr(cmd, '/') && access(cmd, F_OK) == 0)
 		return (ft_strdup(cmd));
-	if (!ht_env)
-		return (NULL);
-	possible_paths = ft_possible_paths(ht_env);
 	i = -1;
 	if (!possible_paths || ft_strlen(cmd) == 0)
 		return (NULL);
@@ -54,16 +62,10 @@ char	*ft_find_path(t_linkedlist_array *ht_env, char *cmd)
 		path = ft_strjoin(path, cmd);
 		free(path_temp);
 		if (access(path, X_OK) == 0)
-		{
-			ft_clean_array_str(possible_paths);
 			return (path);
-		}
 		else
 			free(path);
 	}
 	printf("command not found: %s\n", cmd);
-	ft_clean_array_str(possible_paths);
 	return (NULL);
 }
-
-
