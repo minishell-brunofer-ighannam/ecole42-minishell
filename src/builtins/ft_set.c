@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_set.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 12:52:24 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/13 17:39:16 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:22:37 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "builtins.h"
 
 void	ft_set(t_linkedlist_array *ht_env, char *key_value)
 {

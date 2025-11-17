@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:20:31 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/12 13:23:37 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:32:19 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "../includes/minishell.h"
+# include "../data_structures/data_structures.h"
+# include "../env/env.h"
+# include "../utils/utils.h"
+# include <stdio.h>
 
 typedef struct s_env	t_env;
 

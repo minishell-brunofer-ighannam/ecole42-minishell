@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/17 02:02:25 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/17 02:29:32 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define TOKENIZE_INTERNAL_H
 
 # include "libft.h"
-# include "../../../linkedlist/linkedlist.h"
-# include "../../../linkedlist_array/linkedlist_array.h"
+# include "../../../data_structures/data_structures.h"
 # include "../../lexer_utils/lexer_utils.h"
 # include "./expandable_object/expandable_object.h"
 # include "../tokenizer_internal.h"

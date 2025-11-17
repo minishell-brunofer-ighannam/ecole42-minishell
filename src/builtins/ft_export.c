@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 15:40:29 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/14 18:56:59 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:22:34 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "builtins.h"
 
 static void	ft_keys_export(t_linkedlist_array *export, char **keys_export);
 static void	ft_print_export(t_linkedlist_array *ht, char *key);

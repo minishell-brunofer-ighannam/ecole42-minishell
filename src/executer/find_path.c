@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:26 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/15 15:50:31 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:26:37 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "executer.h"
 
 static char **ft_possible_paths(t_linkedlist_array *ht_env);
 

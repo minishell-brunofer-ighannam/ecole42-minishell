@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 11:15:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/12 11:53:01 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:23:57 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HASHTABLE_H
-#define HASHTABLE_H
+# define HASHTABLE_H
 
-#include "../includes/minishell.h"
+# include "../linkedlist_array/linkedlist_array.h"
 
 # define ENV_HASH_SIZE 256
 

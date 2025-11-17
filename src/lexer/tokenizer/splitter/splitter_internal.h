@@ -6,15 +6,14 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/16 15:28:13 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/17 02:28:48 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SPLITTER_INTERNAL_H
 # define SPLITTER_INTERNAL_H
 
-# include "../../../linkedlist/linkedlist.h"
-# include "../../../linkedlist_array/linkedlist_array.h"
+# include "../../../data_structures/data_structures.h"
 # include "../../lexer_utils/lexer_utils.h"
 # include "../tokenizer_internal.h"
 # include "splitter.h"

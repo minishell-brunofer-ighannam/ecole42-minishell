@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:52:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/15 18:41:10 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:35:54 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 
-# include "../includes/minishell.h"
+# include "../data_structures/data_structures.h"
+# include "../utils/utils.h"
+# include <fcntl.h>
+# include <dirent.h>
 
 typedef struct s_env_value
 {

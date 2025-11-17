@@ -50,8 +50,8 @@ src/lexer/tokenizer/tokenizer.c src/lexer/tokenizer/tokenizer_utils.c
 
 
 # ------------ STRUCTURE FILES -----------------
-STRUCTURES = src/linkedlist/iteration.c src/linkedlist/linkedlist_node.c src/linkedlist/linkedlist.c \
-src/linkedlist_array/linkedlist_array.c src/hashtable/hashtable.c
+STRUCTURES = src/data_structures/linkedlist/iteration.c src/data_structures/linkedlist/linkedlist_node.c src/data_structures/linkedlist/linkedlist.c \
+src/data_structures/linkedlist_array/linkedlist_array.c src/data_structures/hashtable/hashtable.c
 
 
 
@@ -123,11 +123,15 @@ $(LIBFT):
 
 tests: fclean child_process find_expandable find_keys_to_expand create_expandable_object \
 linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator build_expansion \
-find_path expand_var_test expand_glob_test env_ht_op
+find_path expand_var_test expand_glob_test env_ht_op tokenizer
 
 	@clear && echo "code% make tests"
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full --track-fds=yes ./child_process
+
+#	=================== TOKENIZER TESTS =====================
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)tokenizer$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./tokenizer
 
 #	=================== EXPANSION TESTS =====================
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)find_expandable$(RESET)..." && sleep $(SLEEP)
