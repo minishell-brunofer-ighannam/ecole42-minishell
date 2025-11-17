@@ -6,14 +6,15 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:30:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/16 00:53:01 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/17 00:26:45 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../tests.h"
 #include "../../../src/lexer/tokenizer/tokenize/tokenize.h"
 #include "../../../src/lexer/tokenizer/tokenize/tokenize_internal.h"
-#include "./../../src/env/env.h"
+#include "../../../src/lexer/tokenizer/tokenizer_internal.h"
+#include "../../src/env/env.h"
 
 
 static void	test1(t_linkedlist_array	*env);
@@ -38,7 +39,7 @@ static void	print_result(void *arg)
 	char	*result;
 
 	result = (char *)arg;
-	printf("[%s] ", result);
+	printf("%s", result);
 }
 
 // static char	*expand_var(const char *key)
@@ -62,7 +63,7 @@ static void	test1(t_linkedlist_array	*env)
 	ft_export(env, "COUNTRY=BR");
 	test.teste_number = 1;
 	test.test_input = "hello\"my dear $USER\"'its good'\"to see you at $PLACE, in\"$TOWN$STATE$COUNTRY";
-	int coord[2] = {0, 0};
+	int *coord = ft_new_coord(0, 0);
 	t_expander_callbacks callbacks;
 	callbacks.expand_glob = NULL;
 	callbacks.expand_var = ft_expand_var;
@@ -87,7 +88,7 @@ static void	test2(t_linkedlist_array	*env)
 	ft_set(env, "THAN_OTHERS=others");
 	test.teste_number = 1;
 	test.test_input = "hello\"my dear $USER\"'its $VAR_TO_KEEP_UP good'\"to see you at $MONICA_BAR, in\"$LENGTH$GREATER$THAN_OTHERS";
-	int coord[2] = {0, 0};
+	int *coord = ft_new_coord(0, 0);
 	t_expander_callbacks callbacks;
 	callbacks.expand_glob = NULL;
 	callbacks.expand_var = ft_expand_var;
@@ -114,7 +115,7 @@ static void	test3(t_linkedlist_array	*env)
 	ft_set(env, "THAN_OTHERS=others");
 	test.teste_number = 1;
 	test.test_input = "$HOME/*";
-	int coord[2] = {0, 0};
+	int *coord = ft_new_coord(0, 0);
 	t_expander_callbacks callbacks;
 	callbacks.expand_glob = NULL;
 	callbacks.expand_var = ft_expand_var;

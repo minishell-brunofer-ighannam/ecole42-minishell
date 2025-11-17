@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 13:48:52 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/16 00:37:30 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/17 01:07:50 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_expansion_build	*ft_build_expansion_result(t_token *token, char *glob_input)
 	object = token->expandable_object;
 	if (!object)
 	{
-		expansion_build->token_expanded = ft_strdup(object->original_value);
+		expansion_build->token_expanded = ft_strdup(token->value);
 		return (expansion_build);
 	}
 	if (object->has_globs && !object->expanded_glob_value)
@@ -40,7 +40,7 @@ t_expansion_build	*ft_build_expansion_result(t_token *token, char *glob_input)
 	else if (object->expanded_value)
 		expansion_build->token_expanded = ft_strdup(object->expanded_value);
 	else
-		expansion_build->token_expanded = ft_strdup(object->original_value);
+		expansion_build->token_expanded = ft_strdup(token->value);
 	return (expansion_build);
 }
 

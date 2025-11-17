@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/15 18:34:41 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/16 22:51:34 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,34 @@ struct s_token
 	t_expansion_build	*last_build;
 	t_token_type		type;
 	int					position;
-	int					coord_in_src[2];
+	int					*coord_in_src;
 	bool				sintaxe_error;
 	bool				feature_out_of_scope;
 	char				*(*expand_var)(
 			const char *token, t_linkedlist_array *ht_env);
 	char				**(*expand_glob)(const char *token);
-	t_expansion_build	*(*build_expansion)(t_token *self, t_linkedlist_array *ht_env);
+	t_expansion_build	*(*build_expansion)(
+			t_token *self, t_linkedlist_array *ht_env);
 	void				*(*destroy)(t_token **self_ref);
 	t_expandable_object	*expandable_object;
 };
 
+
+typedef char						*(*t_expand_var_clbk)(const char *token,
+										t_linkedlist_array *ht_env);
+typedef char						**(*t_expand_glob_clbk)(
+										const char *token);
 typedef struct s_expander_callbacks	t_expander_callbacks;
 struct s_expander_callbacks
 {
-	char	*(*expand_var)(const char *token, t_linkedlist_array *ht_env);
-	char	**(*expand_glob)(const char *token);
+	t_expand_var_clbk	expand_var;
+	t_expand_glob_clbk	expand_glob;
 };
+
+t_token	*ft_tokenize(
+			const char *chunck,
+			int idx,
+			int *coord_in_src,
+			t_expander_callbacks callbacks);
 
 #endif

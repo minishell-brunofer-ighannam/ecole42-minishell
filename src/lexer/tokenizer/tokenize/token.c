@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/15 15:47:40 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:07:38 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_token_type	ft_get_token_type(const char *token);
 static void			*ft_destroy_token(t_token **self_ref);
 
 t_token	*ft_create_token(const char *value, int position,
-	int coord_in_src[2], t_expander_callbacks callbacks)
+	int *coord_in_src, t_expander_callbacks callbacks)
 {
 	t_token	*token;
 
@@ -26,10 +26,9 @@ t_token	*ft_create_token(const char *value, int position,
 		return (NULL);
 	token->expand_var = callbacks.expand_var;
 	token->expand_glob = callbacks.expand_glob;
-	token->value = value;
+	token->value = (const char *)ft_strdup(value);
 	token->position = position;
-	token->coord_in_src[0] = coord_in_src[0];
-	token->coord_in_src[1] = coord_in_src[1];
+	token->coord_in_src = ft_coord_dup(coord_in_src);
 	token->expand_var = callbacks.expand_var;
 	token->expand_glob = callbacks.expand_glob;
 	token->build_expansion = ft_build_expansion;
@@ -73,6 +72,8 @@ static void	*ft_destroy_token(t_token **self_ref)
 		free((char *)self->value);
 	if (self->expandable_object)
 		self->expandable_object->destroy(&self->expandable_object);
+	if (self->coord_in_src)
+		free(self->coord_in_src);
 	if (self->last_build)
 		self->last_build->destroy(&self->last_build);
 	free(self);
