@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   executer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/12 14:57:37 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:36:31 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTER_H
-#define EXECUTER_H
+# define EXECUTER_H
 
-#include "../includes/minishell.h"
+# include "../data_structures/data_structures.h"
+# include "../env/env.h"
+# include <stdio.h>
 
 typedef enum e_node_type
 {

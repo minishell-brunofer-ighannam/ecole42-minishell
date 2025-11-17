@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   array_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:01:40 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/14 18:56:17 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:32:42 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "utils.h"
 
 void	ft_ordene_array_str(char **list)
 {

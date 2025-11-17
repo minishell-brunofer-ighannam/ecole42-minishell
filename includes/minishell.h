@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 12:57:32 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/15 18:02:06 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:33:37 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@
 # include "libft.h"
 # include "../src/signals.h"
 # include "../src/lexer/lexer.h"
-# include "../src/linkedlist_array/linkedlist_array.h"
+# include "../src/data_structures/data_structures.h"
 # include "../src/process/process.h"
-# include "../src/hashtable/hashtable.h"
 # include "../src/builtins/builtins.h"
 # include "../src/env/env.h"
 # include "../src/executer/executer.h"

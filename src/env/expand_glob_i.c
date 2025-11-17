@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_glob_i.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 11:08:11 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/15 18:41:01 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:24:28 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "env.h"
 
 static char	*ft_remove_duplicated_stars(const char *s);
 static char	**ft_list_curr_repo(void);

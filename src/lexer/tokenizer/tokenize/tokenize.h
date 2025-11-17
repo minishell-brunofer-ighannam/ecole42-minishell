@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/16 22:51:34 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/17 02:27:12 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdbool.h>
 # include "./expandable_object/expandable_object.h"
-# include "../../../linkedlist_array/linkedlist_array.h"
+# include "../../../data_structures/data_structures.h"
 
 typedef enum e_token_type			t_token_type;
 enum e_token_type

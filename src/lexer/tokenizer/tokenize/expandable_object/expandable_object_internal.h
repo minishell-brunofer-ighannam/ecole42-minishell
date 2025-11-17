@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:05:35 by valero            #+#    #+#             */
-/*   Updated: 2025/11/16 15:03:01 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/17 02:29:14 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define EXPANDABLE_OBJECT_INTERNAL_H
 
 # include "libft.h"
-# include "../../../../linkedlist/linkedlist.h"
+# include "../../../../data_structures/data_structures.h"
 # include "../../../lexer_utils/lexer_utils.h"
 # include "../../tokenizer_internal.h"
 

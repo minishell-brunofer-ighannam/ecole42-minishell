@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:57 by valero            #+#    #+#             */
-/*   Updated: 2025/11/17 01:28:46 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/17 02:39:57 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "../../src/lexer/tokenizer/tokenizer_internal.h"
 #include "../../src/lexer/tokenizer/tokenizer.h"
 #include "../../src/env/env.h"
+#include "../../src/builtins/builtins.h"
 
 
 static void	test1(t_linkedlist_array	*env);

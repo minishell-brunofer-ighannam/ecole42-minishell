@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_hashtable.c                                    :+:      :+:    :+:   */
+/*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:33:35 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/12 11:29:19 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:18:37 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "hashtable.h"
 
 int	ft_hash(char *key)
 {
@@ -54,7 +54,7 @@ void *ft_find_ht(t_linkedlist_array *ht ,char *key)
 	t_ht	*key_value;
 	t_linkedlist_node *curr_node;
 	int hash;
-	
+
 	hash = ft_hash(key);
 	if (hash > ht->size)
 		return (NULL);

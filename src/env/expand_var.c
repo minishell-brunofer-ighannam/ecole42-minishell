@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:50:52 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/15 19:06:22 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:24:53 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "env.h"
 
 static char	*ft_remove_first_char(const char *s);
 static char	*ft_get_pid(void);

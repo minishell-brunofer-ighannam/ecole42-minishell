@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linkedkist.c                                       :+:      :+:    :+:   */
+/*   linkedlist.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 13:41:35 by valero            #+#    #+#             */
-/*   Updated: 2025/11/07 21:21:07 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/17 02:42:02 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../src/data_structures/data_structures.h"
 #include "tests.h"
 
 int	main(void)
