@@ -3,69 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   raw_splitter_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:27:34 by valero            #+#    #+#             */
-/*   Updated: 2025/11/13 00:11:13 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/18 22:25:10 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "splitter_internal.h"
-
-/**
- * # ft_raw_splitter_update_quote_state
- *
- * ---
- *
- * Updates the quote parsing state within the given
- * `t_quote_info` structure.
- *
- * Each invocation transitions the state machine to
- * the next logical phase of quote handling.
- *
- * ## Logic
- * - `NO_QUOTE_OPEN` → `QUOTE_OPEN`
- * - `QUOTE_OPEN` → `INSIDE_QUOTE`
- * - `INSIDE_QUOTE` → `CLOSED_QUOTE`
- * - `CLOSED_QUOTE` → `NO_QUOTE_OPEN`
- *
- * ## Parameters
- * - `quote_info`: Pointer to quote tracking data.
- *
- * ## Notes
- * - Called whenever a quote character is detected.
- * - Keeps track of quote depth and closure.
- * - `open_quote_type` remains unchanged here;
- *   it should be set elsewhere when a quote opens.
- */
-static void	ft_raw_splitter_update_quote_state(
-				t_quote_info *quote_info, char quote, bool is_word_end)
-{
-	if (is_word_end)
-	{
-		if (quote_info->state == NO_QUOTE_OPEN)
-			quote_info->state = QUOTE_OPEN;
-		else if (quote_info->state == QUOTE_OPEN)
-			quote_info->state = INSIDE_QUOTE;
-		else if (quote_info->state == INSIDE_QUOTE)
-			quote_info->state = CLOSED_QUOTE;
-		else
-			quote_info->state = NO_QUOTE_OPEN;
-		if (quote_info->state == QUOTE_OPEN)
-			quote_info->open_quote_type = quote;
-		return ;
-	}
-	if (quote_info->state == NO_QUOTE_OPEN)
-		quote_info->state = QUOTE_OPEN;
-	else if (quote_info->state == QUOTE_OPEN)
-		quote_info->state = INSIDE_QUOTE;
-	else if (quote_info->state == INSIDE_QUOTE)
-		quote_info->state = CLOSED_QUOTE;
-	else
-		quote_info->state = INSIDE_QUOTE;
-	if (quote_info->state == QUOTE_OPEN)
-			quote_info->open_quote_type = quote;
-}
 
 /**
  * # ft_raw_splitter_update_word_start
@@ -195,10 +140,18 @@ void	ft_raw_splitter_get_words_position(
 		if (quote_info.state == INSIDE_QUOTE && ft_is_quote(str, i, "`")
 			&& ft_is_quote(str, i + 1, "`") && str[i + 1] != quote_info.open_quote_type)
 			quote_info.open_quote_type = str[i + 1];
+		// ---------- inicio --------------
 		if (ft_is_quote(str, i, "`") && !ft_is_quote(str, i + 1, "`")
-			&& !ft_is_quote(str, i - 1, "`") && (!quote_info.open_quote_type
+		&& ft_is_quote(str, i - 1, "`") && quote_info.state == CLOSED_QUOTE)
+			ft_raw_splitter_update_quote_state(&quote_info, str[i], false);
+
+		if (ft_is_quote(str, i, "`") && !ft_is_quote(str, i + 1, "`")
+		&& !ft_is_quote(str, i - 1, "`")
+			&& (!quote_info.open_quote_type
 				|| quote_info.open_quote_type == str[i]))
 			ft_raw_splitter_update_quote_state(&quote_info, str[i], false);
+
+		// ---------- fim --------------
 		if (((i == 0) && (str[i] != ' '))
 			|| ((i > 0) && (str[i] != ' ') && (str[i - 1] == ' ')))
 			ft_raw_splitter_update_word_start(&quote_info, array, i);

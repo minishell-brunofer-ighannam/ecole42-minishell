@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitter_internal.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/17 02:28:48 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/18 21:39:51 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ struct s_refine_raw_token_params
 	int		idx;
 	int		found_quote;
 	int		token_len;
+	int		last_start;
 };
 
 typedef struct s_chunck								t_chunck;
@@ -107,6 +108,16 @@ t_chunck			*ft_create_chunck(
 						int coord_end);
 t_splited_prompt	*ft_create_splited_prompt(void);
 bool				ft_is_quote(const char *str, int idx, char *other_symbols);
+void				ft_raw_splitter_update_quote_state(
+						t_quote_info *quote_info, char quote, bool is_word_end);
+bool				ft_is_start_quote_after_multiple_closing(
+						const char *str, int i, t_quote_state state);
+bool				ft_has_entered_quote(
+						const char *str, int i, t_quote_state state);
+bool				ft_is_start_consecutive_quote(
+						const char *str, int i, t_quote_info quote_info);
+bool				ft_is_start_or_end_quote(
+						const char *str, int i, t_quote_info quote_info);
 void				ft_raw_splitter_get_words_position(
 						const char *str, t_int_array *array);
 t_splited_prompt	*ft_raw_splitter(char const *str);

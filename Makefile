@@ -25,7 +25,7 @@ CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
 # ------------ LEXER FILES -----------------
 SPLITTER_DIR = src/lexer/tokenizer/splitter
 SPLITTER_FILES = $(SPLITTER_DIR)/raw_splitter.c $(SPLITTER_DIR)/raw_splitter_utils.c $(SPLITTER_DIR)/splitter_utils.c \
-$(SPLITTER_DIR)/refined_splitter.c $(SPLITTER_DIR)/refine_raw_token.c $(SPLITTER_DIR)/splitter.c
+$(SPLITTER_DIR)/raw_splitter_quote_states.c $(SPLITTER_DIR)/refined_splitter.c $(SPLITTER_DIR)/refine_raw_token.c $(SPLITTER_DIR)/splitter.c
 
 PROMPT_VAL_DIR = src/lexer/tokenizer/prompt_validator
 PROMPT_VAL_FILES = $(PROMPT_VAL_DIR)/prompt_validator.c $(PROMPT_VAL_DIR)/validate_backquotes.c \
