@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raw_splitter_quote_states.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 20:46:14 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/18 21:39:38 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/19 06:54:03 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ bool	ft_is_start_quote_after_multiple_closing(
 
 bool	ft_has_entered_quote(const char *str, int i, t_quote_state state)
 {
-	return (ft_is_quote(str, i, "`") && state == QUOTE_OPEN);
+	return (!ft_is_quote(str, i, "`") && state == QUOTE_OPEN);
 }
 
 bool	ft_is_start_consecutive_quote(

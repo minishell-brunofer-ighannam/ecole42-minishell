@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitter_internal.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/18 21:39:51 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/19 10:04:28 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,20 @@ struct s_chunck
 	void	*(*destroy)(t_chunck **self_ref);
 };
 
+typedef struct s_refined_token_push_params	t_refined_token_push_params;
+struct s_refined_token_push_params
+{
+	t_linkedlist_array		*refineds;
+	int						idx_raw_token;
+	int						new_token_start_idx;
+	t_chunck				raw_token;
+	t_refine_raw_token_vars	*var;
+};
+
+void				ft_refined_token_push(
+						t_refined_token_push_params params);
+void				ft_manage_grouped_and_ungrouped_tokens(
+						t_refined_token_push_params scope);
 t_chunck			*ft_create_chunck(
 						char *token,
 						int coord_start,

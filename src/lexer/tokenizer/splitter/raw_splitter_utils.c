@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raw_splitter_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:27:34 by valero            #+#    #+#             */
-/*   Updated: 2025/11/18 22:25:10 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:43:55 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,23 +135,14 @@ void	ft_raw_splitter_get_words_position(
 	i = -1;
 	while (str[++i])
 	{
-		if (!ft_is_quote(str, i, "`") && quote_info.state == QUOTE_OPEN)
+		if (ft_has_entered_quote(str, i, quote_info.state))
 			quote_info.state = INSIDE_QUOTE;
-		if (quote_info.state == INSIDE_QUOTE && ft_is_quote(str, i, "`")
-			&& ft_is_quote(str, i + 1, "`") && str[i + 1] != quote_info.open_quote_type)
+		if (ft_is_start_consecutive_quote(str, i, quote_info))
 			quote_info.open_quote_type = str[i + 1];
-		// ---------- inicio --------------
-		if (ft_is_quote(str, i, "`") && !ft_is_quote(str, i + 1, "`")
-		&& ft_is_quote(str, i - 1, "`") && quote_info.state == CLOSED_QUOTE)
+		if (ft_is_start_quote_after_multiple_closing(str, i, quote_info.state))
 			ft_raw_splitter_update_quote_state(&quote_info, str[i], false);
-
-		if (ft_is_quote(str, i, "`") && !ft_is_quote(str, i + 1, "`")
-		&& !ft_is_quote(str, i - 1, "`")
-			&& (!quote_info.open_quote_type
-				|| quote_info.open_quote_type == str[i]))
+		if (ft_is_start_or_end_quote(str, i, quote_info))
 			ft_raw_splitter_update_quote_state(&quote_info, str[i], false);
-
-		// ---------- fim --------------
 		if (((i == 0) && (str[i] != ' '))
 			|| ((i > 0) && (str[i] != ' ') && (str[i - 1] == ' ')))
 			ft_raw_splitter_update_word_start(&quote_info, array, i);

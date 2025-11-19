@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:52:01 by valero            #+#    #+#             */
-/*   Updated: 2025/11/16 17:28:40 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/19 15:45:36 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ static void	refine_tokens(
  * ## Notes
  * - Caller must free the matrix after use.
  */
-
 static void	copy_to_matrix(
 				t_linkedlist_array *refined_tokens,
 				t_splited_prompt *splited_prompt)

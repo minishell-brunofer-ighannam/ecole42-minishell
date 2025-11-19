@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raw_splitter.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:13:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/18 15:45:25 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/19 06:58:41 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	test7(void);
 static void	test8(void);
 static void	test9(void);
 static void	test10(void);
+static void	test11(void);
 
 int	main(int argc, char **argv)
 {
@@ -49,6 +50,7 @@ int	main(int argc, char **argv)
 	test8();
 	test9();
 	test10();
+	test11();
 }
 
 static void	print_result(void *arg)
@@ -289,6 +291,30 @@ static void	test10(void)
 	test.test_input = "echo \" teste dois\"|\"\"\"grudado\" |grep \" ola meu chapa \" ";
 	splitted = ft_raw_splitter(test.test_input);
 	char	*expected[] = {"echo", "\" teste dois\"|\"\"\"grudado\"", "|grep", "\" ola meu chapa \"", NULL};
+	right_tokens = 0;
+	i = 0;
+	while (expected[i])
+	{
+		if (splitted->chuncks[i] && !ft_strncmp(expected[i], splitted->chuncks[i], ft_strlen(expected[i]) + 1))
+			right_tokens++;
+		i++;
+	}
+	test.test_ok = i == right_tokens;
+	print_test_and_result(test, print_result, splitted->chuncks);
+	splitted->destroy(&splitted);
+}
+
+static void	test11(void)
+{
+	t_test				test;
+	t_splited_prompt	*splitted;
+	int					i;
+	int					right_tokens;
+
+	test.teste_number = 11;
+	test.test_input = "echo \" teste dois\"\"\"|\"\"\"grudado\" |grep \" ola meu chapa \" ";
+	splitted = ft_raw_splitter(test.test_input);
+	char	*expected[] = {"echo", "\" teste dois\"\"\"|\"\"\"grudado\"", "|grep", "\" ola meu chapa \"", NULL};
 	right_tokens = 0;
 	i = 0;
 	while (expected[i])

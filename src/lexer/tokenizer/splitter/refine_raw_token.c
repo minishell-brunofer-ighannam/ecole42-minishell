@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   refine_raw_token.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 01:29:30 by valero            #+#    #+#             */
-/*   Updated: 2025/11/18 15:34:33 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/19 10:15:06 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "splitter_internal.h"
-
-static void	ft_jump_useless_quotes(char *str, int *curr_idx);
-static void	filter_reserved_tokens(
-				t_chunck token, int curr_idx, t_linkedlist_array *refineds,
-				t_refine_raw_token_vars *refine);
-static void	manage_quote_behavior(
-				t_chunck token, t_refine_raw_token_vars *refine);
 
 /**
  * # ft_refine_raw_token
@@ -52,227 +45,22 @@ void	ft_refine_raw_token(
 				int idx_raw_token,
 				t_linkedlist_array *refineds)
 {
-	t_refine_raw_token_vars	var;
-	int						new_token_start_idx;
+	t_refine_raw_token_vars		var;
+	int							new_token_start_idx;
+	t_refined_token_push_params	scope;
 
-	var.token_len = raw_token.coord[1] - raw_token.coord[0] + 1;
-	var.new_token = ft_calloc(var.token_len + 1, sizeof(char));
-	var.idx_new_token = 0;
-	var.found_quote = 0;
-	var.last_start = 0;
-	var.idx = -1;
-	while (raw_token.chunck[++var.idx])
-	{
-		if (ft_is_quote(raw_token.chunck, var.idx, NULL))
-			manage_quote_behavior(raw_token, &var);
-		else
-		{
-			filter_reserved_tokens(raw_token, idx_raw_token, refineds, &var);
-			if (raw_token.chunck[var.idx])
-			{
-				// if (!var.idx_new_token)
-				// 	var.last_start = raw_token.coord[0] + var.idx;
-				// var.new_token[var.idx_new_token++] = raw_token.chunck[var.idx];
-				if (ft_is_quote(raw_token.chunck, var.idx, NULL))
-					manage_quote_behavior(raw_token, &var);
-				else
-					var.new_token[var.idx_new_token++] = raw_token.chunck[var.idx];
-
-			}
-			else
-				break ;
-		}
-	}
+	new_token_start_idx = 0;
+	scope.idx_raw_token = idx_raw_token;
+	scope.new_token_start_idx = new_token_start_idx;
+	scope.raw_token = raw_token;
+	scope.refineds = refineds;
+	scope.var = &var;
+	ft_bzero(scope.var, sizeof(var));
+	scope.var->token_len = raw_token.coord[1] - raw_token.coord[0] + 1;
+	scope.var->new_token = ft_calloc(scope.var->token_len + 1, sizeof(char));
+	scope.var->idx = -1;
+	ft_manage_grouped_and_ungrouped_tokens(scope);
 	if (var.idx_new_token > 0)
-	{
-		if (!refineds->list[idx_raw_token]->size)
-		{
-			new_token_start_idx = raw_token.coord[0];
-			(void)new_token_start_idx;
-			refineds->push(refineds, idx_raw_token,
-				ft_create_chunck(
-					var.new_token, var.last_start, var.last_start + var.token_len - 1));
-		}
-		else
-		{
-			new_token_start_idx = ((t_chunck *)refineds->list[idx_raw_token]->last->content)->coord[1] + 1;
-			(void)new_token_start_idx;
-			refineds->push(refineds, idx_raw_token,
-				ft_create_chunck(
-					var.new_token, var.last_start, var.last_start + ft_strlen(var.new_token) - 1));
-		}
-	}
+		ft_refined_token_push(scope);
 	free(var.new_token);
-}
-
-/**
- * # ft_jump_useless_quotes
- *
- * ---
- *
- * Skips consecutive quote characters that are not part
- * of a meaningful string.
- *
- * ## Logic
- * - Iterates while characters are quotes.
- * - Increments `curr_idx` to skip them.
- *
- * ## Parameters
- * - `str`: Pointer to token substring starting at quote.
- * - `curr_idx`: Pointer to current index, updated.
- *
- * ## Returns
- * - None (index adjusted in place).
- *
- * ## Notes
- * - Used internally by `manage_quote_behavior()`.
- */
-static void	ft_jump_useless_quotes(char *str, int *curr_idx)
-{
-	int	idx;
-
-	idx = 0;
-	while (str[idx] && ft_is_quote(str, idx, NULL))
-		idx++;
-	*curr_idx += idx - 1;
-}
-
-/**
- * # ft_merge_adjacent_strings
- *
- * ---
- *
- * Decides whether a quote character should be appended
- * to the current refined token.
- *
- * ## Logic
- * - Checks token position and surrounding characters.
- * - Appends quote if it bridges adjacent strings.
- *
- * ## Parameters
- * - `token`: The current raw token.
- * - `refine`: Refinement state struct (`t_refine_raw_token_vars`).
- *
- * ## Returns
- * - None (modifies `refine->new_token`).
- *
- * ## Notes
- * - Prevents accidental token splitting at quotes.
- */
-// static void	ft_merge_adjacent_strings(
-// 				char *token, t_refine_raw_token_vars *refine)
-// {
-// 	int		idx;
-// 	char	*new_token;
-// 	int		*idx_new_token;
-
-// 	idx = refine->idx;
-// 	new_token = refine->new_token;
-// 	idx_new_token = &refine->idx_new_token;
-// 	new_token[(*idx_new_token)++] = token[idx];
-// 	// if (!idx && token[idx + 1]
-// 	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL))
-// 	// 	new_token[(*idx_new_token)++] = token[idx];
-// 	// else if (token[idx] && !token[idx + 1] && token[idx - 1]
-// 	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
-// 	// 	new_token[(*idx_new_token)++] = token[idx];
-// 	// else if (token[idx] && token[idx + 1] && token[idx - 1]
-// 	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx + 1, NULL)
-// 	// 	&& ft_is_quote(token, idx, NULL) && !ft_is_quote(token, idx - 1, NULL))
-// 	// 	new_token[(*idx_new_token)++] = token[idx];
-// }
-
-/**
- * # filter_reserved_tokens
- *
- * ---
- *
- * Detects reserved tokens (like `>`, `|`, `&&`) and
- * separates them from the current token.
- *
- * ## Logic
- * - Checks if the current character is a reserved token.
- * - Pushes accumulated string before reserved token.
- * - Pushes reserved token as a separate element.
- *
- * ## Parameters
- * - `token`: The raw token being processed.
- * - `curr_idx`: Index of the raw token in the array.
- * - `refineds`: Linked list array for output.
- * - `refine`: Refinement state struct.
- *
- * ## Returns
- * - None (modifies `refineds` and `refine` state).
- *
- * ## Notes
- * - Only applies outside of quotes.
- */
-static void	filter_reserved_tokens(
-				t_chunck token, int curr_idx, t_linkedlist_array *refineds,
-				t_refine_raw_token_vars *refine)
-{
-	char	*reserved;
-	int		reserved_len;
-
-	reserved_len = is_reserved_token(token.chunck, refine->idx);
-	if (!refine->found_quote && reserved_len)
-	{
-		if (refine->idx_new_token > 0)
-			refineds->push(refineds, curr_idx,
-				ft_create_chunck(
-					refine->new_token,
-					token.coord[0] + refine->idx - refine->idx_new_token,
-					token.coord[0] + refine->idx - 1));
-		refine->idx_new_token = 0;
-		ft_bzero(refine->new_token, refine->token_len * sizeof(char));
-		reserved = ft_substr(token.chunck, refine->idx, reserved_len);
-		refineds->push(refineds, curr_idx,
-			ft_create_chunck(
-				reserved,
-				token.coord[0] + refine->idx,
-				token.coord[0] + refine->idx + reserved_len - 1));
-		free(reserved);
-		refine->idx += reserved_len;
-	}
-}
-
-/**
- * # manage_quote_behavior
- *
- * ---
- *
- * Updates the quote state when a quote character is
- * encountered in a token.
- *
- * ## Logic
- * - Sets `found_quote` on opening quote.
- * - Resets `found_quote` on closing quote.
- * - Calls `ft_merge_adjacent_strings()` for special cases.
- *
- * ## Parameters
- * - `token`: The token being refined.
- * - `refine`: Refinement state struct (`t_refine_raw_token_vars`).
- *
- * ## Returns
- * - None (modifies `refine->found_quote` and `new_token`).
- *
- * ## Notes
- * - Ensures quoted segments are preserved correctly.
- */
-static void	manage_quote_behavior(
-				t_chunck token, t_refine_raw_token_vars *refine)
-{
-	if (refine->idx > 0 && !refine->found_quote)
-	{
-		refine->found_quote = token.chunck[refine->idx];
-		ft_jump_useless_quotes(token.chunck + refine->idx, &refine->idx);
-	}
-	else if (!refine->found_quote)
-		refine->found_quote = token.chunck[refine->idx];
-	else if (refine->found_quote == token.chunck[refine->idx])
-		refine->found_quote = 0;
-
-	if (!refine->idx_new_token)
-		refine->last_start = token.coord[0] + refine->idx;
-	refine->new_token[refine->idx_new_token++] = token.chunck[refine->idx];
 }
