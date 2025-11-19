@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refine_raw_token.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 01:29:30 by valero            #+#    #+#             */
-/*   Updated: 2025/11/16 19:51:15 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/18 15:34:33 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	filter_reserved_tokens(
 				t_chunck token, int curr_idx, t_linkedlist_array *refineds,
 				t_refine_raw_token_vars *refine);
 static void	manage_quote_behavior(
-				char *token, t_refine_raw_token_vars *refine);
+				t_chunck token, t_refine_raw_token_vars *refine);
 
 /**
  * # ft_refine_raw_token
@@ -59,16 +59,26 @@ void	ft_refine_raw_token(
 	var.new_token = ft_calloc(var.token_len + 1, sizeof(char));
 	var.idx_new_token = 0;
 	var.found_quote = 0;
+	var.last_start = 0;
 	var.idx = -1;
 	while (raw_token.chunck[++var.idx])
 	{
 		if (ft_is_quote(raw_token.chunck, var.idx, NULL))
-			manage_quote_behavior(raw_token.chunck, &var);
+			manage_quote_behavior(raw_token, &var);
 		else
 		{
 			filter_reserved_tokens(raw_token, idx_raw_token, refineds, &var);
 			if (raw_token.chunck[var.idx])
-				var.new_token[var.idx_new_token++] = raw_token.chunck[var.idx];
+			{
+				// if (!var.idx_new_token)
+				// 	var.last_start = raw_token.coord[0] + var.idx;
+				// var.new_token[var.idx_new_token++] = raw_token.chunck[var.idx];
+				if (ft_is_quote(raw_token.chunck, var.idx, NULL))
+					manage_quote_behavior(raw_token, &var);
+				else
+					var.new_token[var.idx_new_token++] = raw_token.chunck[var.idx];
+
+			}
 			else
 				break ;
 		}
@@ -78,16 +88,18 @@ void	ft_refine_raw_token(
 		if (!refineds->list[idx_raw_token]->size)
 		{
 			new_token_start_idx = raw_token.coord[0];
+			(void)new_token_start_idx;
 			refineds->push(refineds, idx_raw_token,
 				ft_create_chunck(
-					var.new_token, new_token_start_idx, new_token_start_idx + var.token_len - 1));
+					var.new_token, var.last_start, var.last_start + var.token_len - 1));
 		}
 		else
 		{
 			new_token_start_idx = ((t_chunck *)refineds->list[idx_raw_token]->last->content)->coord[1] + 1;
+			(void)new_token_start_idx;
 			refineds->push(refineds, idx_raw_token,
 				ft_create_chunck(
-					var.new_token, new_token_start_idx, new_token_start_idx + ft_strlen(var.new_token) - 1));
+					var.new_token, var.last_start, var.last_start + ft_strlen(var.new_token) - 1));
 		}
 	}
 	free(var.new_token);
@@ -248,16 +260,19 @@ static void	filter_reserved_tokens(
  * - Ensures quoted segments are preserved correctly.
  */
 static void	manage_quote_behavior(
-				char *token, t_refine_raw_token_vars *refine)
+				t_chunck token, t_refine_raw_token_vars *refine)
 {
 	if (refine->idx > 0 && !refine->found_quote)
 	{
-		refine->found_quote = token[refine->idx];
-		ft_jump_useless_quotes(token + refine->idx, &refine->idx);
+		refine->found_quote = token.chunck[refine->idx];
+		ft_jump_useless_quotes(token.chunck + refine->idx, &refine->idx);
 	}
 	else if (!refine->found_quote)
-		refine->found_quote = token[refine->idx];
-	else if (refine->found_quote == token[refine->idx])
+		refine->found_quote = token.chunck[refine->idx];
+	else if (refine->found_quote == token.chunck[refine->idx])
 		refine->found_quote = 0;
-	refine->new_token[refine->idx_new_token++] = token[refine->idx];
+
+	if (!refine->idx_new_token)
+		refine->last_start = token.coord[0] + refine->idx;
+	refine->new_token[refine->idx_new_token++] = token.chunck[refine->idx];
 }
