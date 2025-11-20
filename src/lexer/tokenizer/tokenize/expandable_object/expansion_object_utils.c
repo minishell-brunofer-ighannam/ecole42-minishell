@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:14:58 by valero            #+#    #+#             */
-/*   Updated: 2025/11/14 16:52:26 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/20 13:26:41 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "expandable_object_internal.h"
 
 static char	**ft_copy_matrix(t_expandable_section *sections);
-static int	**ft_copy_coord_matrix(t_expandable_section *sections);
 static void	*ft_destroy_expandable_sections(
 				t_expandable_section **self_ref);
 
@@ -84,12 +83,14 @@ static char	**ft_copy_matrix(t_expandable_section *sections)
 	return (new_array);
 }
 
-static int	**ft_copy_coord_matrix(t_expandable_section *sections)
+int	**ft_copy_coord_matrix(void *arg)
 {
-	int	**array;
-	int	array_len;
-	int	**new_array;
+	int						**array;
+	int						array_len;
+	int						**new_array;
+	t_expandable_section	*sections;
 
+	sections = (t_expandable_section *)arg;
 	array = sections->coord_array;
 	array_len = 0;
 	while (array[array_len])

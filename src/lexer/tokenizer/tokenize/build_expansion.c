@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:09:42 by valero            #+#    #+#             */
-/*   Updated: 2025/11/16 00:19:12 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/20 17:11:07 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ t_expansion_build	*ft_build_expansion(
 						t_linkedlist_array *ht_env)
 {
 	t_expansion_build	*expansion_build;
-	t_expandable_object	*object;
 	char				*glob_input;
 
-	(void)object;
-	object = token->expandable_object;
 	if (token->last_build)
 		return (ft_expansion_build_dup(token->last_build));
 	if (!token->expandable_object)
