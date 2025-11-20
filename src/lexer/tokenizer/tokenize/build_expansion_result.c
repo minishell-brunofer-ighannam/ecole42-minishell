@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 17:17:19 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 17:29:20 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/20 19:16:37 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #include "tokenize.h"
 
 static t_expansion_build	*ft_create_expansion_build(void);
+static t_expansion_build	*ft_remove_quotes(
+								t_expandable_object *object,
+								t_expansion_build *expansion_build,
+								char *glob_input,
+								const char *original_token);
 
 t_expansion_build	*ft_build_expansion_result(t_token *token, char *glob_input)
 {
@@ -24,18 +29,43 @@ t_expansion_build	*ft_build_expansion_result(t_token *token, char *glob_input)
 	if (!expansion_build)
 		return (NULL);
 	object = token->expandable_object;
+	return (
+		ft_remove_quotes(
+			object,
+			expansion_build,
+			glob_input,
+			token->value)
+	);
+}
+
+static t_expansion_build	*ft_remove_quotes(
+								t_expandable_object *object,
+								t_expansion_build *expansion_build,
+								char *glob_input,
+								const char *original_token)
+{
+	t_token_separated_sections	*sep_sections;
+	const char					*return_token;
+
+	sep_sections = NULL;
 	if (object && object->has_globs && !object->expanded_glob_value)
 	{
-		expansion_build->glob_error = ft_strdup(glob_input);
+		sep_sections = ft_separate_quote_chuncks(glob_input);
+		expansion_build->glob_error = sep_sections->to_noquotes_string(sep_sections);
+		// expansion_build->glob_error = ft_strdup(glob_input);
+		sep_sections->destroy(&sep_sections);
 		return (expansion_build);
 	}
 	if (object && object->expanded_glob_value)
-		expansion_build->token_expanded = ft_strdup(
-				object->expanded_glob_value);
+		return_token = object->expanded_glob_value;
 	else if (object && object->expanded_value)
-		expansion_build->token_expanded = ft_strdup(object->expanded_value);
+		return_token = object->expanded_value;
 	else
-		expansion_build->token_expanded = ft_strdup(token->value);
+		return_token = original_token;
+	sep_sections = ft_separate_quote_chuncks(return_token);
+	expansion_build->token_expanded = sep_sections->to_noquotes_string(sep_sections);
+	// expansion_build->token_expanded = ft_strdup(return_token);
+	sep_sections->destroy(&sep_sections);
 	return (expansion_build);
 }
 

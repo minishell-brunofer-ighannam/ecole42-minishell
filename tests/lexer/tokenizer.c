@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:57 by valero            #+#    #+#             */
-/*   Updated: 2025/11/17 15:19:04 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:41:49 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	test1(t_linkedlist_array	*env)
 	ft_export(env, "COUNTRY=BR");
 	test.teste_number = 1;
 	test.test_input = "echo hello\"my dear $USER\"'its good $NO_EXPAND'\"to see you at $PLACE, in\"$TOWN$STATE$COUNTRY|grep -E \"[regex]\">outfile.txt";
-	char	*expected_array[] = {"echo", "hello\"my dear tokenizer\"'its good $NO_EXPAND'\"to see you at 42, in\"SaoPauloSPBR", "|", "grep", "-E", "\"[regex]\"", ">", "outfile.txt", NULL};
+	char	*expected_array[] = {"echo", "hellomy dear tokenizerits good $NO_EXPANDto see you at 42, inSaoPauloSPBR", "|", "grep", "-E", "[regex]", ">", "outfile.txt", NULL};
 	t_tokenized_prompt *tokenized_prompt = ft_tokenizer(test.test_input, ft_expand_var, ft_expand_glob);
 	t_token				**token;
 	t_expansion_build	*expansion;

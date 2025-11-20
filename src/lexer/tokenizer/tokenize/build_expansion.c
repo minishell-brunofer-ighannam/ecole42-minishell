@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:09:42 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 17:11:07 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/20 18:35:09 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,18 +133,12 @@ static char	*ft_expand_globs(t_token *token)
 	char				*glob_input;
 
 	object = token->expandable_object;
-	if (object->has_globs)
-	{
-		if (object->expanded_value)
-			object->expanded_glob_value = ft_normilize_char_matrix(
-				token->expand_glob(object->expanded_value));
-		else
-			object->expanded_glob_value = ft_normilize_char_matrix(
-					token->expand_glob(object->original_value));
-	}
 	if (object->expanded_value)
 		glob_input = ft_strdup(object->expanded_value);
 	else
 		glob_input = ft_strdup(object->original_value);
+	if (object->has_globs)
+		object->expanded_glob_value = ft_normilize_char_matrix(
+				token->expand_glob(glob_input));
 	return (glob_input);
 }
