@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 20:10:11 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 17:02:07 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/20 19:01:15 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static void				update_token_section(
 							const char *str, int *i,
 							bool *doublequote, bool *singlequote);
 static void				push_non_quote_section(
-							t_token_separated_sections *exp_sections, const char *str,
+							t_token_separated_sections *exp_sections,
+							const char *str,
 							int *i, bool single_double_quote[2]);
 static void				push_doublequote_section(
 							t_token_separated_sections *exp_sections,

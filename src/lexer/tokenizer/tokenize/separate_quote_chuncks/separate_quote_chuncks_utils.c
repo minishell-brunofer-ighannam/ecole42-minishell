@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 20:33:26 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 17:06:36 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/20 19:24:00 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ static char	*ft_to_noquotes_string(t_token_separated_sections *self)
 		string_idx += ft_strlen(matrix[len]->section);
 	string = ft_calloc(string_idx + 1, sizeof(char));
 	string_idx = 0;
-	len = self->list->size;
-	while (--len >= 0)
+	len = -1;
+	while (++len < self->list->size)
 		ft_copy_to_noquote_string(matrix, len, string, &string_idx);
 	return (string);
 }

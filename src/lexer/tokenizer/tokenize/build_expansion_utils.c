@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 13:48:52 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/20 17:26:16 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/20 18:36:17 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_normilize_char_matrix(char **matrix)
 	matix_idx = -1;
 	while (matrix[++matix_idx])
 		matrix_size += ft_strlen(matrix[matix_idx]);
-	result = ft_calloc(matrix_size + 1, sizeof(char));
+	result = ft_calloc(matrix_size + matix_idx + 1, sizeof(char));
 	matrix_size = 0;
 	matix_idx = -1;
 	while (matrix[++matix_idx])
@@ -34,6 +34,8 @@ char	*ft_normilize_char_matrix(char **matrix)
 		str_idx = -1;
 		while (matrix[matix_idx][++str_idx])
 			result[matrix_size++] = matrix[matix_idx][str_idx];
+		if (matrix[matix_idx + 1])
+			result[matrix_size++] = ' ';
 	}
 	ft_destroy_char_matrix(&matrix);
 	return (result);
