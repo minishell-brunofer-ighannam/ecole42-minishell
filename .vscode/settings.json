@@ -1,6 +1,7 @@
 {
 	"files.associations": {
-		"splitter_internal.h": "c",
-		"prompt_validator_internal.h": "c"
+		"executer.h": "c",
+		"data_structures.h": "c",
+		"signals.h": "c"
 	}
 }

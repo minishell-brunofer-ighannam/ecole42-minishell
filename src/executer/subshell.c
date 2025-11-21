@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   subshell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 15:39:10 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 12:03:30 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/19 18:22:09 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/21 18:34:19 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell.h"
 
-void	ft_unset(t_linkedlist_array *ht_env, const char *key)
+int	ft_execute_subshell(t_node *node)
 {
-	t_linkedlist_node *found;
-	t_ht *remove;
+	int status;
+	pid_t pid;
 
-	if (!key || !ht_env)
-		return ;
-	found = (t_linkedlist_node *)ft_find_ht(ht_env, key);
-	if (!found)
-		return ;
-	remove = (t_ht *)found->content;
-	ft_remove_item_ht(ht_env, remove, ft_free_item_ht_env);
+	pid = fork();
+	if (pid == 0)
+	{
+		status = ft_execute_node(node);
+		exit(status);
+	}
+	waitpid(pid, &status, 0);
+	return(status);
 }

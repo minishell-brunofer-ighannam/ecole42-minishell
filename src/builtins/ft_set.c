@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_set.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 12:52:24 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/17 02:22:37 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/21 12:03:25 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	ft_set(t_linkedlist_array *ht_env, char *key_value)
+void	ft_set(t_linkedlist_array *ht_env, const char *key_value)
 {
 	t_ht				*item;
 	t_env_value			*value;

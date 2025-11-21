@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:33:35 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/17 02:18:37 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/21 12:06:54 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hashtable.h"
 
-int	ft_hash(char *key)
+int	ft_hash(const char *key)
 {
 	unsigned long	hash;
 
@@ -48,7 +48,7 @@ t_linkedlist_array *ft_init_ht(int size, t_ht **key_value, void (*ft_free_item_h
 	return (ht);
 }
 
-void *ft_find_ht(t_linkedlist_array *ht ,char *key)
+void *ft_find_ht(t_linkedlist_array *ht ,const char *key)
 {
 	t_linkedlist *entry;
 	t_ht	*key_value;

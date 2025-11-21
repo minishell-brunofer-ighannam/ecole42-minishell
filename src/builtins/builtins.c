@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 15:39:10 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 12:03:30 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/17 15:54:14 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/19 10:41:24 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	ft_unset(t_linkedlist_array *ht_env, const char *key)
+int	ft_is_builtin(const char *cmd)
 {
-	t_linkedlist_node *found;
-	t_ht *remove;
-
-	if (!key || !ht_env)
-		return ;
-	found = (t_linkedlist_node *)ft_find_ht(ht_env, key);
-	if (!found)
-		return ;
-	remove = (t_ht *)found->content;
-	ft_remove_item_ht(ht_env, remove, ft_free_item_ht_env);
+	if (!cmd)
+		return (0);
+	return (!ft_strcmp(cmd, "set")
+		|| !ft_strcmp(cmd, "env")
+		|| !ft_strcmp(cmd, "export")
+		|| !ft_strcmp(cmd, "unset")
+		|| !ft_strcmp(cmd, "pwd")
+		|| !ft_strcmp(cmd, "cd")
+		|| !ft_strcmp(cmd, "echo")
+		|| !ft_strcmp(cmd, "exit"));
 }

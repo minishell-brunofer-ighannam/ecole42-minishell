@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 15:39:10 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 12:03:30 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/18 09:54:50 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/18 09:58:10 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "libstr.h"
 
-void	ft_unset(t_linkedlist_array *ht_env, const char *key)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	t_linkedlist_node *found;
-	t_ht *remove;
+	size_t	i;
 
-	if (!key || !ht_env)
-		return ;
-	found = (t_linkedlist_node *)ft_find_ht(ht_env, key);
-	if (!found)
-		return ;
-	remove = (t_ht *)found->content;
-	ft_remove_item_ht(ht_env, remove, ft_free_item_ht_env);
+	if (!s1 && !s2)
+		return (0);
+	if (!s1)
+		return (-1);
+	if (!s2)
+		return (1);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
