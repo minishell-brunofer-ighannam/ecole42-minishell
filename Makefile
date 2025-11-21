@@ -56,7 +56,7 @@ src/data_structures/linkedlist_array/linkedlist_array.c src/data_structures/hash
 
 
 # ------------ BUILTINS FILES -----------------
-BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c src/builtins/ft_set.c src/builtins/ft_unset.c
+BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c src/builtins/ft_set.c src/builtins/ft_unset.c src/builtins/builtins.c
 
 
 
@@ -67,7 +67,8 @@ PROCESS = src/process/child_process.c
 ENV = src/env/env.c src/env/expand_var.c src/env/expand_glob_i.c src/env/expand_glob_ii.c
 
 
-EXECUTER = src/executer/find_path.c
+EXECUTER = src/executer/find_path.c src/executer/cmd.c src/executer/redirect.c src/executer/pipe.c src/executer/here_doc.c \
+	src/executer/cmd_builtin.c src/executer/tree.c src/executer/and.c src/executer/or.c src/executer/subshell.c
 
 
 UTILS = src/utils/array_str.c
@@ -80,7 +81,6 @@ SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(BUILTINS) $(PROCESS) $(ENV) $(EXECUTE
 
 # ============== PROGRAM FILES =================
 MAIN_PROGRAM=src/main.c
-TEST_PROGRAM=src/hashtable/hashtable.c
 
 # ============== PROGRAM DEPENDENCIES =================
 
@@ -98,7 +98,7 @@ COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
 create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
-tokenizer
+tokenizer simple_cmd redirect_test simple_heredoc_test
 
 
 
@@ -123,7 +123,8 @@ $(LIBFT):
 
 tests: fclean child_process find_expandable find_keys_to_expand create_expandable_object \
 linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator build_expansion \
-find_path expand_var_test expand_glob_test env_ht_op tokenizer
+find_path expand_var_test expand_glob_test env_ht_op tokenizer simple_cmd redirect_test \
+simple_heredoc_test
 
 	@clear && echo "code% make tests"
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
@@ -170,6 +171,14 @@ find_path expand_var_test expand_glob_test env_ht_op tokenizer
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./expand_var_test
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)expand_glob_test$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./expand_glob_test
+
+#	=================== EXECUTER TESTS =====================
+# 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)simple_cmd$(RESET)..." && sleep $(SLEEP)
+# 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./simple_cmd
+# 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)redirect_test$(RESET)..." && sleep $(SLEEP)
+# 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./redirect_test
+# 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)simple_heredoc_test$(RESET)..." && sleep $(SLEEP)
+# 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./simple_heredoc_test
 
 linkedlist: tests/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
@@ -230,6 +239,18 @@ build_expansion: tests/lexer/tokenize/build_expansion.c tests/tests.c $(COMPILAT
 tokenizer: tests/lexer/tokenizer.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) tests/lexer/tokenizer.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+simple_cmd: tests/executer_test/simple_cmd.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/executer_test/simple_cmd.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+redirect_test: tests/executer_test/redirect_test.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/executer_test/redirect_test.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+simple_heredoc_test: tests/executer_test/simple_heredoc_test.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/executer_test/simple_heredoc_test.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 
 %.o: %.c

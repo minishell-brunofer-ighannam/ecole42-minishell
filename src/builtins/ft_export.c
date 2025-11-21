@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 15:40:29 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/17 02:22:34 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/21 12:02:49 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	ft_keys_export(t_linkedlist_array *export, char **keys_export);
 static void	ft_print_export(t_linkedlist_array *ht, char *key);
 
-void	ft_export(t_linkedlist_array *ht_env, char *key_value)
+void	ft_export(t_linkedlist_array *ht_env, const char *key_value)
 {
 	char			**keys_export;
 	int				i;

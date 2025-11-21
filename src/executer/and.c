@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   and.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 15:39:10 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 12:03:30 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/21 13:12:21 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/21 16:09:31 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "executer.h"
 
-void	ft_unset(t_linkedlist_array *ht_env, const char *key)
+int ft_execute_and(t_node *node)
 {
-	t_linkedlist_node *found;
-	t_ht *remove;
+	int status;
 
-	if (!key || !ht_env)
-		return ;
-	found = (t_linkedlist_node *)ft_find_ht(ht_env, key);
-	if (!found)
-		return ;
-	remove = (t_ht *)found->content;
-	ft_remove_item_ht(ht_env, remove, ft_free_item_ht_env);
+	status = ft_execute_node(node->left);
+	if (status == 0)
+		status = ft_execute_node(node->right);
+	return (status);
 }

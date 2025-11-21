@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 13:44:16 by valero            #+#    #+#             */
-/*   Updated: 2025/11/09 16:50:24 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/19 18:07:39 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,6 @@ static t_child_process	*ft_create_child_process_structure(
 {
 	int	idx;
 
-	if (!pipes_amount)
-		return (NULL);
 	process = ft_calloc(1, sizeof(t_child_process));
 	if (!process)
 		return (NULL);
