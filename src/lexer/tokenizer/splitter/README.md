@@ -44,7 +44,7 @@ O módulo retorna sempre um objeto `t_splited_prompt`, pronto para ser usado em 
 
 ## 🧱 Estruturas Principais
 
-### ### `t_splited_prompt`
+### `t_splited_prompt`
 Representa o resultado final.
 Contém:
 - `chuncks`: lista de substrings.
