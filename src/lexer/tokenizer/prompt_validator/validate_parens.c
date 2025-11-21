@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_parens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 22:05:08 by valero            #+#    #+#             */
-/*   Updated: 2025/11/19 15:20:14 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/21 15:05:29 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ static int	update_open_index(
 				const char *line, int *open_idx,
 				int *curr_idx, bool *is_dollar_parens);
 
+/**
+ * # validate_parens
+ *
+ * Valida `(` e `)`, incluindo interações com `$()`.
+ *
+ * Lógica:
+ * - Diferencia parênteses normais de dólar-parens.
+ * - Usa `jump_inner_structures` para navegar blocos internos.
+ */
 int	validate_parens(const char *line)
 {
 	int		i;
@@ -45,7 +54,19 @@ int	validate_parens(const char *line)
 	return (open_parens_index);
 }
 
-
+/**
+ * # jump_inner_structures (variações internas)
+ *
+ * Avança por estruturas internas quando já se está dentro
+ * de outra estrutura. Evita falsos positivos.
+ *
+ * Tipos que podem ser pulados:
+ * - aspas duplas
+ * - aspas simples
+ * - parênteses
+ * - backquotes
+ * - `$()`
+ */
 static void	jump_inner_structures(const char *line, int *idx, int *openning_idx)
 {
 	if (ft_is_special_char(line, *idx, "\""))
@@ -60,6 +81,23 @@ static void	jump_inner_structures(const char *line, int *idx, int *openning_idx)
 		jump_to_closing(line, idx, openning_idx + 4, validate_dollar_parens);
 }
 
+/**
+ * # update_open_index
+ *
+ * Atualiza o estado de abertura/fechamento de parênteses,
+ * diferenciando parênteses normais de `$()`.
+ *
+ * ## Lógica:
+ * - Se achar '(' precedido por '$', ativa `is_dollar_parens`.
+ * - Se achar '(' que não seja parte de `$(`, salva índice em `open_idx`
+ *   e desativa `is_dollar_parens`.
+ * - Se encontrar ')' sem estar em dollar-parens e sem abertura registrada,
+ *   retorna o índice (fechamento inesperado).
+ * - Se encontrar ')' que fecha a abertura atual, reseta `open_idx`.
+ *
+ * ## Retorno:
+ * - índice do fechamento inválido ou -1 se tudo ok.
+ */
 static int	update_open_index(
 			const char *line, int *open_idx,
 			int *curr_idx, bool *is_dollar_parens)

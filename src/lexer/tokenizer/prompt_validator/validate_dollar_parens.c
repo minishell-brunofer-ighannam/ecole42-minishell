@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_dollar_parens.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:59:55 by valero            #+#    #+#             */
-/*   Updated: 2025/11/19 15:19:57 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/21 15:00:57 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ static int	update_open_index(
 				const char *line, int *open_idx,
 				int *curr_idx, bool *is_parens);
 
+/**
+ * # validate_dollar_parens
+ *
+ * Valida estruturas do tipo `$()`, incluindo aninhamentos.
+ *
+ * Lógica:
+ * - Reconhece início com `$(` e fim com `)`.
+ * - Acompanha profundidade interna via `jump_inner_structures`.
+ * - Retorna posição do erro mais próximo, se houver.
+ */
 int	validate_dollar_parens(const char *line)
 {
 	int		i;
@@ -45,6 +55,19 @@ int	validate_dollar_parens(const char *line)
 	return (open_dollar_parens_index);
 }
 
+/**
+ * # jump_inner_structures (variações internas)
+ *
+ * Avança por estruturas internas quando já se está dentro
+ * de outra estrutura. Evita falsos positivos.
+ *
+ * Tipos que podem ser pulados:
+ * - aspas duplas
+ * - aspas simples
+ * - parênteses
+ * - backquotes
+ * - `$()`
+ */
 static void	jump_inner_structures(const char *line, int *idx, int *openning_idx)
 {
 	if (ft_is_special_char(line, *idx, "\""))
@@ -59,6 +82,14 @@ static void	jump_inner_structures(const char *line, int *idx, int *openning_idx)
 		jump_to_closing(line, idx, openning_idx + 4, validate_dollar_parens);
 }
 
+/**
+ * # update_open_index (versão para dollar-parens)
+ *
+ * Lida com a lógica mais elaborada de `$(`:
+ * - identifica comportamento especial quando precedido de '$'
+ * - acompanha se o bloco atual é realmente `$()`
+ * - retorna erro se um `)` fecha incorretamente
+ */
 static int	update_open_index(
 				const char *line, int *open_idx, int *curr_idx, bool *is_parens)
 {
