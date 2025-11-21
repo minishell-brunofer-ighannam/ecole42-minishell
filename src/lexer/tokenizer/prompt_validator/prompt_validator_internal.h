@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:04:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/12 12:05:15 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:55:05 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,17 @@
 # include "libft.h"
 # include "../../lexer_utils/lexer_utils.h"
 
+/**
+ * # t_char_checker
+ *
+ * Pequena estrutura auxiliar usada para isolar um contexto:
+ * - `str`: string original.
+ * - `idx`: índice de início da análise.
+ * - `chars`: caracteres especiais que delimitam a estrutura.
+ * - `is_special_char`: função usada para identificar esses caracteres.
+ *
+ * Serve como pacote de dados para `verify_char`.
+ */
 typedef struct s_char_checker
 {
 	const char	*str;

@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:45:44 by valero            #+#    #+#             */
-/*   Updated: 2025/11/12 11:57:01 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/21 15:02:54 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@ static void	jump_inner_structures(
 				const char *line, int *idx, int *inner_openning_idx);
 static void	update_open_index(int *open_idx, int curr_idx);
 
+/**
+ * # validate_doublequotes
+ *
+ * Valida aspas duplas, incluindo estruturas internas.
+ * Aspas duplas permitem interpretar conteúdo, portanto
+ * exigem navegação de estruturas aninhadas.
+ */
 int	validate_doublequotes(const char *line)
 {
 	int	i;
@@ -40,6 +47,16 @@ int	validate_doublequotes(const char *line)
 	return (open_quote_index);
 }
 
+/**
+ * # jump_inner_structures (variações internas)
+ *
+ * Avança por estruturas internas quando já se está dentro
+ * de outra estrutura. Evita falsos positivos.
+ *
+ * Tipos que podem ser pulados:
+ * - backquotes
+ * - `$()`
+ */
 static void	jump_inner_structures(
 			const char *line, int *idx, int *inner_openning_idx)
 {
@@ -50,6 +67,12 @@ static void	jump_inner_structures(
 			line, idx, inner_openning_idx + 1, validate_dollar_parens);
 }
 
+/**
+ * # update_open_index (versão simples)
+ *
+ * Alterna estado de abertura/fechamento de estruturas simples
+ * como aspas ou backquotes.
+ */
 static void	update_open_index(int *open_idx, int curr_idx)
 {
 	if (*open_idx == -1)
