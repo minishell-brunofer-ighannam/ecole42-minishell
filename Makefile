@@ -24,8 +24,10 @@ CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
 
 # ------------ LEXER FILES -----------------
 SPLITTER_DIR = src/lexer/tokenizer/splitter
-SPLITTER_FILES = $(SPLITTER_DIR)/raw_splitter.c $(SPLITTER_DIR)/raw_splitter_utils.c $(SPLITTER_DIR)/splitter_utils.c \
-$(SPLITTER_DIR)/refined_splitter.c $(SPLITTER_DIR)/refine_raw_token.c $(SPLITTER_DIR)/splitter.c
+SPLITTER_FILES = $(SPLITTER_DIR)/raw_splitter/raw_splitter.c $(SPLITTER_DIR)/raw_splitter/raw_splitter_utils.c $(SPLITTER_DIR)/raw_splitter/raw_splitter_quote_states.c \
+$(SPLITTER_DIR)/refined_splitter/refined_splitter.c $(SPLITTER_DIR)/refined_splitter/refine_raw_token.c $(SPLITTER_DIR)/refined_splitter/refine_raw_token_push.c \
+$(SPLITTER_DIR)/refined_splitter/refine_raw_manage_grouped_and_ungrouped.c \
+$(SPLITTER_DIR)/splitter_utils.c $(SPLITTER_DIR)/splitter.c
 
 PROMPT_VAL_DIR = src/lexer/tokenizer/prompt_validator
 PROMPT_VAL_FILES = $(PROMPT_VAL_DIR)/prompt_validator.c $(PROMPT_VAL_DIR)/validate_backquotes.c \
@@ -38,9 +40,12 @@ EXP_OBJECT_DIR = $(TOKENIZE_DIR)/expandable_object
 EXP_OBJECT_FILES = $(EXP_OBJECT_DIR)/expandable_object.c $(EXP_OBJECT_DIR)/expansion_object_utils.c \
 $(EXP_OBJECT_DIR)/find_expandable.c $(EXP_OBJECT_DIR)/find_keys_to_expand.c
 
+SEP_QUOTES_DIR = $(TOKENIZE_DIR)/separate_quote_chuncks
+SEP_QUOTES_FILES = $(SEP_QUOTES_DIR)/separate_quote_chuncks.c $(SEP_QUOTES_DIR)/separate_quote_chuncks_utils.c \
+$(SEP_QUOTES_DIR)/separate_quote_chunck_session.c
 
-TOKENIZE_FILES = $(EXP_OBJECT_FILES) $(TOKENIZE_DIR)/build_expansion.c $(TOKENIZE_DIR)/build_expansion_utils.c \
-$(TOKENIZE_DIR)/token.c $(TOKENIZE_DIR)/tokenize.c
+TOKENIZE_FILES = $(EXP_OBJECT_FILES) $(SEP_QUOTES_FILES) $(TOKENIZE_DIR)/build_expansion.c $(TOKENIZE_DIR)/build_expansion_utils.c \
+$(TOKENIZE_DIR)/build_expansion_result.c $(TOKENIZE_DIR)/token.c $(TOKENIZE_DIR)/tokenize.c
 
 LEXER_U_DIR = src/lexer/lexer_utils
 LEXER_U_FILES = $(LEXER_U_DIR)/reserved_structures.c $(LEXER_U_DIR)/error_printer.c

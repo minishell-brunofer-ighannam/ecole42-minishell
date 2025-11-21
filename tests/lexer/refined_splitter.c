@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:13:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/16 19:51:44 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/19 13:06:19 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,10 @@ static void	test3(void)
 	int					right_tokens;
 
 	test.teste_number = 3;
-	test.test_input = "echo \" teste dois\"|\"grudado\" |grep \" ola meu chapa \" ";
+	test.test_input = "echo \" teste dois\"|\"\"\"grudado\" |grep \" ola meu chapa \" ";
 	splitted = ft_refined_splitter(test.test_input);
 	char	*expected[] = {"echo", "\" teste dois\"", "|", "\"grudado\"", "|", "grep", "\" ola meu chapa \"", NULL};
-	int		expected_coords[][2] = {{0, 3}, {5, 17}, {18, 18}, {19, 27}, {29, 29}, {30, 33}, {35, 51}};
+	int		expected_coords[][2] = {{0, 3}, {5, 17}, {18, 18}, {21, 29}, {31, 31}, {32, 35}, {37, 53}};
 	right_tokens = 0;
 	i = 0;
 	while (expected[i])

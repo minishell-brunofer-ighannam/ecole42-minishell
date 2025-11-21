@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:26:23 by valero            #+#    #+#             */
-/*   Updated: 2025/11/17 00:27:50 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/19 14:55:10 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,31 @@ struct s_tokenized_prompt
 	int			size;
 	void		*(*destroy)(t_tokenized_prompt **self_ref);
 };
-
+/* `
+ola"tudo bem"'?*'bom" dia"
+[
+	{
+		quo_type: (nil),
+		char *chunck: "ola",
+	},
+	{
+		quo_type: ",
+		char *chunck: "tudo bem",
+	},
+	{
+		quo_type: ',
+		char *chunck: "?*",
+	},
+	{
+		quo_type: (nil),
+		char *chunck: "bom",
+	},
+	{
+		quo_type: ",
+		char *chunck: " dia",
+	},
+]
+ */
 t_tokenized_prompt	*ft_tokenizer(
 						const char *prompt,
 						t_expand_var_clbk expand_var,
