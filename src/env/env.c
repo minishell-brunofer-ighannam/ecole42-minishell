@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:25:06 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/13 16:31:08 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/21 12:08:35 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_linkedlist_array	*ft_init_ht_env(char **envp)
 	return (ht_env);
 }
 
-void	ft_split_key_value(char *s, char **key_value)
+void	ft_split_key_value(const char *s, char **key_value)
 {
 	int		len;
 	char	*key;
@@ -57,7 +57,7 @@ void	ft_split_key_value(char *s, char **key_value)
 	key_value[1] = value;
 }
 
-t_ht	*ft_content_node_ht(char *s)
+t_ht	*ft_content_node_ht(const char *s)
 {
 	t_ht		*content;
 	t_env_value	*value;
