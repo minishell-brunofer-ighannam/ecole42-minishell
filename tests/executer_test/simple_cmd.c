@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:53:16 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 15:40:43 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/21 19:34:45 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main(int argc, char **argv, char **envp)
 
 	// constroi array de tokens
 	t_tokenized_prompt *tokenized_prompt = ft_tokenizer("ls", ft_expand_var, ft_expand_glob);
-	
+
 	// construção da árvore
 	node = ft_calloc(1, sizeof(t_node));
 	node->ht_env = ht_env;
@@ -46,10 +46,10 @@ int main(int argc, char **argv, char **envp)
 	node2->envp = envp;
 	node2->token = tokenized_prompt2->tokens;
 	node2->type = NODE_CMD;
-	
+
 	printf("\n===== cmd ls -l =====\n");
 	//ft_execute_tree(node2);
-	
+
 
 
 
@@ -151,8 +151,8 @@ int main(int argc, char **argv, char **envp)
 	ft_execute_tree(node_pipe2);
 
 
-	
+
 	ht_env->destroy(&ht_env, ft_free_item_ht_env);
-	
+
 	return(0);
 }
