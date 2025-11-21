@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/17 02:29:32 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/20 19:02:03 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "../../lexer_utils/lexer_utils.h"
 # include "./expandable_object/expandable_object.h"
 # include "../tokenizer_internal.h"
+# include "separate_quote_chuncks/separate_quote_chuncks.h"
 # include "tokenize.h"
 
 // ============================ BUILD EXPANSION ============================

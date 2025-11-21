@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_backquotes.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:56:18 by valero            #+#    #+#             */
-/*   Updated: 2025/11/12 12:00:55 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:20:59 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	validate_backquotes(const char *line)
 {
 	int		i;
 	int		open_backquotes_index;
-	int		other_openning_idx[3];
+	int		other_openning_idx[4];
 
-	fill_int_array(other_openning_idx, 3, -1);
+	fill_int_array(other_openning_idx, 4, -1);
 	open_backquotes_index = -1;
 	i = -1;
 	while (line[++i])
@@ -45,11 +45,13 @@ static void	jump_inner_structures(
 	if (ft_is_special_char(line, *idx, "\""))
 		jump_to_closing(
 			line, idx, inner_openning_idx + 0, validate_doublequotes);
+	if (ft_is_special_char(line, *idx, "'"))
+		jump_to_closing(line, idx, inner_openning_idx + 1, validate_singlequotes);
 	else if (ft_is_special_char(line, *idx, "()"))
-		jump_to_closing(line, idx, inner_openning_idx + 1, validate_parens);
+		jump_to_closing(line, idx, inner_openning_idx + 2, validate_parens);
 	else if (ft_is_special_char(line, *idx, "$") && line[*idx + 1] == '(')
 		jump_to_closing(
-			line, idx, inner_openning_idx + 2, validate_dollar_parens);
+			line, idx, inner_openning_idx + 3, validate_dollar_parens);
 }
 
 static void	update_open_index(int *open_idx, int curr_idx)

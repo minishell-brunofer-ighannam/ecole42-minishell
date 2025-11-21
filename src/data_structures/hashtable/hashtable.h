@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 11:15:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/17 02:23:57 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/21 12:08:07 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ typedef struct s_ht
 	void			*value;
 }					t_ht;
 
-int	ft_hash(char *key);
+int	ft_hash(const char *key);
 void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new, void (*ft_free_item_ht)(void *arg));
-void *ft_find_ht(t_linkedlist_array *ht ,char *key);
+void *ft_find_ht(t_linkedlist_array *ht ,const char *key);
 void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new, void (*ft_free_item_ht)(void *arg));
 void ft_remove_item_ht(t_linkedlist_array *ht, t_ht *new, void (*ft_free_item_ht)(void *arg));
 

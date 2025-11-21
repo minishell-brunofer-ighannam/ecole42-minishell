@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 15:39:10 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/17 02:22:42 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/21 12:03:30 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	ft_unset(t_linkedlist_array *ht_env, char *key)
+void	ft_unset(t_linkedlist_array *ht_env, const char *key)
 {
 	t_linkedlist_node *found;
 	t_ht *remove;
