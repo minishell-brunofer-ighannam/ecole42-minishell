@@ -6,11 +6,11 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:58:40 by valero            #+#    #+#             */
-/*   Updated: 2025/11/19 10:08:20 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/20 23:12:01 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "splitter_internal.h"
+#include "refined_splitter_internal.h"
 
 static void	filter_reserved_tokens(
 				t_chunck token, int curr_idx, t_linkedlist_array *refineds,
@@ -18,6 +18,19 @@ static void	filter_reserved_tokens(
 static void	manage_quote_behavior(
 				t_chunck token, t_refine_raw_token_vars *refine);
 
+/**
+ * # ft_manage_grouped_and_ungrouped_tokens
+ *
+ * Loop principal do parser de caracteres.
+ *
+ * Regras:
+ * - Detecta aspas e delega a lógica para `manage_quote_behavior`.
+ * - Quando não está dentro de aspas, detecta operadores reservados
+ *   via `filter_reserved_tokens`.
+ * - Copia caracteres normais para o buffer final.
+ *
+ * É quem controla a navegação real no token bruto.
+ */
 void	ft_manage_grouped_and_ungrouped_tokens(
 			t_refined_token_push_params scope)
 {
@@ -46,24 +59,8 @@ void	ft_manage_grouped_and_ungrouped_tokens(
 /**
  * # ft_jump_useless_quotes
  *
- * ---
- *
- * Skips consecutive quote characters that are not part
- * of a meaningful string.
- *
- * ## Logic
- * - Iterates while characters are quotes.
- * - Increments `curr_idx` to skip them.
- *
- * ## Parameters
- * - `str`: Pointer to token substring starting at quote.
- * - `curr_idx`: Pointer to current index, updated.
- *
- * ## Returns
- * - None (index adjusted in place).
- *
- * ## Notes
- * - Used internally by `manage_quote_behavior()`.
+ * Avança o índice por cima de aspas consecutivas inúteis.
+ * Usado quando sequências como `""""` aparecem.
  */
 static void	ft_jump_useless_quotes(char *str, int *curr_idx)
 {
@@ -78,25 +75,15 @@ static void	ft_jump_useless_quotes(char *str, int *curr_idx)
 /**
  * # manage_quote_behavior
  *
- * ---
+ * Implementa toda a lógica de abertura e fechamento de aspas:
+ * - Detecta início de um agrupamento.
+ * - Pula aspas redundantes.
+ * - Atualiza found_quote.
+ * - Registra coordenada inicial do grupo.
+ * - Copia o caractere correspondente para new_token.
  *
- * Updates the quote state when a quote character is
- * encountered in a token.
- *
- * ## Logic
- * - Sets `found_quote` on opening quote.
- * - Resets `found_quote` on closing quote.
- * - Calls `ft_merge_adjacent_strings()` for special cases.
- *
- * ## Parameters
- * - `token`: The token being refined.
- * - `refine`: Refinement state struct (`t_refine_raw_token_vars`).
- *
- * ## Returns
- * - None (modifies `refine->found_quote` and `new_token`).
- *
- * ## Notes
- * - Ensures quoted segments are preserved correctly.
+ * É a parte mais sensível para casos como:
+ * `"oi""""tudo bem?"`.
  */
 static void	manage_quote_behavior(
 				t_chunck token, t_refine_raw_token_vars *refine)
@@ -110,38 +97,22 @@ static void	manage_quote_behavior(
 		refine->found_quote = token.chunck[refine->idx];
 	else if (refine->found_quote == token.chunck[refine->idx])
 		refine->found_quote = 0;
-
 	if (!refine->idx_new_token)
 		refine->last_start = token.coord[0] + refine->idx;
 	refine->new_token[refine->idx_new_token++] = token.chunck[refine->idx];
 }
 
-
-
 /**
  * # filter_reserved_tokens
  *
- * ---
+ * Identifica operadores reservados (`|`, `>`>, `<<`, `>`, `<`, ...).
  *
- * Detects reserved tokens (like `>`, `|`, `&&`) and
- * separates them from the current token.
- *
- * ## Logic
- * - Checks if the current character is a reserved token.
- * - Pushes accumulated string before reserved token.
- * - Pushes reserved token as a separate element.
- *
- * ## Parameters
- * - `token`: The raw token being processed.
- * - `curr_idx`: Index of the raw token in the array.
- * - `refineds`: Linked list array for output.
- * - `refine`: Refinement state struct.
- *
- * ## Returns
- * - None (modifies `refineds` and `refine` state).
- *
- * ## Notes
- * - Only applies outside of quotes.
+ * Lógica:
+ * - Só atua quando não estamos dentro de aspas.
+ * - Se havia texto acumulado antes do operador,
+ *   empurra-o como um token separado.
+ * - Cria um chunk para o operador.
+ * - Avança o índice pela largura do operador.
  */
 static void	filter_reserved_tokens(
 				t_chunck token, int curr_idx, t_linkedlist_array *refineds,

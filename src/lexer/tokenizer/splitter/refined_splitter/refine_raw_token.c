@@ -6,39 +6,26 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 01:29:30 by valero            #+#    #+#             */
-/*   Updated: 2025/11/19 10:15:06 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/20 23:08:10 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "splitter_internal.h"
+#include "refined_splitter_internal.h"
 
 /**
  * # ft_refine_raw_token
  *
- * ---
+ * Coração do refinamento de cada token bruto.
  *
- * Refines a single raw token by handling quotes and
- * reserved tokens.
+ * Lógica:
+ * - Prepara variáveis internas e buffer.
+ * - Calcula tamanho real do token pelas coordenadas.
+ * - Executa o parser de agrupamentos e aspas via
+ *   `ft_manage_grouped_and_ungrouped_tokens`.
+ * - Caso tenha sobrado conteúdo pendente em new_token,
+ *   empurra com `ft_refined_token_push`.
  *
- * ## Logic
- * - Allocates a temporary buffer `new_token`.
- * - Iterates characters in `raw_token`.
- * - Handles quotes using `manage_quote_behavior()`.
- * - Detects and separates reserved tokens with
- *   `filter_reserved_tokens()`.
- * - Adds resulting tokens to `refineds`.
- *
- * ## Parameters
- * - `raw_token`: The raw token to refine.
- * - `idx_raw_token`: Index of the token in the raw array.
- * - `refineds`: Linked list array to store output tokens.
- *
- * ## Returns
- * - None (refined tokens stored in `refineds`).
- *
- * ## Notes
- * - Merges adjacent strings split by quotes.
- * - Preserves escaped characters.
+ * Responsável por aplicar toda a lógica de segmentação fina.
  */
 void	ft_refine_raw_token(
 				t_chunck raw_token,
