@@ -1,43 +1,131 @@
-# Splitter
+# Splitter Module — Visão Geral
 
-The **Splitter** is a module responsible for breaking a command line into tokens, ready to be processed or executed.
-It consists of **two main stages**: **raw splitting** and **token refinement**.
+![splitter diagram](splitter_diagram.png)
 
----
+O módulo **splitter** funciona em duas etapas principais:
 
-## 1. Raw Splitting
+1. **Raw Split** — separa a linha em tokens básicos, levando em conta aspas e limites.
+2. **Refined Split** — percorre cada token bruto, remove aspas inúteis, separa operadores, une partes agrupadas e produz o resultado final.
 
-Raw splitting is the first stage of the splitter.
-It takes the raw command line and performs an initial separation into words, preserving **quotes** and **escaped characters**.
-The result is an array of strings that still contains quotes, escaped spaces, and other special characters.
-
-> This stage acts as the foundation for lexical processing, preparing the tokens for refinement.
+O módulo retorna sempre um objeto `t_splited_prompt`, pronto para ser usado em qualquer etapa posterior do parser ou executor.
 
 ---
 
-## 2. Token Refinement
+## 🔧 Fluxo Geral
 
-Refinement is the second stage of the splitter, responsible for **cleaning and organizing the tokens** obtained from the raw splitting stage.
+1. `ft_splitter`
+   Interface pública única. Chama o refinador completo e retorna o resultado final.
 
-### Key functions of refinement:
+2. `ft_refined_splitter`
+   - Chama `ft_raw_splitter` para obter os tokens iniciais.
+   - Cria um array de listas para armazenar refinamentos.
+   - Executa `refine_tokens` para tratar cada token bruto.
+   - Copia tudo em um `t_splited_prompt` final.
 
-- **Preserve and handle quotes**
-  Quotes are maintained when necessary, and segments within quotes are protected from incorrect splitting.
-  The quote state is tracked to open, close, or ignore unnecessary quotes.
+3. `refine_tokens`
+   Itera por todos os tokens brutos e chama `ft_refine_raw_token`.
 
-- **Separate reserved tokens**
-  Special shell characters, such as `>`, `<`, `|`, and `&&`, are recognized and separated into individual elements of the final array.
-  This ensures operators are not confused with regular words.
+4. `ft_refine_raw_token`
+   Núcleo da lógica de refinamento.
+   Remove aspas inúteis, detecta agrupamentos, separa operadores reservados e monta um buffer com o token refinado final ou parcial.
 
-- **Merge adjacent strings**
-  In cases where quotes split tokens that should be continuous, refinement merges these fragments back together.
-  This prevents artificial or incorrectly fragmented tokens.
+5. Push helpers
+   - `ft_refined_token_push`
+   - `ft_push_ungrouped_token`
+   - `ft_push_grouped_token_part`
+   - `ft_push_grouped_token_part_with_skipped_quotes`
+   Responsáveis por criar e inserir `t_chunck`s no array de listas conforme a regra do token.
 
-- **Storage structure**
-  Internally, a **linked list array** is used to temporarily store refined tokens.
-  After processing, all tokens are copied into a **final string array**, which is returned for further use.
+6. `copy_to_matrix`
+   Converte toda a estrutura de listas no formato final:
+   `t_splited_prompt.chuncks` e `t_splited_prompt.coords`.
 
-- **Preserve escapes and special characters**
-  Escaped spaces and quotes within tokens are preserved so that subsequent parsing can correctly interpret the command line.
+---
 
-> Refinement transforms raw tokens into a clean structure ready for syntax analysis or execution, ensuring that each element of the command line is correctly separated and processed.
+## 🧱 Estruturas Principais
+
+### ### `t_splited_prompt`
+Representa o resultado final.
+Contém:
+- `chuncks`: lista de substrings.
+- `coords`: coordenadas `{start, end}` de cada token.
+- `len`: número total de tokens.
+- `destroy`: função que libera toda a estrutura.
+
+É sempre o retorno final do módulo.
+
+---
+
+### `t_refine_raw_token_vars`
+Variáveis internas usadas durante o refinamento de um único token bruto.
+Armazena índices, controle de aspas e buffer do novo token.
+É essencial para o comportamento correto de agrupamento e remoção de aspas.
+
+---
+
+### `t_refined_token_push_params`
+Estrutura auxiliar que encapsula todas as informações necessárias para realizar um push de token refinado.
+Evita passar dezenas de argumentos entre funções.
+
+---
+
+### `t_chunck`
+Representa um token com sua coordenada de origem.
+É o bloco fundamental do sistema.
+
+---
+
+## 🧠 Funções-Chave
+
+### `ft_splitter`
+Interface final do usuário.
+Apenas chama `ft_refined_splitter`.
+
+---
+
+### `ft_refined_splitter`
+Coordena todo o processo de split e refinamento.
+Une módulos e garante consistência.
+
+---
+
+### `ft_refine_raw_token`
+A função mais importante do refinamento.
+Executa:
+- detecção de aspas,
+- remoção de aspas inúteis,
+- separação de operadores,
+- montagem do novo token,
+- divisão em partes agrupadas e push.
+
+---
+
+### `ft_manage_grouped_and_ungrouped_tokens`
+Percorre caractere a caractere do token bruto e decide como cada parte deve ser tratada.
+
+---
+
+### `filter_reserved_tokens`
+Detecta operadores como `|`, `>`, `>>`, `<`, `<<` e separa corretamente.
+
+---
+
+### `manage_quote_behavior`
+Controla a entrada e saída de contexto de aspas.
+Importante para não quebrar tokens dentro de strings.
+
+---
+
+### `copy_to_matrix`
+Transforma toda a estrutura refinada (listas internas) em um único `t_splited_prompt`, organizado e linear.
+
+---
+
+## ✔ Arquitetura em Resumo
+
+- **Raw Split:** divide.
+- **Refined Split:** corrige, limpa e separa operadores.
+- **Final:** entrega tokens prontos com coordenadas exatas.
+
+Simples para quem usa.
+Robusto por dentro.

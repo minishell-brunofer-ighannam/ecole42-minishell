@@ -6,11 +6,11 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:52:01 by valero            #+#    #+#             */
-/*   Updated: 2025/11/19 15:45:36 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/20 23:07:08 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "splitter_internal.h"
+#include "refined_splitter_internal.h"
 
 void		free_chunck(void *ptr);
 static void	copy_to_matrix(
@@ -23,35 +23,14 @@ static void	refine_tokens(
 /**
  * # ft_refined_splitter
  *
- * ---
+ * Pipeline completo do refinamento:
+ * - Usa `ft_raw_splitter` para criar tokens brutos.
+ * - Cria array de listas para receber tokens refinados.
+ * - Refina cada token com `refine_tokens`.
+ * - Converte listas em matriz final com `copy_to_matrix`.
+ * - Libera estruturas temporárias.
  *
- * Splits a command line string into refined tokens,
- * handling quotes and reserved tokens.
- *
- * Works as the second stage of lexical processing.
- * Generates an array of cleaned tokens ready for
- * parsing or execution.
- *
- * ## Logic
- * - Calls `ft_raw_splitter()` to obtain raw tokens.
- * - Allocates a linked list array to store refined tokens.
- * - Calls `refine_tokens()` to process each raw token.
- * - Converts the linked list array into a string matrix.
- * - Frees intermediate data and returns refined tokens.
- *
- * ## Parameters
- * - `str`: Raw input string to process.
- *
- * ## Returns
- * - Array of strings (`char **`) with refined tokens,
- *   NULL-terminated.
- * - Returns `NULL` if allocation fails or `str` is NULL.
- *
- * ## Notes
- * - Handles quote merging and token separation.
- * - Reserved tokens (like `>`, `|`, `&&`) are split
- *   into separate elements.
- * - Escaped spaces and quotes are preserved.
+ * Retorna um `t_splited_prompt` devidamente limpado e final.
  */
 t_splited_prompt	*ft_refined_splitter(char const *str)
 {
@@ -72,25 +51,10 @@ t_splited_prompt	*ft_refined_splitter(char const *str)
 /**
  * # refine_tokens
  *
- * ---
+ * Itera sobre todos os tokens brutos do raw_split
+ * e chama `ft_refine_raw_token` para analisar cada um.
  *
- * Processes each raw token from `raw_split` and stores
- * the refined version in `refined_tokens`.
- *
- * ## Logic
- * - Iterates all raw tokens.
- * - Calls `ft_refine_raw_token()` on each token.
- *
- * ## Parameters
- * - `refined_tokens`: Linked list array to store output.
- * - `raw_split`: Array of raw tokens from first split.
- * - `len_raw_split`: Number of raw tokens.
- *
- * ## Returns
- * - None (output stored in `refined_tokens`).
- *
- * ## Notes
- * - Maintains original token order.
+ * Responsável apenas pelo loop externo.
  */
 static void	refine_tokens(
 				t_linkedlist_array *refined_tokens,
@@ -111,24 +75,13 @@ static void	refine_tokens(
 /**
  * # copy_to_matrix
  *
- * ---
+ * Converte o array de listas de tokens refinados
+ * em um `t_splited_prompt` linear.
  *
- * Converts a linked list array of refined tokens into
- * a standard NULL-terminated string array.
- *
- * ## Logic
- * - Iterates nodes in reverse to preserve order.
- * - Copies each node's content using `ft_strdup()`.
- *
- * ## Parameters
- * - `refined_tokens`: Linked list array of tokens.
- * - `matrix`: Preallocated array to store copied strings.
- *
- * ## Returns
- * - None (tokens copied to `matrix`).
- *
- * ## Notes
- * - Caller must free the matrix after use.
+ * Lógica:
+ * - Aloca matriz final.
+ * - Varre cada lista de trás pra frente (ordem preservada).
+ * - Duplica chuncks e coordenadas para a estrutura final.
  */
 static void	copy_to_matrix(
 				t_linkedlist_array *refined_tokens,
@@ -140,7 +93,8 @@ static void	copy_to_matrix(
 	t_chunck			*content;
 
 	splited_prompt->len = refined_tokens->nodes_amount;
-	splited_prompt->chuncks = ft_calloc(splited_prompt->len + 1, sizeof(char *));
+	splited_prompt->chuncks = ft_calloc(
+			splited_prompt->len + 1, sizeof(char *));
 	splited_prompt->coords = ft_calloc(splited_prompt->len + 1, sizeof(int *));
 	node_idx = refined_tokens->nodes_amount - 1;
 	list_idx = refined_tokens->size;
@@ -158,6 +112,12 @@ static void	copy_to_matrix(
 	}
 }
 
+/**
+ * # free_chunck
+ *
+ * Wrapper simples que chama o destrutor de `t_chunck`.
+ * Necessário para passar como callback ao destruir listas.
+ */
 void	free_chunck(void *ptr)
 {
 	t_chunck	*chunck;
