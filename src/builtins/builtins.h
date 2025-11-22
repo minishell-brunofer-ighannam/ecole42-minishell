@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:20:31 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 12:03:11 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/22 11:41:22 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include "../utils/utils.h"
 # include <stdio.h>
 # include "../../includes/minishell.h"
-
-typedef struct s_env	t_env;
 
 void					ft_env(t_linkedlist_array *ht_env);
 void					ft_export(t_linkedlist_array *ht_env, const char *key_value);

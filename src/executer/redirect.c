@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 16:46:08 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/22 19:49:24 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int ft_visit_redirect(t_node *node)
 		node->left->redirect = node->redirect;
 		ft_visit_redirect(node->left);
 	}
-	if (node->left->type == NODE_CMD)
+	if (ft_is_redirect(node->left) == 0)
 	{
 		node->left->redirect = node->redirect;
-		return(ft_execute_cmd(node->left));
+		return(ft_execute_node(node->left));
 	}
 	if (node->left->type == NODE_SUBSHELL)
 	{
@@ -71,8 +71,8 @@ int ft_execute_redirect(t_node *node) //recebe nó com lista de redirecionamento
 			ret = ft_execute_redirect_out(node_redir);
 		else if (content->type == NODE_APPEND_OUT)
 			ret = ft_execute_append_out(node_redir);
-		if (ret == 1)
-			return (1);
+		if (ret != 0)
+			return (ret);
 		node_redir = node_redir->prev;
 		size--;
 	}
@@ -92,6 +92,7 @@ int ft_execute_redirect_in(t_linkedlist_node *node)
 		return (1);
 	}
 	dup2(file, STDIN_FILENO);
+	close(file);
 	return (0);
 }
 
@@ -101,6 +102,7 @@ int ft_execute_redirect_out(t_linkedlist_node *node)
 	t_redirect *content;
 
 	content = (t_redirect *)(node->content);
+	
 	file = open(content->file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (file == -1)
 	{
@@ -108,6 +110,9 @@ int ft_execute_redirect_out(t_linkedlist_node *node)
 		return (1);
 	}
 	dup2(file, STDOUT_FILENO);
+	if (content->type == NODE_HERE_DOC_IN)
+		unlink(content->file);
+	close(file);
 	return (0);
 }
 
@@ -124,5 +129,6 @@ int ft_execute_append_out(t_linkedlist_node *node)
 		return (1);
 	}
 	dup2(file, STDOUT_FILENO);
+	close(file);
 	return (0);
 }
