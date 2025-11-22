@@ -3,15 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   structure_jump.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 08:55:01 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/19 12:59:39 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/21 14:55:37 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt_validator_internal.h"
 
+/**
+ * # jump_to_closing
+ *
+ * Função chave para navegação de estruturas aninhadas.
+ * Avança o índice até o caractere de fechamento correto,
+ * respeitando o tipo da estrutura (", ', `, (), $()).
+ *
+ * Lógica:
+ * - Determina o caractere de fechamento.
+ * - Usa `verify_char` para detectar erros dentro do bloco.
+ * - Caso não haja erro interno, pula até `get_end`.
+ */
 void	jump_to_closing(
 	const char *line, int *idx,
 	int *inner_openning_idx, int (*validate)(const char *line))

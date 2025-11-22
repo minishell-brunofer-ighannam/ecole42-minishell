@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist_array.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 21:03:40 by valero            #+#    #+#             */
-/*   Updated: 2025/11/17 02:18:31 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/21 12:43:30 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ struct								s_linkedlist_array
 	int								nodes_amount;
 	t_linkedlist					**list;
 	t_linkedlist_node				*(*push)(t_linkedlist_array *self, int idx,
-						void *content);
+			void *content);
 	void							(*iteri)(t_linkedlist_array *self,
-									void (*ft_iteri)(void *arg));
+			void (*ft_iteri)(void *arg));
 	void							*(*destroy)(t_linkedlist_array **self,
-									void (*free_content)(void *arg));
-	t_linkedlist					*(*array_to_list)(t_linkedlist_array *self_ref);
+			void (*free_content)(void *arg));
+	t_linkedlist					*(*array_to_list)(
+			t_linkedlist_array *self_ref);
 };
 
 t_linkedlist_array					*ft_new_linkedlist_array(int size);

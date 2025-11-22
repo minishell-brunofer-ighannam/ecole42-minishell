@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:53:16 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/22 19:23:08 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/21 19:34:45 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,6 @@ int main(int argc, char **argv, char **envp)
 	
 	
 	ht_env->destroy(&ht_env, ft_free_item_ht_env);
-	
+
 	return(0);
 }
