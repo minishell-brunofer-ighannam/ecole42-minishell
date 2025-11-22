@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 15:35:43 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/22 19:46:46 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,39 @@
 
 int ft_execute_cmd(t_node *node)
 {
-	int ret;
+	int status;
 	pid_t pid;
 
-	ret = 0;
+	status = 0;
 	ft_built_args(node); //expande e monta o args para o comando
-	if (ft_execute_redirect(node) == 1) //executa os redirects
-		return (1);
+	
 	if (ft_is_builtin(node->token[0]->value) == 1)
-		ret = ft_execute_builtin(node);
+	{
+		if (ft_execute_redirect(node) == 1) //executa os redirects. Se algum der errado, não executa o comando.
+			return (1);
+		status = ft_execute_builtin(node);
+	}
 	else
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			execve(ft_find_path(node->ht_env, node->argv[0]), node->argv, node->envp);
+			if (ft_execute_redirect(node) == 1) //executa os redirects. Se algum der errado, não executa o comando.
+			return (1);
+			status = execve(ft_find_path(node->ht_env, node->argv[0]), node->argv, node->envp);
+			if (status == -1)
+				exit (127);
+			exit(0);		
 		}
-		waitpid(pid, NULL, 0);
+		if (waitpid(pid, &status, 0) == -1)
+		{
+			perror("waitpid");
+			return (1);
+		}
+		if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 0)
+			return (WEXITSTATUS(status));
 	}
-	return (ret);
+	return (0);
 }
 
 
