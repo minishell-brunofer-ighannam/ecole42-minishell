@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:40:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 16:08:58 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/22 11:19:13 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,28 @@
 int ft_execute_tree(t_node *node)
 {
 	int ret;
+	char *key_value;
 
 	ret = ft_execute_heredocs(node); //primeiro percorrer toda a árvore e tratar todos os heredocs. Se algum der errado, nem executa mais nada.
 	if (ret != 0)
 	{
-		ft_set(node->ht_env, ft_strjoin("?=", ft_itoa(ret)));
+		key_value = ft_strjoin("?=", ft_itoa(ret));
+		ft_set(node->ht_env, key_value);
+		free(key_value);
 		return (1);
 	}
 	ret = ft_execute_node(node);
-	return (0);
+	key_value = ft_strjoin("?=", ft_itoa(ret));
+	ft_set(node->ht_env, key_value);
+	free(key_value);
+	return (ret);
 }
 
 int ft_execute_node(t_node *node)
 {
 	int ret;
 
+	ret = 0;
 	if (ft_is_redirect(node) == 1)
 	{
 		node->redirect = ft_new_linkedlist();
@@ -43,12 +50,8 @@ int ft_execute_node(t_node *node)
 		ret = ft_execute_and(node);
 	if (node->type == NODE_OR)
 		ret = ft_execute_or(node);
-	
-	if (ret != 0)
-	{
-		ft_set(node->ht_env, ft_strjoin("?=", ft_itoa(ret)));
-	}
-	return (0);
+	ft_set(node->ht_env, ft_strjoin("?=", ft_itoa(ret)));
+	return (ret);
 }
 
 

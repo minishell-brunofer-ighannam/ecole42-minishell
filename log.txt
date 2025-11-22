@@ -1,0 +1,16 @@
+EOF
+f1
+includes
+input.txt
+libft
+log.txt
+Makefile
+minishell.excalidraw
+minishell_hd_0
+README.md
+redirect_test
+results.txt
+simple_cmd
+simple_heredoc_test
+src
+tests

@@ -17,141 +17,202 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	t_linkedlist_array *ht_env;
-	t_node *node;
-	t_node *node2;
 
 	// inicializa o ambiente com variáveis padrão
 	ht_env = ft_init_ht_env(envp);
 
-	// constroi array de tokens
-	t_tokenized_prompt *tokenized_prompt = ft_tokenizer("ls", ft_expand_var, ft_expand_glob);
+	// //LINHA DE COMANDO
+	// printf("\ncat < input.txt | grep foo || ls > log.txt && head -n 5 >> results.txt | wc -l << EOF\n");
+	
+	
+	// // Node cat
+	// t_tokenized_prompt *token_cat = ft_tokenizer("cat", ft_expand_var, ft_expand_glob);
+	// t_node *node_cat = ft_calloc(1, sizeof(t_node));
+	// node_cat->ht_env = ht_env;
+	// node_cat->token = token_cat->tokens;
+	// node_cat->type = NODE_CMD;
 
-	// construção da árvore
-	node = ft_calloc(1, sizeof(t_node));
-	node->ht_env = ht_env;
-	node->envp = envp;
-	node->token = tokenized_prompt->tokens;
-	node->type = NODE_CMD;
+	// // Node < input.txt
+	// t_tokenized_prompt *token_in = ft_tokenizer("< input.txt", ft_expand_var, ft_expand_glob);
+	// t_node *node_in = ft_calloc(1, sizeof(t_node));
+	// node_in->ht_env = ht_env;
+	// node_in->token = token_in->tokens;
+	// node_in->type = NODE_REDIRECT_IN;
 
-	printf("\n===== cmd ls =====\n");
-	//ft_execute_tree(node);
+	// // Redirect: cat < input.txt
+	// node_in->left = node_cat;
 
-	ft_set(ht_env, "LS=ls");
-	// controi array de tokens 2
-	t_tokenized_prompt *tokenized_prompt2 = ft_tokenizer("ls -l", ft_expand_var, ft_expand_glob);
+	// // Node grep foo
+	// t_tokenized_prompt *token_grep = ft_tokenizer("grep foo", ft_expand_var, ft_expand_glob);
+	// t_node *node_grep = ft_calloc(1, sizeof(t_node));
+	// node_grep->ht_env = ht_env;
+	// node_grep->token = token_grep->tokens;
+	// node_grep->type = NODE_CMD;
 
-	// construção da árvore
-	node2 = ft_calloc(1, sizeof(t_node));
-	node2->ht_env = ht_env;
-	node2->envp = envp;
-	node2->token = tokenized_prompt2->tokens;
-	node2->type = NODE_CMD;
+	// // Node |
+	// t_tokenized_prompt *token_pipe_A = ft_tokenizer("|", ft_expand_var, ft_expand_glob);
+	// t_node *node_pipe_A = ft_calloc(1, sizeof(t_node));
+	// node_pipe_A->ht_env = ht_env;
+	// node_pipe_A->token = token_pipe_A->tokens;
+	// node_pipe_A->type = NODE_PIPE;
 
-	printf("\n===== cmd ls -l =====\n");
-	//ft_execute_tree(node2);
+	// // Montando: cat < input.txt | grep foo
+	// node_pipe_A->left = node_in;
+	// node_pipe_A->right = node_grep;
+
+	// // Node ls
+	// t_tokenized_prompt *token_ls = ft_tokenizer("ls", ft_expand_var, ft_expand_glob);
+	// t_node *node_ls = ft_calloc(1, sizeof(t_node));
+	// node_ls->ht_env = ht_env;
+	// node_ls->token = token_ls->tokens;
+	// node_ls->type = NODE_CMD;
 
 
+	// // Node > log.txt
+	// t_tokenized_prompt *token_out = ft_tokenizer("> log.txt", ft_expand_var, ft_expand_glob);
+	// t_node *node_out = ft_calloc(1, sizeof(t_node));
+	// node_out->ht_env = ht_env;
+	// node_out->token = token_out->tokens;
+	// node_out->type = NODE_REDIRECT_OUT;
 
+	// // ls > log.txt
+	// node_out->left = node_ls;
 
-	printf("\n===== ls | wc -l =====\n");
-	// Node wc -l
-	t_tokenized_prompt *token_wc = ft_tokenizer("wc -l", ft_expand_var, ft_expand_glob);
-	t_node *node_wc;
-	node_wc = ft_calloc(1, sizeof(t_node));
-	node_wc->ht_env = ht_env;
-	node_wc->token = token_wc->tokens;
-	node_wc->type = NODE_CMD;
+	// // Node ||
+	// t_tokenized_prompt *token_or = ft_tokenizer("||", ft_expand_var, ft_expand_glob);
+	// t_node *node_or = ft_calloc(1, sizeof(t_node));
+	// node_or->ht_env = ht_env;
+	// node_or->token = token_or->tokens;
+	// node_or->type = NODE_OR;
 
-	// Node ls
+	// // Montagem:  (cat < ... | grep foo)  ||  (ls > log.txt)
+	// node_or->left = node_pipe_A;
+	// node_or->right = node_out;
+
+	// // Node head -n 5
+	// t_tokenized_prompt *token_head = ft_tokenizer("head -n 5", ft_expand_var, ft_expand_glob);
+	// t_node *node_head = ft_calloc(1, sizeof(t_node));
+	// node_head->ht_env = ht_env;
+	// node_head->token = token_head->tokens;
+	// node_head->type = NODE_CMD;
+
+	// // Node >> results.txt
+	// t_tokenized_prompt *token_append = ft_tokenizer(">> results.txt", ft_expand_var, ft_expand_glob);
+	// t_node *node_append = ft_calloc(1, sizeof(t_node));
+	// node_append->ht_env = ht_env;
+	// node_append->token = token_append->tokens;
+	// node_append->type = NODE_APPEND_OUT;
+
+	// // head -n 5 >> results.txt
+	// node_append->left = node_head;
+
+	// // Node wc -l
+	// t_tokenized_prompt *token_wc = ft_tokenizer("wc -l", ft_expand_var, ft_expand_glob);
+	// t_node *node_wc = ft_calloc(1, sizeof(t_node));
+	// node_wc->ht_env = ht_env;
+	// node_wc->token = token_wc->tokens;
+	// node_wc->type = NODE_CMD;
+
+	// // Node << EOF
+	// t_tokenized_prompt *token_heredoc = ft_tokenizer("< EOF", ft_expand_var, ft_expand_glob);
+	// t_node *node_heredoc = ft_calloc(1, sizeof(t_node));
+	// node_heredoc->ht_env = ht_env;
+	// node_heredoc->token = token_heredoc->tokens;
+	// node_heredoc->type = NODE_REDIRECT_IN;
+
+	// // wc -l << EOF
+	// node_heredoc->left = node_wc;
+
+	// // Node |
+	// t_tokenized_prompt *token_pipe_C = ft_tokenizer("|", ft_expand_var, ft_expand_glob);
+	// t_node *node_pipe_C = ft_calloc(1, sizeof(t_node));
+	// node_pipe_C->ht_env = ht_env;
+	// node_pipe_C->token = token_pipe_C->tokens;
+	// node_pipe_C->type = NODE_PIPE;
+
+	// // Montando: head >> results.txt | wc -l << EOF
+	// node_pipe_C->left = node_append;
+	// node_pipe_C->right = node_heredoc;
+
+	// // Node &&
+	// t_tokenized_prompt *token_and = ft_tokenizer("&&", ft_expand_var, ft_expand_glob);
+	// t_node *node_and = ft_calloc(1, sizeof(t_node));
+	// node_and->ht_env = ht_env;
+	// node_and->token = token_and->tokens;
+	// node_and->type = NODE_AND;
+
+	// // Montagem final
+	// node_and->left = node_or;      // (A || B)
+	// node_and->right = node_pipe_C; // C
+
+	
+	// ft_execute_tree(node_and);
+
+	//
+	// NODE: ls
+	//
 	t_tokenized_prompt *token_ls = ft_tokenizer("ls", ft_expand_var, ft_expand_glob);
-	t_node *node_ls;
-	node_ls = ft_calloc(1, sizeof(t_node));
+	t_node *node_ls = ft_calloc(1, sizeof(t_node));
 	node_ls->ht_env = ht_env;
 	node_ls->token = token_ls->tokens;
 	node_ls->type = NODE_CMD;
 
-	// Node |
+	//
+	// NODE: wc -l
+	//
+	t_tokenized_prompt *token_wc = ft_tokenizer("wc -l", ft_expand_var, ft_expand_glob);
+	t_node *node_wc = ft_calloc(1, sizeof(t_node));
+	node_wc->ht_env = ht_env;
+	node_wc->token = token_wc->tokens;
+	node_wc->type = NODE_CMD;
+
+	//
+	// NODE: < f1
+	//
+	t_tokenized_prompt *token_redirect = ft_tokenizer("< f1", ft_expand_var, ft_expand_glob);
+	t_node *node_redirect = ft_calloc(1, sizeof(t_node));
+	node_redirect->ht_env = ht_env;
+	node_redirect->token = token_redirect->tokens;
+	node_redirect->type = NODE_REDIRECT_IN;
+
+	//
+	// O redirect fica como nó ESQUERDO do comando wc -l
+	//
+	node_wc->left = node_redirect;
+
+	//
+	// NODE: pipe   =   ls  |  wc -l < f1
+	//
 	t_tokenized_prompt *token_pipe = ft_tokenizer("|", ft_expand_var, ft_expand_glob);
-	t_node *node_pipe;
-	node_pipe = ft_calloc(1, sizeof(t_node));
+	t_node *node_pipe = ft_calloc(1, sizeof(t_node));
 	node_pipe->ht_env = ht_env;
 	node_pipe->token = token_pipe->tokens;
 	node_pipe->type = NODE_PIPE;
 
-	// Montando a árvore
 	node_pipe->left = node_ls;
 	node_pipe->right = node_wc;
 
+	//
+	// node_pipe é a raiz final
+	//
+	
 
+	
 	ft_execute_tree(node_pipe);
 
+	
+	t_ht *item;
+	t_env_value *value;
+	t_linkedlist_node *curr_node;
+	
+	curr_node = ft_find_ht(ht_env, "?");
+	item = curr_node->content;
+	value = item->value;
 
-	printf("\n===== ls | wc -l | wc -l > f1 =====\n");
-	// Node > f1
-	t_tokenized_prompt *token_redir = ft_tokenizer("> f1", ft_expand_var, ft_expand_glob);
-	t_node *node_redir;
-	node_redir = ft_calloc(1, sizeof(t_node));
-	node_redir->ht_env = ht_env;
-	node_redir->token = token_redir->tokens;
-	node_redir->type = NODE_REDIRECT_OUT;
-
-	// Node wc -l (o da direita, que recebe a saída do pipe final)
-	t_tokenized_prompt *token_wc2 = ft_tokenizer("wc -l", ft_expand_var, ft_expand_glob);
-	t_node *node_wc2;
-	node_wc2 = ft_calloc(1, sizeof(t_node));
-	node_wc2->ht_env = ht_env;
-	node_wc2->token = token_wc2->tokens;
-	node_wc2->type = NODE_CMD;
-
-	// Associando o redirect ao comando wc -l final
-	node_redir->left = node_wc2;
-
-
-	// Node wc -l (o intermediário)
-	t_tokenized_prompt *token_wc1 = ft_tokenizer("wc -l", ft_expand_var, ft_expand_glob);
-	t_node *node_wc1;
-	node_wc1 = ft_calloc(1, sizeof(t_node));
-	node_wc1->ht_env = ht_env;
-	node_wc1->token = token_wc1->tokens;
-	node_wc1->type = NODE_CMD;
-
-
-	// Node ls
-	t_tokenized_prompt *token_ls1 = ft_tokenizer("ls", ft_expand_var, ft_expand_glob);
-	t_node *node_ls1;
-	node_ls1 = ft_calloc(1, sizeof(t_node));
-	node_ls1->ht_env = ht_env;
-	node_ls1->token = token_ls1->tokens;
-	node_ls1->type = NODE_CMD;
-
-
-	// Node pipe 1 (ls | wc -l)
-	t_tokenized_prompt *token_pipe1 = ft_tokenizer("|", ft_expand_var, ft_expand_glob);
-	t_node *node_pipe1;
-	node_pipe1 = ft_calloc(1, sizeof(t_node));
-	node_pipe1->ht_env = ht_env;
-	node_pipe1->token = token_pipe1->tokens;
-	node_pipe1->type = NODE_PIPE;
-
-	node_pipe1->left = node_ls1;
-	node_pipe1->right = node_wc1;
-
-
-	// Node pipe 2 ((ls | wc -l) | (wc -l > f1))
-	t_tokenized_prompt *token_pipe2 = ft_tokenizer("|", ft_expand_var, ft_expand_glob);
-	t_node *node_pipe2;
-	node_pipe2 = ft_calloc(1, sizeof(t_node));
-	node_pipe2->ht_env = ht_env;
-	node_pipe2->token = token_pipe2->tokens;
-	node_pipe2->type = NODE_PIPE;
-
-	node_pipe2->left = node_pipe1;
-	node_pipe2->right = node_redir;
-
-	ft_execute_tree(node_pipe2);
-
-
-
+	printf("%s\n", value->value);	
+	
+	
+	
 	ht_env->destroy(&ht_env, ft_free_item_ht_env);
 
 	return(0);
