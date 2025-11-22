@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expandable_object.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:05:15 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 15:41:53 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/22 15:54:23 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,19 @@ static	t_expandable_object	*ft_create_expansion_data(
 								t_expandable_object **object,
 								t_token *token);
 
+/**
+ * # ft_create_expandable_object
+ *
+ * Construtor principal do objeto de expansão.
+ *
+ * Lógica:
+ * - Aloca e inicializa `t_expandable_object`.
+ * - Chama `ft_create_expansion_data` para detectar expansões.
+ * - Copia `original_value` do token.
+ * - Define callback `destroy`.
+ *
+ * Função-chave: inicializa tudo que será usado na expansão.
+ */
 t_expandable_object	*ft_create_expandable_object(t_token *token)
 {
 	t_expandable_object	*object;
@@ -41,6 +54,20 @@ t_expandable_object	*ft_create_expandable_object(t_token *token)
 	return (object);
 }
 
+/**
+ * # ft_copy_expansion_into_object
+ *
+ * Copia do `t_expandable_section` apenas as chaves selecionadas
+ * para dentro do `t_expandable_object`.
+ *
+ * Lógica:
+ * - Conta quantidade de chaves.
+ * - Copia coordenadas com `copy_coord_array`.
+ * - Copia chaves com `copy_array`.
+ *
+ * É o passo em que as expansões descobertas viram dados concretos
+ * dentro do objeto final.
+ */
 static bool	ft_copy_expansion_into_object(
 				t_expandable_object **object,
 				t_expandable_section *keys_to_expand)
@@ -63,6 +90,19 @@ static bool	ft_copy_expansion_into_object(
 	return (true);
 }
 
+/**
+ * # ft_create_expansion_data
+ *
+ * Núcleo da descoberta de expansões.
+ *
+ * Lógica:
+ * - Separa trechos respeitando aspas com `ft_find_expandable`.
+ * - Verifica presença de globs via `ft_has_globs`.
+ * - Extrai apenas chaves realmente expansíveis com `ft_find_keys_to_expand`.
+ * - Copia esses dados para o objeto final.
+ *
+ * É o “scanner” principal do módulo.
+ */
 static	t_expandable_object	*ft_create_expansion_data(
 								t_expandable_object **object,
 								t_token *token)
@@ -86,6 +126,18 @@ static	t_expandable_object	*ft_create_expansion_data(
 	return (*object);
 }
 
+/**
+ * # ft_destroy_expandable_object
+ *
+ * Destrói completamente um `t_expandable_object`.
+ *
+ * Lógica:
+ * - Libera original_value, expanded_value e glob_value.
+ * - Libera matrizes de coordenadas e de chaves.
+ * - Libera expanded_chunks.
+ *
+ * Focado em evitar vazamentos, já que a estrutura tem vários níveis.
+ */
 static void	*ft_destroy_expandable_object(t_expandable_object **self_ref)
 {
 	t_expandable_object	*self;
@@ -110,6 +162,16 @@ static void	*ft_destroy_expandable_object(t_expandable_object **self_ref)
 	return (NULL);
 }
 
+/**
+ * # ft_has_globs
+ *
+ * Verifica se alguma seção contém `*` *fora de aspas duplas*.
+ *
+ * Importante porque:
+ * - Glob só é aplicado em conteúdo não-quoted.
+ *
+ * Retorna `true` se houver glob válido, `false` senão.
+ */
 static bool	ft_has_globs(t_expandable_section *expandable_sections)
 {
 	char	**array;
