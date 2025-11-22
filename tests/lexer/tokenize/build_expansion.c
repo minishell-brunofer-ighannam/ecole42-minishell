@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:30:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 19:36:08 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/22 16:07:45 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static void	test1(t_linkedlist_array	*env)
 	token->destroy(&token);
 	result->destroy(&result);
 }
+// echo hello"my dear $USER"'its $VAR_TO_KEEP_UP good'"to see you at $MONICA_BAR, in"$LENGTH$GREATER$THAN_OTHERS
 
 static void	test2(t_linkedlist_array	*env)
 {

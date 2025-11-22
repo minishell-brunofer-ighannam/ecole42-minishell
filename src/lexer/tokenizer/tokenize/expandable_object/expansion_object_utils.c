@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_object_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:14:58 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 13:26:41 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/22 15:13:50 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,21 @@ static char	**ft_copy_matrix(t_expandable_section *sections);
 static void	*ft_destroy_expandable_sections(
 				t_expandable_section **self_ref);
 
+/**
+ * # ft_create_expandable_sections
+ *
+ * Cria um `t_expandable_section` vazio.
+ *
+ * Lógica:
+ * - Aloca.
+ * - Cria `list` e `coord_list`.
+ * - Atribui callbacks:
+ *   - `copy_array`
+ *   - `copy_coord_array`
+ *   - `destroy`
+ *
+ * É o container geral para trechos a serem analisados.
+ */
 t_expandable_section	*ft_create_expandable_sections(void)
 {
 	t_expandable_section	*exp_sections;
@@ -36,6 +51,15 @@ t_expandable_section	*ft_create_expandable_sections(void)
 	return (exp_sections);
 }
 
+/**
+ * # ft_destroy_expandable_sections
+ *
+ * Destrói completamente um `t_expandable_section`.
+ *
+ * Lógica:
+ * - Libera matriz `array` e `coord_array`.
+ * - Destrói `list` e `coord_list` com seus conteúdos.
+ */
 static void	*ft_destroy_expandable_sections(
 			t_expandable_section **self_ref)
 {
@@ -57,6 +81,17 @@ static void	*ft_destroy_expandable_sections(
 	return (NULL);
 }
 
+/**
+ * # ft_copy_matrix
+ *
+ * Duplica o array de strings de `t_expandable_section`.
+ *
+ * Lógica:
+ * - Conta elementos.
+ * - Duplica item a item com `ft_strdup`.
+ *
+ * Usado para copiar resultados sem mexer no buffer original.
+ */
 static char	**ft_copy_matrix(t_expandable_section *sections)
 {
 	char		**array;
@@ -83,6 +118,17 @@ static char	**ft_copy_matrix(t_expandable_section *sections)
 	return (new_array);
 }
 
+/**
+ * # ft_copy_coord_matrix
+ *
+ * Duplica a matriz de coordenadas.
+ *
+ * Lógica:
+ * - Itera coordenada por coordenada.
+ * - Duplica usando `ft_coord_dup`.
+ *
+ * Usado pelo objeto final para armazenar coordenadas próprias.
+ */
 int	**ft_copy_coord_matrix(void *arg)
 {
 	int						**array;

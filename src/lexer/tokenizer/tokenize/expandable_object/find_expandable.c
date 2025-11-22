@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_expandable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 01:12:37 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 15:41:34 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/22 15:14:36 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,20 @@ static void	ft_push_section(
 				t_token_section *section_content,
 				t_linkedlist_node *coord_node);
 
+/**
+ * # ft_find_expandable
+ *
+ * Primeira etapa da análise: encontrar *todas* as seções possíveis
+ * que possam conter expansões.
+ *
+ * Lógica:
+ * - Fragmenta o token respeitando aspas com `ft_separate_quote_chuncks`.
+ * - Pula trechos dentro de aspas simples.
+ * - Push das seções e coordenadas em `exp_sections`.
+ * - Converte listas para arrays.
+ *
+ * Base bruta para todo o restante da análise.
+ */
 t_expandable_section	*ft_find_expandable(const char *str)
 {
 	t_expandable_section		*exp_sections;
@@ -46,6 +60,15 @@ t_expandable_section	*ft_find_expandable(const char *str)
 	return (exp_sections);
 }
 
+/**
+ * # ft_push_section
+ *
+ * Insere uma seção candidata à expansão dentro do `t_expandable_section`.
+ *
+ * Lógica:
+ * - Duplica texto da seção.
+ * - Duplica coordenada correspondente.
+ */
 static void	ft_push_section(
 				t_expandable_section *exp_sections,
 				t_token_section *section_content,
