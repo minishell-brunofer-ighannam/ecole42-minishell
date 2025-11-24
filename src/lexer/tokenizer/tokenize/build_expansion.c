@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:09:42 by valero            #+#    #+#             */
-/*   Updated: 2025/11/21 14:41:04 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/24 13:31:31 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,22 @@
 #include "tokenize.h"
 
 static void	ft_build_chuncks(t_token *token, t_linkedlist_array *ht_env);
-static int	ft_create_expanded_value(t_token *token);
-static void	ft_merge_expansion(t_token *token);
 static char	*ft_expand_globs(t_token *token);
 
+/**
+ * # ft_build_expansion
+ *
+ * Função central da expansão.
+ *
+ * Lógica:
+ * - Se já existe last_build → retorna cópia.
+ * - Se não é expansível → devolve token como está.
+ * - ft_build_chuncks: expande variáveis detectadas.
+ * - ft_merge_expansion: junta partes não-expandidas + expandidas.
+ * - ft_expand_globs: se contiver globs, tenta expandir.
+ * - ft_build_expansion_result: remove aspas externas e monta final.
+ * - Guarda em last_build para futuras chamadas.
+ */
 t_expansion_build	*ft_build_expansion(
 						t_token *token,
 						t_linkedlist_array *ht_env)
@@ -46,6 +58,16 @@ t_expansion_build	*ft_build_expansion(
 	return (expansion_build);
 }
 
+/**
+ * # ft_build_chuncks
+ *
+ * Expande todas as variáveis encontradas no token.
+ *
+ * Lógica:
+ * - Conta quantas keys expansíveis existem.
+ * - Aloca expanded_chuncks.
+ * - Para cada key → chama expand_var().
+ */
 static void	ft_build_chuncks(t_token *token, t_linkedlist_array *ht_env)
 {
 	char				**keys;
@@ -67,7 +89,18 @@ static void	ft_build_chuncks(t_token *token, t_linkedlist_array *ht_env)
 				keys[len_keys], ht_env);
 }
 
-static int	ft_create_expanded_value(t_token *token)
+/**
+ * # ft_create_expanded_value
+ *
+ * Calcula o tamanho final após substituir variáveis.
+ *
+ * Lógica:
+ * - Começa com tamanho original.
+ * - Subtrai trechos ocupados pelas variáveis.
+ * - Soma tamanhos das strings expandidas.
+ * - Aloca expanded_value com tamanho final.
+ */
+int	ft_create_expanded_value(t_token *token)
 {
 	int					idx;
 	int					value_len;
@@ -89,44 +122,19 @@ static int	ft_create_expanded_value(t_token *token)
 	return (value_len);
 }
 
-static void	ft_merge_expansion(t_token *token)
-{
-	int					idx;
-	t_expandable_object	*object;
-	int					**coords;
-	int					original_i;
-	int					expanded_i;
-	int					chunck_i;
-
-	if (!token->expandable_object->expandable_keys)
-		return ;
-	object = token->expandable_object;
-	coords = object->expandable_coord_keys;
-	ft_create_expanded_value(token);
-	expanded_i = 0;
-	idx = 0;
-	original_i = 0;
-	while ((coords && coords[idx]) || object->original_value[original_i])
-	{
-		if (coords && coords[idx] && original_i < coords[idx][0])
-			object->expanded_value[expanded_i++] = object->original_value[original_i++];
-		else if ((!coords && object->original_value[original_i]))
-			object->expanded_value[expanded_i++] = object->original_value[original_i++];
-		else if (coords && coords[idx] && original_i < coords[idx][0] && !coords[idx + 1] && object->original_value[original_i])
-			object->expanded_value[expanded_i++] = object->original_value[original_i++];
-		else if (coords && !coords[idx] && object->original_value[original_i])
-			object->expanded_value[expanded_i++] = object->original_value[original_i++];
-		else
-		{
-			chunck_i = -1;
-			while (object->expanded_chuncks[idx][++chunck_i])
-				object->expanded_value[expanded_i++] = object->expanded_chuncks[idx][chunck_i];
-			original_i = coords[idx][1] + 1;
-			idx++;
-		}
-	}
-}
-
+/**
+ * # ft_expand_globs
+ *
+ * Aplica expansão glob se houver padrões (* ? []).
+ *
+ * Lógica:
+ * - Usa expanded_value se existir; senão usa original_value.
+ * - Se houver globs:
+ *   - Executa expand_glob() (callback externo).
+ *   - Converte matriz de strings em uma única string
+ *     separada por espaços via ft_normilize_char_matrix().
+ * - Retorna copia do input usado.
+ */
 static char	*ft_expand_globs(t_token *token)
 {
 	t_expandable_object	*object;

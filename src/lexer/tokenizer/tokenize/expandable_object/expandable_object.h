@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expandable_object.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:05:39 by valero            #+#    #+#             */
-/*   Updated: 2025/11/22 15:10:14 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/24 03:44:11 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,24 @@
 
 # include <stdbool.h>
 
+/**
+ * # t_token
+ *
+ * Representa um token já classificado e apto a expansão.
+ * Campos:
+ * - value: string original do token.
+ * - type: tipo classificado via ft_get_token_type().
+ * - position: índice do token na linha original.
+ * - coord_in_src: coordenadas de início/fim na string original.
+ * - sintaxe_error: erro sintático detectado.
+ * - feature_out_of_scope: indica recursos ainda não suportados.
+ * - last_build: cache da expansão realizada (para evitar refazer).
+ * - expand_var: callback para expansão de variáveis.
+ * - expand_glob: callback para expansão glob.
+ * - build_expansion: função que executa toda a lógica de expansão.
+ * - destroy: destrói o token.
+ * - expandable_object: dados sobre o que pode ser expandido.
+ */
 typedef struct s_token				t_token;
 
 /**

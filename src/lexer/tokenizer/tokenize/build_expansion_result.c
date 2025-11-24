@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 17:17:19 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 19:16:37 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/23 21:49:38 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ static t_expansion_build	*ft_remove_quotes(
 								char *glob_input,
 								const char *original_token);
 
+/**
+ * # ft_build_expansion_result
+ *
+ * Monta o t_expansion_build final.
+ *
+ * Lógica:
+ * - Chama ft_remove_quotes() que aplica regras de remoção
+ *   de aspas do shell.
+ * - Usa glob_input ou valores expandidos.
+ */
 t_expansion_build	*ft_build_expansion_result(t_token *token, char *glob_input)
 {
 	t_expansion_build	*expansion_build;
@@ -38,6 +48,21 @@ t_expansion_build	*ft_build_expansion_result(t_token *token, char *glob_input)
 	);
 }
 
+/**
+ * # ft_remove_quotes
+ *
+ * Remove aspas externas e ajusta resultado final.
+ *
+ * Lógica:
+ * - Se houve erro no glob (padrões não encontrados):
+ *   - Usa ft_separate_quote_chuncks() para capturar string sem aspas
+ *     e salvar em glob_error.
+ * - Caso contrário:
+ *   - Usa expanded_glob_value se existir.
+ *   - Senão expanded_value.
+ *   - Senão original_token.
+ * - Gera versão sem aspas via to_noquotes_string().
+ */
 static t_expansion_build	*ft_remove_quotes(
 								t_expandable_object *object,
 								t_expansion_build *expansion_build,
@@ -69,6 +94,15 @@ static t_expansion_build	*ft_remove_quotes(
 	return (expansion_build);
 }
 
+/**
+ * # ft_expansion_build_dup
+ *
+ * Duplica um t_expansion_build.
+ *
+ * Lógica:
+ * - Se havia erro → copia apenas glob_error.
+ * - Caso contrário → copia token_expanded.
+ */
 t_expansion_build	*ft_expansion_build_dup(t_expansion_build *last_build)
 {
 	t_expansion_build	*expansion_build;
@@ -85,6 +119,11 @@ t_expansion_build	*ft_expansion_build_dup(t_expansion_build *last_build)
 	return (expansion_build);
 }
 
+/**
+ * # ft_destroy_expansion_build
+ *
+ * Libera glob_error, token_expanded e a struct.
+ */
 static void	*ft_destroy_expansion_build(t_expansion_build **self_ref)
 {
 	t_expansion_build	*self;
@@ -99,6 +138,11 @@ static void	*ft_destroy_expansion_build(t_expansion_build **self_ref)
 	return (NULL);
 }
 
+/**
+ * # ft_create_expansion_build
+ *
+ * Constrói struct vazia com destroy definido.
+ */
 static t_expansion_build	*ft_create_expansion_build(void)
 {
 	t_expansion_build	*expansion_build;
