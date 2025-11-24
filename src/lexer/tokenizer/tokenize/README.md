@@ -1,8 +1,8 @@
 # 🧩 Submodulo: Tokenizer — Visão Geral
 
 ![token creation diagram](token_creation_diagram.png)
-[![sep quotes diagram](sep_quotes_diagram.png)](https://google.com)
-[![exp obj diagram](exp_obj_diagram.png)](https://google.com)
+[![sep quotes diagram](sep_quotes_diagram.png)](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/lexer/tokenizer/tokenize/separate_quote_chuncks)
+[![exp obj diagram](exp_obj_diagram.png)](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/lexer/tokenizer/tokenize/expandable_object)
 ![token creation end diagram](token_creation_end_diagram.png)
 
 
