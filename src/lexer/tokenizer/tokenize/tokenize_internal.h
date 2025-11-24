@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/20 19:02:03 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/24 13:04:31 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "tokenize.h"
 
 // ============================ BUILD EXPANSION ============================
+int						ft_create_expanded_value(t_token *token);
+void					ft_merge_expansion(t_token *token);
 char					*ft_normilize_char_matrix(char **matrix);
 t_expansion_build		*ft_build_expansion_result(
 							t_token *token, char *glob_input);

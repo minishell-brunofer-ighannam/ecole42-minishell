@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 20:33:26 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 19:24:00 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/23 20:45:06 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ static t_token_section	**ft_copy_matrix(t_token_separated_sections *self);
 static void				*ft_destroy_token_separated_sections(
 							t_token_separated_sections **self_ref);
 
+/**
+ * # ft_create_token_separated_sections
+ *
+ * Cria o container principal de seções tokenizadas.
+ *
+ * Lógica:
+ * - Aloca listas de seções e coordenadas.
+ * - Define ponteiros de utilidade (copy_array, to_noquotes_string, destroy).
+ * - Inicializa campos auxiliares como NULL.
+ */
 t_token_separated_sections	*ft_create_token_separated_sections(void)
 {
 	t_token_separated_sections	*exp_sections;
@@ -41,6 +51,16 @@ t_token_separated_sections	*ft_create_token_separated_sections(void)
 	return (exp_sections);
 }
 
+/**
+ * # ft_copy_matrix
+ *
+ * Duplica o array de t_token_section**.
+ *
+ * Lógica:
+ * - Conta tamanho do array.
+ * - Aloca novo array.
+ * - Duplica cada seção individualmente.
+ */
 static t_token_section	**ft_copy_matrix(t_token_separated_sections *self)
 {
 	int				len;
@@ -62,6 +82,17 @@ static t_token_section	**ft_copy_matrix(t_token_separated_sections *self)
 	return (new_matrix);
 }
 
+/**
+ * # ft_destroy_token_separated_sections
+ *
+ * Destrói completamente o container de seções.
+ *
+ * Lógica:
+ * - Libera arrays de seções e coordenadas.
+ * - Libera listas internas.
+ * - Libera estrutura principal.
+ * - Zera ponteiro chamador.
+ */
 static void	*ft_destroy_token_separated_sections(
 				t_token_separated_sections **self_ref)
 {
@@ -89,6 +120,17 @@ static void	*ft_destroy_token_separated_sections(
 	return (NULL);
 }
 
+/**
+ * # ft_to_noquotes_string
+ *
+ * Reconstrói a string original removendo aspas externas
+ * de cada trecho, sem alterar conteúdo interno.
+ *
+ * Lógica:
+ * - Calcula tamanho final.
+ * - Copia cada seção ignorando aspas delimitadoras.
+ * - Mantém conteúdo interno intocado.
+ */
 static char	*ft_to_noquotes_string(t_token_separated_sections *self)
 {
 	t_token_section	**matrix;
@@ -111,6 +153,15 @@ static char	*ft_to_noquotes_string(t_token_separated_sections *self)
 	return (string);
 }
 
+/**
+ * # ft_copy_to_noquote_string
+ *
+ * Função auxiliar da reconstrução sem aspas.
+ *
+ * Lógica:
+ * - Copia seção caracter por caracter.
+ * - Remove apenas as aspas que delimitam toda a seção.
+ */
 static void	ft_copy_to_noquote_string(
 				t_token_section	**matrix,
 				int len, char *string, int *string_idx)

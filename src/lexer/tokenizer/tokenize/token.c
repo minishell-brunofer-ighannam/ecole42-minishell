@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/19 12:57:08 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/23 21:46:18 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,20 @@
 static t_token_type	ft_get_token_type(const char *token);
 static void			*ft_destroy_token(t_token **self_ref);
 
+/**
+ * # ft_create_token
+ *
+ * Construtor completo de t_token.
+ *
+ * Lógica:
+ * - Aloca a struct.
+ * - Duplica string e coordenadas.
+ * - Atribui callbacks.
+ * - Classifica via ft_get_token_type().
+ * - Se TOKEN_UNKNOWN → cria expandable_object
+ *   pois pode conter $VAR ou padrões glob.
+ * - Define destroy().
+ */
 t_token	*ft_create_token(const char *value, int position,
 	int *coord_in_src, t_expander_callbacks callbacks)
 {
@@ -43,6 +57,16 @@ t_token	*ft_create_token(const char *value, int position,
 	return (token);
 }
 
+/**
+ * # ft_get_token_type
+ *
+ * Classifica o token segundo operadores do shell.
+ *
+ * Lógica:
+ * - Se tem 1 char e pertence aos símbolos conhecidos → retorna char.
+ * - Se tem 2 chars e combinações conhecidas → retorna (c1<<8 | c2).
+ * - Caso contrário → TOKEN_UNKNOWN.
+ */
 static t_token_type	ft_get_token_type(const char *token)
 {
 	int	len;
@@ -61,6 +85,17 @@ static t_token_type	ft_get_token_type(const char *token)
 		return (TOKEN_UNKNOWN);
 }
 
+/**
+ * # ft_destroy_token
+ *
+ * Libera memória do token e seus subcomponentes.
+ * Libera:
+ * - value
+ * - expandable_object e seus campos
+ * - coord_in_src
+ * - last_build
+ * Depois zera ponteiro.
+ */
 static void	*ft_destroy_token(t_token **self_ref)
 {
 	t_token	*self;

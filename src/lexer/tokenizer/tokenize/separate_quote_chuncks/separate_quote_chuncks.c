@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 20:10:11 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 19:01:15 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/23 17:17:06 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,19 @@ static void				push_singlequote_section(
 							t_token_separated_sections *exp_sections,
 							const char *str, int *i, bool singlequote);
 
+/**
+ * # ft_separate_quote_chuncks
+ *
+ * Função principal do módulo. Percorre a string original e
+ * divide em seções: sem aspas, entre aspas duplas e entre
+ * aspas simples. Mantém coordenadas de cada trecho.
+ *
+ * Lógica:
+ * - Controla estados de aspas (simples/duplas).
+ * - Detecta início/fim de cada tipo de seção.
+ * - Empilha seções e coordenadas em listas.
+ * - Converte listas em arrays para uso posterior.
+ */
 t_token_separated_sections	*ft_separate_quote_chuncks(const char *str)
 {
 	int							i;
@@ -55,6 +68,16 @@ t_token_separated_sections	*ft_separate_quote_chuncks(const char *str)
 	return (exp_sections);
 }
 
+/**
+ * # update_token_section
+ *
+ * Atualiza o estado atual de aspas durante a varredura.
+ *
+ * Lógica:
+ * - Liga/desliga flags de aspas simples e duplas.
+ * - Garante alternância correta entre `'` e `"`,
+ *   respeitando o shell (uma aspa só fecha a mesma aspa).
+ */
 static void	update_token_section(
 				const char *str, int *i,
 				bool *doublequote, bool *singlequote)
@@ -80,6 +103,16 @@ static void	update_token_section(
 	}
 }
 
+/**
+ * # push_non_quote_section
+ *
+ * Coleta trecho contínuo sem aspas.
+ *
+ * Lógica:
+ * - Avança até encontrar `'` ou `"`.
+ * - Empilha substring correspondente e suas coordenadas.
+ * - Usado somente quando nenhuma aspa está ativa.
+ */
 static void	push_non_quote_section(
 				t_token_separated_sections *exp_sections, const char *str,
 				int *i, bool single_double_quote[2])
@@ -106,6 +139,17 @@ static void	push_non_quote_section(
 	}
 }
 
+/**
+ * # push_doublequote_section
+ *
+ * Coleta trecho completo entre aspas duplas `"..."`,
+ * incluindo as aspas na substring.
+ *
+ * Lógica:
+ * - Verifica se o estado está em doublequote.
+ * - Avança até a próxima `"`.
+ * - Empilha substring inteira + coordenadas.
+ */
 static void	push_doublequote_section(
 				t_token_separated_sections *exp_sections,
 				const char *str, int *i, bool doublequote)
@@ -132,6 +176,17 @@ static void	push_doublequote_section(
 	}
 }
 
+/**
+ * # push_singlequote_section
+ *
+ * Coleta trecho `'...'` completo, preservando as aspas.
+ *
+ * Lógica:
+ * - Varre até a próxima `'`.
+ * - Empilha substring e coordenadas.
+ * - Essencial porque conteúdo entre aspas simples
+ *   nunca deve sofrer expansão.
+ */
 static void	push_singlequote_section(
 				t_token_separated_sections *exp_sections,
 				const char *str, int *i, bool singlequote)

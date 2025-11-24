@@ -3,15 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:59:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/17 14:00:03 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/23 21:45:15 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenize_internal.h"
 
+/**
+ * # ft_tokenize
+ *
+ * Cria e retorna um token a partir de uma substring.
+ * Encapsula ft_create_token().
+ *
+ * Lógica:
+ * - Aloca token.
+ * - Copia valor, posição e coordenadas.
+ * - Define callbacks.
+ * - Classifica tipo.
+ */
 t_token	*ft_tokenize(
 			const char *chunck,
 			int idx,

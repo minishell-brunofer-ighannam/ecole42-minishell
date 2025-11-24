@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 14:31:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 17:02:24 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/23 17:17:38 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 
 static void	*ft_destroy_token_session(t_token_section **self_ref);
 
+/**
+ * # ft_create_token_session
+ *
+ * Cria um t_token_section a partir de um trecho.
+ *
+ * Lógica:
+ * - Duplica a substring.
+ * - Define tipo de aspa.
+ * - Atribui callback de destruição.
+ */
 t_token_section	*ft_create_token_session(char *session, char quote_type)
 {
 	t_token_section	*token_session;
@@ -26,6 +36,16 @@ t_token_section	*ft_create_token_session(char *session, char quote_type)
 	return (token_session);
 }
 
+/**
+ * # ft_token_session_dup
+ *
+ * Duplica um t_token_section existente.
+ *
+ * Lógica:
+ * - Copia seção e tipo de aspa.
+ * - Mantém o mesmo callback destroy.
+ * - Usado para conversão de listas → arrays.
+ */
 t_token_section	*ft_token_session_dup(t_token_section *token_session)
 {
 	t_token_section	*new_token_session;
@@ -38,6 +58,15 @@ t_token_section	*ft_token_session_dup(t_token_section *token_session)
 	return (new_token_session);
 }
 
+/**
+ * # ft_token_session_destroy_callback
+ *
+ * Callback para destruir um t_token_section
+ * ao liberar listas genéricas.
+ *
+ * Lógica:
+ * - Encaminha para o método destroy interno.
+ */
 void	ft_token_session_destroy_callback(void *arg)
 {
 	t_token_section	*token_session;
@@ -46,6 +75,16 @@ void	ft_token_session_destroy_callback(void *arg)
 	token_session->destroy(&token_session);
 }
 
+/**
+ * # ft_destroy_token_session
+ *
+ * Destrói de forma segura um t_token_section.
+ *
+ * Lógica:
+ * - Libera substring.
+ * - Libera estrutura.
+ * - Zera ponteiro chamador.
+ */
 static void	*ft_destroy_token_session(t_token_section **self_ref)
 {
 	t_token_section	*self;
