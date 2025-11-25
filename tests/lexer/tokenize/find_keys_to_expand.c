@@ -6,12 +6,12 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:30:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/14 16:29:22 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/24 23:13:37 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../tests.h"
-#include "../../../src/lexer/tokenizer/tokenize/expandable_object/expandable_object_internal.h"
+#include "../../../src/core/lexer/tokenize/expandable_object/expandable_object_internal.h"
 
 static void	test1(void);
 

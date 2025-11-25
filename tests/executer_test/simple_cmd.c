@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:53:16 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 19:34:45 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/24 23:21:33 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ int main(int argc, char **argv, char **envp)
 
 	// //LINHA DE COMANDO
 	// printf("\ncat < input.txt | grep foo || ls > log.txt && head -n 5 >> results.txt | wc -l << EOF\n");
-	
-	
+
+
 	// // Node cat
-	// t_tokenized_prompt *token_cat = ft_tokenizer("cat", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_cat = ft_lexer("cat", ft_expand_var, ft_expand_glob);
 	// t_node *node_cat = ft_calloc(1, sizeof(t_node));
 	// node_cat->ht_env = ht_env;
 	// node_cat->token = token_cat->tokens;
 	// node_cat->type = NODE_CMD;
 
 	// // Node < input.txt
-	// t_tokenized_prompt *token_in = ft_tokenizer("< input.txt", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_in = ft_lexer("< input.txt", ft_expand_var, ft_expand_glob);
 	// t_node *node_in = ft_calloc(1, sizeof(t_node));
 	// node_in->ht_env = ht_env;
 	// node_in->token = token_in->tokens;
@@ -43,14 +43,14 @@ int main(int argc, char **argv, char **envp)
 	// node_in->left = node_cat;
 
 	// // Node grep foo
-	// t_tokenized_prompt *token_grep = ft_tokenizer("grep foo", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_grep = ft_lexer("grep foo", ft_expand_var, ft_expand_glob);
 	// t_node *node_grep = ft_calloc(1, sizeof(t_node));
 	// node_grep->ht_env = ht_env;
 	// node_grep->token = token_grep->tokens;
 	// node_grep->type = NODE_CMD;
 
 	// // Node |
-	// t_tokenized_prompt *token_pipe_A = ft_tokenizer("|", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_pipe_A = ft_lexer("|", ft_expand_var, ft_expand_glob);
 	// t_node *node_pipe_A = ft_calloc(1, sizeof(t_node));
 	// node_pipe_A->ht_env = ht_env;
 	// node_pipe_A->token = token_pipe_A->tokens;
@@ -61,7 +61,7 @@ int main(int argc, char **argv, char **envp)
 	// node_pipe_A->right = node_grep;
 
 	// // Node ls
-	// t_tokenized_prompt *token_ls = ft_tokenizer("ls", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_ls = ft_lexer("ls", ft_expand_var, ft_expand_glob);
 	// t_node *node_ls = ft_calloc(1, sizeof(t_node));
 	// node_ls->ht_env = ht_env;
 	// node_ls->token = token_ls->tokens;
@@ -69,7 +69,7 @@ int main(int argc, char **argv, char **envp)
 
 
 	// // Node > log.txt
-	// t_tokenized_prompt *token_out = ft_tokenizer("> log.txt", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_out = ft_lexer("> log.txt", ft_expand_var, ft_expand_glob);
 	// t_node *node_out = ft_calloc(1, sizeof(t_node));
 	// node_out->ht_env = ht_env;
 	// node_out->token = token_out->tokens;
@@ -79,7 +79,7 @@ int main(int argc, char **argv, char **envp)
 	// node_out->left = node_ls;
 
 	// // Node ||
-	// t_tokenized_prompt *token_or = ft_tokenizer("||", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_or = ft_lexer("||", ft_expand_var, ft_expand_glob);
 	// t_node *node_or = ft_calloc(1, sizeof(t_node));
 	// node_or->ht_env = ht_env;
 	// node_or->token = token_or->tokens;
@@ -90,14 +90,14 @@ int main(int argc, char **argv, char **envp)
 	// node_or->right = node_out;
 
 	// // Node head -n 5
-	// t_tokenized_prompt *token_head = ft_tokenizer("head -n 5", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_head = ft_lexer("head -n 5", ft_expand_var, ft_expand_glob);
 	// t_node *node_head = ft_calloc(1, sizeof(t_node));
 	// node_head->ht_env = ht_env;
 	// node_head->token = token_head->tokens;
 	// node_head->type = NODE_CMD;
 
 	// // Node >> results.txt
-	// t_tokenized_prompt *token_append = ft_tokenizer(">> results.txt", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_append = ft_lexer(">> results.txt", ft_expand_var, ft_expand_glob);
 	// t_node *node_append = ft_calloc(1, sizeof(t_node));
 	// node_append->ht_env = ht_env;
 	// node_append->token = token_append->tokens;
@@ -107,14 +107,14 @@ int main(int argc, char **argv, char **envp)
 	// node_append->left = node_head;
 
 	// // Node wc -l
-	// t_tokenized_prompt *token_wc = ft_tokenizer("wc -l", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_wc = ft_lexer("wc -l", ft_expand_var, ft_expand_glob);
 	// t_node *node_wc = ft_calloc(1, sizeof(t_node));
 	// node_wc->ht_env = ht_env;
 	// node_wc->token = token_wc->tokens;
 	// node_wc->type = NODE_CMD;
 
 	// // Node << EOF
-	// t_tokenized_prompt *token_heredoc = ft_tokenizer("< EOF", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_heredoc = ft_lexer("< EOF", ft_expand_var, ft_expand_glob);
 	// t_node *node_heredoc = ft_calloc(1, sizeof(t_node));
 	// node_heredoc->ht_env = ht_env;
 	// node_heredoc->token = token_heredoc->tokens;
@@ -124,7 +124,7 @@ int main(int argc, char **argv, char **envp)
 	// node_heredoc->left = node_wc;
 
 	// // Node |
-	// t_tokenized_prompt *token_pipe_C = ft_tokenizer("|", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_pipe_C = ft_lexer("|", ft_expand_var, ft_expand_glob);
 	// t_node *node_pipe_C = ft_calloc(1, sizeof(t_node));
 	// node_pipe_C->ht_env = ht_env;
 	// node_pipe_C->token = token_pipe_C->tokens;
@@ -135,7 +135,7 @@ int main(int argc, char **argv, char **envp)
 	// node_pipe_C->right = node_heredoc;
 
 	// // Node &&
-	// t_tokenized_prompt *token_and = ft_tokenizer("&&", ft_expand_var, ft_expand_glob);
+	// t_lexer *token_and = ft_lexer("&&", ft_expand_var, ft_expand_glob);
 	// t_node *node_and = ft_calloc(1, sizeof(t_node));
 	// node_and->ht_env = ht_env;
 	// node_and->token = token_and->tokens;
@@ -145,13 +145,13 @@ int main(int argc, char **argv, char **envp)
 	// node_and->left = node_or;      // (A || B)
 	// node_and->right = node_pipe_C; // C
 
-	
+
 	// ft_execute_tree(node_and);
 
 	//
 	// NODE: ls
 	//
-	t_tokenized_prompt *token_ls = ft_tokenizer("ls", ft_expand_var, ft_expand_glob);
+	t_lexer *token_ls = ft_lexer("ls", ft_expand_var, ft_expand_glob);
 	t_node *node_ls = ft_calloc(1, sizeof(t_node));
 	node_ls->ht_env = ht_env;
 	node_ls->token = token_ls->tokens;
@@ -160,7 +160,7 @@ int main(int argc, char **argv, char **envp)
 	//
 	// NODE: wc -l
 	//
-	t_tokenized_prompt *token_wc = ft_tokenizer("wc -l", ft_expand_var, ft_expand_glob);
+	t_lexer *token_wc = ft_lexer("wc -l", ft_expand_var, ft_expand_glob);
 	t_node *node_wc = ft_calloc(1, sizeof(t_node));
 	node_wc->ht_env = ht_env;
 	node_wc->token = token_wc->tokens;
@@ -169,7 +169,7 @@ int main(int argc, char **argv, char **envp)
 	//
 	// NODE: < f1
 	//
-	t_tokenized_prompt *token_redirect = ft_tokenizer("< f1", ft_expand_var, ft_expand_glob);
+	t_lexer *token_redirect = ft_lexer("< f1", ft_expand_var, ft_expand_glob);
 	t_node *node_redirect = ft_calloc(1, sizeof(t_node));
 	node_redirect->ht_env = ht_env;
 	node_redirect->token = token_redirect->tokens;
@@ -183,7 +183,7 @@ int main(int argc, char **argv, char **envp)
 	//
 	// NODE: pipe   =   ls  |  wc -l < f1
 	//
-	t_tokenized_prompt *token_pipe = ft_tokenizer("|", ft_expand_var, ft_expand_glob);
+	t_lexer *token_pipe = ft_lexer("|", ft_expand_var, ft_expand_glob);
 	t_node *node_pipe = ft_calloc(1, sizeof(t_node));
 	node_pipe->ht_env = ht_env;
 	node_pipe->token = token_pipe->tokens;
@@ -195,24 +195,24 @@ int main(int argc, char **argv, char **envp)
 	//
 	// node_pipe é a raiz final
 	//
-	
 
-	
+
+
 	ft_execute_tree(node_pipe);
 
-	
+
 	t_ht *item;
 	t_env_value *value;
 	t_linkedlist_node *curr_node;
-	
+
 	curr_node = ft_find_ht(ht_env, "?");
 	item = curr_node->content;
 	value = item->value;
 
-	printf("%s\n", value->value);	
-	
-	
-	
+	printf("%s\n", value->value);
+
+
+
 	ht_env->destroy(&ht_env, ft_free_item_ht_env);
 
 	return(0);

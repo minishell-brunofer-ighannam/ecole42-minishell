@@ -23,19 +23,19 @@ CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
 
 
 # ------------ LEXER FILES -----------------
-SPLITTER_DIR = src/lexer/tokenizer/splitter
+SPLITTER_DIR = src/core/lexer/splitter
 SPLITTER_FILES = $(SPLITTER_DIR)/raw_splitter/raw_splitter.c $(SPLITTER_DIR)/raw_splitter/raw_splitter_utils.c $(SPLITTER_DIR)/raw_splitter/raw_splitter_quote_states.c \
 $(SPLITTER_DIR)/refined_splitter/refined_splitter.c $(SPLITTER_DIR)/refined_splitter/refine_raw_token.c $(SPLITTER_DIR)/refined_splitter/refine_raw_token_push.c \
 $(SPLITTER_DIR)/refined_splitter/refine_raw_manage_grouped_and_ungrouped.c \
 $(SPLITTER_DIR)/splitter_utils.c $(SPLITTER_DIR)/splitter.c
 
-PROMPT_VAL_DIR = src/lexer/tokenizer/prompt_validator
+PROMPT_VAL_DIR = src/core/lexer/prompt_validator
 PROMPT_VAL_FILES = $(PROMPT_VAL_DIR)/prompt_validator.c $(PROMPT_VAL_DIR)/validate_backquotes.c \
 $(PROMPT_VAL_DIR)/validate_dollar_parens.c $(PROMPT_VAL_DIR)/validate_doublequotes.c \
 $(PROMPT_VAL_DIR)/validate_parens.c $(PROMPT_VAL_DIR)/validate_utils.c $(PROMPT_VAL_DIR)/structure_jump.c \
 $(PROMPT_VAL_DIR)/validate_singlequotes.c
 
-TOKENIZE_DIR = src/lexer/tokenizer/tokenize
+TOKENIZE_DIR = src/core/lexer/tokenize
 EXP_OBJECT_DIR = $(TOKENIZE_DIR)/expandable_object
 EXP_OBJECT_FILES = $(EXP_OBJECT_DIR)/expandable_object.c $(EXP_OBJECT_DIR)/expansion_object_utils.c \
 $(EXP_OBJECT_DIR)/find_expandable.c $(EXP_OBJECT_DIR)/find_keys_to_expand.c
@@ -47,36 +47,32 @@ $(SEP_QUOTES_DIR)/separate_quote_chunck_session.c
 TOKENIZE_FILES = $(EXP_OBJECT_FILES) $(SEP_QUOTES_FILES) $(TOKENIZE_DIR)/build_expansion.c $(TOKENIZE_DIR)/build_expansion_utils.c \
 $(TOKENIZE_DIR)/build_expansion_result.c $(TOKENIZE_DIR)/token.c $(TOKENIZE_DIR)/tokenize.c
 
-LEXER_U_DIR = src/lexer/lexer_utils
-LEXER_U_FILES = $(LEXER_U_DIR)/reserved_structures.c $(LEXER_U_DIR)/error_printer.c
-
-LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(TOKENIZE_FILES) $(LEXER_U_FILES) \
-src/lexer/tokenizer/tokenizer.c src/lexer/tokenizer/tokenizer_utils.c
+LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(TOKENIZE_FILES) \
+src/core/lexer/lexer.c src/core/lexer/lexer_utils.c
 
 
 # ------------ STRUCTURE FILES -----------------
 STRUCTURES = src/data_structures/linkedlist/iteration.c src/data_structures/linkedlist/linkedlist_node.c src/data_structures/linkedlist/linkedlist.c \
 src/data_structures/linkedlist_array/linkedlist_array.c src/data_structures/hashtable/hashtable.c
 
+# ----------------- EXECUTER FILES -----------------
+EXEC_DIR = src/core/executer
+
+# ..... BUILTINS FILES .....
+BUILTINS = $(EXEC_DIR)/builtins/ft_env.c $(EXEC_DIR)/builtins/ft_export.c \
+$(EXEC_DIR)/builtins/ft_set.c $(EXEC_DIR)/builtins/ft_unset.c $(EXEC_DIR)/builtins/builtins.c
+
+# ..... PROCESS FILES .....
+PROCESS = $(EXEC_DIR)/process/child_process.c
+
+# ..... ENV FILES .....
+ENV = $(EXEC_DIR)/env/env.c $(EXEC_DIR)/env/expand_var.c $(EXEC_DIR)/env/expand_glob_i.c $(EXEC_DIR)/env/expand_glob_ii.c
+
+EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd.c $(EXEC_DIR)/redirect.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc.c \
+	$(EXEC_DIR)/cmd_builtin.c $(EXEC_DIR)/tree.c $(EXEC_DIR)/and.c $(EXEC_DIR)/or.c $(EXEC_DIR)/subshell.c
 
 
-# ------------ BUILTINS FILES -----------------
-BUILTINS = src/builtins/ft_env.c src/builtins/ft_export.c src/builtins/ft_set.c src/builtins/ft_unset.c src/builtins/builtins.c
-
-
-
-# ------------ PROCESS FILES -----------------
-PROCESS = src/process/child_process.c
-
-
-ENV = src/env/env.c src/env/expand_var.c src/env/expand_glob_i.c src/env/expand_glob_ii.c
-
-
-EXECUTER = src/executer/find_path.c src/executer/cmd.c src/executer/redirect.c src/executer/pipe.c src/executer/here_doc.c \
-	src/executer/cmd_builtin.c src/executer/tree.c src/executer/and.c src/executer/or.c src/executer/subshell.c
-
-
-UTILS = src/utils/array_str.c
+UTILS = src/utils/array_str.c src/utils/commands.c src/utils/print.c
 
 
 SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(BUILTINS) $(PROCESS) $(ENV) $(EXECUTER) $(UTILS) src/signals.c src/globals.c
@@ -103,7 +99,7 @@ COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
 create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
-tokenizer simple_cmd redirect_test simple_heredoc_test
+lexer simple_cmd redirect_test simple_heredoc_test
 
 
 
@@ -128,16 +124,16 @@ $(LIBFT):
 
 tests: fclean child_process find_expandable find_keys_to_expand create_expandable_object \
 linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator build_expansion \
-find_path expand_var_test expand_glob_test env_ht_op tokenizer simple_cmd redirect_test \
+find_path expand_var_test expand_glob_test env_ht_op lexer simple_cmd redirect_test \
 simple_heredoc_test
 
 	@clear && echo "code% make tests"
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full --track-fds=yes ./child_process
 
-#	=================== TOKENIZER TESTS =====================
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)tokenizer$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./tokenizer
+#	=================== LEXER TESTS =====================
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)lexer$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./lexer
 
 #	=================== EXPANSION TESTS =====================
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)find_expandable$(RESET)..." && sleep $(SLEEP)
@@ -241,9 +237,9 @@ build_expansion: tests/lexer/tokenize/build_expansion.c tests/tests.c $(COMPILAT
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) tests/lexer/tokenize/build_expansion.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
-tokenizer: tests/lexer/tokenizer.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+lexer: tests/lexer/lexer.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/tokenizer.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/lexer/lexer.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 simple_cmd: tests/executer_test/simple_cmd.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)

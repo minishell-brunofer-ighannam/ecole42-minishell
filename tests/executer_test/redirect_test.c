@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_test.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 16:58:38 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/22 17:28:06 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/24 23:21:33 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	t_linkedlist_array *ht_env;
-	
+
 
 	// inicializa o ambiente com variáveis padrão
 	ht_env = ft_init_ht_env(envp);
@@ -25,7 +25,7 @@ int main(int argc, char **argv, char **envp)
 	//
 	// NODE: wc -l   (comando que recebe o redirect)
 	//
-	t_tokenized_prompt *token_wc = ft_tokenizer("wc -l", ft_expand_var, ft_expand_glob);
+	t_lexer *token_wc = ft_lexer("wc -l", ft_expand_var, ft_expand_glob);
 	t_node *node_wc = ft_calloc(1, sizeof(t_node));
 	node_wc->ht_env = ht_env;
 	node_wc->token = token_wc->tokens;
@@ -34,7 +34,7 @@ int main(int argc, char **argv, char **envp)
 	//
 	// NODE: < f1   (redirect de entrada)
 	//
-	t_tokenized_prompt *token_redir = ft_tokenizer("< f1", ft_expand_var, ft_expand_glob);
+	t_lexer *token_redir = ft_lexer("< f1", ft_expand_var, ft_expand_glob);
 	t_node *node_redir = ft_calloc(1, sizeof(t_node));
 	node_redir->ht_env = ht_env;
 	node_redir->token = token_redir->tokens;
@@ -48,8 +48,8 @@ int main(int argc, char **argv, char **envp)
 	//
 
 	printf("\n===== < f1 wc -l =====\n");
-	
+
 	ft_execute_tree(node_redir);
-	
+
 	return (0);
 }

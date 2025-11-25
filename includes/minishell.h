@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 12:57:32 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/17 02:33:37 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/24 23:37:25 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,13 @@
 # include <errno.h>
 # include "libft.h"
 # include "../src/signals.h"
-# include "../src/lexer/lexer.h"
+# include "../src/core/lexer/lexer.h"
 # include "../src/data_structures/data_structures.h"
-# include "../src/process/process.h"
-# include "../src/builtins/builtins.h"
-# include "../src/env/env.h"
-# include "../src/executer/executer.h"
+# include "../src/core/executer/process/process.h"
+# include "../src/core/executer/builtins/builtins.h"
+# include "../src/core/executer/env/env.h"
+# include "../src/core/executer/executer.h"
 # include "../src/utils/utils.h"
-
-
 
 # define PROMPT_GREEN	"\001\033[32m\002"
 # define PROMPT_MAGENTA	"\001\033[35m\002"

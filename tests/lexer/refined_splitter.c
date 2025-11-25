@@ -6,11 +6,11 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:13:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/19 13:06:19 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/24 23:13:37 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../src/lexer/tokenizer/splitter/splitter_internal.h"
+#include "../../src/core/lexer/splitter/splitter_internal.h"
 #include "../tests.h"
 
 static void	print_result(void *arg);

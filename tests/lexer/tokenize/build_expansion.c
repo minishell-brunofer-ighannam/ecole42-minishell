@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   build_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:30:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/22 16:07:45 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/24 23:49:58 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../tests.h"
-#include "../../../src/lexer/tokenizer/tokenize/tokenize.h"
-#include "../../../src/lexer/tokenizer/tokenize/tokenize_internal.h"
-#include "../../../src/lexer/tokenizer/tokenizer_internal.h"
-#include "../../src/env/env.h"
-#include "../../src/builtins/builtins.h"
+#include "../../../src/core/lexer/tokenize/tokenize.h"
+#include "../../../src/core/lexer/tokenize/tokenize_internal.h"
+#include "../../../src/core/lexer/lexer_internal.h"
+#include "../../../src/core/executer/env/env.h"
+#include "../../../src/core/executer/builtins/builtins.h"
 
 
 static void	test1(t_linkedlist_array	*env);
@@ -61,14 +61,14 @@ static void	test1(t_linkedlist_array	*env)
 {
 	t_test					test;
 
-	ft_export(env, "USER=tokenizer");
+	ft_export(env, "USER=lexer");
 	ft_export(env, "PLACE=42");
 	ft_export(env, "TOWN=SaoPaulo");
 	ft_export(env, "STATE=SP");
 	ft_export(env, "COUNTRY=BR");
 	test.teste_number = 1;
 	test.test_input = "hello\"my dear $USER\"'its good'\"to see you at $PLACE, in\"$TOWN$STATE$COUNTRY";
-	char	*expected = "hellomy dear tokenizerits goodto see you at 42, inSaoPauloSPBR";
+	char	*expected = "hellomy dear lexerits goodto see you at 42, inSaoPauloSPBR";
 	int *coord = ft_new_coord(0, 0);
 	t_expander_callbacks callbacks;
 	callbacks.expand_glob = NULL;
@@ -95,7 +95,7 @@ static void	test2(t_linkedlist_array	*env)
 	ft_set(env, "THAN_OTHERS=others");
 	test.teste_number = 2;
 	test.test_input = "hello\"my dear $USER\"'its $VAR_TO_KEEP_UP good'\"to see you at $MONICA_BAR, in\"$LENGTH$GREATER$THAN_OTHERS";
-	char	*expected = "hellomy dear tokenizerits $VAR_TO_KEEP_UP goodto see you at bunker, inlengreaterothers";
+	char	*expected = "hellomy dear lexerits $VAR_TO_KEEP_UP goodto see you at bunker, inlengreaterothers";
 	int *coord = ft_new_coord(0, 0);
 	t_expander_callbacks callbacks;
 	callbacks.expand_glob = NULL;
@@ -152,7 +152,7 @@ static void	test4(t_linkedlist_array	*env)
 	ft_set(env, "THAN_OTHERS=others");
 	test.teste_number = 4;
 	test.test_input = "*";
-	char	*expected = "Makefile README.md build_expansion child_process create_expandable_object env_ht_op expand_glob_test expand_var_test find_expandable find_keys_to_expand find_path includes libft linkedlist linkedlist_array minishell.excalidraw minishell.excalidraw:Zone.Identifier prompt_validator raw_splitter refined_splitter src tests tokenizer";
+	char	*expected = "Makefile README.md build_expansion child_process create_expandable_object env_ht_op expand_glob_test expand_var_test find_expandable find_keys_to_expand find_path includes libft linkedlist linkedlist_array minishell.excalidraw minishell.excalidraw:Zone.Identifier prompt_validator raw_splitter refined_splitter src tests lexer";
 	int *coord = ft_new_coord(0, 0);
 	t_expander_callbacks callbacks;
 	callbacks.expand_glob = NULL;
