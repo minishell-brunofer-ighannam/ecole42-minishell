@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_heredoc_test.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 14:56:01 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/22 17:11:24 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/24 23:21:33 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	
+
 	t_linkedlist_array *ht_env;
 	ht_env = ft_init_ht_env(envp);
-	
+
 	//
 	// NODE: ls
 	//
-	t_tokenized_prompt *token_ls = ft_tokenizer("ls", ft_expand_var, ft_expand_glob);
+	t_lexer *token_ls = ft_lexer("ls", ft_expand_var, ft_expand_glob);
 	t_node *node_ls = ft_calloc(1, sizeof(t_node));
 	node_ls->ht_env = ht_env;
 	node_ls->token = token_ls->tokens;
@@ -32,7 +32,7 @@ int main(int argc, char **argv, char **envp)
 	//
 	// NODE: wc -l   (será filho do heredoc)
 	//
-	t_tokenized_prompt *token_wc = ft_tokenizer("wc -l", ft_expand_var, ft_expand_glob);
+	t_lexer *token_wc = ft_lexer("wc -l", ft_expand_var, ft_expand_glob);
 	t_node *node_wc = ft_calloc(1, sizeof(t_node));
 	node_wc->ht_env = ht_env;
 	node_wc->token = token_wc->tokens;
@@ -41,7 +41,7 @@ int main(int argc, char **argv, char **envp)
 	//
 	// NODE: << eof   (HEREDOC)
 	//
-	t_tokenized_prompt *token_hd = ft_tokenizer("<< eof", ft_expand_var, ft_expand_glob);
+	t_lexer *token_hd = ft_lexer("<< eof", ft_expand_var, ft_expand_glob);
 	t_node *node_hd = ft_calloc(1, sizeof(t_node));
 	node_hd->ht_env = ht_env;
 	node_hd->token = token_hd->tokens;
@@ -54,7 +54,7 @@ int main(int argc, char **argv, char **envp)
 	//
 	// NODE: pipe   =  ls  |  (node_hd)
 	//
-	t_tokenized_prompt *token_pipe = ft_tokenizer("|", ft_expand_var, ft_expand_glob);
+	t_lexer *token_pipe = ft_lexer("|", ft_expand_var, ft_expand_glob);
 	t_node *node_pipe = ft_calloc(1, sizeof(t_node));
 	node_pipe->ht_env = ht_env;
 	node_pipe->token = token_pipe->tokens;

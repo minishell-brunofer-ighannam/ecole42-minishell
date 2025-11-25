@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_validator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 23:14:30 by valero            #+#    #+#             */
-/*   Updated: 2025/11/12 09:20:18 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/24 23:13:37 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../src/lexer/tokenizer/prompt_validator/prompt_validator.h"
-#include "../../src/lexer/lexer_utils/lexer_utils.h"
+#include "../../src/core/lexer/prompt_validator/prompt_validator.h"
+#include "../../src/core/lexer/lexer_internal.h"
 #include "../tests.h"
 
 static void	test_set1(void);
@@ -64,66 +64,66 @@ static void	test_set1(void)
 	test.teste_number = 1;
 	prompt = "echo \"hello world\"";
 	test.test_input = "echo \"hello world\"" " -> (quotes fechadas)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == -1;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 2;
 	prompt = "echo \"hello world";
 	test.test_input = "echo \"hello world" " -> (quote aberta)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == 5;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 3;
 	prompt = "ls (echo test)";
 	test.test_input = "ls (echo test)" " -> (parênteses fechados)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == -1;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 4;
 	prompt = "ls (echo test";
 	test.test_input = "ls (echo test" " -> (parêntese aberto)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == 3;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 5;
 	prompt = "echo `date`";
 	test.test_input = "echo `date`" " -> (backticks fechados)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == -1;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 6;
 	prompt = "echo `date";
 	test.test_input = "echo `date" " -> (backtick aberto)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == 5;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 7;
 	prompt = "echo $(ls)";
 	test.test_input = "echo $(ls)" " -> ($() fechado)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == -1;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 8;
 	prompt = "echo $(ls";
 	test.test_input = "echo $(ls" " -> ($() aberto)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == 6;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 }
 
@@ -137,72 +137,72 @@ static void	test_set2(void)
 	test.teste_number = 9;
 	prompt = "echo $(echo $(date))";
 	test.test_input = "echo $(echo $(date))" " -> ($() aninhado fechado)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == -1;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 10;
 	prompt = "echo $(echo $(date)";
 	test.test_input = "echo $(echo $(date)" " -> ($() aninhado aberto)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == 6;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 11;
 	prompt = "echo \"$(date)\"";
 	test.test_input = "echo \"$(date)\"" " -> (quotes e $() fechados)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == -1;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 12;
 	prompt = "echo \"$(date)";
 	test.test_input = "echo \"$(date)" " -> (quote aberta com $() fechado)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == 5;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 13;
 	prompt = "echo (echo $(ls) \"test\")";
 	test.test_input = "echo (echo $(ls) \"test\")" " -> (parêntese com $() e quotes fechados)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == -1;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 14;
 	prompt = "echo (echo $(ls) \"test\"";
 	test.test_input = "echo (echo $(ls) \"test\"" " -> (parêntese aberto, $() e quotes fechados)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == 5;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 15;
 	prompt = "echo `echo $(date)`";
 	test.test_input = "echo `echo $(date)`" " -> (backtick com $() aninhado fechado)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == -1;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 16;
 	prompt = "echo (echo $(ls) \"test $(HOME\")";
 	test.test_input = "echo (echo $(ls) \"test $(HOME\")" " -> (parêntese com $() aberto e quotes fechados)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == 24;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 
 	test.teste_number = 17;
 	prompt = "echo (echo $(ls) \"test)";
 	test.test_input = "echo (echo $(ls) \"test)" " -> (parêntese com $() fechado e quote aberta)";
-	result = prompt_validator(prompt);
+	result = ft_prompt_validator(prompt);
 	test.test_ok = result == 17;
 	print_test_and_result(test, print_result, &result);
-	print_structure_not_closed_error(prompt, result);
+	ft_print_structure_not_closed_error(prompt, result);
 }

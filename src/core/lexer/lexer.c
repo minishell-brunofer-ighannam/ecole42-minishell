@@ -1,0 +1,149 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/05 14:56:21 by brunofer          #+#    #+#             */
+/*   Updated: 2025/11/24 22:53:01 by valero           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "lexer_internal.h"
+#include "lexer.h"
+
+static void		*ft_destroy_lexer(
+					t_lexer	**self_ref);
+static t_lexer	*ft_create_lexer(
+					const char *prompt,
+					t_splited_prompt **splited,
+					t_expander_callbacks callbacks);
+
+/**
+*  # ft_lexer
+*
+* Função de alto nível. Une splitter + lexer.
+*
+* Lógica:
+* - Chama ft_splitter() para dividir a linha bruta em chunks.
+* - Prepara callbacks de expansão (variáveis e glob).
+* - Cria a estrutura final via ft_create_lexer().
+*
+* Responsabilidade:
+* É a entrada principal. Entrega um t_lexer completamente
+* preparado para a fase de expansão.
+*/
+t_lexer	*ft_lexer(
+						const char *prompt,
+						t_expand_var_clbk expand_var,
+						t_expand_glob_clbk expand_glob)
+{
+	t_splited_prompt		*splited;
+	t_lexer					*lexer;
+	t_expander_callbacks	callbacks;
+	int						error_idx;
+
+	error_idx = ft_prompt_validator(prompt);
+	if (error_idx > -1)
+	{
+		ft_print_structure_not_closed_error(prompt, error_idx);
+		return (NULL);
+	}
+	splited = ft_splitter(prompt);
+	if (!splited)
+		return (NULL);
+	callbacks.expand_glob = expand_glob;
+	callbacks.expand_var = expand_var;
+	lexer = ft_create_lexer(prompt, &splited, callbacks);
+	if (!lexer)
+		return (NULL);
+	return (lexer);
+}
+
+/**
+*  # ft_create_lexer
+*
+* Constrói t_lexer a partir do resultado do splitter.
+*
+* Lógica:
+* - Aloca a estrutura principal.
+* - Copia a prompt original (para debug e reconstruções).
+* - Cria o array de tokens com tamanho exato.
+* - Percorre o splitter de trás para frente:
+*       - Para cada chunk, cria um token via ft_tokenize().
+*       - Passa coordenadas e callbacks de expansão.
+* - Em caso de erro: destrói tudo com segurança.
+* - Associa o callback destroy().
+*
+* Papel:
+* Converter cada substring do splitter em um token completo,
+* preservando posição, tipos e metadados necessários.
+*/
+static t_lexer	*ft_create_lexer(
+								const char *prompt,
+								t_splited_prompt **split,
+								t_expander_callbacks callbacks)
+{
+	t_lexer		*tk_prompt;
+	t_token					**curr_token;
+
+	tk_prompt = ft_calloc(1, sizeof(t_lexer));
+	if (!tk_prompt)
+		return (NULL);
+	tk_prompt->size = (*split)->len;
+	tk_prompt->original_prompt = (const char *)ft_strdup(prompt);
+	tk_prompt->tokens = ft_calloc((*split)->len + 1, sizeof(t_token *));
+	while (--(*split)->len >= 0)
+	{
+		curr_token = &tk_prompt->tokens[(*split)->len];
+		*curr_token = ft_tokenize((*split)->chuncks[(*split)->len],
+				(*split)->len, (*split)->coords[(*split)->len], callbacks);
+		if (!*curr_token)
+		{
+			(*split)->destroy(split);
+			return (ft_destroy_lexer(&tk_prompt));
+		}
+	}
+	(*split)->destroy(split);
+	tk_prompt->destroy = ft_destroy_lexer;
+	return (tk_prompt);
+}
+
+/**
+*  # ft_destroy_lexer
+*
+* Destrutor completo da estrutura t_lexer.
+*
+* Lógica:
+* - Libera a prompt original copiada.
+* - Percorre o vetor de tokens em ordem reversa:
+*       - Para cada token, chama token->destroy().
+* - Libera o vetor de tokens.
+* - Libera a própria estrutura.
+* - Zera o ponteiro externo.
+*
+* Papel:
+* Garantir limpeza total da árvore de tokens,
+* evitando qualquer vazamento de memória.
+*/
+static void	*ft_destroy_lexer(t_lexer	**self_ref)
+{
+	t_lexer	*self;
+
+	if (!self_ref || !*self_ref)
+		return (NULL);
+	self = *self_ref;
+	if (self->original_prompt)
+		free((char *)self->original_prompt);
+	if (self->tokens)
+	{
+		while (--self->size >= 0)
+			if (self->tokens[self->size])
+				self->tokens[self->size]->destroy(&self->tokens[self->size]);
+		free(self->tokens);
+	}
+	free(self);
+	*self_ref = NULL;
+	return (NULL);
+}
