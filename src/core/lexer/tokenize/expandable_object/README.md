@@ -1,6 +1,6 @@
 # Submódulo: Expandable Object
 
-![expandable object diagram](exp_object_diagram.png)
+![expandable object diagram](expandable_object_diagram.png)
 
 Este módulo identifica trechos expansíveis dentro de um token
 (`$VAR`, `${VAR}`, `$1`, `$?`, `$(cmd)` etc.), coleta suas coordenadas
