@@ -1,8 +1,8 @@
 # 🧩 Submodulo: Lexer — Visão Geral
 
 ![token creation diagram](token_creation_diagram.png)
-[![sep quotes diagram](sep_quotes_diagram.png)](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/lexer/lexer/tokenize/separate_quote_chuncks)
-[![exp obj diagram](exp_obj_diagram.png)](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/lexer/lexer/tokenize/expandable_object)
+[![sep quotes diagram](sep_quotes_diagram.png)](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/core/lexer/tokenize/separate_quote_chuncks)
+[![exp obj diagram](exp_obj_diagram.png)](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/core/lexer/tokenize/expandable_object)
 ![token creation end diagram](token_creation_end_diagram.png)
 
 
