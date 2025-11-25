@@ -1,6 +1,6 @@
 # Raw Splitter – Tokenizador Robusto com Tratamento Avançado de Aspas
 
-![raw splitter diagram](raw_splitter_diagram.png)
+![raw splitter diagram](raw_diagram.png)
 
 Este módulo implementa um **tokenizador bruto** especializado para cenários onde `ft_split` não é suficiente.
 Ele identifica **tokens** preservando exatamente a posição original de cada trecho, mesmo quando existem:

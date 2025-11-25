@@ -1,9 +1,9 @@
 # 🧩 Submodulo: Lexer — Visão Geral
 
-![token creation diagram](token_creation_diagram.png)
-[![sep quotes diagram](sep_quotes_diagram.png)](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/core/lexer/tokenize/separate_quote_chuncks)
-[![exp obj diagram](exp_obj_diagram.png)](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/core/lexer/tokenize/expandable_object)
-![token creation end diagram](token_creation_end_diagram.png)
+![token creation diagram](tokenize_header_diagram.png)
+[![sep quotes diagram](separated_quotes_diagram.png)](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/core/lexer/tokenize/separate_quote_chuncks)
+[![exp obj diagram](expandable_obj_diagram.png)](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/core/lexer/tokenize/expandable_object)
+![token creation end diagram](tokenize_footer_diagram.png)
 
 
 Este módulo implementa o núcleo da **fase de expansão** do shell.
