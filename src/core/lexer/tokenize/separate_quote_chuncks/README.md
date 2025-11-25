@@ -1,6 +1,6 @@
 # Submódulo de Separação de Aspas (Quote Splitter)
 
-![separate quote chuncks diagram](sep_quote_chuncks_diagram.png)
+![separate quote chuncks diagram](separate_quote_chuncks_diagram.png)
 
 Este módulo varre uma string e a divide em **trechos normais**, **trechos entre aspas simples** e **trechos entre aspas duplas**, preservando coordenadas e tipos de aspas. Ele funciona como um **pré-processador para parsing**, exatamente como um shell faz antes de expandir variáveis e metacaracteres.
 

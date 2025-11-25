@@ -1,6 +1,6 @@
 # Refinador de Tokens — Visão Geral
 
-![refined splitter diagram](refined_diagram.png)
+![refined splitter diagram](refined_splitter_diagram.png)
 
 Este módulo implementa o fluxo completo para transformar uma string bruta em uma estrutura organizada de tokens, respeitando aspas, operadores reservados e agrupamentos. O processo ocorre em duas etapas principais:
 
