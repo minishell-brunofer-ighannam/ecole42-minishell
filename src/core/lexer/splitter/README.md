@@ -1,6 +1,6 @@
 # Splitter Module — Visão Geral
 
-![splitter diagram](splitter_diagram.png)
+![splitter diagram](splitter_module_diagram.png)
 
 O módulo **splitter** funciona em duas etapas principais:
 
