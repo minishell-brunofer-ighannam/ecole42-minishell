@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sintax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 21:51:10 by valero            #+#    #+#             */
-/*   Updated: 2025/11/26 20:30:27 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/27 15:14:44 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ static void	ft_jump_to_paren_closing(t_token **tokens, int *idx)
 	}
 }
 
-bool	ft_is_redirect_node(t_token *node)
+bool	ft_is_redirect_node(t_token *token)
 {
-	if (node->type == TOKEN_REDIRECT_OUT
-		|| node->type == TOKEN_REDIRECT_IN
-		|| node->type == TOKEN_HERE_DOC_IN
-		|| node->type == TOKEN_APPEND_OUT)
+	if (token->type == TOKEN_REDIRECT_OUT
+		|| token->type == TOKEN_REDIRECT_IN
+		|| token->type == TOKEN_HERE_DOC_IN
+		|| token->type == TOKEN_APPEND_OUT)
 		return (true);
 	return (false);
 }

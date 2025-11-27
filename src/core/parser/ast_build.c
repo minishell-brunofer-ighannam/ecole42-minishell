@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_build.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 22:58:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/27 00:01:09 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/27 18:06:02 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ static t_buid_ast_params	ft_create_buid_ast_context(
 								t_binary_tree_node *tree_node,
 								bool on_left,
 								t_lexer_subset *prev_subset);
+static void					ft_manage_multiples_redirect(
+								t_buid_ast_params *ctx,
+								int *lower_precedence);
+static void					ft_reorganize_redirect_write(
+								t_buid_ast_params *ctx,
+								t_linkedlist *list_cmd,
+								t_linkedlist	*list_redir);
 
 t_ast	*ft_ast_build(t_lexer *lexer, void *exec)
 {
@@ -66,6 +73,9 @@ static void	ft_build_ast_node(
 	next_context = ft_create_buid_ast_context(
 			ctx->ast, ctx->tree_node, ctx->on_left, ctx->prev_subset);
 	lower_precedence = ft_find_lower_precedence(ctx->prev_subset->tokens);
+	if (lower_precedence > 0
+		&& ft_is_redirect_node(ctx->prev_subset->tokens[lower_precedence]))
+		ft_manage_multiples_redirect(ctx, &lower_precedence);
 	if (lower_precedence < 0)
 		return (ft_push_cmd_node(&next_context, exec));
 	type = (int)ctx->prev_subset->tokens[lower_precedence]->type;
@@ -73,6 +83,63 @@ static void	ft_build_ast_node(
 		ft_push_redirect_node(lower_precedence, type, &next_context, exec);
 	else
 		ft_push_node_composition(lower_precedence, type, &next_context, exec);
+}
+
+static void	ft_manage_multiples_redirect(
+				t_buid_ast_params *ctx,
+				int *lower_precedence)
+{
+	t_linkedlist	*list_cmd;
+	t_linkedlist	*list_redir;
+	t_token			**tokens;
+	int				idx;
+
+	tokens = ctx->prev_subset->tokens;
+	list_cmd = ft_new_linkedlist();
+	list_redir = ft_new_linkedlist();
+	idx = -1;
+	while (tokens[++idx])
+	{
+		if (ft_is_redirect_node(tokens[idx]))
+		{
+			list_redir->push(list_redir, tokens[idx]);
+			if (tokens[idx + 1])
+				list_redir->push(list_redir, tokens[++idx]);
+		}
+		else
+			list_cmd->push(list_cmd, tokens[idx]);
+	}
+	ft_reorganize_redirect_write(ctx, list_cmd, list_redir);
+	*lower_precedence = ft_find_lower_precedence(ctx->prev_subset->tokens);
+	list_cmd->destroy(&list_cmd, NULL);
+	list_redir->destroy(&list_redir, NULL);
+}
+
+static void	ft_reorganize_redirect_write(
+				t_buid_ast_params *ctx,
+				t_linkedlist *list_cmd,
+				t_linkedlist *list_redir)
+{
+	int					idx;
+	t_linkedlist_node	*cmd_node;
+	t_linkedlist_node	*redir_node;
+
+	cmd_node = list_cmd->first;
+	redir_node = list_redir->first;
+	idx = -1;
+	while (ctx->prev_subset->tokens[++idx])
+	{
+		while (cmd_node)
+		{
+			ctx->prev_subset->tokens[idx++] = cmd_node->content;
+			cmd_node = cmd_node->next;
+		}
+		while (redir_node)
+		{
+			ctx->prev_subset->tokens[idx++] = redir_node->content;
+			redir_node = redir_node->next;
+		}
+	}
 }
 
 static void	ft_push_cmd_node(t_buid_ast_params *ctx, void *exec)
