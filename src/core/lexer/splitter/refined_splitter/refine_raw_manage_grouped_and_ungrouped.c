@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:58:40 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 23:12:01 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/26 19:48:30 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ void	ft_manage_grouped_and_ungrouped_tokens(
 			manage_quote_behavior(scope.raw_token, scope.var);
 		else
 		{
-			filter_reserved_tokens(scope.raw_token, scope.idx_raw_token,
-				scope.refineds, scope.var);
+			while (scope.raw_token.chunck[scope.var->idx]
+				&& !scope.var->found_quote
+				&& is_reserved_token(scope.raw_token.chunck, scope.var->idx))
+				filter_reserved_tokens(scope.raw_token, scope.idx_raw_token,
+					scope.refineds, scope.var);
 			if (scope.raw_token.chunck[scope.var->idx])
 			{
 				if (ft_is_quote(scope.raw_token.chunck, scope.var->idx, NULL))

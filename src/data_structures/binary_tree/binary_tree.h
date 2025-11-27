@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:23:55 by valero            #+#    #+#             */
-/*   Updated: 2025/11/25 21:36:32 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/26 19:09:19 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ struct s_binary_tree
 	int					depth;
 	void				*(*push_content)(t_binary_tree *self,
 			t_binary_tree_node *target_node, bool push_on_left, void *content);
-	void				*(*push_tree)(t_binary_tree *self,
+	void				(*push_tree)(t_binary_tree *self,
 			t_binary_tree_node *target_node, bool push_on_left,
 			t_binary_tree_node *new_node);
 	void				*(*remove_tree)(t_binary_tree *self,

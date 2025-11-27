@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:57:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/22 19:51:30 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/26 10:43:21 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,9 @@ int ft_execute_pipe(t_node *node)
 	if (pid_right == 0)
 	{
 		close(fd[1]);
-		if (node->right->type == NODE_HERE_DOC_IN || node->right->type == NODE_REDIRECT_IN)
-			close(fd[0]);
-		else
+		if (node->right->type != NODE_HERE_DOC_IN && node->right->type != NODE_REDIRECT_IN)
 			dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
 		status = ft_execute_node(node->right);
 		exit(status);
 	}

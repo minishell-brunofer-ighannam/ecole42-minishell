@@ -50,17 +50,23 @@ $(TOKENIZE_DIR)/build_expansion_result.c $(TOKENIZE_DIR)/token.c $(TOKENIZE_DIR)
 LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(TOKENIZE_FILES) \
 src/core/lexer/lexer.c src/core/lexer/lexer_utils.c
 
+# ------------ PARSER FILES -----------------
+PARSER_DIR = src/core/parser
+PARSER_FILES = src/core/parser/ast_build.c src/core/parser/ast.c src/core/parser/lexer_manipulation.c src/core/parser/sintax.c \
+src/core/parser/print_ast.c
 
 # ------------ STRUCTURE FILES -----------------
 STRUCTURES = src/data_structures/linkedlist/iteration.c src/data_structures/linkedlist/linkedlist_node.c src/data_structures/linkedlist/linkedlist.c \
-src/data_structures/linkedlist_array/linkedlist_array.c src/data_structures/hashtable/hashtable.c
+src/data_structures/linkedlist_array/linkedlist_array.c src/data_structures/hashtable/hashtable.c \
+src/data_structures/binary_tree/binary_tree_node.c src/data_structures/binary_tree/binary_tree.c
 
 # ----------------- EXECUTER FILES -----------------
 EXEC_DIR = src/core/executer
 
 # ..... BUILTINS FILES .....
 BUILTINS = $(EXEC_DIR)/builtins/ft_env.c $(EXEC_DIR)/builtins/ft_export.c \
-$(EXEC_DIR)/builtins/ft_set.c $(EXEC_DIR)/builtins/ft_unset.c $(EXEC_DIR)/builtins/builtins.c
+$(EXEC_DIR)/builtins/ft_set.c $(EXEC_DIR)/builtins/ft_unset.c $(EXEC_DIR)/builtins/builtins.c \
+$(EXEC_DIR)/builtins/ft_cd.c $(EXEC_DIR)/builtins/ft_pwd.c $(EXEC_DIR)/builtins/ft_echo.c
 
 # ..... PROCESS FILES .....
 PROCESS = $(EXEC_DIR)/process/child_process.c
@@ -75,7 +81,7 @@ EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd.c $(EXEC_DIR)/redirect.c $(EX
 UTILS = src/utils/array_str.c src/utils/commands.c src/utils/print.c
 
 
-SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(BUILTINS) $(PROCESS) $(ENV) $(EXECUTER) $(UTILS) src/signals.c src/globals.c
+SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(PARSER_FILES) $(BUILTINS) $(PROCESS) $(ENV) $(EXECUTER) $(UTILS) src/signals.c src/globals.c
 
 
 
@@ -240,6 +246,10 @@ build_expansion: tests/lexer/tokenize/build_expansion.c tests/tests.c $(COMPILAT
 lexer: tests/lexer/lexer.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) tests/lexer/lexer.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+ast_build: tests/parser/ast_build.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/parser/ast_build.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 simple_cmd: tests/executer_test/simple_cmd.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
