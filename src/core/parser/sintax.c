@@ -6,31 +6,73 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 21:51:10 by valero            #+#    #+#             */
-/*   Updated: 2025/11/25 22:15:45 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/26 20:30:27 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_internal.h"
 
-static bool	ft_is_redirect(t_token *node);
+static void	ft_jump_to_paren_closing(t_token **tokens, int *idx);
 
-int	ft_get_precedence(t_token *node)
+int	ft_get_precedence(t_token *token)
 {
 	int	max_precedence;
 
 	max_precedence = 4;
-	if (node->type == TOKEN_PAREN_OPEN)
+	if (token->type == TOKEN_PAREN_OPEN)
 		return (max_precedence - 0);
-	if (ft_is_redirect(node))
+	if (ft_is_redirect_node(token))
 		return (max_precedence - 1);
-	if (node->type == TOKEN_PIPE)
+	if (token->type == TOKEN_PIPE)
 		return (max_precedence - 2);
-	if (node->type == TOKEN_AND || node->type == TOKEN_OR)
+	if (token->type == TOKEN_AND || token->type == TOKEN_OR)
 		return (max_precedence - 3);
 	return (0);
 }
 
-static bool	ft_is_redirect(t_token *node)
+int	ft_find_lower_precedence(t_token **tokens)
+{
+	int	idx;
+	int	lower_precedence_idx;
+	int	lower_precedence;
+	int	curr_precedence;
+
+	lower_precedence_idx = -1;
+	lower_precedence = 4;
+	idx = -1;
+	while (tokens[++idx])
+	{
+		if (tokens[idx]->type == TOKEN_PAREN_OPEN)
+			ft_jump_to_paren_closing(tokens, &idx);
+		if (!tokens[idx])
+			break ;
+		curr_precedence = ft_get_precedence(tokens[idx]);
+		if (curr_precedence && curr_precedence <= lower_precedence)
+		{
+			lower_precedence = curr_precedence;
+			lower_precedence_idx = idx;
+		}
+	}
+	return (lower_precedence_idx);
+}
+
+static void	ft_jump_to_paren_closing(t_token **tokens, int *idx)
+{
+	int	opened_parens;
+
+	opened_parens = 0;
+	if (tokens[(*idx)]->type == TOKEN_PAREN_OPEN)
+		opened_parens++;
+	while (tokens[++(*idx)] && opened_parens)
+	{
+		if (tokens[*idx]->type == TOKEN_PAREN_OPEN)
+			opened_parens++;
+		if (tokens[*idx]->type == TOKEN_PAREN_CLOSE)
+			opened_parens--;
+	}
+}
+
+bool	ft_is_redirect_node(t_token *node)
 {
 	if (node->type == TOKEN_REDIRECT_OUT
 		|| node->type == TOKEN_REDIRECT_IN
