@@ -65,7 +65,8 @@ EXEC_DIR = src/core/executer
 
 # ..... BUILTINS FILES .....
 BUILTINS = $(EXEC_DIR)/builtins/ft_env.c $(EXEC_DIR)/builtins/ft_export.c \
-$(EXEC_DIR)/builtins/ft_set.c $(EXEC_DIR)/builtins/ft_unset.c $(EXEC_DIR)/builtins/builtins.c
+$(EXEC_DIR)/builtins/ft_set.c $(EXEC_DIR)/builtins/ft_unset.c $(EXEC_DIR)/builtins/builtins.c \
+$(EXEC_DIR)/builtins/ft_cd.c $(EXEC_DIR)/builtins/ft_pwd.c $(EXEC_DIR)/builtins/ft_echo.c
 
 # ..... PROCESS FILES .....
 PROCESS = $(EXEC_DIR)/process/child_process.c

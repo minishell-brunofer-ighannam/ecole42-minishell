@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:53:16 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/24 23:21:33 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/26 17:28:18 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int main(int argc, char **argv, char **envp)
 	//
 	// NODE: wc -l
 	//
-	t_lexer *token_wc = ft_lexer("wc -l", ft_expand_var, ft_expand_glob);
+	t_lexer *token_wc = ft_lexer("minishell", ft_expand_var, ft_expand_glob);
 	t_node *node_wc = ft_calloc(1, sizeof(t_node));
 	node_wc->ht_env = ht_env;
 	node_wc->token = token_wc->tokens;
@@ -178,7 +178,6 @@ int main(int argc, char **argv, char **envp)
 	//
 	// O redirect fica como nó ESQUERDO do comando wc -l
 	//
-	node_wc->left = node_redirect;
 
 	//
 	// NODE: pipe   =   ls  |  wc -l < f1
@@ -190,7 +189,8 @@ int main(int argc, char **argv, char **envp)
 	node_pipe->type = NODE_PIPE;
 
 	node_pipe->left = node_ls;
-	node_pipe->right = node_wc;
+	node_pipe->right = node_redirect;
+	node_redirect->left = node_wc;
 
 	//
 	// node_pipe é a raiz final
@@ -198,7 +198,7 @@ int main(int argc, char **argv, char **envp)
 
 
 
-	ft_execute_tree(node_pipe);
+	ft_execute_tree(node_wc);
 
 
 	t_ht *item;
@@ -209,7 +209,7 @@ int main(int argc, char **argv, char **envp)
 	item = curr_node->content;
 	value = item->value;
 
-	printf("%s\n", value->value);
+	//printf("%s\n", value->value);
 
 
 

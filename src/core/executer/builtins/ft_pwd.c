@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   globals.c                                          :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 13:13:21 by valero            #+#    #+#             */
-/*   Updated: 2025/11/26 17:31:27 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/26 13:34:16 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/26 14:15:16 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
+#include "builtins.h"
 
-static volatile sig_atomic_t g_sig;
-
-int get_sig(void)
+int	ft_pwd(void)
 {
-    return (g_sig);
-}
+	char	*pwd;
 
-void set_sig(int value)
-{
-    g_sig = value;
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+	{
+		perror("pwd");
+		return (1);
+	}
+	printf("%s\n", pwd);
+	free(pwd);
+	return (0);
 }
