@@ -2,6 +2,7 @@
 	"files.associations": {
 		"splitter_internal.h": "c",
 		"prompt_validator_internal.h": "c",
-		"lexer_utils.h": "c"
+		"lexer_utils.h": "c",
+		"tests.h": "c"
 	}
 }
