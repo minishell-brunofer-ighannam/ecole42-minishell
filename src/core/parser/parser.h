@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 00:14:45 by valero            #+#    #+#             */
-/*   Updated: 2025/11/25 23:43:53 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/27 00:32:22 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ struct s_ast
 {
 	t_lexer			*lexer;
 	t_binary_tree	*tree;
+	void			(*print)(t_ast *self);
 	void			*(*destroy)(t_ast **self_ref,
 			void (*free_content)(void *arg));
 };

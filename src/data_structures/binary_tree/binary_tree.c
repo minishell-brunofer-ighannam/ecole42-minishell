@@ -6,13 +6,18 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 15:16:08 by valero            #+#    #+#             */
-/*   Updated: 2025/11/25 21:35:21 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/26 19:08:43 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_tree_internal.h"
 
-static void	*ft_push_binary_tree(
+static void	*ft_push_binary_tree_content(
+				t_binary_tree *self,
+				t_binary_tree_node *target_node,
+				bool push_on_left,
+				void *content);
+static void	ft_push_binary_tree(
 				t_binary_tree *self,
 				t_binary_tree_node *target_node,
 				bool push_on_left,
@@ -70,7 +75,7 @@ static void	*ft_push_binary_tree_content(
 	return (NULL);
 }
 
-static void	*ft_push_binary_tree(
+static void	ft_push_binary_tree(
 				t_binary_tree *self,
 				t_binary_tree_node *node,
 				bool onleft,
@@ -81,7 +86,7 @@ static void	*ft_push_binary_tree(
 
 	if (!self || !new_node || (!self->root && node) || (node
 			&& ((onleft && node->left) || (!onleft && node->right))))
-		return (NULL);
+		return ;
 	if (!self->root)
 	{
 		self->root = new_node;

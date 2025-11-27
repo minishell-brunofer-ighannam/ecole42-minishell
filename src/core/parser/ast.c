@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:03:17 by valero            #+#    #+#             */
-/*   Updated: 2025/11/25 23:48:05 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/27 00:32:47 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,29 @@ t_ast	*ft_create_ast(t_lexer *lexer)
 		return (NULL);
 	}
 	ast->lexer = lexer;
+	ast->print = ft_print_ast;
 	ast->destroy = ft_destroy_ast;
 	return (ast);
 }
 
-static t_ast_node	*ft_create_ast_node(
-						t_token **tokens,
-						t_ast_node_type type,
-						void *exec)
+t_ast_node	*ft_create_ast_node(
+				t_token **tokens,
+				t_ast_node_type type,
+				void *exec)
 {
 	t_ast_node	*node;
+	int			tokens_size;
 
 	node = ft_calloc(1, sizeof(t_ast_node));
 	if (!node)
 		return (NULL);
+	tokens_size = 0;
+	while (tokens[tokens_size])
+		tokens_size++;
+	node->tokens = ft_calloc(tokens_size + 1, sizeof(t_token *));
+	while (--tokens_size >= 0)
+		node->tokens[tokens_size] = tokens[tokens_size];
 	node->type = type;
-	node->tokens = tokens;
 	node->exec = exec;
 	node->destroy = ft_destroy_ast_node;
 	return (node);
@@ -62,7 +69,8 @@ static void	*ft_destroy_ast_node(
 	if (!self_ref || !*self_ref)
 		return (NULL);
 	self = *self_ref;
-	free(self->tokens);
+	if (self->tokens)
+		free(self->tokens);
 	free_exec(self->exec);
 	free(self);
 	*self_ref = NULL;
