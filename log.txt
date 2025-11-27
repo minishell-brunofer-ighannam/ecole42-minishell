@@ -1,3 +1,4 @@
+ast_build
 EOF
 f1
 includes
@@ -8,9 +9,6 @@ Makefile
 minishell.excalidraw
 minishell_hd_0
 README.md
-redirect_test
 results.txt
-simple_cmd
-simple_heredoc_test
 src
 tests

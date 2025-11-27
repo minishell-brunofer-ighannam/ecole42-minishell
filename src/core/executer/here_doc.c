@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/24 23:46:43 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/27 16:33:52 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	ft_execute_heredocs(t_node *node)
 	item_list = heredoc->last;
 	while (item_list)
 	{
-		ft_process_heredoc(item_list);
+		if (ft_process_heredoc(item_list) != 0)
+			return (130);
 		item_list = item_list->prev;
 	}
 	return (0);
@@ -43,23 +44,11 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 	int		fd;
 
 	file = ft_generate_temp_file();
-	if (!file)
-	{
-		perror("malloc");
-		return (1);
-	}
 	fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0666);
-	if (fd < 0)
-	{
-		perror("open");
-		free(file);
-		return (1);
-	}
 	node = (t_node *)item_list->content;
 	delimit = node->token[1]->value;
 	if (ft_read_line_heredoc(fd, delimit) != 0) // tratamento para se der problema(ex.: ctrl-C)
 	{
-		// se o heredoc dá erro, tem que fechar todos os arquivos que abriu, limpar tudo e não fazer mais nada
 		close(fd);
 		unlink(file);
 		free(file);
@@ -75,13 +64,18 @@ static int	ft_read_line_heredoc(int fd, const char *delimit)
 {
 	char	*line;
 
+	ft_handle_sig_heredoc();
 	while (1)
 	{
-		// aqui ainda tem que implementar sinais - Ctrl-C é erro (status de saída vira 130). Ctrl-D não é erro.
 		line = readline("> ");
+		if (!line && ft_get_sig() == SIGINT)
+			return (130);
 		if (!line)
 		{
-			printf("minishell: warning: here-document ended with a different end-of-file than expected");
+			ft_putstr_fd("minishell: warning: here-document ", 1);
+			ft_putstr_fd("delimited by end-of-file (wanted `", 1);
+			ft_putstr_fd(delimit, 1);
+			ft_putstr_fd("')\n", 1);
 			return (0);
 		}
 		if (ft_strcmp(line, delimit) == 0)
@@ -89,8 +83,7 @@ static int	ft_read_line_heredoc(int fd, const char *delimit)
 			free(line);
 			break ;
 		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		ft_putendl_fd(line, fd);
 		free(line);
 	}
 	return (0);

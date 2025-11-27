@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ast_build.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 18:44:01 by valero            #+#    #+#             */
-/*   Updated: 2025/11/27 18:11:20 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/27 11:04:44 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../tests.h"
-#include "../../src/core/parser/parser_internal.h"
-#include "../../src/core/lexer/lexer.h"
-#include "../../src/core/executer/env/env.h"
 #include "../../src/core/executer/builtins/builtins.h"
+#include "../../src/core/executer/env/env.h"
+#include "../../src/core/lexer/lexer.h"
+#include "../../src/core/parser/parser_internal.h"
+#include "../tests.h"
+#include "../../includes/minishell.h"
 
 static void	test1(t_linkedlist_array	*env);
 static void	test2(t_linkedlist_array	*env);
@@ -38,6 +39,8 @@ int	main(int argc, char **argv, char **envp)
 static void	test1(t_linkedlist_array	*env)
 {
 	t_test	test;
+	t_lexer	*lexer;
+	t_ast	*ast;
 
 	ft_export(env, "USER=lexer");
 	ft_export(env, "PLACE=42");
