@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 13:13:21 by valero            #+#    #+#             */
-/*   Updated: 2025/11/26 17:31:27 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:14:58 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static volatile sig_atomic_t g_sig;
 
-int get_sig(void)
+int ft_get_sig(void)
 {
     return (g_sig);
 }
 
-void set_sig(int value)
+void ft_set_sig(int value)
 {
-    g_sig = value;
+    g_sig = (volatile sig_atomic_t)value;
 }

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:44:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/26 14:18:12 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:36:42 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int ft_execute_builtin(t_node *node)
 {
-	//ver como trataremos o fato do export e env serem "sem opções" segundo o PDF. Onde verificaremos isso?
 	if (ft_strcmp(node->token[0]->value, "export") == 0) 
 	{
 		if (node->token[1])
