@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/26 14:10:48 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:34:00 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include "builtins/builtins.h"
 # include "env/env.h"
 # include "process/process.h"
+# include "../../signals.h"
 
 typedef enum e_node_type	t_node_type;
 enum						e_node_type

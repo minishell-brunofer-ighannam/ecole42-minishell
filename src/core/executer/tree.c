@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:40:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/22 11:19:13 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:28:31 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int ft_execute_tree(t_node *node)
 	int ret;
 	char *key_value;
 
-	ret = ft_execute_heredocs(node); //primeiro percorrer toda a árvore e tratar todos os heredocs. Se algum der errado, nem executa mais nada.
+	ret = ft_execute_heredocs(node); //primeiro percorrer toda a árvore e tratar todos os heredocs. Se algum der errado (ctrl C), nem executa mais nada.
 	if (ret != 0)
 	{
 		key_value = ft_strjoin("?=", ft_itoa(ret));

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/26 14:24:46 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:30:26 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int ft_execute_cmd(t_node *node)
 		pid = fork();
 		if (pid == 0)
 		{
+			ft_handle_sig_child();
 			if (ft_execute_redirect(node) == 1) //executa os redirects. Se algum der errado, não executa o comando.
 				return (1);
 			status = execve(ft_find_path(node->ht_env, node->argv[0]), node->argv, node->envp);
