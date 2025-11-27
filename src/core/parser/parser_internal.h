@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_internal.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 00:14:45 by valero            #+#    #+#             */
-/*   Updated: 2025/11/27 00:31:52 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/27 15:14:53 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ struct s_buid_ast_params
 	t_lexer_subset		*prev_subset;
 };
 
-bool			ft_is_redirect_node(t_token *node);
+bool			ft_is_redirect_node(t_token *token);
 t_lexer_subset	*ft_create_lexer_subset(
 					t_lexer *lexer, int start, int end);
 int				ft_get_precedence(t_token *node);

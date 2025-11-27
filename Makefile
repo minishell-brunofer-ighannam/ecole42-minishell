@@ -105,7 +105,7 @@ COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
 create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
-lexer simple_cmd redirect_test simple_heredoc_test
+lexer simple_cmd redirect_test simple_heredoc_test ast_build
 
 
 
