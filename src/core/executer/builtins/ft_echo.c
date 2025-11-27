@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   globals.c                                          :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 13:13:21 by valero            #+#    #+#             */
-/*   Updated: 2025/11/26 17:31:27 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/26 13:41:19 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/26 14:47:52 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
+#include "builtins.h"
 
-static volatile sig_atomic_t g_sig;
-
-int get_sig(void)
+void ft_echo(t_node *node)
 {
-    return (g_sig);
-}
+	t_token **token;
+	int i;
 
-void set_sig(int value)
-{
-    g_sig = value;
+	token = node->token;
+	i = 1;
+	if (token[i] && ft_strcmp("-n", token[i]->last_build->token_expanded) == 0)
+		i++;
+	while (token[i])
+	{
+		printf("%s", token[i]->last_build->token_expanded);
+		if (token[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (!token[1] || ft_strcmp("-n", token[1]->last_build->token_expanded) != 0)
+		printf("\n");
 }
