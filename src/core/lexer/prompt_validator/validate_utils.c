@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:48:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/21 14:56:48 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/28 19:44:11 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,26 @@ int	get_end(const char *str, int idx,
 			bool (*is_special_char)(const char *str, int idx, char *chars),
 			char *chars)
 {
-	int	i;
+	int		i;
+	bool	is_parens;
+	int		paren_count;
 
+	paren_count = 0;
+	is_parens = chars[0] == ')';
 	i = idx;
 	while (str[++i])
 	{
+		if (is_parens && is_special_char(str, i, "("))
+			paren_count++;
 		if (is_special_char(str, i, chars))
 		{
 			if (str[i] == chars[0])
-				return (i);
+			{
+				if (is_parens && paren_count)
+					paren_count--;
+				else
+					return (i);
+			}
 		}
 	}
 	return (i);
