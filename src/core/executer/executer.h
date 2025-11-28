@@ -6,26 +6,24 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/27 13:34:00 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:42:51 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTER_H
 # define EXECUTER_H
 
-# include <fcntl.h>
-# include <stdio.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-
-# include <readline/readline.h>
-
 # include "../../data_structures/data_structures.h"
+# include "../../signals.h"
 # include "../lexer/lexer.h"
 # include "builtins/builtins.h"
 # include "env/env.h"
 # include "process/process.h"
-# include "../../signals.h"
+# include <fcntl.h>
+# include <readline/readline.h>
+# include <stdio.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
 
 typedef enum e_node_type	t_node_type;
 enum						e_node_type
@@ -91,6 +89,10 @@ int							ft_execute_append_out(t_linkedlist_node *node);
 
 // HEREDOC
 int							ft_execute_heredocs(t_node *node);
+char						*ft_generate_temp_file(void);
+void						ft_dfs_find_heredoc(t_linkedlist *heredoc,
+								t_node *node);
+t_linkedlist				*ft_find_all_heredoc(t_node *node);
 
 // PIPE
 int							ft_execute_pipe(t_node *node);
