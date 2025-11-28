@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/28 16:21:22 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:30:33 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ t_token	*ft_create_token(const char *value, int position,
 	token->expand_glob = callbacks.expand_glob;
 	token->value = (const char *)ft_strdup(value);
 	token->position = position;
-	token->coord_in_src = ft_coord_dup(coord_in_src);
+	if (coord_in_src)
+		token->coord_in_src = ft_coord_dup(coord_in_src);
 	token->expand_var = callbacks.expand_var;
 	token->expand_glob = callbacks.expand_glob;
 	token->build_expansion = ft_build_expansion;

@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/28 16:20:29 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:35:57 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,14 @@ struct s_expander_callbacks
 	t_expand_glob_clbk	expand_glob;
 };
 
-t_token	*ft_tokenize(
-			const char *chunck,
-			int idx,
-			int *coord_in_src,
-			t_expander_callbacks callbacks);
+t_token					*ft_tokenize(
+							const char *chunck,
+							int idx,
+							int *coord_in_src,
+							t_expander_callbacks callbacks);
+
+t_expander_callbacks	ft_create_expander_callbacks(
+							t_expand_var_clbk	expand_var,
+							t_expand_glob_clbk	expand_glob);
 
 #endif
