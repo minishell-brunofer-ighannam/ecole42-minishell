@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 18:44:01 by valero            #+#    #+#             */
-/*   Updated: 2025/11/27 11:04:44 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/27 19:04:35 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int	main(int argc, char **argv, char **envp)
 static void	test1(t_linkedlist_array	*env)
 {
 	t_test	test;
-	t_lexer	*lexer;
-	t_ast	*ast;
 
 	ft_export(env, "USER=lexer");
 	ft_export(env, "PLACE=42");

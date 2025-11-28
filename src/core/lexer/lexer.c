@@ -53,8 +53,7 @@ t_lexer	*ft_lexer(
 	splited = ft_splitter(prompt);
 	if (!splited)
 		return (NULL);
-	callbacks.expand_glob = expand_glob;
-	callbacks.expand_var = expand_var;
+	callbacks = ft_create_expander_callbacks(expand_var, expand_glob);
 	lexer = ft_create_lexer(prompt, &splited, callbacks);
 	if (!lexer)
 		return (NULL);

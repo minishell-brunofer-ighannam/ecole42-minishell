@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/22 19:49:24 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:45:47 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int ft_visit_redirect(t_node *node)
 		ft_execute_redirect(node);
 		return(ft_execute_subshell(node->left));
 	}
-	//a função não deve chegar aqui. Se chegar há algum erro anterior. TIRAR PRINT ABAIXO!
-	printf("ft_visit_redirect --> a função não deveria ter chegado aqui!");
 	return (3);	
 }
 
