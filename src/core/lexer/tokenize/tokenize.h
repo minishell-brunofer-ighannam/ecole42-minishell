@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/25 21:52:55 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/28 16:20:29 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ struct s_token
 	int					*coord_in_src;
 	bool				sintaxe_error;
 	bool				feature_out_of_scope;
+	char				*(*remove_quotes)(t_token *self);
 	char				*(*expand_var)(
 			const char *token, t_linkedlist_array *ht_env);
 	char				**(*expand_glob)(const char *token);
