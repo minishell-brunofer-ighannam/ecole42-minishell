@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 13:15:38 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/27 13:31:35 by ighannam         ###   ########.fr       */
+/*   Created: 2025/11/26 13:34:16 by ighannam          #+#    #+#             */
+/*   Updated: 2025/11/26 14:15:16 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
-# define SIGNALS_H
+#include "builtins.h"
 
-# include <signal.h>
+int	ft_pwd(void)
+{
+	char	*pwd;
 
-//void	ft_handle_signals(void);
-int		ft_get_sig(void);
-void	ft_set_sig(int value);
-void	ft_handle_sigint(int sig);
-void	ft_handle_sig_parent(void);
-void	ft_handle_sig_child(void);
-void	ft_handle_sig_heredoc(void);
-void	ft_handle_sigint_heredoc(int sig);
-// int		signs(void);
-
-#endif
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+	{
+		perror("pwd");
+		return (1);
+	}
+	printf("%s\n", pwd);
+	free(pwd);
+	return (0);
+}

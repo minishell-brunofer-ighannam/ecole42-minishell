@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:53:16 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/24 23:21:33 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/28 12:11:15 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,13 +149,22 @@ int main(int argc, char **argv, char **envp)
 	// ft_execute_tree(node_and);
 
 	//
-	// NODE: ls
+	// NODE: cat f1
 	//
-	t_lexer *token_ls = ft_lexer("ls", ft_expand_var, ft_expand_glob);
-	t_node *node_ls = ft_calloc(1, sizeof(t_node));
-	node_ls->ht_env = ht_env;
-	node_ls->token = token_ls->tokens;
-	node_ls->type = NODE_CMD;
+	t_lexer *token_catf1 = ft_lexer("cat f1", ft_expand_var, ft_expand_glob);
+	t_node *node_catf1 = ft_calloc(1, sizeof(t_node));
+	node_catf1->ht_env = ht_env;
+	node_catf1->token = token_catf1->tokens;
+	node_catf1->type = NODE_CMD;
+
+	//
+	// NODE: cat -e
+	//
+	t_lexer *token_cate = ft_lexer("cat -e", ft_expand_var, ft_expand_glob);
+	t_node *node_cate = ft_calloc(1, sizeof(t_node));
+	node_cate->ht_env = ht_env;
+	node_cate->token = token_cate->tokens;
+	node_cate->type = NODE_CMD;
 
 	//
 	// NODE: wc -l
@@ -167,38 +176,40 @@ int main(int argc, char **argv, char **envp)
 	node_wc->type = NODE_CMD;
 
 	//
-	// NODE: < f1
-	//
-	t_lexer *token_redirect = ft_lexer("< f1", ft_expand_var, ft_expand_glob);
-	t_node *node_redirect = ft_calloc(1, sizeof(t_node));
-	node_redirect->ht_env = ht_env;
-	node_redirect->token = token_redirect->tokens;
-	node_redirect->type = NODE_REDIRECT_IN;
-
-	//
 	// O redirect fica como nó ESQUERDO do comando wc -l
 	//
-	node_wc->left = node_redirect;
 
 	//
-	// NODE: pipe   =   ls  |  wc -l < f1
+	// NODE: | 1
 	//
-	t_lexer *token_pipe = ft_lexer("|", ft_expand_var, ft_expand_glob);
-	t_node *node_pipe = ft_calloc(1, sizeof(t_node));
-	node_pipe->ht_env = ht_env;
-	node_pipe->token = token_pipe->tokens;
-	node_pipe->type = NODE_PIPE;
-
-	node_pipe->left = node_ls;
-	node_pipe->right = node_wc;
+	t_lexer *token_pipe1 = ft_lexer("|", ft_expand_var, ft_expand_glob);
+	t_node *node_pipe1 = ft_calloc(1, sizeof(t_node));
+	node_pipe1->ht_env = ht_env;
+	node_pipe1->token = token_pipe1->tokens;
+	node_pipe1->type = NODE_PIPE;
 
 	//
-	// node_pipe é a raiz final
+	// NODE: | 2
+	//
+	t_lexer *token_pipe2 = ft_lexer("|", ft_expand_var, ft_expand_glob);
+	t_node *node_pipe2 = ft_calloc(1, sizeof(t_node));
+	node_pipe2->ht_env = ht_env;
+	node_pipe2->token = token_pipe2->tokens;
+	node_pipe2->type = NODE_PIPE;
+
+
+
+	//
+	// node_pipe1 é a raiz final
 	//
 
+	node_pipe1->left = node_pipe2;
+	node_pipe2->left = node_catf1;
+	node_pipe2->right = node_cate;
+	node_pipe1->right = node_wc;
+	
 
-
-	ft_execute_tree(node_pipe);
+	ft_execute_tree(node_pipe1);
 
 
 	t_ht *item;
@@ -209,7 +220,7 @@ int main(int argc, char **argv, char **envp)
 	item = curr_node->content;
 	value = item->value;
 
-	printf("%s\n", value->value);
+	//printf("%s\n", value->value);
 
 
 

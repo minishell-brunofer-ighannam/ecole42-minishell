@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   globals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 13:13:21 by valero            #+#    #+#             */
-/*   Updated: 2025/11/09 13:14:00 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/27 14:14:58 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static int g_sig = 0;
+#include <signal.h>
 
-int get_sig(void)
+static volatile sig_atomic_t g_sig;
+
+int ft_get_sig(void)
 {
-    return g_sig;
+    return (g_sig);
 }
 
-void set_sig(int value)
+void ft_set_sig(int value)
 {
-    g_sig = value;
+    g_sig = (volatile sig_atomic_t)value;
 }

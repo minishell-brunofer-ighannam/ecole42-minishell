@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ast_build.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 18:44:01 by valero            #+#    #+#             */
 /*   Updated: 2025/11/28 18:47:35 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../tests.h"
-#include "../../src/core/parser/parser_internal.h"
-#include "../../src/core/lexer/lexer.h"
-#include "../../src/core/executer/env/env.h"
 #include "../../src/core/executer/builtins/builtins.h"
+#include "../../src/core/executer/env/env.h"
+#include "../../src/core/lexer/lexer.h"
+#include "../../src/core/parser/parser_internal.h"
+#include "../tests.h"
+#include "../../includes/minishell.h"
 
 static void	test1(t_linkedlist_array	*env);
 static void	test2(t_linkedlist_array	*env);

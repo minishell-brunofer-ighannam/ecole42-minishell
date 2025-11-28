@@ -65,7 +65,8 @@ EXEC_DIR = src/core/executer
 
 # ..... BUILTINS FILES .....
 BUILTINS = $(EXEC_DIR)/builtins/ft_env.c $(EXEC_DIR)/builtins/ft_export.c \
-$(EXEC_DIR)/builtins/ft_set.c $(EXEC_DIR)/builtins/ft_unset.c $(EXEC_DIR)/builtins/builtins.c
+$(EXEC_DIR)/builtins/ft_set.c $(EXEC_DIR)/builtins/ft_unset.c $(EXEC_DIR)/builtins/builtins.c \
+$(EXEC_DIR)/builtins/ft_cd.c $(EXEC_DIR)/builtins/ft_pwd.c $(EXEC_DIR)/builtins/ft_echo.c
 
 # ..... PROCESS FILES .....
 PROCESS = $(EXEC_DIR)/process/child_process.c
@@ -73,8 +74,8 @@ PROCESS = $(EXEC_DIR)/process/child_process.c
 # ..... ENV FILES .....
 ENV = $(EXEC_DIR)/env/env.c $(EXEC_DIR)/env/expand_var.c $(EXEC_DIR)/env/expand_glob_i.c $(EXEC_DIR)/env/expand_glob_ii.c
 
-EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd.c $(EXEC_DIR)/redirect.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc.c \
-	$(EXEC_DIR)/cmd_builtin.c $(EXEC_DIR)/tree.c $(EXEC_DIR)/and.c $(EXEC_DIR)/or.c $(EXEC_DIR)/subshell.c
+EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd.c $(EXEC_DIR)/redirect.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc_i.c \
+	$(EXEC_DIR)/here_doc_ii.c $(EXEC_DIR)/cmd_builtin.c $(EXEC_DIR)/tree.c $(EXEC_DIR)/and.c $(EXEC_DIR)/or.c $(EXEC_DIR)/subshell.c
 
 
 UTILS = src/utils/array_str.c src/utils/commands.c src/utils/print.c

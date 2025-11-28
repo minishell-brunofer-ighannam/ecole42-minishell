@@ -4,5 +4,6 @@
 		"prompt_validator_internal.h": "c",
 		"lexer_utils.h": "c",
 		"tests.h": "c"
+		"unistd.h": "c"
 	}
 }

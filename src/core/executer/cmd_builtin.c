@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:44:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 12:54:52 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:36:42 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int ft_execute_builtin(t_node *node)
 {
-	//ver como trataremos o fato do export e env serem "sem opções" segundo o PDF. Onde verificaremos isso?
 	if (ft_strcmp(node->token[0]->value, "export") == 0) 
 	{
 		if (node->token[1])
@@ -33,6 +32,12 @@ int ft_execute_builtin(t_node *node)
 		else
 			ft_unset(node->ht_env, NULL);
 	}
+	else if (ft_strcmp(node->token[0]->value, "cd") == 0)
+		return (ft_cd(node));
+	else if (ft_strcmp(node->token[0]->value, "pwd") == 0)
+		return (ft_pwd());
+	else if (ft_strcmp(node->token[0]->value, "echo") == 0)
+		ft_echo(node);
 	return (0);
 }
 

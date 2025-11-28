@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 11:08:11 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/17 12:58:38 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/26 17:25:16 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**ft_expand_glob(const char *s)
 		free(after_removal);
 		return (NULL);
 	}
-	ft_ordene_array_str(matched);
+	ft_ordene_array_str_alpha(matched);
 	ft_clean_array_str(list_curr_repo);
 	free(after_removal);
 	return (matched);

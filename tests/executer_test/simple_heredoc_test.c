@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_heredoc_test.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 14:56:01 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/24 23:21:33 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/27 18:34:19 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int main(int argc, char **argv, char **envp)
 	// node_pipe é a raiz da árvore
 	//
 
-
+	printf("ls | wc -l << eof\n");
 	ft_execute_tree(node_pipe);
 	return (0);
 }
