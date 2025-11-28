@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 18:44:01 by valero            #+#    #+#             */
-/*   Updated: 2025/11/27 18:11:20 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/28 18:47:35 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static void	test1(t_linkedlist_array	*env);
 static void	test2(t_linkedlist_array	*env);
 static void	test3(t_linkedlist_array	*env);
 static void	test4(t_linkedlist_array	*env);
+static void	test5(t_linkedlist_array	*env);
+static void	test6(t_linkedlist_array	*env);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -32,6 +34,8 @@ int	main(int argc, char **argv, char **envp)
 	test2(env);
 	test3(env);
 	test4(env);
+	test5(env);
+	test6(env);
 	env->destroy(&env, ft_free_item_ht_env);
 }
 
@@ -120,3 +124,48 @@ static void	test4(t_linkedlist_array	*env)
 	t_ast	*ast = ft_ast_build(lexer, NULL);
 	ast->print(ast);
 }
+
+static void	test5(t_linkedlist_array	*env)
+{
+	t_test	test;
+
+	ft_export(env, "USER=lexer");
+	ft_export(env, "PLACE=42");
+	ft_export(env, "TOWN=SaoPaulo");
+	ft_export(env, "STATE=SP");
+	ft_export(env, "COUNTRY=BR");
+	test.teste_number = 5;
+	test.test_input = "(echo > f1|grep oi&&(echo tambem))";
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd(PRINT_BOLD PRINT_LIGHT_BLUE, 1);
+	ft_putstr_fd(test.test_input, 1);
+	ft_putstr_fd(PRINT_RESET, 1);
+	ft_putstr_fd("\n", 1);
+	t_lexer *lexer = ft_lexer(test.test_input, ft_expand_var, ft_expand_glob);
+	t_ast	*ast = ft_ast_build(lexer, NULL);
+	ast->print(ast);
+}
+
+static void	test6(t_linkedlist_array	*env)
+{
+	t_test	test;
+
+	ft_export(env, "USER=lexer");
+	ft_export(env, "PLACE=42");
+	ft_export(env, "TOWN=SaoPaulo");
+	ft_export(env, "STATE=SP");
+	ft_export(env, "COUNTRY=BR");
+	test.teste_number = 6;
+	test.test_input = "( cd /home/user && ( ls -l | grep \"log\" || echo \"No logs found\" ) > logs.txt ) && ( (echo \"Process started\" && (date && echo \"Working...\" > temp.txt) ) || (echo \"Process failed\" && tail -n 10 /var/log/syslog >> error.log ) ) && ( cat logs.txt | grep -v \"error\" | tee cleaned_logs.txt > /dev/null ) || ( (echo \"Cleanup started\" && rm -rf /tmp/* && echo \"Temp files removed\" ) && echo \"Backup started\" && cp -r /home/user /backup/ && echo \"Backup completed\" ) && ( ( (echo \"Final step\" && ls /home/user ) > result.log ) || ( echo \"Final step failed\" >> result.log ) )";
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd(PRINT_BOLD PRINT_LIGHT_BLUE, 1);
+	ft_putstr_fd(test.test_input, 1);
+	ft_putstr_fd(PRINT_RESET, 1);
+	ft_putstr_fd("\n", 1);
+	t_lexer *lexer = ft_lexer(test.test_input, ft_expand_var, ft_expand_glob);
+	t_ast	*ast = ft_ast_build(lexer, NULL);
+	ast->print(ast);
+}
+
+// ( cd /home/user && ( ls -l | grep "log" || echo "No logs found" ) > logs.txt ) && ( (echo "Process started" && (date && echo "Working..." > temp.txt) ) || (echo "Process failed" && tail -n 10 /var/log/syslog >> error.log ) ) && ( cat logs.txt | grep -v "error" | tee cleaned_logs.txt > /dev/null ) || ( (echo "Cleanup started" && rm -rf /tmp/* && echo "Temp files removed" ) && echo "Backup started" && cp -r /home/user /backup/ && echo "Backup completed" ) && ( ( (echo "Final step" && ls /home/user ) > result.log ) || ( echo "Final step failed" >> result.log ) )
+

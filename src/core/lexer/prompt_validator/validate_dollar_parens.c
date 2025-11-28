@@ -103,7 +103,7 @@ static int	update_open_index(
 	}
 	if (!*is_parens && *open_idx == -1 && line[*curr_idx] == ')')
 		return (*curr_idx);
-	if (*open_idx && line[*curr_idx] == ')')
+	if (*open_idx > -1 && line[*curr_idx] == ')')
 		*open_idx = -1;
 	return (-1);
 }
