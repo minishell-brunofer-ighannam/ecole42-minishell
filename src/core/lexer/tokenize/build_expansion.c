@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:09:42 by valero            #+#    #+#             */
-/*   Updated: 2025/11/24 13:31:31 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/28 16:43:29 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	ft_build_chuncks(t_token *token, t_linkedlist_array *ht_env)
 	int					len_keys;
 	t_expandable_object	*object;
 
-	if (!token->expandable_object->expandable_keys)
+	if (!token->expandable_object->expandable_keys || !token->expand_var)
 		return ;
 	object = token->expandable_object;
 	keys = object->expandable_keys;
@@ -145,7 +145,7 @@ static char	*ft_expand_globs(t_token *token)
 		glob_input = ft_strdup(object->expanded_value);
 	else
 		glob_input = ft_strdup(object->original_value);
-	if (object->has_globs)
+	if (object->has_globs && token->expand_glob)
 		object->expanded_glob_value = ft_normilize_char_matrix(
 				token->expand_glob(glob_input));
 	return (glob_input);

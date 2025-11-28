@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:59:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/28 16:34:09 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:35:34 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,13 @@ t_token	*ft_tokenize(
 	return (token);
 }
 
+t_expander_callbacks	ft_create_expander_callbacks(
+							t_expand_var_clbk	expand_var,
+							t_expand_glob_clbk	expand_glob)
+{
+	t_expander_callbacks	callbacks;
+
+	callbacks.expand_var = expand_var;
+	callbacks.expand_glob = expand_glob;
+	return (callbacks);
+}
