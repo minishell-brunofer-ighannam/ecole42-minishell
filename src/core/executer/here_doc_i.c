@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   here_doc_i.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/27 16:33:52 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:43:59 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-static void			ft_dfs_find_heredoc(t_linkedlist *heredoc, t_node *node);
-static t_linkedlist	*ft_find_all_heredoc(t_node *node);
-static int			ft_process_heredoc(t_linkedlist_node *item_list);
-static char			*ft_generate_temp_file(void);
-static int			ft_read_line_heredoc(int fd, const char *delimit);
 
-//se o delimitador estiver entre "", ele espande o que tiver $ dentro do arquivo temporário
+static int			ft_process_heredoc(t_linkedlist_node *item_list);
+
+static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable, t_node *node);
 
 int	ft_execute_heredocs(t_node *node)
 {
@@ -42,12 +39,17 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 	const char	*delimit;
 	char	*file;
 	int		fd;
+	int is_expandable;
 
 	file = ft_generate_temp_file();
 	fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0666);
 	node = (t_node *)item_list->content;
 	delimit = node->token[1]->value;
-	if (ft_read_line_heredoc(fd, delimit) != 0) // tratamento para se der problema(ex.: ctrl-C)
+	if (ft_strcmp(delimit, node->token[1]->value) == 0)
+		is_expandable = 1;
+	else
+		is_expandable = 0;
+	if (ft_read_line_heredoc(fd, delimit, is_expandable, node) != 0) // tratamento para se der problema(ex.: ctrl-C)
 	{
 		close(fd);
 		unlink(file);
@@ -60,9 +62,11 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 	return (0);
 }
 
-static int	ft_read_line_heredoc(int fd, const char *delimit)
+static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable, t_node *node)
 {
 	char	*line;
+	//t_token *token;
+	(void)node;
 
 	ft_handle_sig_heredoc();
 	while (1)
@@ -83,51 +87,20 @@ static int	ft_read_line_heredoc(int fd, const char *delimit)
 			free(line);
 			break ;
 		}
-		ft_putendl_fd(line, fd);
+		if (is_expandable == 1)
+		{
+			// token = ft_tokenize(line, 0, NULL, );
+			// token->build_expansion(token, node->ht_env);
+			// ft_putendl_fd(token->last_build->token_expanded, fd);
+			ft_putendl_fd(line, fd);
+		}
+		else
+			ft_putendl_fd(line, fd);
 		free(line);
 	}
 	return (0);
 }
 
-static char	*ft_generate_temp_file(void)
-{
-	int		hd;
-	char	*file;
-	char	*num;
 
-	hd = 0;
-	while (hd < INT_MAX)
-	{
-		num = ft_itoa(hd);
-		if (!num)
-			return (NULL);
-		file = ft_strjoin("/tmp/minishell_hd_", num);
-		free(num);
-		if (!file)
-			return (NULL);
-		if (access(file, F_OK) == -1)
-			return (file);
-		free(file);
-		hd++;
-	}
-	return (NULL);
-}
 
-static t_linkedlist	*ft_find_all_heredoc(t_node *node)
-{
-	t_linkedlist	*heredoc;
 
-	heredoc = ft_new_linkedlist();
-	ft_dfs_find_heredoc(heredoc, node);
-	return (heredoc);
-}
-
-static void	ft_dfs_find_heredoc(t_linkedlist *heredoc, t_node *node) // dfs = Depth-First Search — Busca em Profundidade
-{
-	if (!node)
-		return ;
-	if (node->type == NODE_HERE_DOC_IN)
-		heredoc->push(heredoc, node);
-	ft_dfs_find_heredoc(heredoc, node->left);
-	ft_dfs_find_heredoc(heredoc, node->right);
-}

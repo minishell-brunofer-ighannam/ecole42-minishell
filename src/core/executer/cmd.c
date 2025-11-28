@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/27 13:30:26 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:21:30 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int ft_execute_cmd(t_node *node)
 
 	status = 0;
 	ft_built_args(node); //expande e monta o args para o comando
-	
 	if (ft_is_builtin(node->token[0]->value) == 1)
 	{
 		if (ft_execute_redirect(node) == 1) //executa os redirects. Se algum der errado, não executa o comando.
