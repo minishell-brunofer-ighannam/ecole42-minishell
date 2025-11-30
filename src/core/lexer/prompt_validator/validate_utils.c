@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:48:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/28 19:44:11 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/29 20:46:35 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,45 +76,6 @@ int	ft_get_smaller(int len, int *arr)
 	if (smaller == INT_MAX)
 		return (-1);
 	return (smaller);
-}
-
-/**
- * # get_end
- *
- * Encontra a posição de fechamento de uma estrutura:
- * aspas, backquotes, parênteses ou `$()`.
- *
- * Lógica:
- * - Avança até o próximo caractere especial compatível.
- * - Retorna a posição final do bloco.
- */
-int	get_end(const char *str, int idx,
-			bool (*is_special_char)(const char *str, int idx, char *chars),
-			char *chars)
-{
-	int		i;
-	bool	is_parens;
-	int		paren_count;
-
-	paren_count = 0;
-	is_parens = chars[0] == ')';
-	i = idx;
-	while (str[++i])
-	{
-		if (is_parens && is_special_char(str, i, "("))
-			paren_count++;
-		if (is_special_char(str, i, chars))
-		{
-			if (str[i] == chars[0])
-			{
-				if (is_parens && paren_count)
-					paren_count--;
-				else
-					return (i);
-			}
-		}
-	}
-	return (i);
 }
 
 /**

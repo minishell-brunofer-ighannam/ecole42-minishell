@@ -33,7 +33,7 @@ PROMPT_VAL_DIR = src/core/lexer/prompt_validator
 PROMPT_VAL_FILES = $(PROMPT_VAL_DIR)/prompt_validator.c $(PROMPT_VAL_DIR)/validate_backquotes.c \
 $(PROMPT_VAL_DIR)/validate_dollar_parens.c $(PROMPT_VAL_DIR)/validate_doublequotes.c \
 $(PROMPT_VAL_DIR)/validate_parens.c $(PROMPT_VAL_DIR)/validate_utils.c $(PROMPT_VAL_DIR)/structure_jump.c \
-$(PROMPT_VAL_DIR)/validate_singlequotes.c
+$(PROMPT_VAL_DIR)/validate_singlequotes.c $(PROMPT_VAL_DIR)/validate_utils_get_end.c $(PROMPT_VAL_DIR)/validate_utils_identify_structures.c
 
 TOKENIZE_DIR = src/core/lexer/tokenize
 EXP_OBJECT_DIR = $(TOKENIZE_DIR)/expandable_object

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:53:16 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/28 12:11:15 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/29 13:39:22 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ int main(int argc, char **argv, char **envp)
 	node_pipe2->left = node_catf1;
 	node_pipe2->right = node_cate;
 	node_pipe1->right = node_wc;
-	
+
 
 	ft_execute_tree(node_pipe1);
 
@@ -219,6 +219,7 @@ int main(int argc, char **argv, char **envp)
 	curr_node = ft_find_ht(ht_env, "?");
 	item = curr_node->content;
 	value = item->value;
+	(void)value;
 
 	//printf("%s\n", value->value);
 
