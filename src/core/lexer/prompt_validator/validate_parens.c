@@ -13,7 +13,8 @@
 #include "prompt_validator_internal.h"
 
 static void	jump_inner_structures(
-				const char *line, int *idx, int *inner_openning_idx);
+				const char *line, int *idx,
+				int *inner_openning_idx, int open_in_main);
 static int	update_open_index(
 				const char *line, int *open_idx,
 				int *curr_idx, bool *is_dollar_parens);
@@ -41,7 +42,7 @@ int	ft_validate_parens(const char *line)
 	while (line[++i])
 	{
 		if (open_parens_index > -1)
-			jump_inner_structures(line, &i, other_openning_idx);
+			jump_inner_structures(line, &i, other_openning_idx, open_parens_index);
 		if (!line[i])
 			break ;
 		if (ft_is_special_char(line, i, "()"))
@@ -67,18 +68,18 @@ int	ft_validate_parens(const char *line)
  * - backquotes
  * - `$()`
  */
-static void	jump_inner_structures(const char *line, int *idx, int *openning_idx)
+static void	jump_inner_structures(const char *line, int *idx, int *openning_idx, int open_in_main)
 {
 	if (ft_is_special_char(line, *idx, "\""))
-		jump_to_closing(line, idx, openning_idx + 0, ft_validate_doublequotes);
+		jump_to_closing(line, idx, openning_idx + 0, ft_validate_doublequotes, open_in_main);
 	if (ft_is_special_char(line, *idx, "'"))
-		jump_to_closing(line, idx, openning_idx + 1, ft_validate_singlequotes);
+		jump_to_closing(line, idx, openning_idx + 1, ft_validate_singlequotes, open_in_main);
 	else if (ft_is_special_char(line, *idx, "("))
-		jump_to_closing(line, idx, openning_idx + 2, ft_validate_parens);
+		jump_to_closing(line, idx, openning_idx + 2, ft_validate_parens, open_in_main);
 	else if (ft_is_special_char(line, *idx, "`"))
-		jump_to_closing(line, idx, openning_idx + 3, ft_validate_backquotes);
+		jump_to_closing(line, idx, openning_idx + 3, ft_validate_backquotes, open_in_main);
 	else if (ft_is_special_char(line, *idx, "$") && line[*idx + 1] == '(')
-		jump_to_closing(line, idx, openning_idx + 4, ft_validate_dollar_parens);
+		jump_to_closing(line, idx, openning_idx + 4, ft_validate_dollar_parens, open_in_main);
 }
 
 /**
