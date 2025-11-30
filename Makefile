@@ -118,6 +118,37 @@ lexer simple_cmd redirect_test simple_heredoc_test ast_build
 
 all: $(NAME)
 
+stats:
+	clear
+	@printf "$(BOLD)$(LIGHT_CYAN)src stats:$(RESET)\n"
+#	=================== FILES AMOUNT INFO =====================
+	@printf " - Total Files:$(BOLD) "
+	@printf "%s\n$(RESET)" $(shell find src -type f | wc -l)
+
+	@printf "    * Total Images:$(BOLD) "
+	@printf "%8s\n$(RESET)" $(shell find src \( -name "*.png" -o -name "*.jpg -o -name "*.jpeg -o -name "*.webp""" \) | wc -l) | tr ' ' '.'
+
+	@printf "    * Total READMEs:$(BOLD) "
+	@printf "%7s\n$(RESET)" $(shell find src -name "README.md" | wc -l) | tr ' ' '.'
+
+	@printf "    * Total .h Files:$(BOLD) "
+	@printf "%6s\n$(RESET)" $(shell find src -name "*.h" | wc -l) | tr ' ' '.'
+
+	@printf "    * Total .c Files:$(BOLD) "
+	@printf "%6s\n$(RESET)" $(shell find src -name "*.c" | wc -l) | tr ' ' '.'
+#	=================== LINES WRITTEN INFO =====================
+	@printf "\n - Lines Written *.{c,h}:$(BOLD) "
+	@printf "%s\n$(RESET)" $(shell cat $(shell find src \( -name "*.c" -o -name "*.h" \)) | wc -l)
+
+	@printf "    * Lines Written *.c:$(BOLD) "
+	@printf "%8s\n$(RESET)" $(shell cat $(shell find src -name "*.c") | wc -l) | tr ' ' '.'
+
+	@printf "    * Lines Written *.h:$(BOLD) "
+	@printf "%8s\n$(RESET)" $(shell cat $(shell find src -name "*.h") | wc -l) | tr ' ' '.'
+#	=================== CONCLUSION =====================
+	@printf "\n - Conclusion:$(BOLD) "
+	@printf "%s\n$(RESET)" "Best Minishell Ever"
+
 $(NAME): $(COMPILATION_DEPENDENCIES) $(OBJ_MAIN_PROGRAM)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $(OBJS) $(OBJ_MAIN_PROGRAM) $(LIBFT)  -o $@ $(DEPENDENCIES)
