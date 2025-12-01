@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 18:39:45 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/01 17:43:30 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/01 17:57:22 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,16 @@
 #include "../tests.h"
 #include "../../includes/minishell.h"
 
+void	free_ast_node(void *arg)
+{
+	t_ast_node	*node;
+
+	if (!arg)
+		return ;
+	node = (t_ast_node *)arg;
+	node->destroy(&node, NULL);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -25,7 +35,7 @@ int main(int argc, char **argv, char **envp)
 	t_exec *exec;
 	exec = ft_built_exec(envp);
 	char *line;
-	t_lexer *lexer;
+	t_expander_callbacks callbacks;
 	t_ast	*ast;
 
 	while (1)
@@ -40,9 +50,10 @@ int main(int argc, char **argv, char **envp)
 			break ;
 		}
 		add_history(line);
-		lexer = ft_lexer(line, ft_expand_var, ft_expand_glob);
-		ast = ft_ast_build(lexer, exec);
-		ft_execute_tree(ast->tree->root);
+		callbacks = ft_create_expander_callbacks(ft_expand_var, ft_expand_glob);
+		ast = ft_parser(line, callbacks, exec, free_ast_node);
+		if (ast)
+			ft_execute_tree(ast->tree->root);
 		free(line);
 	}
 }
