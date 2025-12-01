@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 20:54:04 by valero            #+#    #+#             */
-/*   Updated: 2025/11/30 21:10:40 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/01 13:29:42 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	ft_get_precedence(t_token *token)
 	max_precedence = 4;
 	if (token->type == TOKEN_PAREN_OPEN)
 		return (max_precedence - 0);
-	if (ft_is_redirect_node(token))
+	if (ft_is_redirect_token(token))
 		return (max_precedence - 1);
 	if (token->type == TOKEN_PIPE)
 		return (max_precedence - 2);

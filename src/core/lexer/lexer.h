@@ -41,6 +41,10 @@ struct s_lexer
 	void		*(*destroy)(t_lexer **self_ref);
 };
 
+bool	ft_is_redirect_token(t_token *token);
+bool	ft_is_logic_token(t_token *token);
+bool	ft_is_pipe_token(t_token *token);
+bool	ft_is_reserved_token(t_token *token);
 t_lexer	*ft_lexer(
 			const char *prompt,
 			t_expand_var_clbk expand_var,
