@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ast_build.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 18:44:01 by valero            #+#    #+#             */
-/*   Updated: 2025/11/28 18:47:35 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/30 21:53:33 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../src/core/executer/builtins/builtins.h"
 #include "../../src/core/executer/env/env.h"
 #include "../../src/core/lexer/lexer.h"
-#include "../../src/core/parser/parser_internal.h"
+#include "../../src/core/parser/ast_build/ast_build_internal.h"
 #include "../tests.h"
 #include "../../includes/minishell.h"
 
@@ -40,6 +40,16 @@ int	main(int argc, char **argv, char **envp)
 	env->destroy(&env, ft_free_item_ht_env);
 }
 
+static void	free_ast_node(void *arg)
+{
+	t_ast_node	*node;
+
+	if (!arg)
+		return ;
+	node = (t_ast_node *)arg;
+	node->destroy(&node, NULL);
+}
+
 static void	test1(t_linkedlist_array	*env)
 {
 	t_test	test;
@@ -59,6 +69,7 @@ static void	test1(t_linkedlist_array	*env)
 	t_lexer *lexer = ft_lexer(test.test_input, ft_expand_var, ft_expand_glob);
 	t_ast	*ast = ft_ast_build(lexer, NULL);
 	ast->print(ast);
+	ast->destroy(&ast, free_ast_node);
 }
 
 static void	test2(t_linkedlist_array	*env)
@@ -80,6 +91,7 @@ static void	test2(t_linkedlist_array	*env)
 	t_lexer *lexer = ft_lexer(test.test_input, ft_expand_var, ft_expand_glob);
 	t_ast	*ast = ft_ast_build(lexer, NULL);
 	ast->print(ast);
+	ast->destroy(&ast, free_ast_node);
 }
 
 // > f1 > f2 >f3 echo ola
@@ -103,6 +115,7 @@ static void	test3(t_linkedlist_array	*env)
 	t_lexer *lexer = ft_lexer(test.test_input, ft_expand_var, ft_expand_glob);
 	t_ast	*ast = ft_ast_build(lexer, NULL);
 	ast->print(ast);
+	ast->destroy(&ast, free_ast_node);
 }
 
 static void	test4(t_linkedlist_array	*env)
@@ -124,6 +137,7 @@ static void	test4(t_linkedlist_array	*env)
 	t_lexer *lexer = ft_lexer(test.test_input, ft_expand_var, ft_expand_glob);
 	t_ast	*ast = ft_ast_build(lexer, NULL);
 	ast->print(ast);
+	ast->destroy(&ast, free_ast_node);
 }
 
 static void	test5(t_linkedlist_array	*env)
@@ -145,6 +159,7 @@ static void	test5(t_linkedlist_array	*env)
 	t_lexer *lexer = ft_lexer(test.test_input, ft_expand_var, ft_expand_glob);
 	t_ast	*ast = ft_ast_build(lexer, NULL);
 	ast->print(ast);
+	ast->destroy(&ast, free_ast_node);
 }
 
 static void	test6(t_linkedlist_array	*env)

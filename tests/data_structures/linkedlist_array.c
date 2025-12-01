@@ -6,12 +6,12 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 13:41:35 by valero            #+#    #+#             */
-/*   Updated: 2025/11/17 02:42:08 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/30 21:58:29 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/data_structures/data_structures.h"
-#include "tests.h"
+#include "../../src/data_structures/data_structures.h"
+#include "../tests.h"
 
 static void	test_create_linkedlist_array(void);
 static void	test_push_elements(void);
