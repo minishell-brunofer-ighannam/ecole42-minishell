@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:57:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/27 16:29:41 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/01 15:53:19 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_wait(pid_t pid_left, pid_t pid_right, int fd[2]);
 
-int	ft_execute_pipe(t_node *node)
+int	ft_execute_pipe(t_binary_tree_node *node)
 {
 	pid_t	pid_left;
 	pid_t	pid_right;
@@ -34,8 +34,8 @@ int	ft_execute_pipe(t_node *node)
 	{
 		ft_handle_sig_child();
 		close(fd[1]);
-		if (node->right->type != NODE_HERE_DOC_IN
-			&& node->right->type != NODE_REDIRECT_IN)
+		if (ft_get_type(node->right) != AST_NODE_HERE_DOC_IN 
+			&& ft_get_type(node->right) != AST_NODE_REDIRECT_IN)
 			dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		exit(ft_execute_node(node->right));

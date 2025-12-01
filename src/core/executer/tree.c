@@ -6,13 +6,13 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:40:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/27 14:28:31 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/01 15:53:58 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-int ft_execute_tree(t_node *node)
+int ft_execute_tree(t_binary_tree_node *node)
 {
 	int ret;
 	char *key_value;
@@ -21,36 +21,38 @@ int ft_execute_tree(t_node *node)
 	if (ret != 0)
 	{
 		key_value = ft_strjoin("?=", ft_itoa(ret));
-		ft_set(node->ht_env, key_value);
+		ft_set(ft_get_ht_env(node), key_value);
 		free(key_value);
 		return (1);
 	}
 	ret = ft_execute_node(node);
 	key_value = ft_strjoin("?=", ft_itoa(ret));
-	ft_set(node->ht_env, key_value);
+	ft_set(ft_get_ht_env(node), key_value);
 	free(key_value);
 	return (ret);
 }
 
-int ft_execute_node(t_node *node)
+int ft_execute_node(t_binary_tree_node *node)
 {
 	int ret;
 
 	ret = 0;
 	if (ft_is_redirect(node) == 1)
 	{
-		node->redirect = ft_new_linkedlist();
+		ft_init_redirect(node);
 		ret = ft_visit_redirect(node);
 	}
-	if (node->type == NODE_CMD)
+	if (ft_get_type(node) == AST_NODE_CMD)
 		ret = ft_execute_cmd(node);
-	if (node->type == NODE_PIPE)
+	if (ft_get_type(node) == AST_NODE_PIPE)
 		ret = ft_execute_pipe(node);
-	if (node->type == NODE_AND)
+	if (ft_get_type(node) == AST_NODE_AND)
 		ret = ft_execute_and(node);
-	if (node->type == NODE_OR)
+	if (ft_get_type(node) == AST_NODE_OR)
 		ret = ft_execute_or(node);
-	ft_set(node->ht_env, ft_strjoin("?=", ft_itoa(ret)));
+	if (ft_get_type(node) == AST_NODE_SUBSHELL)
+		ret = ft_execute_subshell(node);
+	ft_set(ft_get_ht_env(node), ft_strjoin("?=", ft_itoa(ret)));
 	return (ret);
 }
 

@@ -6,11 +6,13 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 08:55:01 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/24 22:57:21 by valero           ###   ########.fr       */
+/*   Updated: 2025/11/29 21:08:38 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt_validator_internal.h"
+
+static char	ft_get_corresponding_closing(const char *str);
 
 /**
  * # jump_to_closing
@@ -26,14 +28,20 @@
  */
 void	jump_to_closing(
 	const char *line, int *idx,
-	int *inner_openning_idx, int (*validate)(const char *line))
+	int *inner_openning_idx, int (*validate)(const char *line),
+	int open_in_main)
 {
 	char	structure[2];
+	int		tmp;
+	bool	is_dollar_parens;
+	char	start_corresp_closing;
 
+	start_corresp_closing = ft_get_corresponding_closing(line + open_in_main);
+	is_dollar_parens = validate == ft_validate_dollar_parens;
 	structure[1] = 0;
 	if (validate == ft_validate_doublequotes)
 		structure[0] = '"';
-	if (validate == ft_validate_parens || validate == ft_validate_dollar_parens)
+	if (validate == ft_validate_parens || is_dollar_parens)
 		structure[0] = ')';
 	if (validate == ft_validate_backquotes)
 		structure[0] = '`';
@@ -43,7 +51,37 @@ void	jump_to_closing(
 			ft_char_checker(line, *idx, (char *)structure, ft_is_special_char),
 			validate);
 	if (*inner_openning_idx > -1)
-		*inner_openning_idx = *idx + *inner_openning_idx;
+	{
+		tmp = *inner_openning_idx;
+		if (is_dollar_parens)
+			tmp--;
+		if (*inner_openning_idx && line[*inner_openning_idx + *idx] == start_corresp_closing)
+			*inner_openning_idx = open_in_main + *inner_openning_idx + (int)is_dollar_parens;
+		else
+			*inner_openning_idx = *idx + *inner_openning_idx;
+		if (tmp + *idx > *idx)
+		{
+			structure[0] = start_corresp_closing;
+			*idx = get_end(line, open_in_main, ft_is_special_char, (char *)structure) - 1;
+		}
+		// if (line[*idx + 1] == structure[0])
+		// 	(*idx)++;
+	}
 	else
 		*idx = get_end(line, *idx, ft_is_special_char, (char *)structure) + 1;
+}
+
+static char	ft_get_corresponding_closing(const char *str)
+{
+	if (str[0] == '\"')
+		return ('"');
+	if (str[0] == '\'')
+		return ('\'');
+	if (str[0] == '`')
+		return ('`');
+	if (str[0] == '(')
+		return (')');
+	if (str[0] == '$' && str[1] == '(')
+		return (')');
+	return (0);
 }

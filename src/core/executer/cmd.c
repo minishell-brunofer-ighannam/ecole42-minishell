@@ -6,20 +6,20 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/28 16:21:30 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/01 12:38:47 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-int ft_execute_cmd(t_node *node)
+int ft_execute_cmd(t_binary_tree_node *node)
 {
 	int status;
 	pid_t pid;
 
 	status = 0;
 	ft_built_args(node); //expande e monta o args para o comando
-	if (ft_is_builtin(node->token[0]->value) == 1)
+	if (ft_is_builtin(ft_get_tokens(node)[0]->value) == 1)
 	{
 		if (ft_execute_redirect(node) == 1) //executa os redirects. Se algum der errado, não executa o comando.
 			return (1);
@@ -33,7 +33,7 @@ int ft_execute_cmd(t_node *node)
 			ft_handle_sig_child();
 			if (ft_execute_redirect(node) == 1) //executa os redirects. Se algum der errado, não executa o comando.
 				return (1);
-			status = execve(ft_find_path(node->ht_env, node->argv[0]), node->argv, node->envp);
+			status = execve(ft_find_path(ft_get_ht_env(node), ft_get_argv(node)[0]), ft_get_argv(node), ft_get_envp(node));
 			if (status == -1)
 				exit (127);
 			exit(0);		
@@ -50,32 +50,32 @@ int ft_execute_cmd(t_node *node)
 }
 
 
-int ft_expand_tokens(t_node *node)
+int ft_expand_tokens(t_binary_tree_node *node)
 {
 	t_token **token;
 	int i;
 
 	i = 0;
-	token = node->token;
+	token = ft_get_tokens(node);
 	while (token[i])
 	{
-		token[i]->build_expansion(token[i], node->ht_env);
+		token[i]->build_expansion(token[i], ft_get_ht_env(node));
 		i++;
 	}
 	return(i);
 }
 
-void ft_built_args(t_node *node)
+void ft_built_args(t_binary_tree_node *node)
 {
 	t_token **token;
 	int i;
 
-	node->argv = ft_calloc(ft_expand_tokens(node) + 1, sizeof(char *));
+	ft_init_argv(node, ft_expand_tokens(node) + 1);
 	i = 0;
-	token = node->token;
+	token = ft_get_tokens(node);
 	while (token[i])
 	{
-		node->argv[i] = token[i]->last_build->token_expanded;
+		ft_set_argv(node, i, token[i]->last_build->token_expanded);
 		i++;
 	}
 }

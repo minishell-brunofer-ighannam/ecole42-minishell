@@ -13,6 +13,7 @@
 #ifndef LEXER_INTERNAL_H
 # define LEXER_INTERNAL_H
 
+# include "lexer.h"
 # include "prompt_validator/prompt_validator.h"
 # include "splitter/splitter.h"
 # include <stdlib.h>

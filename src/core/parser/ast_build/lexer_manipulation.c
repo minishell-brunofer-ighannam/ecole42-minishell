@@ -6,11 +6,11 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 22:19:26 by valero            #+#    #+#             */
-/*   Updated: 2025/11/26 22:03:25 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/01 03:54:35 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_internal.h"
+#include "ast_build_internal.h"
 
 static t_lexer_subset	*ft_subset_fom_subset(t_lexer_subset *self,
 							int start, int end);
