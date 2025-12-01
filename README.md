@@ -9,7 +9,7 @@
 | **Language** | C |
 | **Description** | A custom shell implementation designed to replicate core Bash functionalities, with process management, pipes, environment handling, and command parsing. |
 | **Status** | 🚧 In progress |
-| **Modules** | [Lexer](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/lexer), [Environment](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/hashtable) and [Automated Tests](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/tests) |
+| **Modules** | [Lexer](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/core/lexer), [Parser](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/core/parser), [Executer](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/core/executer), [Data Structures](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/data_structures), [Utils](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/src/utils) and [Automated Tests](https://github.com/minishell-brunofer-ighannam/ecole42-minishell/tree/main/tests) |
 | **Documentation** | Every module has its own documentation, **click in the modules above** for full details |
 
 ---
