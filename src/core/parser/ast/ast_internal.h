@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ast_internal.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 00:14:45 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 16:28:41 by valero           ###   ########.fr       */
+/*   Created: 2025/11/30 20:30:55 by valero            #+#    #+#             */
+/*   Updated: 2025/11/30 20:33:45 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef AST_INTERNAL_H
+# define AST_INTERNAL_H
 
-# include "../lexer/lexer.h"
-# include "ast/ast.h"
+# include "ast.h"
 
-t_ast	*ft_parser(const char *prompt, t_expander_callbacks callbacks,
-			void *exec, void (*free_content)(void *arg));
+void	ft_print_ast(t_ast *self);
 
 #endif

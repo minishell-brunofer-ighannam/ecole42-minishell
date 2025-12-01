@@ -33,7 +33,7 @@ PROMPT_VAL_DIR = src/core/lexer/prompt_validator
 PROMPT_VAL_FILES = $(PROMPT_VAL_DIR)/prompt_validator.c $(PROMPT_VAL_DIR)/validate_backquotes.c \
 $(PROMPT_VAL_DIR)/validate_dollar_parens.c $(PROMPT_VAL_DIR)/validate_doublequotes.c \
 $(PROMPT_VAL_DIR)/validate_parens.c $(PROMPT_VAL_DIR)/validate_utils.c $(PROMPT_VAL_DIR)/structure_jump.c \
-$(PROMPT_VAL_DIR)/validate_singlequotes.c
+$(PROMPT_VAL_DIR)/validate_singlequotes.c $(PROMPT_VAL_DIR)/validate_utils_get_end.c $(PROMPT_VAL_DIR)/validate_utils_identify_structures.c
 
 TOKENIZE_DIR = src/core/lexer/tokenize
 EXP_OBJECT_DIR = $(TOKENIZE_DIR)/expandable_object
@@ -48,12 +48,23 @@ TOKENIZE_FILES = $(EXP_OBJECT_FILES) $(SEP_QUOTES_FILES) $(TOKENIZE_DIR)/build_e
 $(TOKENIZE_DIR)/build_expansion_result.c $(TOKENIZE_DIR)/token.c $(TOKENIZE_DIR)/tokenize.c
 
 LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(TOKENIZE_FILES) \
-src/core/lexer/lexer.c src/core/lexer/lexer_utils.c
+src/core/lexer/lexer.c src/core/lexer/lexer_utils.c src/core/lexer/properties.c
 
 # ------------ PARSER FILES -----------------
 PARSER_DIR = src/core/parser
-PARSER_FILES = src/core/parser/ast_build.c src/core/parser/ast.c src/core/parser/lexer_manipulation.c src/core/parser/sintax.c \
-src/core/parser/print_ast.c
+AST_DIR = $(PARSER_DIR)/ast
+
+AST_BUILD_DIR = $(PARSER_DIR)/ast_build
+AST_BUILD_FILES = $(AST_BUILD_DIR)/ast_build_cmd.c $(AST_BUILD_DIR)/ast_build_composition.c $(AST_BUILD_DIR)/ast_build_redirects.c \
+$(AST_BUILD_DIR)/ast_build_utils.c $(AST_BUILD_DIR)/ast_build.c $(AST_BUILD_DIR)/lexer_manipulation.c
+
+SYNTAX_DIR = $(PARSER_DIR)/syntactic_analysis
+SYNTAX_FILES = $(SYNTAX_DIR)/analyse_logic_node.c $(SYNTAX_DIR)/analyse_pipe_node.c \
+$(SYNTAX_DIR)/analyse_redirect_node.c $(SYNTAX_DIR)/syntactic_analysis.c
+
+PARSER_FILES = $(AST_BUILD_FILES) $(SYNTAX_FILES) $(AST_DIR)/ast.c $(AST_DIR)/print_ast.c $(AST_DIR)/properties.c \
+$(PARSER_DIR)/parser.c
+
 
 # ------------ STRUCTURE FILES -----------------
 STRUCTURES = src/data_structures/linkedlist/iteration.c src/data_structures/linkedlist/linkedlist_node.c src/data_structures/linkedlist/linkedlist.c \
@@ -103,10 +114,10 @@ OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
 
 COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 
-TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter \
+TEST_PROGRAMS = linkedlist linkedlist_array binary_tree raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
 create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
-lexer simple_cmd redirect_test simple_heredoc_test ast_build complete_test
+lexer simple_cmd redirect_test simple_heredoc_test ast_build complete_test parser
 
 
 
@@ -119,6 +130,37 @@ lexer simple_cmd redirect_test simple_heredoc_test ast_build complete_test
 
 all: $(NAME)
 
+stats:
+	clear
+	@printf "$(BOLD)$(LIGHT_CYAN)src stats:$(RESET)\n"
+#	=================== FILES AMOUNT INFO =====================
+	@printf " - Total Files:$(BOLD) "
+	@printf "%s\n$(RESET)" $(shell find src -type f | wc -l)
+
+	@printf "    * Total Images:$(BOLD) "
+	@printf "%8s\n$(RESET)" $(shell find src \( -name "*.png" -o -name "*.jpg -o -name "*.jpeg -o -name "*.webp""" \) | wc -l) | tr ' ' '.'
+
+	@printf "    * Total READMEs:$(BOLD) "
+	@printf "%7s\n$(RESET)" $(shell find src -name "README.md" | wc -l) | tr ' ' '.'
+
+	@printf "    * Total .h Files:$(BOLD) "
+	@printf "%6s\n$(RESET)" $(shell find src -name "*.h" | wc -l) | tr ' ' '.'
+
+	@printf "    * Total .c Files:$(BOLD) "
+	@printf "%6s\n$(RESET)" $(shell find src -name "*.c" | wc -l) | tr ' ' '.'
+#	=================== LINES WRITTEN INFO =====================
+	@printf "\n - Lines Written *.{c,h}:$(BOLD) "
+	@printf "%s\n$(RESET)" $(shell cat $(shell find src \( -name "*.c" -o -name "*.h" \)) | wc -l)
+
+	@printf "    * Lines Written *.c:$(BOLD) "
+	@printf "%8s\n$(RESET)" $(shell cat $(shell find src -name "*.c") | wc -l) | tr ' ' '.'
+
+	@printf "    * Lines Written *.h:$(BOLD) "
+	@printf "%8s\n$(RESET)" $(shell cat $(shell find src -name "*.h") | wc -l) | tr ' ' '.'
+#	=================== CONCLUSION =====================
+	@printf "\n - Conclusion:$(BOLD) "
+	@printf "%s\n$(RESET)" "Best Minishell Ever"
+
 $(NAME): $(COMPILATION_DEPENDENCIES) $(OBJ_MAIN_PROGRAM)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $(OBJS) $(OBJ_MAIN_PROGRAM) $(LIBFT)  -o $@ $(DEPENDENCIES)
@@ -130,7 +172,7 @@ $(LIBFT):
 
 
 tests: fclean child_process find_expandable find_keys_to_expand create_expandable_object \
-linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator build_expansion \
+linkedlist linkedlist_array binary_tree raw_splitter refined_splitter prompt_validator build_expansion \
 find_path expand_var_test expand_glob_test env_ht_op lexer simple_cmd redirect_test \
 simple_heredoc_test
 
@@ -169,6 +211,8 @@ simple_heredoc_test
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist_array$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist_array
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)binary_tree$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./binary_tree
 
 #	=================== ENV & EXPORT TESTS =====================
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)env_ht_op$(RESET)..." && sleep $(SLEEP)
@@ -188,13 +232,17 @@ simple_heredoc_test
 # 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)simple_heredoc_test$(RESET)..." && sleep $(SLEEP)
 # 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./simple_heredoc_test
 
-linkedlist: tests/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+linkedlist: tests/data_structures/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/linkedlist.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/data_structures/linkedlist.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
-linkedlist_array: tests/linkedlist_array.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+linkedlist_array: tests/data_structures/linkedlist_array.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/linkedlist_array.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/data_structures/linkedlist_array.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+binary_tree: tests/data_structures/binary_tree.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/data_structures/binary_tree.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 prompt_validator: tests/lexer/prompt_validator.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
@@ -251,6 +299,10 @@ lexer: tests/lexer/lexer.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 ast_build: tests/parser/ast_build.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) tests/parser/ast_build.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+parser: tests/parser/parser.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/parser/parser.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 simple_cmd: tests/executer_test/simple_cmd.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)

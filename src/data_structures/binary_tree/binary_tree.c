@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 15:16:08 by valero            #+#    #+#             */
-/*   Updated: 2025/11/26 19:08:43 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/01 16:58:03 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void	*ft_push_binary_tree_content(
 		target_node->left = new_node;
 	else
 		target_node->right = new_node;
+	new_node->parent = target_node;
 	new_node->node_depth = target_node->node_depth + 1;
 	if (new_node->node_depth > self->depth)
 		self->depth = new_node->node_depth;

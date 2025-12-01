@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   syntactic_analysis_internal.h                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 00:14:45 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 16:28:41 by valero           ###   ########.fr       */
+/*   Created: 2025/12/01 13:15:02 by valero            #+#    #+#             */
+/*   Updated: 2025/12/01 16:27:43 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef SYNTACTIC_ANALYSIS_INTERNAL_H
+# define SYNTACTIC_ANALYSIS_INTERNAL_H
 
-# include "../lexer/lexer.h"
-# include "ast/ast.h"
+# include "syntactic_analysis.h"
 
-t_ast	*ft_parser(const char *prompt, t_expander_callbacks callbacks,
-			void *exec, void (*free_content)(void *arg));
+void	ft_analyse_logic_node(t_binary_tree_node	*node);
+void	ft_analyse_pipe_node(t_binary_tree_node	*node);
+void	ft_analyse_redirect_node(t_binary_tree_node	*node);
 
 #endif

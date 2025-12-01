@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   print_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 00:24:55 by valero            #+#    #+#             */
-/*   Updated: 2025/11/27 11:09:15 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/11/30 20:32:21 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_internal.h"
+#include "ast_internal.h"
 
 static void	ft_print_ast_node(t_binary_tree_node *node, int depth, char *prefix, int is_last_child);
 
