@@ -75,7 +75,8 @@ PROCESS = $(EXEC_DIR)/process/child_process.c
 ENV = $(EXEC_DIR)/env/env.c $(EXEC_DIR)/env/expand_var.c $(EXEC_DIR)/env/expand_glob_i.c $(EXEC_DIR)/env/expand_glob_ii.c
 
 EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd.c $(EXEC_DIR)/redirect.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc_i.c \
-	$(EXEC_DIR)/here_doc_ii.c $(EXEC_DIR)/cmd_builtin.c $(EXEC_DIR)/tree.c $(EXEC_DIR)/and.c $(EXEC_DIR)/or.c $(EXEC_DIR)/subshell.c
+	$(EXEC_DIR)/here_doc_ii.c $(EXEC_DIR)/cmd_builtin.c $(EXEC_DIR)/tree.c $(EXEC_DIR)/and.c $(EXEC_DIR)/or.c $(EXEC_DIR)/subshell.c \
+	$(EXEC_DIR)/mapper/mapper.c
 
 
 UTILS = src/utils/array_str.c src/utils/commands.c src/utils/print.c
@@ -105,7 +106,7 @@ COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
 create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
-lexer simple_cmd redirect_test simple_heredoc_test ast_build
+lexer simple_cmd redirect_test simple_heredoc_test ast_build complete_test
 
 
 
@@ -262,6 +263,10 @@ redirect_test: tests/executer_test/redirect_test.c $(COMPILATION_DEPENDENCIES)
 simple_heredoc_test: tests/executer_test/simple_heredoc_test.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) tests/executer_test/simple_heredoc_test.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+complete_test: tests/executer_test/complete_test.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/executer_test/complete_test.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 
 %.o: %.c

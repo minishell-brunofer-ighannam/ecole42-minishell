@@ -6,18 +6,16 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/28 16:43:59 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/01 12:41:16 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-
 static int			ft_process_heredoc(t_linkedlist_node *item_list);
+static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable, t_binary_tree_node *node);
 
-static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable, t_node *node);
-
-int	ft_execute_heredocs(t_node *node)
+int	ft_execute_heredocs(t_binary_tree_node *node)
 {
 	t_linkedlist		*heredoc;
 	t_linkedlist_node	*item_list;
@@ -35,7 +33,7 @@ int	ft_execute_heredocs(t_node *node)
 
 static int	ft_process_heredoc(t_linkedlist_node *item_list)
 {
-	t_node	*node;
+	t_binary_tree_node	*node;
 	const char	*delimit;
 	char	*file;
 	int		fd;
@@ -43,9 +41,9 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 
 	file = ft_generate_temp_file();
 	fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0666);
-	node = (t_node *)item_list->content;
-	delimit = node->token[1]->value;
-	if (ft_strcmp(delimit, node->token[1]->value) == 0)
+	node = (t_binary_tree_node *)item_list->content;
+	delimit = ft_get_tokens(node)[1]->remove_quotes(ft_get_tokens(node)[1]);
+	if (ft_strcmp(delimit, ft_get_tokens(node)[1]->value) == 0)
 		is_expandable = 1;
 	else
 		is_expandable = 0;
@@ -57,16 +55,15 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 		return (130);
 	}
 	close(fd);
-	node->argv = ft_calloc(2, sizeof(char *));
-	node->argv[0] = file;
+	ft_init_argv(node, 2);
+	ft_set_argv(node, 0, file);
 	return (0);
 }
 
-static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable, t_node *node)
+static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable, t_binary_tree_node *node)
 {
 	char	*line;
-	//t_token *token;
-	(void)node;
+	t_token *token;
 
 	ft_handle_sig_heredoc();
 	while (1)
@@ -89,10 +86,9 @@ static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable, 
 		}
 		if (is_expandable == 1)
 		{
-			// token = ft_tokenize(line, 0, NULL, );
-			// token->build_expansion(token, node->ht_env);
-			// ft_putendl_fd(token->last_build->token_expanded, fd);
-			ft_putendl_fd(line, fd);
+			token = ft_tokenize(line, 0, NULL, ft_create_expander_callbacks(ft_get_tokens(node)[0]->expand_var, NULL));
+			token->build_expansion(token, ft_get_ht_env(node));
+			ft_putendl_fd(token->last_build->token_expanded, fd);
 		}
 		else
 			ft_putendl_fd(line, fd);

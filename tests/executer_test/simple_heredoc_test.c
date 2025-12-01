@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 14:56:01 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/27 18:34:19 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:56:55 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int main(int argc, char **argv, char **envp)
 	node_ls->type = NODE_CMD;
 
 	//
-	// NODE: wc -l   (será filho do heredoc)
+	// NODE: cat   (será filho do heredoc)
 	//
-	t_lexer *token_wc = ft_lexer("wc -l", ft_expand_var, ft_expand_glob);
+	t_lexer *token_wc = ft_lexer("cat", ft_expand_var, ft_expand_glob);
 	t_node *node_wc = ft_calloc(1, sizeof(t_node));
 	node_wc->ht_env = ht_env;
 	node_wc->token = token_wc->tokens;
@@ -41,7 +41,7 @@ int main(int argc, char **argv, char **envp)
 	//
 	// NODE: << eof   (HEREDOC)
 	//
-	t_lexer *token_hd = ft_lexer("<< eof", ft_expand_var, ft_expand_glob);
+	t_lexer *token_hd = ft_lexer("<< 'eof'", ft_expand_var, ft_expand_glob);
 	t_node *node_hd = ft_calloc(1, sizeof(t_node));
 	node_hd->ht_env = ht_env;
 	node_hd->token = token_hd->tokens;
@@ -67,7 +67,7 @@ int main(int argc, char **argv, char **envp)
 	// node_pipe é a raiz da árvore
 	//
 
-	printf("ls | wc -l << eof\n");
+	printf("ls | cat << eof\n");
 	ft_execute_tree(node_pipe);
 	return (0);
 }
