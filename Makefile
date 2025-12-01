@@ -52,8 +52,11 @@ src/core/lexer/lexer.c src/core/lexer/lexer_utils.c
 
 # ------------ PARSER FILES -----------------
 PARSER_DIR = src/core/parser
-PARSER_FILES = src/core/parser/ast_build.c src/core/parser/ast.c src/core/parser/lexer_manipulation.c src/core/parser/sintax.c \
-src/core/parser/print_ast.c
+AST_DIR = $(PARSER_DIR)/ast
+AST_BUILD_DIR = $(PARSER_DIR)/ast_build
+PARSER_FILES = $(AST_DIR)/ast.c $(AST_DIR)/print_ast.c $(AST_DIR)/properties.c \
+$(AST_BUILD_DIR)/ast_build_cmd.c $(AST_BUILD_DIR)/ast_build_composition.c $(AST_BUILD_DIR)/ast_build_redirects.c \
+$(AST_BUILD_DIR)/ast_build_utils.c $(AST_BUILD_DIR)/ast_build.c $(AST_BUILD_DIR)/lexer_manipulation.c
 
 # ------------ STRUCTURE FILES -----------------
 STRUCTURES = src/data_structures/linkedlist/iteration.c src/data_structures/linkedlist/linkedlist_node.c src/data_structures/linkedlist/linkedlist.c \
@@ -218,13 +221,13 @@ simple_heredoc_test
 # 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)simple_heredoc_test$(RESET)..." && sleep $(SLEEP)
 # 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./simple_heredoc_test
 
-linkedlist: tests/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+linkedlist: tests/data_structures/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/linkedlist.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/data_structures/linkedlist.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
-linkedlist_array: tests/linkedlist_array.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+linkedlist_array: tests/data_structures/linkedlist_array.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/linkedlist_array.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+	@$(CC) $(CFLAGS) tests/data_structures/linkedlist_array.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 prompt_validator: tests/lexer/prompt_validator.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
