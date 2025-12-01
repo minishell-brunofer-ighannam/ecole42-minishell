@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 23:14:30 by valero            #+#    #+#             */
-/*   Updated: 2025/11/24 23:13:37 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/01 04:04:41 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "../../src/core/lexer/lexer_internal.h"
 #include "../tests.h"
 
-static void	test_set1(void);
-static void	test_set2(void);
+void	test_set1(void);
+void	test_set2(void);
 
 int	main(void)
 {
@@ -46,7 +46,7 @@ int	main(void)
 	// printf("promp20: %d\n", prompt_validator("echo `echo $(date)`"));                  // repetição
 }
 
-static void	print_result(void *arg)
+void	print_result(void *arg)
 {
 	int	*result;
 
@@ -54,7 +54,7 @@ static void	print_result(void *arg)
 	printf("%d", *result);
 }
 
-static void	test_set1(void)
+void	test_set1(void)
 {
 	int		result;
 	char	*prompt;
@@ -127,7 +127,7 @@ static void	test_set1(void)
 
 }
 
-static void	test_set2(void)
+void	test_set2(void)
 {
 	int		result;
 	char	*prompt;

@@ -105,7 +105,7 @@ OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
 
 COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 
-TEST_PROGRAMS = linkedlist linkedlist_array raw_splitter refined_splitter \
+TEST_PROGRAMS = linkedlist linkedlist_array binary_tree raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
 create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
 lexer simple_cmd redirect_test simple_heredoc_test ast_build
@@ -163,7 +163,7 @@ $(LIBFT):
 
 
 tests: fclean child_process find_expandable find_keys_to_expand create_expandable_object \
-linkedlist linkedlist_array raw_splitter refined_splitter prompt_validator build_expansion \
+linkedlist linkedlist_array binary_tree raw_splitter refined_splitter prompt_validator build_expansion \
 find_path expand_var_test expand_glob_test env_ht_op lexer simple_cmd redirect_test \
 simple_heredoc_test
 
@@ -202,6 +202,8 @@ simple_heredoc_test
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist_array$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist_array
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)binary_tree$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./binary_tree
 
 #	=================== ENV & EXPORT TESTS =====================
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)env_ht_op$(RESET)..." && sleep $(SLEEP)
@@ -228,6 +230,10 @@ linkedlist: tests/data_structures/linkedlist.c tests/tests.c $(COMPILATION_DEPEN
 linkedlist_array: tests/data_structures/linkedlist_array.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) tests/data_structures/linkedlist_array.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+binary_tree: tests/data_structures/binary_tree.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/data_structures/binary_tree.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 prompt_validator: tests/lexer/prompt_validator.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)

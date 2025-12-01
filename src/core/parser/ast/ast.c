@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:03:17 by valero            #+#    #+#             */
-/*   Updated: 2025/11/30 21:49:27 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/01 03:10:24 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	*ft_destroy_ast(t_ast **self_ref, void (*free_content)(void *arg))
 {
 	t_ast	*self;
 
-	if (!self_ref || *self_ref)
+	if (!self_ref || !*self_ref)
 		return (NULL);
 	self = *self_ref;
 	self->tree->destroy(&self->tree, free_content);
