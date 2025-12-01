@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 20:27:42 by valero            #+#    #+#             */
-/*   Updated: 2025/11/30 21:45:07 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/01 03:54:11 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,17 @@ static void	ft_reorganize_redirect_write(
 	idx = -1;
 	while (ctx->prev_subset->tokens[++idx])
 	{
-		while (cmd_node)
+		while (ctx->prev_subset->tokens[idx] && cmd_node)
 		{
 			ctx->prev_subset->tokens[idx++] = cmd_node->content;
 			cmd_node = cmd_node->next;
 		}
-		while (redir_node)
+		while (ctx->prev_subset->tokens[idx] && redir_node)
 		{
 			ctx->prev_subset->tokens[idx++] = redir_node->content;
 			redir_node = redir_node->next;
 		}
+		if (!ctx->prev_subset->tokens[idx])
+			break ;
 	}
 }

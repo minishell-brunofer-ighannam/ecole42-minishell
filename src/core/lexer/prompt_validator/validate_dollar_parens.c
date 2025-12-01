@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_validate_dollar_parens.c                           :+:      :+:    :+:   */
+/*   validate_dollar_parens.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 21:59:55 by valero            #+#    #+#             */
-/*   Updated: 2025/11/24 22:57:06 by valero           ###   ########.fr       */
+/*   Created: 2025/12/01 04:32:23 by valero            #+#    #+#             */
+/*   Updated: 2025/12/01 04:32:28 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ static int	update_open_index(
 	{
 		*open_idx = (*curr_idx)++;
 		*is_parens = false;
+		if (!line[*curr_idx])
+			return (--(*curr_idx));
 	}
 	if (!*is_parens && *open_idx == -1 && line[*curr_idx] == ')')
 		return (*curr_idx);
