@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 12:57:32 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/24 23:37:25 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/01 15:57:24 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # include "../src/core/executer/env/env.h"
 # include "../src/core/executer/executer.h"
 # include "../src/utils/utils.h"
+# include "../src/core/executer/mapper/mapper.h"
 
 # define PROMPT_GREEN	"\001\033[32m\002"
 # define PROMPT_MAGENTA	"\001\033[35m\002"

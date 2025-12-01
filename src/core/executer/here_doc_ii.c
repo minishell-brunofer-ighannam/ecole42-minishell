@@ -6,15 +6,15 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:39:37 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/28 16:42:18 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/01 12:41:42 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
 char			*ft_generate_temp_file(void);
-void			ft_dfs_find_heredoc(t_linkedlist *heredoc, t_node *node);
-t_linkedlist	*ft_find_all_heredoc(t_node *node);
+t_linkedlist	*ft_find_all_heredoc(t_binary_tree_node *node);
+void			ft_dfs_find_heredoc(t_linkedlist *heredoc, t_binary_tree_node *node);
 
 char	*ft_generate_temp_file(void)
 {
@@ -40,7 +40,7 @@ char	*ft_generate_temp_file(void)
 	return (NULL);
 }
 
-t_linkedlist	*ft_find_all_heredoc(t_node *node)
+t_linkedlist	*ft_find_all_heredoc(t_binary_tree_node *node)
 {
 	t_linkedlist	*heredoc;
 
@@ -49,11 +49,11 @@ t_linkedlist	*ft_find_all_heredoc(t_node *node)
 	return (heredoc);
 }
 
-void	ft_dfs_find_heredoc(t_linkedlist *heredoc, t_node *node) // dfs = Depth-First Search — Busca em Profundidade
+void	ft_dfs_find_heredoc(t_linkedlist *heredoc, t_binary_tree_node *node) // dfs = Depth-First Search — Busca em Profundidade
 {
 	if (!node)
 		return ;
-	if (node->type == NODE_HERE_DOC_IN)
+	if (ft_get_type(node) == AST_NODE_HERE_DOC_IN)
 		heredoc->push(heredoc, node);
 	ft_dfs_find_heredoc(heredoc, node->left);
 	ft_dfs_find_heredoc(heredoc, node->right);
