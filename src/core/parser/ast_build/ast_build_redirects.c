@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 20:27:42 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 03:54:11 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/01 13:29:42 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_manage_multiples_redirect(
 	idx = -1;
 	while (tokens[++idx])
 	{
-		if (ft_is_redirect_node(tokens[idx]))
+		if (ft_is_redirect_token(tokens[idx]))
 		{
 			list_redir->push(list_redir, tokens[idx]);
 			if (tokens[idx + 1])

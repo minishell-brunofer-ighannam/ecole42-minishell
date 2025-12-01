@@ -48,15 +48,23 @@ TOKENIZE_FILES = $(EXP_OBJECT_FILES) $(SEP_QUOTES_FILES) $(TOKENIZE_DIR)/build_e
 $(TOKENIZE_DIR)/build_expansion_result.c $(TOKENIZE_DIR)/token.c $(TOKENIZE_DIR)/tokenize.c
 
 LEXER_FILES = $(SPLITTER_FILES) $(PROMPT_VAL_FILES) $(TOKENIZE_FILES) \
-src/core/lexer/lexer.c src/core/lexer/lexer_utils.c
+src/core/lexer/lexer.c src/core/lexer/lexer_utils.c src/core/lexer/properties.c
 
 # ------------ PARSER FILES -----------------
 PARSER_DIR = src/core/parser
 AST_DIR = $(PARSER_DIR)/ast
+
 AST_BUILD_DIR = $(PARSER_DIR)/ast_build
-PARSER_FILES = $(AST_DIR)/ast.c $(AST_DIR)/print_ast.c $(AST_DIR)/properties.c \
-$(AST_BUILD_DIR)/ast_build_cmd.c $(AST_BUILD_DIR)/ast_build_composition.c $(AST_BUILD_DIR)/ast_build_redirects.c \
+AST_BUILD_FILES = $(AST_BUILD_DIR)/ast_build_cmd.c $(AST_BUILD_DIR)/ast_build_composition.c $(AST_BUILD_DIR)/ast_build_redirects.c \
 $(AST_BUILD_DIR)/ast_build_utils.c $(AST_BUILD_DIR)/ast_build.c $(AST_BUILD_DIR)/lexer_manipulation.c
+
+SYNTAX_DIR = $(PARSER_DIR)/syntactic_analysis
+SYNTAX_FILES = $(SYNTAX_DIR)/analyse_logic_node.c $(SYNTAX_DIR)/analyse_pipe_node.c \
+$(SYNTAX_DIR)/analyse_redirect_node.c $(SYNTAX_DIR)/syntactic_analysis.c
+
+PARSER_FILES = $(AST_BUILD_FILES) $(SYNTAX_FILES) $(AST_DIR)/ast.c $(AST_DIR)/print_ast.c $(AST_DIR)/properties.c \
+$(PARSER_DIR)/parser.c
+
 
 # ------------ STRUCTURE FILES -----------------
 STRUCTURES = src/data_structures/linkedlist/iteration.c src/data_structures/linkedlist/linkedlist_node.c src/data_structures/linkedlist/linkedlist.c \
@@ -108,7 +116,7 @@ COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 TEST_PROGRAMS = linkedlist linkedlist_array binary_tree raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
 create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
-lexer simple_cmd redirect_test simple_heredoc_test ast_build
+lexer simple_cmd redirect_test simple_heredoc_test ast_build parser
 
 
 
@@ -290,6 +298,10 @@ lexer: tests/lexer/lexer.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 ast_build: tests/parser/ast_build.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) tests/parser/ast_build.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+
+parser: tests/parser/parser.c tests/tests.c $(COMPILATION_DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) tests/parser/parser.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 simple_cmd: tests/executer_test/simple_cmd.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
