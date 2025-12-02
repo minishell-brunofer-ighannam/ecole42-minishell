@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_build_redirects.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 20:27:42 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 13:29:42 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/02 16:03:47 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_push_redirect_node(int sep_idx, t_ast_node_type type,
 			ctx->ast, next_node, true, subset_left);
 	ft_build_ast_node(&next_context, exec);
 	next_context = ft_create_buid_ast_context(
-			ctx->ast, next_node, false, subset_right);
+			ctx->ast, next_node, !subset_left, subset_right);
 	ft_build_ast_node(&next_context, exec);
 	if (subset_left)
 		subset_left->destroy(&subset_left);
