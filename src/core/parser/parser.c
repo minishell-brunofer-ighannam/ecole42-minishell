@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:37:53 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 17:08:05 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/01 18:11:59 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ static void	ft_print_syntact_error(t_ast *ast, int error_idx)
 		if (idx < pointer_idx)
 			ft_putchar_fd(' ', 2);
 		else
-			ft_print_bold_read("^  syntax error: structure in wrong position", 2);
+			ft_print_bold_read("^  syntax error: structure in wrong position\n", 2);
 	}
 }
