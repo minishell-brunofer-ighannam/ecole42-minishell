@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/01 15:52:50 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/02 15:59:31 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ int ft_visit_redirect(t_binary_tree_node *node)
 	if (ft_get_type(node) == AST_NODE_HERE_DOC_IN)
 		content->file = ft_get_argv(node)[0];
 	else
-		content->file = ft_get_tokens(node)[1]->value;
+		content->file = (char *)ft_get_tokens(node)[1]->value;
 	content->type = ft_get_type(node);
 	ft_push_redirect(node, content);
 	if (!node->left)
 		return(ft_execute_redirect(node));
 	if (ft_is_redirect(node->left) == 1)
 	{
-		ft_set_redirect(node->left, ft_get_list_redirects(node));
+		ft_set_redirect(node->left, *ft_get_list_redirects(node));
 		ft_visit_redirect(node->left);
 	}
 	if (ft_is_redirect(node->left) == 0)
 	{
-		ft_set_redirect(node->left, ft_get_list_redirects(node));
+		ft_set_redirect(node->left, *ft_get_list_redirects(node));
 		return(ft_execute_node(node->left));
 	}
 	if (ft_get_type(node->left) == AST_NODE_SUBSHELL)
@@ -52,14 +52,16 @@ int ft_visit_redirect(t_binary_tree_node *node)
 int ft_execute_redirect(t_binary_tree_node *node) //recebe nó com lista de redirecionamentos e executa os redirecionamentos.
 {
 	t_linkedlist_node *node_redir;
+	t_linkedlist **list_redir;
 	int size;
 	int ret;
 	t_redirect *content;
 
-	if (!(ft_get_list_redirects(node))) //se não tem redirect para fazer, só retorna 0
+	if (!(*ft_get_list_redirects(node))) //se não tem redirect para fazer, só retorna 0
 		return (0);
-	size = ft_get_list_redirects(node)->size;
-	node_redir = ft_get_list_redirects(node)->last;
+	list_redir = ft_get_list_redirects(node);
+	size = (*list_redir)->size;
+	node_redir = (*ft_get_list_redirects(node))->last;
 	while (size > 0)
 	{
 		content = (t_redirect *)(node_redir->content);
@@ -74,6 +76,7 @@ int ft_execute_redirect(t_binary_tree_node *node) //recebe nó com lista de redi
 		node_redir = node_redir->prev;
 		size--;
 	}
+	(*list_redir)->destroy(list_redir, ft_free_item_redirect);
 	return (0);	
 }
 
@@ -131,11 +134,18 @@ int ft_execute_append_out(t_linkedlist_node *node)
 	return (0);
 }
 
-void	ft_free_item_redirect(t_linkedlist_node *node)
+void	ft_free_item_redirect(void *content)
 {
-	t_redirect *content;
+	t_redirect *content_redirect;
 
-	content = (t_redirect *)node->content;
-	//free(content->file);
-	free(content);
+	content_redirect = (t_redirect *)content;
+	if (content_redirect->type == AST_NODE_HERE_DOC_IN)
+	{
+		if (content_redirect->file)
+			free(content_redirect->file);
+	}
+	content_redirect->type = AST_NODE_UNKNOWN;
+	content_redirect->file = NULL;
+	free(content_redirect);
+	content_redirect = NULL;
 }
