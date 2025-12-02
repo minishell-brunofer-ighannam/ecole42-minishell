@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 18:22:09 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/01 08:23:13 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:58:40 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_execute_subshell(t_binary_tree_node *node)
 	pid = fork();
 	if (pid == 0)
 	{
-		status = ft_execute_node(node);
+		status = ft_execute_node(node->left);
 		exit(status);
 	}
 	waitpid(pid, &status, 0);
