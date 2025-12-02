@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:45 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/01 17:43:08 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/02 16:26:01 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void ft_destroy_exec(t_exec *exec)
 	if (!exec)
 		return ;
 	exec->ht_env->destroy(&(exec->ht_env), ft_free_item_ht_env);
-	//exec->redirect->destroy(&(exec->redirect), ft_free_item_redirect);
 	free(exec);
 }
 
@@ -57,14 +56,14 @@ t_ast_node_type	ft_get_type(t_binary_tree_node *node)
 	return(ast_node->type);
 }
 
-t_linkedlist *ft_get_list_redirects(t_binary_tree_node *node)
+t_linkedlist **ft_get_list_redirects(t_binary_tree_node *node)
 {
 	t_ast_node *ast_node;
 	t_exec *exec;
 
 	ast_node = (t_ast_node *)(node->content);
 	exec = (t_exec *)(ast_node->exec);
-	return(exec->redirect);
+	return(&exec->redirect);
 }
 
 char **ft_get_argv(t_binary_tree_node *node)
@@ -105,6 +104,18 @@ void ft_set_argv(t_binary_tree_node *node, int index, char *str)
 	ast_node = (t_ast_node *)(node->content);
 	exec = (t_exec *)(ast_node->exec);
 	exec->argv[index] = str;
+}
+
+void ft_free_argv(t_binary_tree_node *node)
+{
+	t_ast_node *ast_node;
+	t_exec *exec;
+	char **argv;
+
+	ast_node = (t_ast_node *)(node->content);
+	exec = (t_exec *)(ast_node->exec);
+	argv = exec->argv;
+	free(argv);
 }
 
 void ft_push_redirect(t_binary_tree_node *node, t_redirect *content)

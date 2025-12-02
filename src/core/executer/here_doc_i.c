@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/01 12:41:16 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/02 16:56:05 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_execute_heredocs(t_binary_tree_node *node)
 			return (130);
 		item_list = item_list->prev;
 	}
+	heredoc->destroy(&heredoc, NULL);
 	return (0);
 }
 

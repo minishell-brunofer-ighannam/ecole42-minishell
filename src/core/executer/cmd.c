@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/01 12:38:47 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/02 16:52:51 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int ft_execute_cmd(t_binary_tree_node *node)
 		if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 0)
 			return (WEXITSTATUS(status));
 	}
+	ft_free_argv(node);
 	return (0);
 }
 
@@ -54,12 +55,14 @@ int ft_expand_tokens(t_binary_tree_node *node)
 {
 	t_token **token;
 	int i;
+	t_expansion_build *build;
 
 	i = 0;
 	token = ft_get_tokens(node);
 	while (token[i])
 	{
-		token[i]->build_expansion(token[i], ft_get_ht_env(node));
+		build = token[i]->build_expansion(token[i], ft_get_ht_env(node));
+		build->destroy(&build);
 		i++;
 	}
 	return(i);
