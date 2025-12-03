@@ -117,7 +117,7 @@ COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 TEST_PROGRAMS = linkedlist linkedlist_array binary_tree raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
 create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
-lexer simple_cmd redirect_test simple_heredoc_test ast_build complete_test parser
+lexer ast_build parser
 
 
 
@@ -173,8 +173,7 @@ $(LIBFT):
 
 tests: fclean child_process find_expandable find_keys_to_expand create_expandable_object \
 linkedlist linkedlist_array binary_tree raw_splitter refined_splitter prompt_validator build_expansion \
-find_path expand_var_test expand_glob_test env_ht_op lexer simple_cmd redirect_test \
-simple_heredoc_test
+find_path expand_var_test expand_glob_test env_ht_op lexer
 
 	@clear && echo "code% make tests"
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
@@ -222,15 +221,8 @@ simple_heredoc_test
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)expand_var_test$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./expand_var_test
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)expand_glob_test$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./expand_glob_test
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp --leak-check=full ./expand_glob_test
 
-#	=================== EXECUTER TESTS =====================
-# 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)simple_cmd$(RESET)..." && sleep $(SLEEP)
-# 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./simple_cmd
-# 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)redirect_test$(RESET)..." && sleep $(SLEEP)
-# 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./redirect_test
-# 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)simple_heredoc_test$(RESET)..." && sleep $(SLEEP)
-# 	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./simple_heredoc_test
 
 linkedlist: tests/data_structures/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
@@ -304,22 +296,8 @@ parser: tests/parser/parser.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) tests/parser/parser.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
-simple_cmd: tests/executer_test/simple_cmd.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/executer_test/simple_cmd.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-redirect_test: tests/executer_test/redirect_test.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/executer_test/redirect_test.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-simple_heredoc_test: tests/executer_test/simple_heredoc_test.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/executer_test/simple_heredoc_test.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-complete_test: tests/executer_test/complete_test.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/executer_test/complete_test.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
+run_valgrind:
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp --leak-check=full ./minishell
 
 %.o: %.c
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$<$(RESET)..." && sleep $(SLEEP)

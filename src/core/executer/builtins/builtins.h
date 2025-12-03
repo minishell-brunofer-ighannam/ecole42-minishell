@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:20:31 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/01 08:19:32 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 09:26:41 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@
 # include <stdio.h>
 # include <unistd.h>
 
-//typedef struct s_node	t_node;
+// typedef struct s_node	t_node;
 
 void	ft_env(t_linkedlist_array *ht_env);
 void	ft_export(t_linkedlist_array *ht_env, const char *key_value);
 void	ft_set(t_linkedlist_array *ht_env, const char *key_value);
 void	ft_unset(t_linkedlist_array *ht_env, const char *key);
 int		ft_cd(t_binary_tree_node *node);
-int		ft_pwd(void);
+int		ft_pwd(t_binary_tree_node *node);
 void	ft_echo(t_binary_tree_node *node);
 
 int		ft_is_builtin(const char *cmd);

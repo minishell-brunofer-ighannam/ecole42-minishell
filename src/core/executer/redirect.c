@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/02 15:59:31 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 11:38:04 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,16 @@ int	ft_is_redirect(t_binary_tree_node *node)
 		|| ft_get_type(node) == AST_NODE_APPEND_OUT || ft_get_type(node) == AST_NODE_HERE_DOC_IN);
 }
 
-int ft_visit_redirect(t_binary_tree_node *node)
+int ft_visit_redirect(t_binary_tree_node *node, t_ast *ast)
 {
 	t_redirect *content;
 
 	content = ft_calloc(1, sizeof(t_redirect));
 	if (ft_get_type(node) == AST_NODE_HERE_DOC_IN)
+	{
 		content->file = ft_get_argv(node)[0];
+		ft_free_argv(node);
+	}
 	else
 		content->file = (char *)ft_get_tokens(node)[1]->value;
 	content->type = ft_get_type(node);
@@ -34,17 +37,17 @@ int ft_visit_redirect(t_binary_tree_node *node)
 	if (ft_is_redirect(node->left) == 1)
 	{
 		ft_set_redirect(node->left, *ft_get_list_redirects(node));
-		ft_visit_redirect(node->left);
+		ft_visit_redirect(node->left, ast);
 	}
 	if (ft_is_redirect(node->left) == 0)
 	{
 		ft_set_redirect(node->left, *ft_get_list_redirects(node));
-		return(ft_execute_node(node->left));
+		return(ft_execute_node(node->left, ast));
 	}
 	if (ft_get_type(node->left) == AST_NODE_SUBSHELL)
 	{
 		ft_execute_redirect(node);
-		return(ft_execute_subshell(node->left));
+		return(ft_execute_subshell(node->left, ast));
 	}
 	return (3);	
 }
