@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:20:31 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 09:26:41 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 12:02:09 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../../../utils/utils.h"
 # include "../env/env.h"
 # include "../executer.h"
+# include "libft.h"
 # include <stdio.h>
 # include <unistd.h>
 
