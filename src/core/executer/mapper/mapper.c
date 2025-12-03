@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:45 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/02 16:26:01 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 10:59:01 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,10 @@ void ft_free_argv(t_binary_tree_node *node)
 {
 	t_ast_node *ast_node;
 	t_exec *exec;
-	char **argv;
 
 	ast_node = (t_ast_node *)(node->content);
 	exec = (t_exec *)(ast_node->exec);
-	argv = exec->argv;
-	free(argv);
+	free(exec->argv);
 }
 
 void ft_push_redirect(t_binary_tree_node *node, t_redirect *content)

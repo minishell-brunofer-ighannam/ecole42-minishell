@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/02 16:56:05 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/02 19:39:58 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ int	ft_execute_heredocs(t_binary_tree_node *node)
 	while (item_list)
 	{
 		if (ft_process_heredoc(item_list) != 0)
+		{
+			heredoc->destroy(&heredoc, NULL);
 			return (130);
+		}
 		item_list = item_list->prev;
 	}
 	heredoc->destroy(&heredoc, NULL);
@@ -35,7 +38,7 @@ int	ft_execute_heredocs(t_binary_tree_node *node)
 static int	ft_process_heredoc(t_linkedlist_node *item_list)
 {
 	t_binary_tree_node	*node;
-	const char	*delimit;
+	char	*delimit;
 	char	*file;
 	int		fd;
 	int is_expandable;
@@ -53,9 +56,11 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 		close(fd);
 		unlink(file);
 		free(file);
+		free(delimit);
 		return (130);
 	}
 	close(fd);
+	free(delimit);
 	ft_init_argv(node, 2);
 	ft_set_argv(node, 0, file);
 	return (0);
@@ -65,6 +70,7 @@ static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable, 
 {
 	char	*line;
 	t_token *token;
+	t_expansion_build *build;
 
 	ft_handle_sig_heredoc();
 	while (1)
@@ -88,8 +94,10 @@ static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable, 
 		if (is_expandable == 1)
 		{
 			token = ft_tokenize(line, 0, NULL, ft_create_expander_callbacks(ft_get_tokens(node)[0]->expand_var, NULL));
-			token->build_expansion(token, ft_get_ht_env(node));
+			build = token->build_expansion(token, ft_get_ht_env(node));
 			ft_putendl_fd(token->last_build->token_expanded, fd);
+			build->destroy(&build);
+			token->destroy(&token);
 		}
 		else
 			ft_putendl_fd(line, fd);

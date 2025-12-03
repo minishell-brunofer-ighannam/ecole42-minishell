@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:25:06 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 12:08:35 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 09:17:10 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ void	ft_split_key_value(const char *s, char **key_value)
 	int		i;
 
 	len = 0;
+	if (!s)
+	{
+		key_value[0] = NULL;
+		key_value[1] = NULL;
+		return ;
+	}
+	
 	while (s[len] && s[len] != '=')
 		len++;
 	key = ft_calloc(len + 1, sizeof(char));
@@ -63,6 +70,8 @@ t_ht	*ft_content_node_ht(const char *s)
 	t_env_value	*value;
 	char		**key_value;
 
+	if (!s)
+		return (NULL);
 	key_value = ft_calloc(2, sizeof(char *));
 	ft_split_key_value(s, key_value);
 	content = malloc(sizeof(t_ht));

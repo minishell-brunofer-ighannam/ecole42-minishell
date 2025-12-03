@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 11:31:58 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/01 08:38:19 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 09:27:54 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	ft_cd(t_binary_tree_node *node)
 	char	*pwd;
 	char	*old_pwd;
 
-	old_pwd = getcwd(NULL, 0);
+	old_pwd = ((t_env_value *)((t_ht *)((t_linkedlist_node *)ft_find_ht(ft_get_ht_env(node),
+						"PWD"))->content)->value)->value;
 	if (!(ft_get_tokens(node))[1])
 	{
 		ft_putstr_fd("cd: missing argument\n", STDERR_FILENO);
@@ -54,12 +55,12 @@ static void	ft_update_ht(t_binary_tree_node *node, char *pwd, char *old_pwd)
 	key_value_pwd = ft_strjoin("PWD=", pwd);
 	if (item_list_pwd)
 		ft_set(ft_get_ht_env(node), key_value_pwd);
-	item_list_old_pwd = (t_linkedlist_node *)ft_find_ht(ft_get_ht_env(node), "OLDPWD");
+	item_list_old_pwd = (t_linkedlist_node *)ft_find_ht(ft_get_ht_env(node),
+			"OLDPWD");
 	key_value_old_pwd = ft_strjoin("OLDPWD=", old_pwd);
 	if (item_list_old_pwd)
 		ft_set(ft_get_ht_env(node), key_value_old_pwd);
 	free(pwd);
-	free(old_pwd);
 	free(key_value_pwd);
 	free(key_value_old_pwd);
 }

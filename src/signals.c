@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 13:16:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/27 15:09:30 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/02 19:54:28 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ void	ft_handle_sigint_heredoc(int sig)
 	(void)sig;
 	ft_set_sig(SIGINT);
 	rl_done = 1;
-	write(1, "\n", 1);
-	write(1, "\001\033[091m\002Minishell$ \001\033[0m\002", 25); //--> talvez tenha que colocar algo assim
+	// write(STDOUT_FILENO, "\n", 1);
+	ioctl(STDOUT_FILENO, TIOCSTI, "\n");
+	write(STDOUT_FILENO, PROMPT, 44);
 }
-
 /**
  * # Sets up custom signal handlers for the program.
  *

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:33:35 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/21 12:06:54 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 09:15:12 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new, void (*ft_free_item_h
 	t_linkedlist *list;
 	t_ht *content;
 
+	if (!ht || !new)
+		return ;
 	found = ft_find_ht(ht, new->key);
 	if (found)
 	{

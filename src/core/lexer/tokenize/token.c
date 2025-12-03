@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/28 16:30:33 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/02 19:27:24 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenize_internal.h"
 #include "tokenize.h"
+#include "tokenize_internal.h"
 
 static t_token_type	ft_get_token_type(const char *token);
 static char			*ft_token_remove_quotes(t_token *self);
@@ -31,8 +31,8 @@ static void			*ft_destroy_token(t_token **self_ref);
  *   pois pode conter $VAR ou padrões glob.
  * - Define destroy().
  */
-t_token	*ft_create_token(const char *value, int position,
-	int *coord_in_src, t_expander_callbacks callbacks)
+t_token	*ft_create_token(const char *value, int position, int *coord_in_src,
+		t_expander_callbacks callbacks)
 {
 	t_token	*token;
 
@@ -63,9 +63,12 @@ t_token	*ft_create_token(const char *value, int position,
 static char	*ft_token_remove_quotes(t_token *self)
 {
 	t_token_separated_sections	*sep_sections;
+	char						*result;
 
 	sep_sections = ft_separate_quote_chuncks(self->value);
-	return (sep_sections->to_noquotes_string(sep_sections));
+	result = sep_sections->to_noquotes_string(sep_sections);
+	sep_sections->destroy(&sep_sections);
+	return (result);
 }
 
 /**
@@ -83,14 +86,14 @@ static t_token_type	ft_get_token_type(const char *token)
 	int	len;
 
 	len = ft_strlen(token);
-	if (len == 1 && ft_strchr("|()<>;&", token[0]))			// | ( ) < > ; &
+	if (len == 1 && ft_strchr("|()<>;&", token[0])) // | ( ) < > ; &
 		return (token[0]);
-	else if (len == 2 && (
-			(token[0] == '>' && ft_strchr("|&>", token[1]))	// >| >& >>
-		|| (token[0] == '&' && ft_strchr("&>", token[1]))	// && &>
-		|| (token[0] == '<' && ft_strchr("<>", token[1]))	// << <>
-		|| (token[0] == '|' && token[1] == '|')				// ||
-		|| (token[0] == '2' && token[1] == '>')))			// 2>
+	else if (len == 2 &&
+				((token[0] == '>' && ft_strchr("|&>", token[1]))   // >| >& >>
+				|| (token[0] == '&' && ft_strchr("&>", token[1])) // && &>
+				|| (token[0] == '<' && ft_strchr("<>", token[1])) // << <>
+				|| (token[0] == '|' && token[1] == '|')           // ||
+				|| (token[0] == '2' && token[1] == '>')))         // 2>
 		return (token[0] << 8 | token[1]);
 	else
 		return (TOKEN_UNKNOWN);

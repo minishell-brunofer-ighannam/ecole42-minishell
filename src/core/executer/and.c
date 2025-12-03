@@ -6,18 +6,18 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 13:12:21 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/01 08:21:46 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 11:25:51 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-int ft_execute_and(t_binary_tree_node *node)
+int ft_execute_and(t_binary_tree_node *node, t_ast *ast)
 {
 	int status;
 
-	status = ft_execute_node(node->left);
+	status = ft_execute_node(node->left, ast);
 	if (status == 0)
-		status = ft_execute_node(node->right);
+		status = ft_execute_node(node->right, ast);
 	return (status);
 }
