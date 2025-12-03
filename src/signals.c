@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 13:16:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/02 19:54:28 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 15:57:43 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	ft_handle_sigint_heredoc(int sig)
 	(void)sig;
 	ft_set_sig(SIGINT);
 	rl_done = 1;
-	// write(STDOUT_FILENO, "\n", 1);
-	ioctl(STDOUT_FILENO, TIOCSTI, "\n");
-	write(STDOUT_FILENO, PROMPT, 44);
+	write(STDOUT_FILENO, "\n", 1);
+	//ioctl(STDOUT_FILENO, TIOCSTI, "\n");
+	write(STDOUT_FILENO, PROMPT, 75);
 }
 /**
  * # Sets up custom signal handlers for the program.

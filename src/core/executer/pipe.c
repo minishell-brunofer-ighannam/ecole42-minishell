@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:57:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 13:18:50 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 14:47:52 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	ft_execute_pipe(t_binary_tree_node *node, t_ast	*ast)
 	pid_left = fork();
 	if (pid_left == 0)
 	{
-		//ft_close_fds(node);
 		ft_handle_sig_child();
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
@@ -38,7 +37,6 @@ int	ft_execute_pipe(t_binary_tree_node *node, t_ast	*ast)
 	pid_right = fork();
 	if (pid_right == 0)
 	{
-		//ft_close_fds(node);
 		ft_handle_sig_child();
 		close(fd[1]);
 		if (ft_get_type(node->right) != AST_NODE_HERE_DOC_IN 
