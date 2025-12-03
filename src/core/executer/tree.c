@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:40:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 13:32:47 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 16:01:00 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int ft_execute_node(t_binary_tree_node *node, t_ast	*ast)
 		ret = ft_visit_redirect(node, ast);
 	}
 	if (ft_get_type(node) == AST_NODE_CMD)
-		ret = ft_execute_cmd(node);
+		ret = ft_execute_cmd(node, ast);
 	if (ft_get_type(node) == AST_NODE_PIPE)
 		ret = ft_execute_pipe(node, ast);
 	if (ft_get_type(node) == AST_NODE_AND)

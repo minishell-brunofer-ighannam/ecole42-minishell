@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 17:07:25 by valero            #+#    #+#             */
-/*   Updated: 2025/12/03 13:32:55 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 15:45:57 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ int main(int argc, char **argv, char **envp)
 	char *line;
 	t_expander_callbacks callbacks;
 	t_ast	*ast;
-	// int fd_out;
-	// int fd_in;
-
-	// fd_out = dup(STDOUT_FILENO);
-	// fd_in = dup(STDIN_FILENO);
 	while (1)
 	{
 		ft_handle_sig_parent();
@@ -41,5 +36,4 @@ int main(int argc, char **argv, char **envp)
 		free(line);
 	}
 	ft_destroy_exec(exec);
-	ft_putstr_fd("exit\n", 1);
 }

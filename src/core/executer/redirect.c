@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 11:38:04 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 15:40:09 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ int ft_execute_redirect(t_binary_tree_node *node) //recebe nó com lista de redi
 		else if (content->type == AST_NODE_APPEND_OUT)
 			ret = ft_execute_append_out(node_redir);
 		if (ret != 0)
+		{
+			(*list_redir)->destroy(list_redir, ft_free_item_redirect);
 			return (ret);
+		}	
 		node_redir = node_redir->prev;
 		size--;
 	}
