@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:45 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 10:59:01 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 13:21:49 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_exec	*ft_built_exec(char **envp)
 	exec = ft_calloc(1, sizeof(t_exec));
 	exec->envp = envp;
 	exec->ht_env = ft_init_ht_env(envp);
+	exec->fds[0] = dup(STDIN_FILENO);
+	exec->fds[1] = dup(STDOUT_FILENO);
 	return (exec);
 }
 
@@ -26,8 +28,41 @@ void ft_destroy_exec(t_exec *exec)
 {
 	if (!exec)
 		return ;
+	close(exec->fds[0]);
+	close(exec->fds[1]);
 	exec->ht_env->destroy(&(exec->ht_env), ft_free_item_ht_env);
 	free(exec);
+}
+
+int ft_get_fd_in(t_binary_tree_node *node)
+{
+	t_ast_node *ast_node;
+	t_exec *exec;
+
+	ast_node = (t_ast_node *)(node->content);
+	exec = (t_exec *)(ast_node->exec);
+	return(exec->fds[0]);
+}
+
+int ft_get_fd_out(t_binary_tree_node *node)
+{
+	t_ast_node *ast_node;
+	t_exec *exec;
+
+	ast_node = (t_ast_node *)(node->content);
+	exec = (t_exec *)(ast_node->exec);
+	return(exec->fds[1]);
+}
+
+void ft_close_fds(t_binary_tree_node *node)
+{
+	t_ast_node *ast_node;
+	t_exec *exec;
+
+	ast_node = (t_ast_node *)(node->content);
+	exec = (t_exec *)(ast_node->exec);
+	close(exec->fds[0]);
+	close(exec->fds[1]);
 }
 
 t_linkedlist_array *ft_get_ht_env(t_binary_tree_node *node)

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/02 15:14:34 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 13:15:22 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,13 @@ typedef struct s_exec
 	t_linkedlist			*redirect;
 	char					**envp;
 	char					**argv;
+	int						fds[2];
 }							t_exec;
 
 t_exec						*ft_built_exec(char **envp);
+int							ft_get_fd_in(t_binary_tree_node *node);
+int							ft_get_fd_out(t_binary_tree_node *node);
+void						ft_close_fds(t_binary_tree_node *node);
 t_linkedlist_array			*ft_get_ht_env(t_binary_tree_node *node);
 t_token						**ft_get_tokens(t_binary_tree_node *node);
 t_ast_node_type				ft_get_type(t_binary_tree_node *node);
