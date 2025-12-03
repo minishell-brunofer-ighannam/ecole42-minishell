@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/02 15:21:46 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 11:38:18 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,6 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 
-// typedef enum e_node_type	t_node_type;
-// enum						e_node_type
-// {
-// 	NODE_CMD = 'c' << 16 | 'm' << 8 | 'd',
-
-// 	NODE_PIPE = '|',
-// 	NODE_OR = '|' << 8 | '|',
-// 	NODE_AND = '&' << 8 | '&',
-
-// 	NODE_SUBSHELL = '(',
-
-// 	NODE_REDIRECT_IN = '<',
-// 	NODE_REDIRECT_OUT = '>',
-// 	NODE_HERE_DOC_IN = '<' << 8 | '<',
-// 	NODE_APPEND_OUT = '>' << 8 | '>',
-// };
-
-// typedef struct s_node
-// {
-// 	t_node_type type; // Você preenche
-// 	t_token **token;  // Você preenche
-// 	char					**argv;
-// 	// Eu fiz a função para popular o argv. Vc pode só setar como NULL (ft_calloc)
-// 	struct s_node *left;  // Você preenche
-// 	struct s_node *right; // Você preenche
-// 	t_linkedlist_array		*ht_env;
-// 	// A ht_env você já inicia e coloca o ponteiro em todos os nós.
-// 	t_linkedlist			*redirect;
-// 	// Essa linkedlist eu inicio. Vc pode só setar ela como NULL (ft_calloc)
-// 	char					**envp;
-// }							t_node;
-
 typedef struct s_redirect
 {
 	t_ast_node_type	type;
@@ -65,8 +33,9 @@ typedef struct s_redirect
 }					t_redirect;
 
 // TREE
-int					ft_execute_tree(t_binary_tree_node *node);
-int					ft_execute_node(t_binary_tree_node *node);
+int					ft_execute_tree(t_ast *ast);
+int					ft_execute_node(t_binary_tree_node *node, t_ast *ast);
+void				free_ast_node(void *arg);
 
 // CMD
 char				*ft_find_path(t_linkedlist_array *ht_env, char *cmd);
@@ -81,7 +50,7 @@ int					ft_execute_builtin(t_binary_tree_node *node);
 
 // REDIRECT
 int					ft_is_redirect(t_binary_tree_node *node);
-int					ft_visit_redirect(t_binary_tree_node *node);
+int					ft_visit_redirect(t_binary_tree_node *node, t_ast *ast);
 int					ft_execute_redirect(t_binary_tree_node *node);
 int					ft_execute_redirect_in(t_linkedlist_node *node);
 int					ft_execute_redirect_out(t_linkedlist_node *node);
@@ -96,13 +65,13 @@ void				ft_dfs_find_heredoc(t_linkedlist *heredoc,
 t_linkedlist		*ft_find_all_heredoc(t_binary_tree_node *node);
 
 // PIPE
-int					ft_execute_pipe(t_binary_tree_node *node);
+int					ft_execute_pipe(t_binary_tree_node *node, t_ast *ast);
 
 // SUBSHELL
-int					ft_execute_subshell(t_binary_tree_node *node);
+int					ft_execute_subshell(t_binary_tree_node *node, t_ast *ast);
 
 // AND OR
-int					ft_execute_and(t_binary_tree_node *node);
-int					ft_execute_or(t_binary_tree_node *node);
+int					ft_execute_and(t_binary_tree_node *node, t_ast *ast);
+int					ft_execute_or(t_binary_tree_node *node, t_ast *ast);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:44:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/01 08:40:19 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 09:26:56 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int ft_execute_builtin(t_binary_tree_node *node)
 	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "cd") == 0)
 		return (ft_cd(node));
 	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "pwd") == 0)
-		return (ft_pwd());
+		return (ft_pwd(node));
 	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "echo") == 0)
 		ft_echo(node);
 	return (0);

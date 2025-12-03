@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/02 16:52:51 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 11:22:58 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,19 @@ int ft_execute_cmd(t_binary_tree_node *node)
 {
 	int status;
 	pid_t pid;
+	char *path;
 
 	status = 0;
 	ft_built_args(node); //expande e monta o args para o comando
+	if (ft_execute_redirect(node) == 1) //executa os redirects. Se algum der errado, não executa o comando.
+		return (1);
 	if (ft_is_builtin(ft_get_tokens(node)[0]->value) == 1)
-	{
-		if (ft_execute_redirect(node) == 1) //executa os redirects. Se algum der errado, não executa o comando.
-			return (1);
 		status = ft_execute_builtin(node);
+	path = ft_find_path(ft_get_ht_env(node), ft_get_argv(node)[0]);
+	if (!path)
+	{
+		free(path);
+		status = 127;
 	}
 	else
 	{
@@ -31,23 +36,29 @@ int ft_execute_cmd(t_binary_tree_node *node)
 		if (pid == 0)
 		{
 			ft_handle_sig_child();
-			if (ft_execute_redirect(node) == 1) //executa os redirects. Se algum der errado, não executa o comando.
-				return (1);
-			status = execve(ft_find_path(ft_get_ht_env(node), ft_get_argv(node)[0]), ft_get_argv(node), ft_get_envp(node));
+			status = execve(path, ft_get_argv(node), ft_get_envp(node));
 			if (status == -1)
+			{
+				ft_free_argv(node);
 				exit (127);
+			}
 			exit(0);		
 		}
 		if (waitpid(pid, &status, 0) == -1)
 		{
+			ft_free_argv(node);
 			perror("waitpid");
 			return (1);
 		}
 		if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 0)
+		{
+			ft_free_argv(node);
 			return (WEXITSTATUS(status));
+		}		
 	}
+	free(path);
 	ft_free_argv(node);
-	return (0);
+	return (status);
 }
 
 
