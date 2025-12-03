@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:25:06 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 09:17:10 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 13:42:04 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	ft_split_key_value(const char *s, char **key_value)
 		key_value[1] = NULL;
 		return ;
 	}
-	
 	while (s[len] && s[len] != '=')
 		len++;
 	key = ft_calloc(len + 1, sizeof(char));

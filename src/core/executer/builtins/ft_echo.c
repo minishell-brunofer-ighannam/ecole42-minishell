@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 13:41:19 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/01 08:38:47 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 12:07:31 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void ft_echo(t_binary_tree_node *node)
 		i++;
 	while (token[i])
 	{
-		printf("%s", token[i]->last_build->token_expanded);
+		ft_putstr_fd(token[i]->last_build->token_expanded, STDOUT_FILENO);
 		if (token[i + 1])
-			printf(" ");
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
 	}
 	if (!token[1] || ft_strcmp("-n", token[1]->last_build->token_expanded) != 0)
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 }

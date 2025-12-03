@@ -6,13 +6,13 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:40:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 11:40:05 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 13:32:47 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-int ft_execute_tree(t_ast	*ast)
+int ft_execute_tree(t_ast *ast)
 {
 	int ret;
 	char *key_value;
@@ -37,6 +37,8 @@ int ft_execute_tree(t_ast	*ast)
 	ft_set(ft_get_ht_env(node), key_value);
 	free(key_value);
 	free(value);
+	dup2(ft_get_fd_out(ast->tree->root), STDOUT_FILENO);
+	dup2(ft_get_fd_in(ast->tree->root), STDIN_FILENO);
 	ast->destroy(&ast, free_ast_node);
 	return (ret);
 }
