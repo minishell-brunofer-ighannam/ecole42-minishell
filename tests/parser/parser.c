@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:17:49 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 19:27:47 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/03 18:11:00 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../src/core/executer/builtins/builtins.h"
 #include "../../src/core/executer/env/env.h"
+#include "../../src/core/executer/executer.h"
 #include "../../src/core/parser/parser.h"
 #include "../tests.h"
 
@@ -165,16 +166,6 @@ int	main(int argc, char **argv, char **envp)
 	test63(env);
 	test64(env);
 	env->destroy(&env, ft_free_item_ht_env);
-}
-
-void	free_ast_node(void *arg)
-{
-	t_ast_node	*node;
-
-	if (!arg)
-		return ;
-	node = (t_ast_node *)arg;
-	node->destroy(&node, NULL);
 }
 
 void	test1(t_linkedlist_array	*env)
