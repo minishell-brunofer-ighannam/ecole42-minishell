@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 17:07:25 by valero            #+#    #+#             */
-/*   Updated: 2025/12/03 15:45:57 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/04 16:22:58 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ int main(int argc, char **argv, char **envp)
 		callbacks = ft_create_expander_callbacks(ft_expand_var, ft_expand_glob);
 		ast = ft_parser(line, callbacks, exec, free_ast_node);
 		if (ast)
+		{
+			//ast->print(ast);
 			ft_execute_tree(ast);
+		}
 		free(line);
 	}
 	ft_destroy_exec(exec);

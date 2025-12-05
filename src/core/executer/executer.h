@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 14:55:36 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/04 12:47:46 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../../data_structures/data_structures.h"
 # include "../../signals.h"
 # include "../lexer/lexer.h"
+# include "../parser/parser.h"
 # include "builtins/builtins.h"
 # include "env/env.h"
 # include "mapper/mapper.h"

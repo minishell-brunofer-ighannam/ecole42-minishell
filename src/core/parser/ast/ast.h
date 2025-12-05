@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 20:30:55 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 13:38:18 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/04 19:25:49 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 # include "../../../data_structures/data_structures.h"
 # include "../../lexer/lexer.h"
+# include "../../../core/executer/env/env.h"
 
 typedef enum e_ast_node_type	t_ast_node_type;
-enum e_ast_node_type
+enum							e_ast_node_type
 {
 	AST_NODE_UNKNOWN = 'u' << 16 | 'n' << 8 | 'k',
 
@@ -39,33 +40,46 @@ enum e_ast_node_type
 	AST_NODE_APPEND_OUT = '>' << 8 | '>',
 };
 
-typedef struct s_ast_node		t_ast_node;
-struct s_ast_node
+typedef struct s_exec			t_exec;
+struct							s_exec
 {
-	t_ast_node_type	type;
-	t_token			**tokens;
-	void			*exec;
-	void			*(*destroy)(t_ast_node **self_ref,
-			void (*free_exec)(void *exec));
+	t_linkedlist_array			*ht_env;
+	t_linkedlist				*redirect;
+	t_linkedlist				*heredoc;
+	char						**envp;
+	char						**argv;
+	int							fds[2];
+	bool						*destroy;
+};
+
+typedef struct s_ast_node		t_ast_node;
+struct							s_ast_node
+{
+	t_ast_node_type				type;
+	t_token						**tokens;
+	void						*exec;
+	void						*(*destroy)(t_ast_node **self_ref,
+								void (*free_exec)(void *exec));
 };
 
 typedef struct s_ast			t_ast;
-struct s_ast
+struct							s_ast
 {
-	t_lexer			*lexer;
-	t_binary_tree	*tree;
-	void			(*print)(t_ast *self);
-	void			*(*destroy)(t_ast **self_ref,
-			void (*free_content)(void *arg));
+	t_lexer						*lexer;
+	t_binary_tree				*tree;
+	void						(*print)(t_ast *self);
+	void						*(*destroy)(t_ast **self_ref,
+								void (*free_content)(void *arg));
 };
 
-bool		ft_is_redirect_token(t_token *token);
-bool		ft_is_redirect_node(t_ast_node *node);
-bool		ft_is_logic_node(t_ast_node *node);
-bool		ft_is_pipe_node(t_ast_node *node);
-bool		ft_is_reserved_node(t_ast_node *node);
-t_ast_node	*ft_create_ast_node(t_token **tokens,
-				t_ast_node_type type, void *exec);
-t_ast		*ft_create_ast(t_lexer *lexer);
+bool							ft_is_redirect_token(t_token *token);
+bool							ft_is_redirect_node(t_ast_node *node);
+bool							ft_is_logic_node(t_ast_node *node);
+bool							ft_is_pipe_node(t_ast_node *node);
+bool							ft_is_reserved_node(t_ast_node *node);
+t_ast_node						*ft_create_ast_node(t_token **tokens,
+									t_ast_node_type type, void *exec);
+t_ast							*ft_create_ast(t_lexer *lexer);
+void							ft_destroy_exec(t_exec *exec);
 
 #endif
