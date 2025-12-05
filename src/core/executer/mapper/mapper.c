@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:45 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 13:21:49 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/04 20:36:26 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,40 @@ t_exec	*ft_built_exec(char **envp)
 	exec->ht_env = ft_init_ht_env(envp);
 	exec->fds[0] = dup(STDIN_FILENO);
 	exec->fds[1] = dup(STDOUT_FILENO);
+	exec->destroy = ft_calloc(1, sizeof(bool));
 	return (exec);
 }
 
-void ft_destroy_exec(t_exec *exec)
+void ft_free_exec(void *exec)
 {
+	t_exec *exec_node;
+
 	if (!exec)
 		return ;
-	close(exec->fds[0]);
-	close(exec->fds[1]);
-	exec->ht_env->destroy(&(exec->ht_env), ft_free_item_ht_env);
-	free(exec);
+	exec_node = (t_exec *)exec;
+	if (exec_node && exec_node->heredoc)
+	{
+		exec_node->heredoc->destroy(&exec_node->heredoc, NULL);
+		exec_node->heredoc = NULL;
+	}
+	if (exec_node && exec_node->argv)
+	{
+		free(exec_node->argv);
+		exec_node->argv = NULL;
+	}
+	if (exec_node && exec_node->redirect)
+	{
+		exec_node->redirect->destroy(&exec_node->redirect, ft_free_item_redirect);
+		exec_node->redirect = NULL;
+	}
+}
+
+void ft_set_flag_destroy_exec(t_binary_tree_node *node)
+{
+	t_ast_node *ast_node;
+
+	ast_node = (t_ast_node *)(node->content);
+	*(((t_exec *)(ast_node->exec))->destroy) = true;
 }
 
 int ft_get_fd_in(t_binary_tree_node *node)
@@ -146,6 +169,8 @@ void ft_free_argv(t_binary_tree_node *node)
 	t_ast_node *ast_node;
 	t_exec *exec;
 
+	if (!node)
+		return ;
 	ast_node = (t_ast_node *)(node->content);
 	exec = (t_exec *)(ast_node->exec);
 	free(exec->argv);

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:25:06 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 13:42:04 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/04 10:50:37 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	ft_free_item_ht_env(void *node_ht)
 	t_ht		*node_to_free;
 	t_env_value	*value_to_free;
 
+	if (!node_ht)
+		return ;
 	node_to_free = (t_ht *)node_ht;
 	value_to_free = (t_env_value *)node_to_free->value;
 	free(node_to_free->key);

@@ -1,0 +1,17 @@
+total 1072
+drwxr-xr-x 8 brunofer candidate   4096 Dec  3 17:06 .
+drwxr-xr-x 3 brunofer candidate   4096 Dec  3 16:56 ..
+--w------- 1 brunofer candidate      0 Dec  3 17:06 bru
+drwxr-xr-x 8 brunofer candidate   4096 Dec  3 16:57 .git
+-rw-r--r-- 1 brunofer candidate     80 Dec  3 16:56 .gitattributes
+drwxr-xr-x 2 brunofer candidate   4096 Dec  3 16:56 includes
+drwxr-xr-x 8 brunofer candidate   4096 Dec  3 16:58 libft
+-rw-r--r-- 1 brunofer candidate  18239 Dec  3 16:56 Makefile
+-rwxr-xr-x 1 brunofer candidate 317120 Dec  3 16:58 minishell
+-rw-r--r-- 1 brunofer candidate 701449 Dec  3 16:56 minishell.excalidraw
+-rw-r--r-- 1 brunofer candidate      0 Dec  3 16:56 minishell_hd_0
+-rw-r--r-- 1 brunofer candidate    284 Dec  3 16:56 readline.supp
+-rw-r--r-- 1 brunofer candidate  10077 Dec  3 16:56 README.md
+drwxr-xr-x 5 brunofer candidate   4096 Dec  3 16:58 src
+drwxr-xr-x 5 brunofer candidate   4096 Dec  3 16:56 tests
+drwxr-xr-x 2 brunofer candidate   4096 Dec  3 16:56 .vscode

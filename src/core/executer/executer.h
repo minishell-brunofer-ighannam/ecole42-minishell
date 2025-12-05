@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 12:53:09 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/04 12:47:46 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../../data_structures/data_structures.h"
 # include "../../signals.h"
 # include "../lexer/lexer.h"
+# include "../parser/parser.h"
 # include "builtins/builtins.h"
 # include "env/env.h"
 # include "mapper/mapper.h"
@@ -39,14 +40,14 @@ void				free_ast_node(void *arg);
 
 // CMD
 char				*ft_find_path(t_linkedlist_array *ht_env, char *cmd);
-int					ft_execute_cmd(t_binary_tree_node *node);
+int					ft_execute_cmd(t_binary_tree_node *node, t_ast *ast);
 void				*ft_child_task_func_cmd(t_child_process *process,
 						t_child_process_callback_args args);
 int					ft_expand_tokens(t_binary_tree_node *node);
 void				ft_built_args(t_binary_tree_node *node);
 
 // CMD BUILTIN
-int					ft_execute_builtin(t_binary_tree_node *node);
+int					ft_execute_builtin(t_binary_tree_node *node, t_ast *ast);
 
 // REDIRECT
 int					ft_is_redirect(t_binary_tree_node *node);

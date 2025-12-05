@@ -6,13 +6,13 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:44:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 09:26:56 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/03 15:09:18 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-int ft_execute_builtin(t_binary_tree_node *node)
+int ft_execute_builtin(t_binary_tree_node *node, t_ast *ast)
 {
 	if (ft_strcmp(ft_get_tokens(node)[0]->value, "export") == 0) 
 	{
@@ -38,6 +38,8 @@ int ft_execute_builtin(t_binary_tree_node *node)
 		return (ft_pwd(node));
 	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "echo") == 0)
 		ft_echo(node);
+	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "exit") == 0)
+		ft_exit(node, ast);
 	return (0);
 }
 

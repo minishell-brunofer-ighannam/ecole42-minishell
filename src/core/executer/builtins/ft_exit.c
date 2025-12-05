@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 07:02:52 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/04 10:10:11 by ighannam         ###   ########.fr       */
+/*   Created: 2025/12/03 14:42:13 by ighannam          #+#    #+#             */
+/*   Updated: 2025/12/04 12:37:43 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libstr.h"
+#include "builtins.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_exit(t_binary_tree_node *node, t_ast	*ast)
 {
-	size_t	len;
-
-	if (!str)
-		return (0);
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
+	if (node)
+		//ft_free_argv(node);
+	if (!node->parent)
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
+	//ft_destroy_exec(((t_ast_node *)(node->content))->exec);
+	if (ast)
+		ast->destroy(&ast, free_ast_node);	
+	exit(0);
 }

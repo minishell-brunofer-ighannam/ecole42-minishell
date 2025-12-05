@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ast_build.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 18:44:01 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 03:56:07 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/03 19:52:16 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../src/core/executer/builtins/builtins.h"
 #include "../../src/core/executer/env/env.h"
 #include "../../src/core/lexer/lexer.h"
+#include "../../src/core/executer/executer.h"
 #include "../../src/core/parser/ast_build/ast_build_internal.h"
 #include "../tests.h"
 #include "../../includes/minishell.h"
@@ -40,16 +41,6 @@ int	main(int argc, char **argv, char **envp)
 	test6(env);
 	test7(env);
 	env->destroy(&env, ft_free_item_ht_env);
-}
-
-void	free_ast_node(void *arg)
-{
-	t_ast_node	*node;
-
-	if (!arg)
-		return ;
-	node = (t_ast_node *)arg;
-	node->destroy(&node, NULL);
 }
 
 void	test1(t_linkedlist_array	*env)

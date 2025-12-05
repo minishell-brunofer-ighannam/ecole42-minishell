@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:30:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/24 23:49:58 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/04 20:31:20 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static void	test1(t_linkedlist_array	*env);
 static void	test2(t_linkedlist_array	*env);
 static void	test3(t_linkedlist_array	*env);
 static void	test4(t_linkedlist_array	*env);
+static void	test5(t_linkedlist_array	*env);
+static void	test6(t_linkedlist_array	*env);
+static void	test7(t_linkedlist_array	*env);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -34,6 +37,9 @@ int	main(int argc, char **argv, char **envp)
 	test2(env);
 	test3(env);
 	test4(env);
+	test5(env);
+	test6(env);
+	test7(env);
 	env->destroy(&env, ft_free_item_ht_env);
 }
 
@@ -153,6 +159,93 @@ static void	test4(t_linkedlist_array	*env)
 	test.teste_number = 4;
 	test.test_input = "*";
 	char	*expected = "Makefile README.md build_expansion child_process create_expandable_object env_ht_op expand_glob_test expand_var_test find_expandable find_keys_to_expand find_path includes libft linkedlist linkedlist_array minishell.excalidraw minishell.excalidraw:Zone.Identifier prompt_validator raw_splitter refined_splitter src tests lexer";
+	int *coord = ft_new_coord(0, 0);
+	t_expander_callbacks callbacks;
+	callbacks.expand_glob = NULL;
+	callbacks.expand_var = ft_expand_var;
+	callbacks.expand_glob = ft_expand_glob;
+	t_token *token = ft_create_token(test.test_input, 0, coord, callbacks);
+	free(coord);
+	t_expansion_build	*result = token->build_expansion(token, env);
+	if (result->token_expanded)
+		test.test_ok = !ft_strncmp(expected, result->token_expanded, ft_strlen(expected) + 1);
+	else
+		test.test_ok = false;
+	print_test_and_result(test, print_result, result->token_expanded);
+	token->destroy(&token);
+	result->destroy(&result);
+}
+
+static void	test5(t_linkedlist_array	*env)
+{
+	t_test					test;
+
+	ft_set(env, "VAR_TO_KEEP_UP=teste");
+	ft_set(env, "MONICA_BAR=bunker");
+	ft_set(env, "LENGTH=len");
+	ft_set(env, "GREATER=greater");
+	ft_set(env, "THAN_OTHERS=others");
+	test.teste_number = 5;
+	test.test_input = "ola$12oi";
+	char	*expected = "ola2oi";
+	int *coord = ft_new_coord(0, 0);
+	t_expander_callbacks callbacks;
+	callbacks.expand_glob = NULL;
+	callbacks.expand_var = ft_expand_var;
+	callbacks.expand_glob = ft_expand_glob;
+	t_token *token = ft_create_token(test.test_input, 0, coord, callbacks);
+	free(coord);
+	t_expansion_build	*result = token->build_expansion(token, env);
+	if (result->token_expanded)
+		test.test_ok = !ft_strncmp(expected, result->token_expanded, ft_strlen(expected) + 1);
+	else
+		test.test_ok = false;
+	print_test_and_result(test, print_result, result->token_expanded);
+	token->destroy(&token);
+	result->destroy(&result);
+}
+
+static void	test6(t_linkedlist_array	*env)
+{
+	t_test					test;
+
+	ft_set(env, "VAR_TO_KEEP_UP=teste");
+	ft_set(env, "MONICA_BAR=bunker");
+	ft_set(env, "LENGTH=len");
+	ft_set(env, "GREATER=greater");
+	ft_set(env, "THAN_OTHERS=others");
+	test.teste_number = 6;
+	test.test_input = "> >> < ? [ ] | ; [ ] || && ( ) & # $  <<";
+	char	*expected = "> >> < ? [ ] | ; [ ] || && ( ) & # $  <<";
+	int *coord = ft_new_coord(0, 0);
+	t_expander_callbacks callbacks;
+	callbacks.expand_glob = NULL;
+	callbacks.expand_var = ft_expand_var;
+	callbacks.expand_glob = ft_expand_glob;
+	t_token *token = ft_create_token(test.test_input, 0, coord, callbacks);
+	free(coord);
+	t_expansion_build	*result = token->build_expansion(token, env);
+	if (result->token_expanded)
+		test.test_ok = !ft_strncmp(expected, result->token_expanded, ft_strlen(expected) + 1);
+	else
+		test.test_ok = false;
+	print_test_and_result(test, print_result, result->token_expanded);
+	token->destroy(&token);
+	result->destroy(&result);
+}
+
+static void	test7(t_linkedlist_array	*env)
+{
+	t_test					test;
+
+	ft_set(env, "VAR_TO_KEEP_UP=teste");
+	ft_set(env, "MONICA_BAR=bunker");
+	ft_set(env, "LENGTH=len");
+	ft_set(env, "GREATER=greater");
+	ft_set(env, "THAN_OTHERS=others");
+	test.teste_number = 6;
+	test.test_input = "$";
+	char	*expected = "$";
 	int *coord = ft_new_coord(0, 0);
 	t_expander_callbacks callbacks;
 	callbacks.expand_glob = NULL;
