@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:17:49 by valero            #+#    #+#             */
-/*   Updated: 2025/12/03 18:11:00 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/04 20:10:11 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ void	test61(t_linkedlist_array	*env);
 void	test62(t_linkedlist_array	*env);
 void	test63(t_linkedlist_array	*env);
 void	test64(t_linkedlist_array	*env);
+void	test65(t_linkedlist_array	*env);
+void	test66(t_linkedlist_array	*env);
+void	test67(t_linkedlist_array	*env);
+void	test68(t_linkedlist_array	*env);
+void	test69(t_linkedlist_array	*env);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -165,6 +170,11 @@ int	main(int argc, char **argv, char **envp)
 	test62(env);
 	test63(env);
 	test64(env);
+	test65(env);
+	test66(env);
+	test67(env);
+	test68(env);
+	test69(env);
 	env->destroy(&env, ft_free_item_ht_env);
 }
 
@@ -1773,3 +1783,130 @@ void	test64(t_linkedlist_array	*env)
 		ast->destroy(&ast, free_ast_node);
 	}
 }
+
+void	test65(t_linkedlist_array	*env)
+{
+	t_test	test;
+
+	ft_export(env, "USER=lexer");
+	ft_export(env, "PLACE=42");
+	ft_export(env, "TOWN=SaoPaulo");
+	ft_export(env, "STATE=SP");
+	ft_export(env, "COUNTRY=BR");
+	test.teste_number = 65;
+	test.test_input = "exit 1 | echo $1";
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd(PRINT_BOLD PRINT_LIGHT_BLUE, 1);
+	ft_putstr_fd(test.test_input, 1);
+	ft_putstr_fd(PRINT_RESET, 1);
+	ft_putstr_fd("\n", 1);
+	t_expander_callbacks callbacks = ft_create_expander_callbacks(ft_expand_var, ft_expand_glob);
+	t_ast	*ast = ft_parser(test.test_input, callbacks, NULL, free_ast_node);
+	if (ast)
+	{
+		ast->print(ast);
+		ast->destroy(&ast, free_ast_node);
+	}
+}
+
+void	test66(t_linkedlist_array	*env)
+{
+	t_test	test;
+
+	ft_export(env, "USER=lexer");
+	ft_export(env, "PLACE=42");
+	ft_export(env, "TOWN=SaoPaulo");
+	ft_export(env, "STATE=SP");
+	ft_export(env, "COUNTRY=BR");
+	test.teste_number = 66;
+	test.test_input = "echo hello\"\"world ";
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd(PRINT_BOLD PRINT_LIGHT_BLUE, 1);
+	ft_putstr_fd(test.test_input, 1);
+	ft_putstr_fd(PRINT_RESET, 1);
+	ft_putstr_fd("\n", 1);
+	t_expander_callbacks callbacks = ft_create_expander_callbacks(ft_expand_var, ft_expand_glob);
+	t_ast	*ast = ft_parser(test.test_input, callbacks, NULL, free_ast_node);
+	if (ast)
+	{
+		ast->print(ast);
+		ast->destroy(&ast, free_ast_node);
+	}
+}
+
+void	test67(t_linkedlist_array	*env)
+{
+	t_test	test;
+
+	ft_export(env, "USER=lexer");
+	ft_export(env, "PLACE=42");
+	ft_export(env, "TOWN=SaoPaulo");
+	ft_export(env, "STATE=SP");
+	ft_export(env, "COUNTRY=BR");
+	test.teste_number = 67;
+	test.test_input = "echo \"aspas ->'\"";
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd(PRINT_BOLD PRINT_LIGHT_BLUE, 1);
+	ft_putstr_fd(test.test_input, 1);
+	ft_putstr_fd(PRINT_RESET, 1);
+	ft_putstr_fd("\n", 1);
+	t_expander_callbacks callbacks = ft_create_expander_callbacks(ft_expand_var, ft_expand_glob);
+	t_ast	*ast = ft_parser(test.test_input, callbacks, NULL, free_ast_node);
+	if (ast)
+	{
+		ast->print(ast);
+		ast->destroy(&ast, free_ast_node);
+	}
+}
+
+void	test68(t_linkedlist_array	*env)
+{
+	t_test	test;
+
+	ft_export(env, "USER=lexer");
+	ft_export(env, "PLACE=42");
+	ft_export(env, "TOWN=SaoPaulo");
+	ft_export(env, "STATE=SP");
+	ft_export(env, "COUNTRY=BR");
+	test.teste_number = 68;
+	test.test_input = "echo 'aspas ->\"'";
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd(PRINT_BOLD PRINT_LIGHT_BLUE, 1);
+	ft_putstr_fd(test.test_input, 1);
+	ft_putstr_fd(PRINT_RESET, 1);
+	ft_putstr_fd("\n", 1);
+	t_expander_callbacks callbacks = ft_create_expander_callbacks(ft_expand_var, ft_expand_glob);
+	t_ast	*ast = ft_parser(test.test_input, callbacks, NULL, free_ast_node);
+	if (ast)
+	{
+		ast->print(ast);
+		ast->destroy(&ast, free_ast_node);
+	}
+}
+
+void	test69(t_linkedlist_array	*env)
+{
+	t_test	test;
+
+	ft_export(env, "USER=lexer");
+	ft_export(env, "PLACE=42");
+	ft_export(env, "TOWN=SaoPaulo");
+	ft_export(env, "STATE=SP");
+	ft_export(env, "COUNTRY=BR");
+	test.teste_number = 69;
+	test.test_input = "echo \"> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<\"";
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd(PRINT_BOLD PRINT_LIGHT_BLUE, 1);
+	ft_putstr_fd(test.test_input, 1);
+	ft_putstr_fd(PRINT_RESET, 1);
+	ft_putstr_fd("\n", 1);
+	t_expander_callbacks callbacks = ft_create_expander_callbacks(ft_expand_var, ft_expand_glob);
+	t_ast	*ast = ft_parser(test.test_input, callbacks, NULL, free_ast_node);
+	if (ast)
+	{
+		ast->print(ast);
+		ast->destroy(&ast, free_ast_node);
+	}
+}
+
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refine_raw_manage_grouped_and_ungrouped.c          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:58:40 by valero            #+#    #+#             */
-/*   Updated: 2025/11/26 19:48:30 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/04 20:06:07 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,12 @@ static void	ft_jump_useless_quotes(char *str, int *curr_idx)
 static void	manage_quote_behavior(
 				t_chunck token, t_refine_raw_token_vars *refine)
 {
+	while (!refine->found_quote && ft_is_quote(token.chunck, refine->idx, NULL)
+		&& ft_is_quote(token.chunck, refine->idx + 1, NULL))
+		refine->idx++;
+	if (!refine->found_quote && ft_is_quote(token.chunck, refine->idx, NULL)
+		&& ft_is_quote(token.chunck, refine->idx - 1, NULL))
+		return ;
 	if (refine->idx > 0 && !refine->found_quote)
 	{
 		refine->found_quote = token.chunck[refine->idx];
