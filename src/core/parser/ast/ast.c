@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:03:17 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 03:10:24 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/04 19:36:35 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_internal.h"
 
-static void	*ft_destroy_ast_node(
-				t_ast_node **self_ref,
+static void	*ft_destroy_ast_node(t_ast_node **self_ref,
 				void (*free_exec)(void *exec));
 static void	*ft_destroy_ast(t_ast **self_ref, void (*free_content)(void *arg));
 
@@ -37,8 +36,8 @@ t_ast	*ft_create_ast(t_lexer *lexer)
 	return (ast);
 }
 
-t_ast_node	*ft_create_ast_node(t_token **tokens,
-				t_ast_node_type type, void *exec)
+t_ast_node	*ft_create_ast_node(t_token **tokens, t_ast_node_type type,
+		void *exec)
 {
 	t_ast_node	*node;
 	int			tokens_size;
@@ -58,9 +57,8 @@ t_ast_node	*ft_create_ast_node(t_token **tokens,
 	return (node);
 }
 
-static void	*ft_destroy_ast_node(
-				t_ast_node **self_ref,
-				void (*free_exec)(void *exec))
+static void	*ft_destroy_ast_node(t_ast_node **self_ref,
+		void (*free_exec)(void *exec))
 {
 	t_ast_node	*self;
 
@@ -79,13 +77,33 @@ static void	*ft_destroy_ast_node(
 static void	*ft_destroy_ast(t_ast **self_ref, void (*free_content)(void *arg))
 {
 	t_ast	*self;
+	t_exec	*exec;
 
 	if (!self_ref || !*self_ref)
 		return (NULL);
 	self = *self_ref;
+	exec = (t_exec	*)(((t_ast_node *)(self->tree->root->content))->exec);
 	self->tree->destroy(&self->tree, free_content);
 	self->lexer->destroy(&self->lexer);
 	free(self);
+	if (*exec->destroy == true)
+		ft_destroy_exec(exec);
 	*self_ref = NULL;
 	return (NULL);
 }
+
+void ft_destroy_exec(t_exec *exec)
+{
+	if (!exec)
+		return ;
+	close(exec->fds[0]);
+	close(exec->fds[1]);
+	exec->ht_env->destroy(&(exec->ht_env), ft_free_item_ht_env);
+	if (exec && exec->destroy)
+	{
+		free(exec->destroy);
+		exec->destroy = NULL;
+	}
+	free(exec);
+}
+

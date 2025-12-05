@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 15:40:09 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/04 19:58:44 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int ft_visit_redirect(t_binary_tree_node *node, t_ast *ast)
 	if (ft_get_type(node) == AST_NODE_HERE_DOC_IN)
 	{
 		content->file = ft_get_argv(node)[0];
-		ft_free_argv(node);
+		//ft_free_argv(node);
 	}
 	else
 		content->file = (char *)ft_get_tokens(node)[1]->value;
@@ -37,11 +37,13 @@ int ft_visit_redirect(t_binary_tree_node *node, t_ast *ast)
 	if (ft_is_redirect(node->left) == 1)
 	{
 		ft_set_redirect(node->left, *ft_get_list_redirects(node));
+		//ft_set_redirect(node, NULL);
 		ft_visit_redirect(node->left, ast);
 	}
 	if (ft_is_redirect(node->left) == 0)
 	{
 		ft_set_redirect(node->left, *ft_get_list_redirects(node));
+		//ft_set_redirect(node, NULL);
 		return(ft_execute_node(node->left, ast));
 	}
 	if (ft_get_type(node->left) == AST_NODE_SUBSHELL)
@@ -76,13 +78,13 @@ int ft_execute_redirect(t_binary_tree_node *node) //recebe nó com lista de redi
 			ret = ft_execute_append_out(node_redir);
 		if (ret != 0)
 		{
-			(*list_redir)->destroy(list_redir, ft_free_item_redirect);
+			//(*list_redir)->destroy(list_redir, ft_free_item_redirect);
 			return (ret);
 		}	
 		node_redir = node_redir->prev;
 		size--;
 	}
-	(*list_redir)->destroy(list_redir, ft_free_item_redirect);
+	//(*list_redir)->destroy(list_redir, ft_free_item_redirect);
 	return (0);	
 }
 

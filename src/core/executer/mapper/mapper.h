@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 13:15:22 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:58:42 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,7 @@
 # include "../executer.h"
 
 typedef struct s_redirect	t_redirect;
-
-typedef struct s_exec
-{
-	t_linkedlist_array		*ht_env;
-	t_linkedlist			*redirect;
-	char					**envp;
-	char					**argv;
-	int						fds[2];
-}							t_exec;
+typedef struct s_exec			t_exec;
 
 t_exec						*ft_built_exec(char **envp);
 int							ft_get_fd_in(t_binary_tree_node *node);
@@ -42,11 +34,12 @@ void						ft_init_argv(t_binary_tree_node *node, int size);
 void						ft_set_argv(t_binary_tree_node *node, int index,
 								char *str);
 void						ft_free_argv(t_binary_tree_node *node);
+void						ft_free_exec(void *exec);
 void						ft_push_redirect(t_binary_tree_node *node,
 								t_redirect *content);
 void						ft_set_redirect(t_binary_tree_node *node,
 								t_linkedlist *list);
 void						ft_init_redirect(t_binary_tree_node *node);
-void						ft_destroy_exec(t_exec *exec);
+void						ft_set_flag_destroy_exec(t_binary_tree_node *node);
 
 #endif
