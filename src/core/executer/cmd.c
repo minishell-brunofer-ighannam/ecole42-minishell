@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/04 18:41:02 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/05 13:15:33 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 	if (ft_is_builtin(ft_get_tokens(node)[0]->value) == 1)
 	{
 		status = ft_execute_builtin(node, ast);
-		//ft_free_argv(node);
+		ft_free_argv(node);
 		return (status);
 	}
 	path = ft_find_path(ft_get_ht_env(node), ft_get_argv(node)[0]);
@@ -62,13 +62,13 @@ int ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 		}
 		if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 0)
 		{
-			//ft_free_argv(node);
+			ft_free_argv(node);
 			free(path);
 			return (WEXITSTATUS(status));
 		}		
 	}
 	free(path);
-	//ft_free_argv(node);
+	ft_free_argv(node);
 	return (status);
 }
 

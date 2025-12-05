@@ -6,16 +6,16 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 20:30:55 by valero            #+#    #+#             */
-/*   Updated: 2025/12/04 19:25:49 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/05 08:23:09 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
+# include "../../../core/executer/env/env.h"
 # include "../../../data_structures/data_structures.h"
 # include "../../lexer/lexer.h"
-# include "../../../core/executer/env/env.h"
 
 typedef enum e_ast_node_type	t_ast_node_type;
 enum							e_ast_node_type
@@ -46,6 +46,7 @@ struct							s_exec
 	t_linkedlist_array			*ht_env;
 	t_linkedlist				*redirect;
 	t_linkedlist				*heredoc;
+	char						*file_heredoc;
 	char						**envp;
 	char						**argv;
 	int							fds[2];

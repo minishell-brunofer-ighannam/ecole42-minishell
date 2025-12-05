@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/04 19:58:44 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/05 08:50:38 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int ft_visit_redirect(t_binary_tree_node *node, t_ast *ast)
 	content = ft_calloc(1, sizeof(t_redirect));
 	if (ft_get_type(node) == AST_NODE_HERE_DOC_IN)
 	{
-		content->file = ft_get_argv(node)[0];
+		content->file = ft_get_file_heredoc(node);
 		//ft_free_argv(node);
 	}
 	else
@@ -147,11 +147,6 @@ void	ft_free_item_redirect(void *content)
 	t_redirect *content_redirect;
 
 	content_redirect = (t_redirect *)content;
-	if (content_redirect->type == AST_NODE_HERE_DOC_IN)
-	{
-		if (content_redirect->file)
-			free(content_redirect->file);
-	}
 	content_redirect->type = AST_NODE_UNKNOWN;
 	content_redirect->file = NULL;
 	free(content_redirect);
