@@ -34,7 +34,8 @@ int	ft_validate_doublequotes(const char *line)
 	i = -1;
 	while (line[++i])
 	{
-		(void)jump_inner_structures;
+		if (open_quote_index == -1 && ft_is_special_char(line, i, "'"))
+			i = get_end(line, i, ft_is_special_char, "'") + 1;
 		if (open_quote_index > -1)
 			jump_inner_structures(line, &i, other_openning_idx, open_quote_index);
 		if (!line[i])

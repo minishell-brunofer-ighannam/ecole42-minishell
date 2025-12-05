@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 23:05:14 by valero            #+#    #+#             */
-/*   Updated: 2025/11/22 15:18:24 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/04 20:35:32 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	ft_extract_keys(
 	section_idx = -1;
 	while (token_section[++section_idx])
 	{
-		if (ft_is_special_char(token_section, section_idx, "$"))
+		if (token_section[section_idx + 1] && ft_is_special_char(token_section, section_idx, "$"))
 		{
 			if (ft_is_special_key_char(token_section[section_idx + 1]))
 			{
@@ -93,7 +93,7 @@ static void	ft_extract_keys(
 				exp_keys->coord_list->push(exp_keys->coord_list, new_coord);
 				section_idx++;
 			}
-			else
+			else if (ft_is_key_char(token_section[section_idx + 1], true))
 				ft_track_keys(&section_idx, token_section, coords, exp_keys);
 		}
 	}

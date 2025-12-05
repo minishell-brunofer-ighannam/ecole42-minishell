@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:50:52 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/17 02:24:53 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/04 15:07:38 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*ft_expand_var(const char *s, t_linkedlist_array *ht_env)
 	else if (ft_isalpha(key[0]) == 0 && key[0] != '?' && key[0] != '_')
 	{
 		expanded = ft_calloc(1, sizeof(char));
+		free(key);
 		return (expanded);
 	}
 	else
