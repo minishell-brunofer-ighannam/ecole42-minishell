@@ -6,39 +6,24 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 13:16:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/03 15:57:43 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/05 14:14:10 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
 
-/**
- * # Signal handler function.
- *
- * ---
- *
- * This function is called automatically when a signal is received
- * by the process. It captures the received signal number and stores
- * it in the global variable `g_sig` so that other parts of the program
- * can check which signal was triggered and respond accordingly.
- *
- * @param sig The signal number received by the process.
- */
-// void	ft_sig_handler(int sig)
-// {
-// 	if (sig == SIGINT)
-// 	{
-// 		ft_putstr_fd("^C", 1);
-// 		ft_putstr_fd("\n", 1);
-// 		ft_putstr_fd(PROMPT, 1);
-// 	}
-// 	if (sig == SIGTERM)
-// 		printf("SIGTERM: %d\n", sig);
-// 	if (sig == SIGQUIT)
-// 		printf("SIGQUIT: %d\n", sig);
-// 	set_sig(sig);
-// }
+static volatile sig_atomic_t g_sig;
+
+int ft_get_sig(void)
+{
+    return (g_sig);
+}
+
+void ft_set_sig(int value)
+{
+    g_sig = (volatile sig_atomic_t)value;
+}
 
 void	ft_handle_sigint(int sig) //ctrl+C
 {
@@ -71,11 +56,9 @@ void	ft_handle_sig_heredoc(void)
 void	ft_handle_sigint_heredoc(int sig)
 {
 	(void)sig;
-	ft_set_sig(SIGINT);
-	rl_done = 1;
-	write(STDOUT_FILENO, "\n", 1);
-	//ioctl(STDOUT_FILENO, TIOCSTI, "\n");
-	write(STDOUT_FILENO, PROMPT, 75);
+	ft_set_sig(130);
+    rl_done = 1;
+	write(1, "\n", 1);
 }
 /**
  * # Sets up custom signal handlers for the program.

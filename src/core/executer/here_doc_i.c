@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/04 19:46:17 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/05 14:10:11 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_execute_heredocs(t_binary_tree_node *node)
 	{
 		if (ft_process_heredoc(item_list) != 0)
 		{
-			heredoc->destroy(&heredoc, NULL);
+			//heredoc->destroy(&heredoc, NULL);
 			return (130);
 		}
 		item_list = item_list->prev;
@@ -75,8 +75,7 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 	}
 	close(fd);
 	free(delimit);
-	ft_init_argv(node, 1);
-	ft_set_argv(node, 0, file);
+	ft_set_file_heredoc(node, file);
 	return (0);
 }
 
@@ -106,7 +105,7 @@ static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable,
 			free(line);
 			break ;
 		}
-		if (is_expandable == 1)
+		if (is_expandable == 1 && ft_strcmp(line, "\n") != 0)
 		{
 			token = ft_tokenize(line, 0, NULL,
 					ft_create_expander_callbacks(ft_get_tokens(node)[0]->expand_var,

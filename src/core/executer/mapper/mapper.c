@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:45 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/04 20:36:26 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/05 11:47:12 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void ft_free_exec(void *exec)
 	if (!exec)
 		return ;
 	exec_node = (t_exec *)exec;
+	if (exec_node && exec_node->file_heredoc)
+	{
+		free(exec_node->file_heredoc);
+		exec_node->file_heredoc = NULL;
+	}
 	if (exec_node && exec_node->heredoc)
 	{
 		exec_node->heredoc->destroy(&exec_node->heredoc, NULL);
@@ -55,6 +60,26 @@ void ft_set_flag_destroy_exec(t_binary_tree_node *node)
 
 	ast_node = (t_ast_node *)(node->content);
 	*(((t_exec *)(ast_node->exec))->destroy) = true;
+}
+
+void ft_set_file_heredoc(t_binary_tree_node *node, char *file)
+{
+	t_ast_node *ast_node;
+	t_exec *exec;
+
+	ast_node = (t_ast_node *)(node->content);
+	exec = (t_exec *)(ast_node->exec);
+	exec->file_heredoc = file;
+}
+
+char *ft_get_file_heredoc(t_binary_tree_node *node)
+{
+	t_ast_node *ast_node;
+	t_exec *exec;
+
+	ast_node = (t_ast_node *)(node->content);
+	exec = (t_exec *)(ast_node->exec);
+	return (exec->file_heredoc);
 }
 
 int ft_get_fd_in(t_binary_tree_node *node)
@@ -151,7 +176,7 @@ void ft_init_argv(t_binary_tree_node *node, int size)
 
 	ast_node = (t_ast_node *)(node->content);
 	exec = (t_exec *)(ast_node->exec);
-	exec->argv = ft_calloc(size, sizeof(char *));
+	exec->argv = ft_calloc(size + 1, sizeof(char *));
 }
 
 void ft_set_argv(t_binary_tree_node *node, int index, char *str)
@@ -173,7 +198,11 @@ void ft_free_argv(t_binary_tree_node *node)
 		return ;
 	ast_node = (t_ast_node *)(node->content);
 	exec = (t_exec *)(ast_node->exec);
-	free(exec->argv);
+	if (exec->argv)
+	{
+		free(exec->argv);
+		exec->argv = NULL;
+	}
 }
 
 void ft_push_redirect(t_binary_tree_node *node, t_redirect *content)

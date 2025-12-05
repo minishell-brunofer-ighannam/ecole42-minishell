@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/04 15:58:42 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/05 08:42:53 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "../executer.h"
 
 typedef struct s_redirect	t_redirect;
-typedef struct s_exec			t_exec;
+typedef struct s_exec		t_exec;
 
 t_exec						*ft_built_exec(char **envp);
 int							ft_get_fd_in(t_binary_tree_node *node);
@@ -41,5 +41,8 @@ void						ft_set_redirect(t_binary_tree_node *node,
 								t_linkedlist *list);
 void						ft_init_redirect(t_binary_tree_node *node);
 void						ft_set_flag_destroy_exec(t_binary_tree_node *node);
+void						ft_set_file_heredoc(t_binary_tree_node *node,
+								char *file);
+char						*ft_get_file_heredoc(t_binary_tree_node *node);
 
 #endif
