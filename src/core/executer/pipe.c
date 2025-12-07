@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:57:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/04 18:45:40 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/05 13:15:43 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	ft_execute_pipe(t_binary_tree_node *node, t_ast	*ast)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		status = ft_execute_node(node->left, ast);
-		//ft_destroy_exec(((t_ast_node *)(((t_binary_tree_node *)(ast->tree->root))->content))->exec);
 		ast->destroy(&ast, free_ast_node);
 		exit(status);
 	}
@@ -46,7 +45,6 @@ int	ft_execute_pipe(t_binary_tree_node *node, t_ast	*ast)
 			dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		status = ft_execute_node(node->right, ast);
-		//ft_destroy_exec(((t_ast_node *)(((t_binary_tree_node *)(ast->tree->root))->content))->exec);
 		ast->destroy(&ast, free_ast_node);
 		exit(status);
 	}
