@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:03:17 by valero            #+#    #+#             */
-/*   Updated: 2025/12/04 19:36:35 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:15:39 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	*ft_destroy_ast_node(t_ast_node **self_ref,
 	if (self->tokens)
 		free(self->tokens);
 	if (free_exec)
-		free_exec(self->exec);
+		free_exec((*self_ref)->exec);
 	free(self);
 	*self_ref = NULL;
 	return (NULL);
