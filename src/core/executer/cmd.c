@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/05 13:15:33 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 17:20:19 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 		ft_free_argv(node);
 		return (1);
 	}	
-	if (ft_is_builtin(ft_get_tokens(node)[0]->value) == 1)
+	if (ft_is_builtin(ft_get_tokens(node)[0]->last_build->token_expanded) == 1)
 	{
 		status = ft_execute_builtin(node, ast);
 		ft_free_argv(node);
@@ -46,13 +46,24 @@ int ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 			status = execve(path, ft_get_argv(node), ft_get_envp(node));
 			if (status == -1)
 			{
+				if (errno == EISDIR)
+				{
+					ft_putstr_fd("minishell: ", STDERR_FILENO);
+					ft_putstr_fd(path, STDERR_FILENO);
+					ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+				}
+				if (errno == EACCES)
+				{
+					ft_putstr_fd("minishell: ", STDERR_FILENO);
+					ft_putstr_fd(path, STDERR_FILENO);
+					ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+				}
+				free(path);
+				ft_free_argv(node);
 				ft_set_flag_destroy_exec(node);
 				ast->destroy(&ast, free_ast_node);
-				exit (127);
-			}
-			ft_set_flag_destroy_exec(node);
-			ast->destroy(&ast, free_ast_node);
-			exit(0);		
+				exit (126);
+			}		
 		}
 		if (waitpid(pid, &status, 0) == -1)
 		{

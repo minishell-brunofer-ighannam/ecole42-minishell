@@ -3,10 +3,15 @@ f2
 f3
 includes
 libft
+log
 Makefile
 minishell
 minishell.excalidraw
-minishell_hd_0
+minishell_tester-main
+minishell_tester-main.zip
+mini_tests
+out
+out.txt
 readline.supp
 README.md
 src

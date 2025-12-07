@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/04 12:47:46 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 17:05:14 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "env/env.h"
 # include "mapper/mapper.h"
 # include "process/process.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <stdio.h>

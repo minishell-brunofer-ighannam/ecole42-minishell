@@ -49,4 +49,5 @@ exit "-100"
 exit -"100"
 exit hello
 exit 42 world
+exit 500
 
