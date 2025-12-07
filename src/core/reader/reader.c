@@ -1,43 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/09 17:07:25 by valero            #+#    #+#             */
-/*   Updated: 2025/12/07 16:55:49 by brunofer         ###   ########.fr       */
+/*   Created: 2025/12/07 16:57:07 by brunofer          #+#    #+#             */
+/*   Updated: 2025/12/07 18:01:00 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "reader_internal.h"
 
-int	main(int argc, char **argv, char **envp)
+void	ft_reader(
+			void (*executer)(const char *line, void *exec),
+			void *(*create_exec)(char **envp), char **envp)
 {
-	t_expander_callbacks	callbacks;
-	t_ast					*ast;
-	t_exec					*exec;
-	char					*line;
+	char	*line;
+	char	*prompt;
+	void	*exec;
 
-	(void)argc;
-	(void)argv;
-	exec = ft_built_exec(envp);
-
+	exec = create_exec(envp);
+	prompt = ft_get_prompt();
 	while (1)
 	{
-		ft_handle_sig_parent();
-		line = readline(PROMPT);
+		// ft_handle_sig_parent();
+		line = readline(prompt);
 		if (!line)
 			break ;
 		add_history(line);
-		callbacks = ft_create_expander_callbacks(ft_expand_var, ft_expand_glob);
-		ast = ft_parser(line, callbacks, &exec, free_ast_node);
-		if (ast)
-		{
-			//ast->print(ast);
-			ft_execute_tree(ast);
-		}
+		executer(line, exec);
 		free(line);
 	}
-	ft_destroy_exec(&exec);
+	free(prompt);
 }
