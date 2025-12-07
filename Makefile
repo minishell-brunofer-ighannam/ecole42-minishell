@@ -60,7 +60,7 @@ $(AST_BUILD_DIR)/ast_build_utils.c $(AST_BUILD_DIR)/ast_build.c $(AST_BUILD_DIR)
 
 SYNTAX_DIR = $(PARSER_DIR)/syntactic_analysis
 SYNTAX_FILES = $(SYNTAX_DIR)/analyse_logic_node.c $(SYNTAX_DIR)/analyse_pipe_node.c \
-$(SYNTAX_DIR)/analyse_redirect_node.c $(SYNTAX_DIR)/syntactic_analysis.c
+$(SYNTAX_DIR)/analyse_redirect_node.c $(SYNTAX_DIR)/syntactic_analysis.c $(SYNTAX_DIR)/analyse_subshell_node.c
 
 PARSER_FILES = $(AST_BUILD_FILES) $(SYNTAX_FILES) $(AST_DIR)/ast.c $(AST_DIR)/print_ast.c $(AST_DIR)/properties.c \
 $(PARSER_DIR)/parser.c
@@ -88,19 +88,23 @@ ENV = $(EXEC_DIR)/env/env.c $(EXEC_DIR)/env/expand_var.c $(EXEC_DIR)/env/expand_
 
 EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd.c $(EXEC_DIR)/redirect.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc_i.c \
 	$(EXEC_DIR)/here_doc_ii.c $(EXEC_DIR)/cmd_builtin.c $(EXEC_DIR)/tree.c $(EXEC_DIR)/and.c $(EXEC_DIR)/or.c $(EXEC_DIR)/subshell.c \
-	$(EXEC_DIR)/mapper/mapper.c 
+	$(EXEC_DIR)/mapper/mapper.c
 
+# ----------------- READER FILES -----------------
+READER_DIR = src/core/reader
+READER = $(READER_DIR)/get_prompt.c $(READER_DIR)/reader.c
 
 UTILS = src/utils/array_str.c src/utils/commands.c src/utils/print.c
 
 
-SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(PARSER_FILES) $(BUILTINS) $(PROCESS) $(ENV) $(EXECUTER) $(UTILS) src/signals.c src/globals.c
+SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(PARSER_FILES) $(BUILTINS) $(READER) $(PROCESS) $(ENV) $(EXECUTER) $(UTILS) src/signals.c src/globals.c
 
 
 
 
 # ============== PROGRAM FILES =================
 MAIN_PROGRAM=src/main.c
+SKETCH_PROGRAM=src/sketch_main.c
 
 # ============== PROGRAM DEPENDENCIES =================
 
@@ -112,13 +116,14 @@ SLEEP = 0.07
 # ============== COMPILATION =================
 OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
+OBJ_SKETCH_PROGRAM = $(SKETCH_PROGRAM:%.c=%.o)
 
 COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 
 TEST_PROGRAMS = linkedlist linkedlist_array binary_tree raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
 create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
-lexer ast_build parser
+lexer ast_build parser sketch
 
 
 
@@ -165,6 +170,10 @@ stats:
 $(NAME): $(COMPILATION_DEPENDENCIES) $(OBJ_MAIN_PROGRAM)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $(OBJS) $(OBJ_MAIN_PROGRAM) $(LIBFT)  -o $@ $(DEPENDENCIES)
+
+sketch: $(COMPILATION_DEPENDENCIES) $(OBJ_SKETCH_PROGRAM)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) $(OBJS) $(OBJ_SKETCH_PROGRAM) $(LIBFT)  -o $@ $(DEPENDENCIES)
 
 $(LIBFT):
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)

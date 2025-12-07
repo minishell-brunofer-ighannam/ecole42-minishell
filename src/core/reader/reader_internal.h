@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   syntactic_analysis_internal.h                      :+:      :+:    :+:   */
+/*   reader_internal.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/01 13:15:02 by valero            #+#    #+#             */
-/*   Updated: 2025/12/07 16:49:22 by brunofer         ###   ########.fr       */
+/*   Created: 2025/12/07 17:02:39 by brunofer          #+#    #+#             */
+/*   Updated: 2025/12/07 18:00:05 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYNTACTIC_ANALYSIS_INTERNAL_H
-# define SYNTACTIC_ANALYSIS_INTERNAL_H
+#ifndef READER_INTERNAL_H
+# define READER_INTERNAL_H
 
-# include "syntactic_analysis.h"
+# include "libft.h"
+# include "../../utils/utils.h"
+# include "reader.h"
 
-void	ft_analyse_subshell_node(t_binary_tree_node *node, t_lexer *lexer);
-void	ft_analyse_logic_node(t_binary_tree_node *node, t_lexer *lexer);
-void	ft_analyse_pipe_node(t_binary_tree_node *node, t_lexer *lexer);
-void	ft_analyse_redirect_node(t_binary_tree_node *node);
+char	*ft_get_prompt(void);
 
 #endif
