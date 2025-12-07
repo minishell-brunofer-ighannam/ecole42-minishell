@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   array_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:01:40 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/26 17:25:31 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 20:16:21 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-static int ft_strcasecmp(const char *s1, const char *s2);
+static int	ft_strcasecmp(const char *s1, const char *s2);
 
 void	ft_ordene_array_str(char **list)
 {
@@ -62,22 +62,23 @@ void	ft_ordene_array_str_alpha(char **list)
 	}
 }
 
-static int ft_strcasecmp(const char *s1, const char *s2)
+static int	ft_strcasecmp(const char *s1, const char *s2)
 {
-    int i = 0;
+	int		i;
+	char	c1;
+	char	c2;
 
-    while (s1[i] && s2[i])
-    {
-        char c1 = ft_tolower(s1[i]);
-        char c2 = ft_tolower(s2[i]);
-
-        if (c1 != c2)
-            return (c1 - c2);
-        i++;
-    }
-    return (ft_tolower(s1[i]) - ft_tolower(s2[i]));
+	i = 0;
+	while (s1[i] && s2[i])
+	{
+		c1 = ft_tolower(s1[i]);
+		c2 = ft_tolower(s2[i]);
+		if (c1 != c2)
+			return (c1 - c2);
+		i++;
+	}
+	return (ft_tolower(s1[i]) - ft_tolower(s2[i]));
 }
-
 
 void	ft_swap_array_str(int i, int j, char **list)
 {
@@ -90,7 +91,7 @@ void	ft_swap_array_str(int i, int j, char **list)
 
 void	ft_clean_array_str(char **list)
 {
-	int i;
+	int	i;
 
 	if (!list)
 		return ;

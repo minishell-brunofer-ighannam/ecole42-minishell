@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:33:35 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 09:15:12 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 20:10:10 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ int	ft_hash(const char *key)
 	return (hash % ENV_HASH_SIZE);
 }
 
-t_linkedlist_array *ft_init_ht(int size, t_ht **key_value, void (*ft_free_item_ht)(void *arg))
+t_linkedlist_array	*ft_init_ht(
+						int size, t_ht **key_value,
+						void (*ft_free_item_ht)(void *arg))
 {
-	t_linkedlist_array *ht;
-	int i;
+	t_linkedlist_array	*ht;
+	int					i;
 
 	ht = ft_new_linkedlist_array(size);
 	if (!ht)
@@ -48,12 +50,12 @@ t_linkedlist_array *ft_init_ht(int size, t_ht **key_value, void (*ft_free_item_h
 	return (ht);
 }
 
-void *ft_find_ht(t_linkedlist_array *ht ,const char *key)
+void	*ft_find_ht(t_linkedlist_array *ht, const char *key)
 {
-	t_linkedlist *entry;
-	t_ht	*key_value;
-	t_linkedlist_node *curr_node;
-	int hash;
+	t_linkedlist		*entry;
+	t_ht				*key_value;
+	t_linkedlist_node	*curr_node;
+	int					hash;
 
 	hash = ft_hash(key);
 	if (hash > ht->size)
@@ -70,11 +72,12 @@ void *ft_find_ht(t_linkedlist_array *ht ,const char *key)
 	return (NULL);
 }
 
-void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new, void (*ft_free_item_ht)(void *arg))
+void	ft_include_item_ht(t_linkedlist_array *ht,
+			t_ht *new, void (*ft_free_item_ht)(void *arg))
 {
-	t_linkedlist_node *found;
-	t_linkedlist *list;
-	t_ht *content;
+	t_linkedlist_node	*found;
+	t_linkedlist		*list;
+	t_ht				*content;
 
 	if (!ht || !new)
 		return ;
@@ -90,11 +93,12 @@ void ft_include_item_ht(t_linkedlist_array *ht, t_ht *new, void (*ft_free_item_h
 	ht->push(ht, ft_hash(new->key), new);
 }
 
-void ft_remove_item_ht(t_linkedlist_array *ht, t_ht *new, void (*ft_free_item_ht)(void *arg))
+void	ft_remove_item_ht(t_linkedlist_array *ht,
+			t_ht *new, void (*ft_free_item_ht)(void *arg))
 {
-	t_linkedlist_node *found;
-	t_linkedlist *list;
-	t_ht *content;
+	t_linkedlist_node	*found;
+	t_linkedlist		*list;
+	t_ht				*content;
 
 	found = ft_find_ht(ht, new->key);
 	if (found)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 22:22:24 by valero            #+#    #+#             */
-/*   Updated: 2025/11/30 21:36:03 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/07 20:14:18 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,15 @@ int	is_reserved_token(char *str, int idx)
 	if (idx > 0 && ft_is_valid_backslash(str, idx - 1))
 		return (0);
 	if (str[idx + 1]
-		&& ((str[idx] == '>'  && ft_strchr("|&>", str[idx + 1]))				// >| >& >>
-		|| (str[idx] == '&' && ft_strchr("&>", str[idx + 1]))				// && &>
-		|| (str[idx] == '<' && ft_strchr("<>", str[idx + 1]))				// << <>
-		|| (str[idx] == '|' && str[idx + 1] == '|')							// ||
-		|| (str[idx] == '2' && str[idx + 1] == '>' && str[idx + 2] != '&')	// 2>
-		|| (str[idx] == '$' && str[idx + 1] == '('))							// $(
-		)
+		&& ((str[idx] == '>' && ft_strchr("|&>", str[idx + 1]))
+			|| (str[idx] == '&' && ft_strchr("&>", str[idx + 1]))
+			|| (str[idx] == '<' && ft_strchr("<>", str[idx + 1]))
+			|| (str[idx] == '|' && str[idx + 1] == '|')
+			|| (str[idx] == '2' && str[idx + 1] == '>' && str[idx + 2] != '&')
+			|| (str[idx] == '$' && str[idx + 1] == '('))
+	)
 		return (2);
-	if (ft_strchr("|()<>;&`", str[idx]))									// | ( ) < > ; &
+	if (ft_strchr("|()<>;&`", str[idx]))
 		return (1);
 	return (0);
 }
