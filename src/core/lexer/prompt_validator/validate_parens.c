@@ -41,6 +41,8 @@ int	ft_validate_parens(const char *line)
 	i = -1;
 	while (line[++i])
 	{
+		if (open_parens_index == -1 && ft_is_special_char(line, i, "\""))
+			jump_quotes(line, &i);
 		if (open_parens_index > -1)
 			jump_inner_structures(line, &i, other_openning_idx, open_parens_index);
 		if (!line[i])

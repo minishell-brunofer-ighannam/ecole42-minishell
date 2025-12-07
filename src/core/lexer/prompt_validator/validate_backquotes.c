@@ -39,6 +39,8 @@ int	ft_validate_backquotes(const char *line)
 	i = -1;
 	while (line[++i])
 	{
+		if (open_backquotes_index == -1 && ft_is_special_char(line, i, "\""))
+			jump_quotes(line, &i);
 		if (open_backquotes_index > -1)
 			jump_inner_structures(line, &i, other_openning_idx, open_backquotes_index);
 		if (!line[i])
