@@ -29,7 +29,11 @@ int	ft_validate_singlequotes(const char *line)
 	while (line[++i])
 	{
 		if (open_singlequotes_index == -1 && ft_is_special_char(line, i, "\""))
+		{
 			i = get_end(line, i, ft_is_special_char, "\"") + 1;
+			if (!line[i])
+				return (open_singlequotes_index);
+		}
 		if (ft_is_special_char(line, i, "'"))
 		{
 			if (open_singlequotes_index == -1)
