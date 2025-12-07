@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/05 14:10:11 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:30:16 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	ft_execute_heredocs(t_binary_tree_node *node)
 	t_linkedlist_node	*item_list;
 
 	heredoc = ft_find_all_heredoc(node);
-	((t_exec *)(((t_ast_node *)(node->content))->exec))->heredoc = heredoc;
-	((t_exec *)(((t_ast_node *)(node->content))->exec))->heredoc_files = ft_new_linkedlist();
+	(*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc = heredoc;
+	(*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc_files = ft_new_linkedlist();
 	item_list = heredoc->last;
 	while (item_list)
 	{
@@ -75,7 +75,7 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 	}
 	close(fd);
 	free(delimit);
-	(((t_exec *)(((t_ast_node *)(node->content))->exec))->heredoc_files)->push((((t_exec *)(((t_ast_node *)(node->content))->exec))->heredoc_files), file);
+	((*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc_files)->push(((*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc_files), file);
 	return (0);
 }
 
