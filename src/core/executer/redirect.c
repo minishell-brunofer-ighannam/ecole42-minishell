@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 13:14:45 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 16:51:47 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ int ft_visit_redirect(t_binary_tree_node *node, t_ast *ast)
 	if (ft_is_redirect(node->left) == 1)
 	{
 		ft_set_redirect(node->left, *ft_get_list_redirects(node));
-		ft_visit_redirect(node->left, ast);
-	}
-	if (ft_is_redirect(node->left) == 0)
-	{
-		ft_set_redirect(node->left, *ft_get_list_redirects(node));
-		return(ft_execute_node(node->left, ast));
+		return(ft_visit_redirect(node->left, ast));
 	}
 	if (ft_get_type(node->left) == AST_NODE_SUBSHELL)
 	{
 		ft_execute_redirect(node);
 		return(ft_execute_subshell(node->left, ast));
 	}
-	return (1);	
+	if (ft_is_redirect(node->left) == 0)
+	{
+		ft_set_redirect(node->left, *ft_get_list_redirects(node));
+		return(ft_execute_node(node->left, ast));
+	}
+	return (0);
 }
 
 int ft_execute_redirect(t_binary_tree_node *node) //recebe nó com lista de redirecionamentos e executa os redirecionamentos.

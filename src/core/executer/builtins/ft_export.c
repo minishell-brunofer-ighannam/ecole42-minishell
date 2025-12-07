@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 15:40:29 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 13:26:29 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 15:12:20 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,62 @@
 
 static void	ft_keys_export(t_linkedlist_array *export, char **keys_export);
 static void	ft_print_export(t_linkedlist_array *ht, char *key);
+static int	ft_validate_key_export(t_ht *content);
 
-void	ft_export(t_linkedlist_array *ht_env, const char *key_value)
+int	ft_export(t_linkedlist_array *ht_env, const char *key_value)
 {
-	char			**keys_export;
-	int				i;
-	t_ht *content;
-	t_env_value *value;
+	char		**keys_export;
+	int			i;
+	t_ht		*content;
+	t_env_value	*value;
 
 	if (!key_value)
 	{
 		keys_export = ft_calloc(ht_env->nodes_amount + 1, sizeof(char *));
 		ft_keys_export(ht_env, keys_export);
 		ft_ordene_array_str(keys_export);
-		i = 0;
-		while (keys_export[i])
-		{
+		i = -1;
+		while (keys_export[++i])
 			ft_print_export(ht_env, keys_export[i]);
-			i++;
-		}
 		free(keys_export);
-		return ;
+		return (0);
 	}
 	content = ft_content_node_ht(key_value);
 	value = content->value;
+	if (ft_validate_key_export(content) == 0)
+		return (1);
 	if (value->value || !ft_find_ht(ht_env, content->key))
 		ft_include_item_ht(ht_env, content, ft_free_item_ht_env);
+	return (0);
+}
+
+static int	ft_validate_key_export(t_ht *content)
+{
+	int		i;
+	char	*key;
+
+	key = content->key;
+	i = -1;
+	while (key[++i])
+	{
+		if (ft_isalnum(key[i]) == 0 && key[i] != '_')
+		{
+			i = 0;
+			break;
+		}
+	}
+	if (((ft_isalpha(key[0]) == 0) && key[0] != '_') || i == 0)
+	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(content->key, 2);
+		ft_putstr_fd(((t_env_value *)(content->value))->value, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		free(content->key);
+		free(content->value);
+		free(content);
+		return (0);
+	}
+	return (1);
 }
 
 static void	ft_keys_export(t_linkedlist_array *export, char **keys_export)
@@ -89,4 +119,3 @@ static void	ft_print_export(t_linkedlist_array *ht, char *key)
 			printf("declare -x %s=\"\"\n", content->key);
 	}
 }
-
