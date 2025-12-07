@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 18:07:31 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 20:50:37 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 	int status;
 	pid_t pid;
 	char *path;
+	struct stat s;
 
 	status = 0;
 	ft_built_args(node); //expande e monta o args para o comando
@@ -48,21 +49,53 @@ int ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 		if (pid == 0)
 		{
 			ft_handle_sig_child();
-			status = execve(path, ft_get_argv(node), ft_get_envp(node));
-			if (status == -1)
+			if (stat(path, &s) == -1)
 			{
-				if (errno == EISDIR)
-				{
-					ft_putstr_fd("minishell: ", STDERR_FILENO);
-					ft_putstr_fd(path, STDERR_FILENO);
-					ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
-				}
 				if (errno == EACCES)
 				{
 					ft_putstr_fd("minishell: ", STDERR_FILENO);
 					ft_putstr_fd(path, STDERR_FILENO);
 					ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+					status = 126;
 				}
+				if (errno == ENOENT)
+				{
+					ft_putstr_fd("minishell: ", STDERR_FILENO);
+					ft_putstr_fd(path, STDERR_FILENO);
+					ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+					status = 127;
+				}
+				free(path);
+				ft_free_argv(node);
+				ft_set_flag_destroy_exec(node);
+				ast->destroy(&ast, free_ast_node);
+				exit (status);
+			}
+			if (S_ISDIR(s.st_mode))
+			{
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				ft_putstr_fd(path, STDERR_FILENO);
+				ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+				free(path);
+				ft_free_argv(node);
+				ft_set_flag_destroy_exec(node);
+				ast->destroy(&ast, free_ast_node);
+				exit (126);
+			}
+			if (!(s.st_mode & S_IXUSR))
+			{
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				ft_putstr_fd(path, STDERR_FILENO);
+				ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+				free(path);
+				ft_free_argv(node);
+				ft_set_flag_destroy_exec(node);
+				ast->destroy(&ast, free_ast_node);
+				exit (126);
+			}
+			status = execve(path, ft_get_argv(node), ft_get_envp(node));
+			if (status == -1)
+			{
 				free(path);
 				ft_free_argv(node);
 				ft_set_flag_destroy_exec(node);
