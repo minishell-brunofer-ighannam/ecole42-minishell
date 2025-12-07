@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 17:05:14 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 18:28:39 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ typedef struct s_redirect
 	t_ast_node_type	type;
 	char			*file;
 }					t_redirect;
+
+// EXECUTER
+int					ft_executer(const char *line, void *exec);
 
 // TREE
 int					ft_execute_tree(t_ast *ast);

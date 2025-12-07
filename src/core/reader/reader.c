@@ -3,34 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:57:07 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/07 18:01:00 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/07 18:52:20 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "reader_internal.h"
 
-void	ft_reader(
-			void (*executer)(const char *line, void *exec),
-			void *(*create_exec)(char **envp), char **envp)
+int	ft_reader(int (*executer)(const char *line, void *exec),
+		void *(*create_exec)(char **envp), void (*destroy_exec)(void *exec),char **envp)
 {
 	char	*line;
 	char	*prompt;
 	void	*exec;
+	int status;
 
+	status = 0;
 	exec = create_exec(envp);
-	prompt = ft_get_prompt();
 	while (1)
 	{
 		// ft_handle_sig_parent();
+		prompt = ft_get_prompt();
 		line = readline(prompt);
+		free(prompt);
 		if (!line)
 			break ;
 		add_history(line);
-		executer(line, exec);
+		status = executer(line, &exec);
 		free(line);
 	}
-	free(prompt);
+	destroy_exec(&exec);
+	return (status);
 }

@@ -17,7 +17,7 @@ LIBFT_INCLUDES = -I $(LIBFT_DIR)/includes -I $(LIBFT_DIR)/dependency_includes
 INCLUDES = -I includes $(LIBFT_INCLUDES)
 CC = cc
 # CFLAGS = -Wall -Werror -Wextra -g3 -Ofast -march=native -flto -funroll-loops $(INCLUDES)
-CFLAGS = -Wall -Werror -Wextra -g3 -fPIE -O0 $(INCLUDES)
+CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
 
 # ============== SRC FILES =================
 
@@ -88,7 +88,7 @@ ENV = $(EXEC_DIR)/env/env.c $(EXEC_DIR)/env/expand_var.c $(EXEC_DIR)/env/expand_
 
 EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd.c $(EXEC_DIR)/redirect.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc_i.c \
 	$(EXEC_DIR)/here_doc_ii.c $(EXEC_DIR)/cmd_builtin.c $(EXEC_DIR)/tree.c $(EXEC_DIR)/and.c $(EXEC_DIR)/or.c $(EXEC_DIR)/subshell.c \
-	$(EXEC_DIR)/mapper/mapper.c
+	$(EXEC_DIR)/executer.c  $(EXEC_DIR)/mapper/mapper.c
 
 # ----------------- READER FILES -----------------
 READER_DIR = src/core/reader
@@ -104,7 +104,6 @@ SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(PARSER_FILES) $(BUILTINS) $(READER) $
 
 # ============== PROGRAM FILES =================
 MAIN_PROGRAM=src/main.c
-SKETCH_PROGRAM=src/sketch_main.c
 
 # ============== PROGRAM DEPENDENCIES =================
 
@@ -116,14 +115,13 @@ SLEEP = 0.07
 # ============== COMPILATION =================
 OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
-OBJ_SKETCH_PROGRAM = $(SKETCH_PROGRAM:%.c=%.o)
 
 COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 
 TEST_PROGRAMS = linkedlist linkedlist_array binary_tree raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
 create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
-lexer ast_build parser sketch
+lexer ast_build parser
 
 
 
@@ -170,10 +168,6 @@ stats:
 $(NAME): $(COMPILATION_DEPENDENCIES) $(OBJ_MAIN_PROGRAM)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) $(OBJS) $(OBJ_MAIN_PROGRAM) $(LIBFT)  -o $@ $(DEPENDENCIES)
-
-sketch: $(COMPILATION_DEPENDENCIES) $(OBJ_SKETCH_PROGRAM)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) $(OBJS) $(OBJ_SKETCH_PROGRAM) $(LIBFT)  -o $@ $(DEPENDENCIES)
 
 $(LIBFT):
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 14:42:13 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 16:51:16 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 18:55:45 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ int	ft_exit(t_binary_tree_node *node, t_ast	*ast)
 		status = 2;
 	else if (ft_get_argv(node)[2] != NULL)
 	{
-		ft_putstr_fd("minishell: exit: too many arguments", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (1);
 	}
 	else
 		status = ft_atoi(ft_get_argv(node)[1]);
+	ft_free_argv(node);
 	ft_set_flag_destroy_exec(node);
 	ast->destroy(&ast, free_ast_node);
 	status = status % 256;
