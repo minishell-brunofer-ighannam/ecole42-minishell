@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 17:20:19 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 18:07:31 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,12 @@ int ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 	{
 		ft_free_argv(node);
 		return (1);
-	}	
+	}
+	if (ft_get_argv(node)[0] == NULL)
+	{
+		ft_free_argv(node);
+		return (status);
+	}
 	if (ft_is_builtin(ft_get_tokens(node)[0]->last_build->token_expanded) == 1)
 	{
 		status = ft_execute_builtin(node, ast);
@@ -105,13 +110,19 @@ void ft_built_args(t_binary_tree_node *node)
 {
 	t_token **token;
 	int i;
+	int j;
 
 	ft_init_argv(node, ft_expand_tokens(node) + 1);
 	i = 0;
+	j = 0;
 	token = ft_get_tokens(node);
 	while (token[i])
 	{
-		ft_set_argv(node, i, token[i]->last_build->token_expanded);
+		if (token[i]->last_build->token_expanded[0] != '\0')
+		{
+			ft_set_argv(node, j, token[i]->last_build->token_expanded);
+			j++;
+		}
 		i++;
 	}
 }
