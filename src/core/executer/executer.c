@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reader.h                                           :+:      :+:    :+:   */
+/*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/07 17:02:39 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/07 18:30:30 by ighannam         ###   ########.fr       */
+/*   Created: 2025/12/07 18:18:47 by ighannam          #+#    #+#             */
+/*   Updated: 2025/12/07 18:36:02 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READER_H
-# define READER_H
+#include "executer.h"
 
-# include <readline/history.h>
-# include <readline/readline.h>
+int	ft_executer(const char *line, void *exec)
+{
+	t_expander_callbacks	callbacks;
+	t_ast					*ast;
+	t_exec					**exec_ref;
+	int						status;
 
-int	ft_reader(int (*executer)(const char *line, void *exec),
-		void *(*create_exec)(char **envp), void (*destroy_exec)(void *exec),char **envp);
-
-#endif
+	status = 0;
+	exec_ref = exec;
+	callbacks = ft_create_expander_callbacks(ft_expand_var, ft_expand_glob);
+	ast = ft_parser(line, callbacks, exec_ref, free_ast_node);
+	if (ast)
+		status = ft_execute_tree(ast);
+	return (status);
+}
