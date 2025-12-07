@@ -21,7 +21,7 @@ t_exec	*ft_built_exec(char **envp)
 	exec->ht_env = ft_init_ht_env(envp);
 	exec->fds[0] = dup(STDIN_FILENO);
 	exec->fds[1] = dup(STDOUT_FILENO);
-	exec->destroy = ft_calloc(1, sizeof(bool));
+	exec->destroy = false;
 	return (exec);
 }
 
@@ -30,28 +30,51 @@ void ft_free_exec(void *exec)
 	t_exec *exec_node;
 
 	if (!exec)
+    	return;
+	exec_node = exec;
+	if (exec_node->freed == 1)
 		return ;
-	exec_node = (t_exec *)exec;
-	if (exec_node && exec_node->file_heredoc)
+	if (exec_node && exec_node->heredoc_files)
 	{
-		free(exec_node->file_heredoc);
-		exec_node->file_heredoc = NULL;
+		exec_node->heredoc_files->destroy(&exec_node->heredoc_files, ft_free_heredoc_file_item);
+		exec_node->heredoc_files = NULL;
 	}
 	if (exec_node && exec_node->heredoc)
 	{
 		exec_node->heredoc->destroy(&exec_node->heredoc, NULL);
 		exec_node->heredoc = NULL;
 	}
-	if (exec_node && exec_node->argv)
-	{
-		free(exec_node->argv);
-		exec_node->argv = NULL;
-	}
 	if (exec_node && exec_node->redirect)
 	{
 		exec_node->redirect->destroy(&exec_node->redirect, ft_free_item_redirect);
 		exec_node->redirect = NULL;
 	}
+	if (exec_node->destroy == true)
+		ft_destroy_exec(exec);
+}
+
+void ft_destroy_exec(void *exec)
+{
+	t_exec *exec_node;
+
+	if (!exec)
+		return;
+	exec_node = exec;
+	if (exec_node->freed == 1)
+		return ;
+	if (exec_node->fds[0] != -1)
+    	close(exec_node->fds[0]);
+	if (exec_node->fds[1] != -1)
+    	close(exec_node->fds[1]);
+	exec_node->fds[0] = -1;
+	exec_node->fds[1] = -1;
+	if (exec_node->ht_env)
+	{
+		exec_node->ht_env->destroy(&(exec_node->ht_env), ft_free_item_ht_env);
+		exec_node->ht_env = NULL;
+	}
+	exec_node->destroy = false;
+	exec_node->freed = 1;
 }
 
 void ft_set_flag_destroy_exec(t_binary_tree_node *node)
@@ -59,27 +82,28 @@ void ft_set_flag_destroy_exec(t_binary_tree_node *node)
 	t_ast_node *ast_node;
 
 	ast_node = (t_ast_node *)(node->content);
-	*(((t_exec *)(ast_node->exec))->destroy) = true;
+	((t_exec *)(ast_node->exec))->destroy = true;
 }
 
-void ft_set_file_heredoc(t_binary_tree_node *node, char *file)
+char *ft_get_next_heredoc_file(t_binary_tree_node *node)
 {
+	char *file;
 	t_ast_node *ast_node;
 	t_exec *exec;
 
 	ast_node = (t_ast_node *)(node->content);
 	exec = (t_exec *)(ast_node->exec);
-	exec->file_heredoc = file;
+	file = ft_strdup((char *)exec->heredoc_files->first->content);
+	exec->heredoc_files->remove(exec->heredoc_files, exec->heredoc_files->first, ft_free_heredoc_file_item);
+	return (file);
 }
 
-char *ft_get_file_heredoc(t_binary_tree_node *node)
+void ft_free_heredoc_file_item(void *arg)
 {
-	t_ast_node *ast_node;
-	t_exec *exec;
+	char *file;
 
-	ast_node = (t_ast_node *)(node->content);
-	exec = (t_exec *)(ast_node->exec);
-	return (exec->file_heredoc);
+	file = (char *)arg;
+	free(file);
 }
 
 int ft_get_fd_in(t_binary_tree_node *node)

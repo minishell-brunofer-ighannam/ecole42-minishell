@@ -77,33 +77,14 @@ static void	*ft_destroy_ast_node(t_ast_node **self_ref,
 static void	*ft_destroy_ast(t_ast **self_ref, void (*free_content)(void *arg))
 {
 	t_ast	*self;
-	t_exec	*exec;
 
 	if (!self_ref || !*self_ref)
 		return (NULL);
 	self = *self_ref;
-	exec = (t_exec	*)(((t_ast_node *)(self->tree->root->content))->exec);
 	self->tree->destroy(&self->tree, free_content);
 	self->lexer->destroy(&self->lexer);
 	free(self);
-	if (*exec->destroy == true)
-		ft_destroy_exec(exec);
 	*self_ref = NULL;
 	return (NULL);
-}
-
-void ft_destroy_exec(t_exec *exec)
-{
-	if (!exec)
-		return ;
-	close(exec->fds[0]);
-	close(exec->fds[1]);
-	exec->ht_env->destroy(&(exec->ht_env), ft_free_item_ht_env);
-	if (exec && exec->destroy)
-	{
-		free(exec->destroy);
-		exec->destroy = NULL;
-	}
-	free(exec);
 }
 

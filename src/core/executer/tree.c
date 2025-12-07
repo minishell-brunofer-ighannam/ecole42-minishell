@@ -20,6 +20,7 @@ int ft_execute_tree(t_ast *ast)
 	t_binary_tree_node *node;
 
 	node = ast->tree->root;
+	//exec = ((t_ast_node *)(node->content))->exec;
 	ret = ft_execute_heredocs(node); //primeiro percorrer toda a árvore e tratar todos os heredocs. Se algum der errado (ctrl C), nem executa mais nada.
 	//ft_handle_sig_parent();
 	if (ret != 0)
@@ -40,7 +41,7 @@ int ft_execute_tree(t_ast *ast)
 	free(value);
 	dup2(ft_get_fd_out(ast->tree->root), STDOUT_FILENO);
 	dup2(ft_get_fd_in(ast->tree->root), STDIN_FILENO);
-	ast->destroy(&ast, free_ast_node);
+	ast->destroy(&ast, free_ast_node);	
 	return (ret);
 }
 
@@ -70,12 +71,10 @@ int ft_execute_node(t_binary_tree_node *node, t_ast	*ast)
 void	free_ast_node(void *arg)
 {
 	t_ast_node	*node;
-	t_exec *exec;
 
 	if (!arg)
 		return ;
 	node = (t_ast_node *)arg;
-	exec = (t_exec *)(node->exec);
 	node->destroy(&node, ft_free_exec);
 }
 

@@ -24,6 +24,7 @@ int	ft_execute_heredocs(t_binary_tree_node *node)
 
 	heredoc = ft_find_all_heredoc(node);
 	((t_exec *)(((t_ast_node *)(node->content))->exec))->heredoc = heredoc;
+	((t_exec *)(((t_ast_node *)(node->content))->exec))->heredoc_files = ft_new_linkedlist();
 	item_list = heredoc->last;
 	while (item_list)
 	{
@@ -65,7 +66,6 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 	else
 		is_expandable = 0;
 	if (ft_read_line_heredoc(fd, delimit, is_expandable, node) != 0)
-	// tratamento para se der problema(ex.: ctrl-C)
 	{
 		close(fd);
 		unlink(file);
@@ -75,7 +75,7 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 	}
 	close(fd);
 	free(delimit);
-	ft_set_file_heredoc(node, file);
+	(((t_exec *)(((t_ast_node *)(node->content))->exec))->heredoc_files)->push((((t_exec *)(((t_ast_node *)(node->content))->exec))->heredoc_files), file);
 	return (0);
 }
 

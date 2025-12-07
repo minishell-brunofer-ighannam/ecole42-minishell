@@ -22,7 +22,7 @@ int ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 	ft_built_args(node); //expande e monta o args para o comando
 	if (ft_execute_redirect(node) == 1) //executa os redirects. Se algum der errado, não executa o comando.
 	{
-		//ft_free_argv(node);
+		ft_free_argv(node);
 		return (1);
 	}	
 	if (ft_is_builtin(ft_get_tokens(node)[0]->value) == 1)
@@ -56,7 +56,7 @@ int ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 		}
 		if (waitpid(pid, &status, 0) == -1)
 		{
-			//ft_free_argv(node);
+			ft_free_argv(node);
 			perror("waitpid");
 			return (1);
 		}
