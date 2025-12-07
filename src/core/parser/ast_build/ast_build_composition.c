@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_build_composition.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 21:13:13 by valero            #+#    #+#             */
-/*   Updated: 2025/11/30 21:13:56 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/07 20:25:23 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ void	ft_push_node_composition(int sep_idx, t_ast_node_type type,
 		ft_create_ast_node(subset_left->tokens, type, exec));
 	subset_left->destroy(&subset_left);
 	subset_left = ctx->prev_subset->subset(ctx->prev_subset, 0, sep_idx - 1);
-	subset_right = ctx->prev_subset->subset(ctx->prev_subset, sep_idx + 1, ctx->prev_subset->size - 1);
+	subset_right = ctx->prev_subset->subset(
+			ctx->prev_subset, sep_idx + 1, ctx->prev_subset->size - 1);
 	next_node = ft_get_next_node(ctx->ast, ctx->tree_node, ctx->on_left);
-	next_context = ft_create_buid_ast_context(ctx->ast, next_node, true, subset_left);
+	next_context = ft_create_buid_ast_context(
+			ctx->ast, next_node, true, subset_left);
 	ft_build_ast_node(&next_context, exec);
-	next_context = ft_create_buid_ast_context(ctx->ast, next_node, false, subset_right);
+	next_context = ft_create_buid_ast_context(
+			ctx->ast, next_node, false, subset_right);
 	ft_build_ast_node(&next_context, exec);
 	if (subset_left)
 		subset_left->destroy(&subset_left);

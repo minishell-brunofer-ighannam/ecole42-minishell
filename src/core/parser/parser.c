@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:37:53 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 18:11:59 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/07 20:22:39 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	ft_get_syntact_error(t_ast *ast);
 static void	ft_print_syntact_error(t_ast *ast, int error_idx);
+static void	ft_print_original_prompt(
+				const char *original_prompt, t_token *target_token);
 
 t_ast	*ft_parser(const char *prompt, t_expander_callbacks callbacks,
 			void *exec, void (*free_content)(void *arg))
@@ -69,18 +71,7 @@ static void	ft_print_syntact_error(t_ast *ast, int error_idx)
 	if (!target_token)
 		return ;
 	original_prompt = ast->lexer->original_prompt;
-	idx = -1;
-	while (original_prompt[++idx] && idx < target_token->coord_in_src[1] + 20)
-	{
-		if (idx < target_token->coord_in_src[0]
-			|| idx > target_token->coord_in_src[1])
-			ft_putchar_fd((char)original_prompt[idx], 2);
-		else
-		{
-			ft_print_bold_read((char *)target_token->value, 2);
-			idx = target_token->coord_in_src[1];
-		}
-	}
+	ft_print_original_prompt(original_prompt, target_token);
 	pointer_idx = (target_token->coord_in_src[0]
 			+ target_token->coord_in_src[1]) / 2;
 	idx = -1;
@@ -90,6 +81,27 @@ static void	ft_print_syntact_error(t_ast *ast, int error_idx)
 		if (idx < pointer_idx)
 			ft_putchar_fd(' ', 2);
 		else
-			ft_print_bold_read("^  syntax error: structure in wrong position\n", 2);
+			ft_print_bold_read(
+				"^  syntax error: structure in wrong position\n", 2);
+	}
+}
+
+static void	ft_print_original_prompt(
+				const char *original_prompt, t_token *target_token)
+{
+	int	idx;
+
+	idx = -1;
+	while (original_prompt[++idx]
+		&& idx < target_token->coord_in_src[1] + 20)
+	{
+		if (idx < target_token->coord_in_src[0]
+			|| idx > target_token->coord_in_src[1])
+			ft_putchar_fd((char)original_prompt[idx], 2);
+		else
+		{
+			ft_print_bold_read((char *)target_token->value, 2);
+			idx = target_token->coord_in_src[1];
+		}
 	}
 }
