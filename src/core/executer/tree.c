@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:40:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/05 13:59:05 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 20:50:13 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	free_ast_node(void *arg)
 	node = (t_ast_node *)arg;
 	node->destroy(&node, ft_free_exec);
 }
-
 
 
 

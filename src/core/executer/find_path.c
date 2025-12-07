@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:26 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 17:00:09 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 20:20:41 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*ft_aux_find_path(char **possible_paths, char *cmd)
 	char	*path;
 	char	*path_temp;
 
-	if (ft_strchr(cmd, '/') && access(cmd, F_OK) == 0)
+	if (ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
 	i = -1;
 	if (!possible_paths || ft_strlen(cmd) == 0)
@@ -66,7 +66,7 @@ static char	*ft_aux_find_path(char **possible_paths, char *cmd)
 		else
 			free(path);
 	}
-	path = ft_strjoin("command not found: ", cmd);
+	path = ft_strjoin(cmd, " : command not found");
 	ft_putstr_fd(path, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	free(path);
