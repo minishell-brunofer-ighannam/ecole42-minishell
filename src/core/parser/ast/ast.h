@@ -40,18 +40,7 @@ enum							e_ast_node_type
 	AST_NODE_APPEND_OUT = '>' << 8 | '>',
 };
 
-typedef struct s_exec			t_exec;
-struct							s_exec
-{
-	t_linkedlist_array			*ht_env;
-	t_linkedlist				*redirect;
-	t_linkedlist				*heredoc;
-	char						*file_heredoc;
-	char						**envp;
-	char						**argv;
-	int							fds[2];
-	bool						*destroy;
-};
+typedef struct s_exec		t_exec;
 
 typedef struct s_ast_node		t_ast_node;
 struct							s_ast_node
@@ -81,6 +70,5 @@ bool							ft_is_reserved_node(t_ast_node *node);
 t_ast_node						*ft_create_ast_node(t_token **tokens,
 									t_ast_node_type type, void *exec);
 t_ast							*ft_create_ast(t_lexer *lexer);
-void							ft_destroy_exec(t_exec *exec);
 
 #endif
