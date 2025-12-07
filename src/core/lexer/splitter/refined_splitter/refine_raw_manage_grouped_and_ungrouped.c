@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:58:40 by valero            #+#    #+#             */
-/*   Updated: 2025/12/04 20:06:07 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/07 16:15:25 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,19 @@ static void	ft_jump_useless_quotes(char *str, int *curr_idx)
 static void	manage_quote_behavior(
 				t_chunck token, t_refine_raw_token_vars *refine)
 {
-	while (!refine->found_quote && ft_is_quote(token.chunck, refine->idx, NULL)
-		&& ft_is_quote(token.chunck, refine->idx + 1, NULL))
-		refine->idx++;
-	if (!refine->found_quote && ft_is_quote(token.chunck, refine->idx, NULL)
-		&& ft_is_quote(token.chunck, refine->idx - 1, NULL))
+	int	quote_end_idx;
+
+	quote_end_idx = refine->idx;
+	if (!refine->found_quote && ft_is_quote(token.chunck, refine->idx, NULL))
+		while (ft_is_quote(token.chunck, quote_end_idx, NULL)
+			&& ft_is_quote(token.chunck, quote_end_idx + 1, NULL))
+			quote_end_idx++;
+	if (quote_end_idx != refine->idx
+		&& (quote_end_idx - refine->idx + 1) % 2 == 0)
+	{
+		refine->idx = quote_end_idx;
 		return ;
+	}
 	if (refine->idx > 0 && !refine->found_quote)
 	{
 		refine->found_quote = token.chunck[refine->idx];

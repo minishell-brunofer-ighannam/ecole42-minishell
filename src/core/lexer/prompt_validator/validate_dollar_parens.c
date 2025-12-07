@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_dollar_parens.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 04:32:23 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 04:32:28 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/07 13:18:34 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	ft_validate_dollar_parens(const char *line)
 	i = -1;
 	while (line[++i])
 	{
+		if (open_dollar_parens_index == -1 && ft_is_special_char(line, i, "\""))
+			jump_quotes(line, &i);
 		if (open_dollar_parens_index > -1)
 			jump_inner_structures(line, &i, other_openning_idx, open_dollar_parens_index);
 		if (!line[i])

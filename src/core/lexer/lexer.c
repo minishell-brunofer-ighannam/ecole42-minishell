@@ -44,6 +44,8 @@ t_lexer	*ft_lexer(
 	t_expander_callbacks	callbacks;
 	int						error_idx;
 
+	if (!prompt || !*prompt)
+		return (NULL);
 	error_idx = ft_prompt_validator(prompt);
 	if (error_idx > -1)
 	{

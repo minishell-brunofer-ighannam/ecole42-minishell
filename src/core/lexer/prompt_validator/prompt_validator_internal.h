@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_validator_internal.h                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:04:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/29 21:59:14 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/07 13:17:57 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_char_checker	ft_char_checker(const char *str, int idx, char *chars,
 					bool (*is_special_char)(
 						const char *str, int idx, char *chars));
 
+void			jump_quotes(const char *line, int *idx);
 void			jump_to_closing(
 					const char *line, int *idx,
 					int *inner_openning_idx, int (*validate)(const char *line),

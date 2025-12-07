@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structure_jump.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 08:55:01 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/29 21:08:38 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/07 13:17:31 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,14 @@ void	jump_to_closing(
 	}
 	else
 		*idx = get_end(line, *idx, ft_is_special_char, (char *)structure) + 1;
+}
+
+void	jump_quotes(const char *line, int *idx)
+{
+	if (ft_is_special_char(line, *idx, "\""))
+		*idx = get_end(line, *idx, ft_is_special_char, "\"") + 1;
+	if (ft_is_special_char(line, *idx, "'"))
+		*idx = get_end(line, *idx, ft_is_special_char, "'") + 1;
 }
 
 static char	ft_get_corresponding_closing(const char *str)
