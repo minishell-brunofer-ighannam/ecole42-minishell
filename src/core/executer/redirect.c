@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/05 08:50:38 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 13:14:45 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int ft_visit_redirect(t_binary_tree_node *node, t_ast *ast)
 {
 	t_redirect *content;
 
+	ft_expand_tokens(node);
 	content = ft_calloc(1, sizeof(t_redirect));
 	if (ft_get_type(node) == AST_NODE_HERE_DOC_IN)
 	{
@@ -29,7 +30,7 @@ int ft_visit_redirect(t_binary_tree_node *node, t_ast *ast)
 		ft_free_argv(node);
 	}
 	else
-		content->file = (char *)ft_get_tokens(node)[1]->value;
+		content->file = (char *)ft_get_tokens(node)[1]->last_build->token_expanded;
 	content->type = ft_get_type(node);
 	ft_push_redirect(node, content);
 	if (!node->left)
@@ -49,7 +50,7 @@ int ft_visit_redirect(t_binary_tree_node *node, t_ast *ast)
 		ft_execute_redirect(node);
 		return(ft_execute_subshell(node->left, ast));
 	}
-	return (3);	
+	return (1);	
 }
 
 int ft_execute_redirect(t_binary_tree_node *node) //recebe nó com lista de redirecionamentos e executa os redirecionamentos.
@@ -75,14 +76,10 @@ int ft_execute_redirect(t_binary_tree_node *node) //recebe nó com lista de redi
 		else if (content->type == AST_NODE_APPEND_OUT)
 			ret = ft_execute_append_out(node_redir);
 		if (ret != 0)
-		{
-			//(*list_redir)->destroy(list_redir, ft_free_item_redirect);
 			return (ret);
-		}	
 		node_redir = node_redir->prev;
 		size--;
 	}
-	//(*list_redir)->destroy(list_redir, ft_free_item_redirect);
 	return (0);	
 }
 
