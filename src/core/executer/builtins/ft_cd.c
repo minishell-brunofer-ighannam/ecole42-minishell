@@ -6,13 +6,14 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 11:31:58 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/04 11:14:44 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/07 15:25:50 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../executer.h"
 
 static void	ft_update_ht(t_binary_tree_node *node, char *pwd, char *old_pwd);
+static int	ft_verify_cd(t_binary_tree_node *node);
 
 int	ft_cd(t_binary_tree_node *node)
 {
@@ -20,24 +21,36 @@ int	ft_cd(t_binary_tree_node *node)
 	char	*old_pwd;
 
 	old_pwd = ft_strdup(((t_env_value *)((t_ht *)((t_linkedlist_node *)ft_find_ht(ft_get_ht_env(node),
-						"PWD"))->content)->value)->value);
-	if (!(ft_get_tokens(node))[1])
-	{
-		ft_putstr_fd("cd: missing argument\n", STDERR_FILENO);
-		return (1);
-	}
-	if (chdir((ft_get_tokens(node))[1]->value) == -1)
-	{
-		perror("cd");
-		return (1);
-	}
+							"PWD"))->content)->value)->value);
 	pwd = getcwd(NULL, 0);
+	if (ft_verify_cd(node) == 1)
+		return (1);
 	if (!pwd)
 	{
 		perror("getcwd");
 		return (1);
 	}
 	ft_update_ht(node, pwd, old_pwd);
+	return (0);
+}
+
+static int	ft_verify_cd(t_binary_tree_node *node)
+{
+	if (!(ft_get_tokens(node))[1])
+	{
+		ft_putstr_fd("cd: missing argument\n", STDERR_FILENO);
+		return (1);
+	}
+	if (ft_get_argv(node)[2] != NULL)
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
+	if (chdir((ft_get_tokens(node))[1]->last_build->token_expanded) == -1)
+	{
+		perror("cd");
+		return (1);
+	}
 	return (0);
 }
 
