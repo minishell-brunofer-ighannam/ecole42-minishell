@@ -17,7 +17,7 @@ LIBFT_INCLUDES = -I $(LIBFT_DIR)/includes -I $(LIBFT_DIR)/dependency_includes
 INCLUDES = -I includes $(LIBFT_INCLUDES)
 CC = cc
 # CFLAGS = -Wall -Werror -Wextra -g3 -Ofast -march=native -flto -funroll-loops $(INCLUDES)
-CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
+CFLAGS = -Wall -Werror -Wextra -g3 -fPIE -O0 $(INCLUDES)
 
 # ============== SRC FILES =================
 
