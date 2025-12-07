@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntactic_analysis.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:25:32 by valero            #+#    #+#             */
-/*   Updated: 2025/12/01 18:33:50 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/07 16:51:18 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void	ft_analyse_tree_nodes(t_binary_tree_node *node, t_lexer *lexer)
 	content = node->content;
 	if (ft_is_logic_node(content))
 		ft_analyse_logic_node(node, lexer);
+	else if (ft_is_subshell_node(content))
+		ft_analyse_subshell_node(node, lexer);
 	else if (ft_is_pipe_node(content))
 		ft_analyse_pipe_node(node, lexer);
 	else if (ft_is_redirect_node(content))

@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   syntactic_analysis_internal.h                      :+:      :+:    :+:   */
+/*   reader.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/01 13:15:02 by valero            #+#    #+#             */
-/*   Updated: 2025/12/07 16:49:22 by brunofer         ###   ########.fr       */
+/*   Created: 2025/12/07 17:02:39 by brunofer          #+#    #+#             */
+/*   Updated: 2025/12/07 17:41:15 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYNTACTIC_ANALYSIS_INTERNAL_H
-# define SYNTACTIC_ANALYSIS_INTERNAL_H
+#ifndef READER_H
+# define READER_H
 
-# include "syntactic_analysis.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 
-void	ft_analyse_subshell_node(t_binary_tree_node *node, t_lexer *lexer);
-void	ft_analyse_logic_node(t_binary_tree_node *node, t_lexer *lexer);
-void	ft_analyse_pipe_node(t_binary_tree_node *node, t_lexer *lexer);
-void	ft_analyse_redirect_node(t_binary_tree_node *node);
+void	ft_reader(
+			void (*executer)(const char *line, void *exec),
+			void *(*create_exec)(char **envp), char **envp);
 
 #endif
