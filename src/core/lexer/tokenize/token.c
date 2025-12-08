@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/02 19:27:24 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 15:28:19 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ static t_token_type	ft_get_token_type(const char *token)
 	int	len;
 
 	len = ft_strlen(token);
-	if (len == 1 && ft_strchr("|()<>;&", token[0])) // | ( ) < > ; &
+	if (len == 1 && ft_strchr("|()<>;&", token[0]))
 		return (token[0]);
-	else if (len == 2 &&
-				((token[0] == '>' && ft_strchr("|&>", token[1]))   // >| >& >>
-				|| (token[0] == '&' && ft_strchr("&>", token[1])) // && &>
-				|| (token[0] == '<' && ft_strchr("<>", token[1])) // << <>
-				|| (token[0] == '|' && token[1] == '|')           // ||
-				|| (token[0] == '2' && token[1] == '>')))         // 2>
+	else if (len == 2
+		&& ((token[0] == '>' && ft_strchr("|&>", token[1]))
+			|| (token[0] == '&' && ft_strchr("&>", token[1]))
+			|| (token[0] == '<' && ft_strchr("<>", token[1]))
+			|| (token[0] == '|' && token[1] == '|')
+			|| (token[0] == '2' && token[1] == '>')))
 		return (token[0] << 8 | token[1]);
 	else
 		return (TOKEN_UNKNOWN);

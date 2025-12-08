@@ -6,18 +6,11 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:55:11 by valero            #+#    #+#             */
-/*   Updated: 2025/11/29 23:47:22 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/08 15:30:00 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt_validator_internal.h"
-
-static int	get_end_backquotes(const char *str, int idx,
-				bool (*is_special_char)(const char *str, int idx, char *chars),
-				char *chars);
-static int	get_end_doublequotes(const char *str, int idx,
-				bool (*is_special_char)(const char *str, int idx, char *chars),
-				char *chars);
 
 /**
  * # get_end
@@ -75,14 +68,9 @@ int	get_end_parens(const char *str, int idx,
 	i = idx;
 	while (str[++i])
 	{
-		if (ft_is_dollar_parens(str, i, is_special_char))
-			i = get_end_dollar_parens(str, i, is_special_char, ")") + 1;
 		if (ft_is_parens(str, i, is_special_char))
 			opened_times++;
-		if (is_special_char(str, idx, "`"))
-			i = get_end_backquotes(str, idx, is_special_char, "`") + 1;
-		if (is_special_char(str, i, "\""))
-			i = get_end_doublequotes(str, i, is_special_char, "\"") + 1;
+		ft_skip_inner_of_parens(str, &i, idx, is_special_char);
 		if (!str[i - 1] || !str[i])
 			return (idx + 1);
 		if (is_special_char(str, i, chars))
@@ -121,12 +109,7 @@ int	get_end_dollar_parens(const char *str, int idx,
 	{
 		if (ft_is_dollar_parens(str, i, is_special_char))
 			opened_times++;
-		if (ft_is_parens(str, i, is_special_char))
-			i = get_end_parens(str, i, is_special_char, ")") + 1;
-		if (is_special_char(str, idx, "`"))
-			i = get_end_backquotes(str, idx, is_special_char, "`") + 1;
-		if (is_special_char(str, i, "\""))
-			i = get_end_doublequotes(str, i, is_special_char, "\"") + 1;
+		ft_skip_inner_of_dollar_parens(str, &i, idx, is_special_char);
 		if (!str[i - 1] || !str[i])
 			return (idx + 1);
 		if (is_special_char(str, i, chars))
@@ -143,7 +126,7 @@ int	get_end_dollar_parens(const char *str, int idx,
 	return (i);
 }
 
-static int	get_end_backquotes(const char *str, int idx,
+int	get_end_backquotes(const char *str, int idx,
 			bool (*is_special_char)(const char *str, int idx, char *chars),
 			char *chars)
 {
@@ -171,7 +154,7 @@ static int	get_end_backquotes(const char *str, int idx,
 	return (i);
 }
 
-static int	get_end_doublequotes(const char *str, int idx,
+int	get_end_doublequotes(const char *str, int idx,
 			bool (*is_special_char)(const char *str, int idx, char *chars),
 			char *chars)
 {

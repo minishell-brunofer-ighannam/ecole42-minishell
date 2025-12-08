@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_validator_internal.h                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:04:48 by valero            #+#    #+#             */
-/*   Updated: 2025/12/07 13:17:57 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/08 15:30:30 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,43 +35,72 @@ typedef struct s_char_checker
 	bool		(*is_special_char)(const char *str, int idx, char *chars);
 }	t_char_checker;
 
-int				ft_get_smaller(int len, int *arr);
-bool			ft_is_parens(const char *str, int idx,
-					bool (*is_special_char)(const char *str,
-						int idx, char *chars));
-bool			ft_is_dollar_parens(const char *str, int idx,
-					bool (*is_special_char)(const char *str,
-						int idx, char *chars));
-int				get_end(const char *str, int idx,
-					bool (*is_special_char)(
-						const char *str, int idx, char *chars),
-					char *chars);
-int				get_end_parens(const char *str, int idx,
-					bool (*is_special_char)(
-						const char *str, int idx, char *chars),
-					char *chars);
-int				get_end_dollar_parens(const char *str, int idx,
-					bool (*is_special_char)(
-						const char *str, int idx, char *chars),
-					char *chars);
-int				verify_char(
-					t_char_checker checker,
-					int (*verify)(const char *line));
-t_char_checker	ft_char_checker(const char *str, int idx, char *chars,
-					bool (*is_special_char)(
-						const char *str, int idx, char *chars));
+typedef struct s_jump_to_closing_params	t_jump_to_closing_params;
+struct s_jump_to_closing_params
+{
+	const char	*line;
+	int			*idx;
+	int			*inner_openning_idx;
+	int			(*validate)(const char *line);
+};
 
-void			jump_quotes(const char *line, int *idx);
-void			jump_to_closing(
-					const char *line, int *idx,
-					int *inner_openning_idx, int (*validate)(const char *line),
-					int open_in_main);
-void			fill_int_array(int *array, int len, int value);
+t_jump_to_closing_params	ft_create_jump_to_closing_params(
+								const char *line, int *idx,
+								int *inner_openning_idx,
+								int (*validate)(const char *line));
+int							ft_get_smaller(int len, int *arr);
+bool						ft_is_parens(const char *str, int idx,
+								bool (*is_special_char)(const char *str,
+									int idx, char *chars));
+bool						ft_is_dollar_parens(const char *str, int idx,
+								bool (*is_special_char)(const char *str,
+									int idx, char *chars));
+void						ft_skip_inner_of_dollar_parens(
+								const char *str, int *i, int idx,
+								bool (*is_special_char)(const char *str,
+									int idx, char *chars));
+void						ft_skip_inner_of_parens(
+								const char *str, int *i, int idx,
+								bool (*is_special_char)(const char *str,
+									int idx, char *chars));
+int							get_end(const char *str, int idx,
+								bool (*is_special_char)(
+									const char *str, int idx, char *chars),
+								char *chars);
+int							get_end_backquotes(const char *str, int idx,
+								bool (*is_special_char)(const char *str,
+									int idx, char *chars),
+								char *chars);
+int							get_end_doublequotes(const char *str, int idx,
+								bool (*is_special_char)(const char *str,
+									int idx, char *chars),
+								char *chars);
+int							get_end_parens(const char *str, int idx,
+								bool (*is_special_char)(
+									const char *str, int idx, char *chars),
+								char *chars);
+int							get_end_dollar_parens(const char *str, int idx,
+								bool (*is_special_char)(
+									const char *str, int idx, char *chars),
+								char *chars);
+int							verify_char(
+								t_char_checker checker,
+								int (*verify)(const char *line));
+t_char_checker				ft_char_checker(
+								const char *str, int idx, char *chars,
+								bool (*is_special_char)(
+									const char *str, int idx, char *chars));
 
-int				ft_validate_doublequotes(const char *line);
-int				ft_validate_backquotes(const char *line);
-int				ft_validate_dollar_parens(const char *line);
-int				ft_validate_parens(const char *line);
-int				ft_validate_singlequotes(const char *line);
+void						jump_quotes(const char *line, int *idx);
+void						jump_to_closing(
+								t_jump_to_closing_params params,
+								int open_in_main);
+void						fill_int_array(int *array, int len, int value);
+
+int							ft_validate_doublequotes(const char *line);
+int							ft_validate_backquotes(const char *line);
+int							ft_validate_dollar_parens(const char *line);
+int							ft_validate_parens(const char *line);
+int							ft_validate_singlequotes(const char *line);
 
 #endif

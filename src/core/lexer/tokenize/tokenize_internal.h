@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/24 23:13:37 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/08 15:27:05 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ char					*ft_normilize_char_matrix(char **matrix);
 t_expansion_build		*ft_build_expansion_result(
 							t_token *token, char *glob_input);
 t_expansion_build		*ft_expansion_build_dup(t_expansion_build *last_build);
-t_expansion_build		*ft_build_expansion(t_token *token, t_linkedlist_array *ht_env);
+t_expansion_build		*ft_build_expansion(
+							t_token *token, t_linkedlist_array *ht_env);
 t_token					*ft_create_token(const char *value, int position,
 							int *coord_in_src,
 							t_expander_callbacks callbacks);

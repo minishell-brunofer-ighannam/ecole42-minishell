@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 20:37:28 by valero            #+#    #+#             */
-/*   Updated: 2025/11/30 21:46:33 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/08 11:32:24 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void				ft_push_node_composition(int sep_idx, t_ast_node_type type,
 void				ft_push_cmd_node(t_buid_ast_context *ctx, void *exec);
 
 // Lexer manipulation
-t_lexer_subset	*ft_create_lexer_subset(t_lexer *lexer, int start, int end);
+t_lexer_subset		*ft_create_lexer_subset(t_lexer *lexer, int start, int end);
 
 // Build utils functions
 t_binary_tree_node	*ft_get_next_node(t_ast *ast,
