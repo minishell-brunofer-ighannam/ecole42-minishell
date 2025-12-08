@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   mapper_internal.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/26 13:34:16 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 17:03:33 by valero           ###   ########.fr       */
+/*   Created: 2025/11/28 17:54:56 by ighannam          #+#    #+#             */
+/*   Updated: 2025/12/08 16:04:35 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#ifndef MAPPER_INTERNAL_H
+# define MAPPER_INTERNAL_H
 
-int	ft_pwd(t_binary_tree_node *node)
-{
-	char		*pwd;
-	t_ht		*ht;
+# include "mapper.h"
+# include "../env/env.h"
+# include "../executer.h"
 
-	ht = ft_find_ht(ft_get_ht_env(node), "PWD")->content;
-	pwd = ((t_env_value *)ht->value)->value;
-	if (!pwd)
-	{
-		perror("pwd");
-		return (1);
-	}
-	printf("%s\n", pwd);
-	return (0);
-}
+#endif

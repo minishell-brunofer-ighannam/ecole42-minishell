@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/28 16:35:57 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/08 15:33:43 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,15 @@ typedef enum e_token_type			t_token_type;
 enum e_token_type
 {
 	TOKEN_UNKNOWN = 'u' << 16 | 'n' << 8 | 'k',
-
 	TOKEN_CMD = 'c' << 16 | 'm' << 8 | 'd',
 	TOKEN_ARG = 'a' << 16 | 'r' << 8 | 'g',
-
 	TOKEN_PIPE = '|',
 	TOKEN_OR = '|' << 8 | '|',
 	TOKEN_AND = '&' << 8 | '&',
-
 	TOKEN_SEMICOLON = ';',
 	TOKEN_BACKGROUND = '&',
-
 	TOKEN_PAREN_OPEN = '(',
 	TOKEN_PAREN_CLOSE = ')',
-
 	TOKEN_REDIRECT_IN = '<',
 	TOKEN_REDIRECT_OUT = '>',
 	TOKEN_HERE_DOC_IN = '<' << 8 | '<',
@@ -56,7 +51,6 @@ enum e_token_type
 	TOKEN_REDIRECT_ERR_OUT = '2' << 8 | '>',
 	TOKEN_REDIRECT_OUT_ERR = '&' << 8 | '>',
 	TOKEN_REDIRECT_OUT_MERGE = '>' << 8 | '&',
-
 	TOKEN_END = '\0'
 };
 
@@ -114,7 +108,6 @@ struct s_token
 	void				*(*destroy)(t_token **self_ref);
 	t_expandable_object	*expandable_object;
 };
-
 
 typedef char						*(*t_expand_var_clbk)(const char *token,
 										t_linkedlist_array *ht_env);

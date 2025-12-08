@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:03:17 by valero            #+#    #+#             */
-/*   Updated: 2025/12/07 12:15:39 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 13:12:58 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,3 @@ static void	*ft_destroy_ast(t_ast **self_ref, void (*free_content)(void *arg))
 	*self_ref = NULL;
 	return (NULL);
 }
-

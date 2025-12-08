@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mapper.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 12:19:20 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:02:47 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MAPPER_H
 
 # include "../../parser/parser.h"
-# include "../env/env.h"
-# include "../executer.h"
 
 typedef struct s_redirect	t_redirect;
 
@@ -30,7 +28,6 @@ struct						s_exec
 	char					**argv;
 	int						fds[2];
 	bool					destroy;
-	int						freed;
 };
 
 t_exec						*ft_built_exec(char **envp);

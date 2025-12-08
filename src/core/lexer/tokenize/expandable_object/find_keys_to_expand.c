@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_keys_to_expand.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 23:05:14 by valero            #+#    #+#             */
-/*   Updated: 2025/12/04 20:35:32 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/08 15:34:17 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static void	ft_extract_keys(
 	section_idx = -1;
 	while (token_section[++section_idx])
 	{
-		if (token_section[section_idx + 1] && ft_is_special_char(token_section, section_idx, "$"))
+		if (token_section[section_idx + 1]
+			&& ft_is_special_char(token_section, section_idx, "$"))
 		{
 			if (ft_is_special_key_char(token_section[section_idx + 1]))
 			{

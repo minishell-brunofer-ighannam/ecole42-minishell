@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 14:42:13 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 18:55:45 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 17:06:40 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-static int ft_verify_number(char *str);
+static int	ft_verify_number(char *str);
 
 int	ft_exit(t_binary_tree_node *node, t_ast	*ast)
 {
-	int status;
+	int	status;
 
 	if (!node->parent)
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
@@ -38,12 +38,12 @@ int	ft_exit(t_binary_tree_node *node, t_ast	*ast)
 	exit(status);
 }
 
-static int ft_verify_number(char *str)
+static int	ft_verify_number(char *str)
 {
-	int i;
+	int	i;
 
 	i = 1;
-	if (str[0] != '+' && str[0] != '-' && ft_isdigit(str[0]) == 0 )
+	if (str[0] != '+' && str[0] != '-' && ft_isdigit(str[0]) == 0)
 	{
 		ft_putstr_fd("minishell: exit:", 2);
 		ft_putstr_fd(str, 2);

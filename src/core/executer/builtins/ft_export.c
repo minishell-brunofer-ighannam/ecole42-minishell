@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 15:40:29 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 15:12:20 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 17:03:48 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	ft_validate_key_export(t_ht *content)
 		if (ft_isalnum(key[i]) == 0 && key[i] != '_')
 		{
 			i = 0;
-			break;
+			break ;
 		}
 	}
 	if (((ft_isalpha(key[0]) == 0) && key[0] != '_') || i == 0)

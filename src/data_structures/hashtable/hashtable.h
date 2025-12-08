@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 11:15:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 20:08:45 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:59:42 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ typedef struct s_ht
 	void			*value;
 }					t_ht;
 
-int		ft_hash(const char *key);
-void	ft_include_item_ht(
-			t_linkedlist_array *ht, t_ht *new,
-			void (*ft_free_item_ht)(void *arg));
-void	*ft_find_ht(t_linkedlist_array *ht, const char *key);
-void	ft_include_item_ht(
-			t_linkedlist_array *ht, t_ht *new,
-			void (*ft_free_item_ht)(void *arg));
-void	ft_remove_item_ht(
-			t_linkedlist_array *ht, t_ht *new,
-			void (*ft_free_item_ht)(void *arg));
+int					ft_hash(const char *key);
+void				ft_include_item_ht(
+						t_linkedlist_array *ht, t_ht *new,
+						void (*ft_free_item_ht)(void *arg));
+t_linkedlist_node	*ft_find_ht(t_linkedlist_array *ht, const char *key);
+void				ft_include_item_ht(
+						t_linkedlist_array *ht, t_ht *new,
+						void (*ft_free_item_ht)(void *arg));
+void				ft_remove_item_ht(
+						t_linkedlist_array *ht, t_ht *new,
+						void (*ft_free_item_ht)(void *arg));
 
 #endif

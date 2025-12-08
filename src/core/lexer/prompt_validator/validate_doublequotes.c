@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_validate_doublequotes.c                            :+:      :+:    :+:   */
+/*   validate_doublequotes.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 21:45:44 by valero            #+#    #+#             */
-/*   Updated: 2025/11/21 15:02:54 by brunofer         ###   ########.fr       */
+/*   Created: 2025/12/08 15:10:54 by valero            #+#    #+#             */
+/*   Updated: 2025/12/08 15:10:56 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt_validator_internal.h"
 
 static void	jump_inner_structures(
-				const char *line, int *idx, int *inner_openning_idx, int open_in_main);
+				const char *line, int *idx,
+				int *inner_openning_idx, int open_in_main);
 static void	update_open_index(int *open_idx, int curr_idx);
 
 /**
@@ -37,7 +38,8 @@ int	ft_validate_doublequotes(const char *line)
 		if (open_quote_index == -1 && ft_is_special_char(line, i, "'"))
 			i = get_end(line, i, ft_is_special_char, "'") + 1;
 		if (open_quote_index > -1)
-			jump_inner_structures(line, &i, other_openning_idx, open_quote_index);
+			jump_inner_structures(
+				line, &i, other_openning_idx, open_quote_index);
 		if (!line[i])
 			break ;
 		if (ft_is_special_char(line, i, "\""))
@@ -59,13 +61,19 @@ int	ft_validate_doublequotes(const char *line)
  * - `$()`
  */
 static void	jump_inner_structures(
-			const char *line, int *idx, int *inner_openning_idx, int open_in_main)
+			const char *line, int *idx,
+			int *inner_openning_idx, int open_in_main)
 {
 	if (ft_is_special_char(line, *idx, "`"))
-		jump_to_closing(line, idx, inner_openning_idx + 0, ft_validate_backquotes, open_in_main);
+		jump_to_closing(
+			ft_create_jump_to_closing_params(line, idx,
+				inner_openning_idx + 0, ft_validate_backquotes),
+			open_in_main);
 	else if (ft_is_special_char(line, *idx, "$") && line[*idx + 1] == '(')
 		jump_to_closing(
-			line, idx, inner_openning_idx + 1, ft_validate_dollar_parens, open_in_main);
+			ft_create_jump_to_closing_params(line, idx,
+				inner_openning_idx + 1, ft_validate_dollar_parens),
+			open_in_main);
 }
 
 /**

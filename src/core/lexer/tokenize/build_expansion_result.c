@@ -6,7 +6,7 @@
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 17:17:19 by valero            #+#    #+#             */
-/*   Updated: 2025/11/23 21:49:38 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/08 15:33:09 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ static t_expansion_build	*ft_remove_quotes(
 	if (object && object->has_globs && !object->expanded_glob_value)
 	{
 		sep_sections = ft_separate_quote_chuncks(glob_input);
-		expansion_build->glob_error = sep_sections->to_noquotes_string(sep_sections);
-		// expansion_build->glob_error = ft_strdup(glob_input);
+		expansion_build->glob_error = sep_sections->to_noquotes_string(
+				sep_sections);
 		sep_sections->destroy(&sep_sections);
 		return (expansion_build);
 	}
@@ -88,8 +88,8 @@ static t_expansion_build	*ft_remove_quotes(
 	else
 		return_token = original_token;
 	sep_sections = ft_separate_quote_chuncks(return_token);
-	expansion_build->token_expanded = sep_sections->to_noquotes_string(sep_sections);
-	// expansion_build->token_expanded = ft_strdup(return_token);
+	expansion_build->token_expanded = sep_sections->to_noquotes_string(
+			sep_sections);
 	sep_sections->destroy(&sep_sections);
 	return (expansion_build);
 }

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 13:41:19 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 12:07:31 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 17:04:05 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void ft_echo(t_binary_tree_node *node)
+void	ft_echo(t_binary_tree_node *node)
 {
-	t_token **token;
-	int i;
+	t_token	**token;
+	int		i;
 
 	token = ft_get_tokens(node);
 	i = 1;

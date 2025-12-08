@@ -33,7 +33,8 @@ PROMPT_VAL_DIR = src/core/lexer/prompt_validator
 PROMPT_VAL_FILES = $(PROMPT_VAL_DIR)/prompt_validator.c $(PROMPT_VAL_DIR)/validate_backquotes.c \
 $(PROMPT_VAL_DIR)/validate_dollar_parens.c $(PROMPT_VAL_DIR)/validate_doublequotes.c \
 $(PROMPT_VAL_DIR)/validate_parens.c $(PROMPT_VAL_DIR)/validate_utils.c $(PROMPT_VAL_DIR)/structure_jump.c \
-$(PROMPT_VAL_DIR)/validate_singlequotes.c $(PROMPT_VAL_DIR)/validate_utils_get_end.c $(PROMPT_VAL_DIR)/validate_utils_identify_structures.c
+$(PROMPT_VAL_DIR)/validate_singlequotes.c $(PROMPT_VAL_DIR)/validate_utils_get_end.c $(PROMPT_VAL_DIR)/validate_utils_identify_structures.c \
+$(PROMPT_VAL_DIR)/validate_utils_get_end_skip_inner.c
 
 TOKENIZE_DIR = src/core/lexer/tokenize
 EXP_OBJECT_DIR = $(TOKENIZE_DIR)/expandable_object
@@ -88,7 +89,9 @@ ENV = $(EXEC_DIR)/env/env.c $(EXEC_DIR)/env/expand_var.c $(EXEC_DIR)/env/expand_
 
 EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd.c $(EXEC_DIR)/redirect.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc_i.c \
 	$(EXEC_DIR)/here_doc_ii.c $(EXEC_DIR)/cmd_builtin.c $(EXEC_DIR)/tree.c $(EXEC_DIR)/and.c $(EXEC_DIR)/or.c $(EXEC_DIR)/subshell.c \
-	$(EXEC_DIR)/executer.c  $(EXEC_DIR)/mapper/mapper.c
+	$(EXEC_DIR)/executer.c  \
+	$(EXEC_DIR)/mapper/ast_node_props.c $(EXEC_DIR)/mapper/exec.c $(EXEC_DIR)/mapper/argv.c $(EXEC_DIR)/mapper/env.c \
+	$(EXEC_DIR)/mapper/fds.c $(EXEC_DIR)/mapper/heredoc.c $(EXEC_DIR)/mapper/redirects.c
 
 # ----------------- READER FILES -----------------
 READER_DIR = src/core/reader

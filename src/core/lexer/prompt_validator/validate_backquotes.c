@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_validate_backquotes.c                              :+:      :+:    :+:   */
+/*   validate_backquotes.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 21:56:18 by valero            #+#    #+#             */
-/*   Updated: 2025/11/24 22:57:12 by valero           ###   ########.fr       */
+/*   Created: 2025/12/08 15:09:09 by valero            #+#    #+#             */
+/*   Updated: 2025/12/08 15:09:11 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	ft_validate_backquotes(const char *line)
 		if (open_backquotes_index == -1 && ft_is_special_char(line, i, "\""))
 			jump_quotes(line, &i);
 		if (open_backquotes_index > -1)
-			jump_inner_structures(line, &i, other_openning_idx, open_backquotes_index);
+			jump_inner_structures(
+				line, &i, other_openning_idx, open_backquotes_index);
 		if (!line[i])
 			break ;
 		if (ft_is_special_char(line, i, "`"))
@@ -67,19 +68,29 @@ int	ft_validate_backquotes(const char *line)
  * - `$()`
  */
 static void	jump_inner_structures(
-				const char *line, int *idx, int *inner_openning_idx, int open_in_main)
+				const char *line, int *idx,
+				int *inner_openning_idx, int open_in_main)
 {
 	if (ft_is_special_char(line, *idx, "\""))
 		jump_to_closing(
-			line, idx, inner_openning_idx + 0, ft_validate_doublequotes, open_in_main);
+			ft_create_jump_to_closing_params(line, idx,
+				inner_openning_idx + 0, ft_validate_doublequotes),
+			open_in_main);
 	if (ft_is_special_char(line, *idx, "'"))
 		jump_to_closing(
-			line, idx, inner_openning_idx + 1, ft_validate_singlequotes, open_in_main);
+			ft_create_jump_to_closing_params(line, idx,
+				inner_openning_idx + 1, ft_validate_singlequotes),
+			open_in_main);
 	else if (ft_is_special_char(line, *idx, "()"))
-		jump_to_closing(line, idx, inner_openning_idx + 2, ft_validate_parens, open_in_main);
+		jump_to_closing(
+			ft_create_jump_to_closing_params(line, idx,
+				inner_openning_idx + 2, ft_validate_parens),
+			open_in_main);
 	else if (ft_is_special_char(line, *idx, "$") && line[*idx + 1] == '(')
 		jump_to_closing(
-			line, idx, inner_openning_idx + 3, ft_validate_dollar_parens, open_in_main);
+			ft_create_jump_to_closing_params(line, idx,
+				inner_openning_idx + 3, ft_validate_dollar_parens),
+			open_in_main);
 }
 
 /**

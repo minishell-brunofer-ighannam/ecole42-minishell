@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:33:35 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 20:10:10 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:59:19 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_linkedlist_array	*ft_init_ht(
 	return (ht);
 }
 
-void	*ft_find_ht(t_linkedlist_array *ht, const char *key)
+t_linkedlist_node	*ft_find_ht(t_linkedlist_array *ht, const char *key)
 {
 	t_linkedlist		*entry;
 	t_ht				*key_value;

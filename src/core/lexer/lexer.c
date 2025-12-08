@@ -87,7 +87,7 @@ static t_lexer	*ft_create_lexer(
 								t_expander_callbacks callbacks)
 {
 	t_lexer		*tk_prompt;
-	t_token					**curr_token;
+	t_token		**curr_token;
 
 	tk_prompt = ft_calloc(1, sizeof(t_lexer));
 	if (!tk_prompt)
