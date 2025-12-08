@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 17:07:25 by valero            #+#    #+#             */
-/*   Updated: 2025/12/07 18:57:17 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 17:41:20 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
+	ft_init_sig_parent();
 	return (ft_reader(ft_executer, (void *(*)(char **))ft_built_exec,
 			ft_destroy_exec, envp));
 }

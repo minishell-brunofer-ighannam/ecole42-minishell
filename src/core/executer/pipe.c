@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:57:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 17:06:40 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 17:48:41 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,13 @@ int	ft_execute_pipe(t_binary_tree_node *node, t_ast	*ast)
 	int status;
 
 	pipe(fd);
-	// if (node->node_depth == 0 || node->node_depth == 1)
-	// {
-	// 	if (node->node_depth == 1)
-	// 	{
-	// 		if (ft_get_type(node->parent) != AST_NODE_PIPE && ft_get_type(node->parent) != AST_NODE_SUBSHELL)
-	// 			ft_init_sig_ignore();
-	// 		else
-	// 			signal(SIGINT, SIG_IGN);
-	// 	}
-	// 	else
-	// 		ft_init_sig_ignore();
-	// }
-	// else
-	// 	signal(SIGINT, SIG_IGN);
-	
-	//if flag == 0 --> ft_init_sig_ignore() + seta flag para 1; else signal(SIGINT, SIG_IGN);
+	if (ft_get_flag_n(node) == 0)
+	{
+		ft_init_sig_ignore();
+		ft_set_flag_n(node, 1);
+	}
+	else
+		signal(SIGINT, SIG_IGN);
 	pid_left = fork();
 	if (pid_left == 0)
 	{
@@ -80,15 +71,11 @@ static int	ft_wait(pid_t pid_left, pid_t pid_right, int fd[2])
 	if (WIFSIGNALED(status_right))
     {
         int sig = WTERMSIG(status_right);
-        // if (sig == SIGINT)
-        //     write(1, "\n", 1);
         return 128 + sig;
     }
 	if (WIFSIGNALED(status_left))
 	{
 		sig = WTERMSIG(status_left);
-		// if (sig == SIGINT) 
-		// 	   write(1, "\n", 1);
 		return (128 + sig);
 	}
 	if (WIFEXITED(status_right) != 0 && WEXITSTATUS(status_right) != 0)

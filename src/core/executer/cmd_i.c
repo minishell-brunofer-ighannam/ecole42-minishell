@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 16:28:21 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 17:43:10 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,13 @@ static int ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast)
 	}
 	else
 	{
-		signal(SIGINT, SIG_IGN);
+		if (ft_get_flag_n(node) == 0)
+			{
+				ft_init_sig_ignore();
+				ft_set_flag_n(node, 1);
+			}
+		else
+			signal(SIGINT, SIG_IGN);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -69,6 +75,7 @@ static int ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast)
 			exit (126);		
 		}
 		status = ft_wait_cmd(path, pid, node);
+		ft_init_sig_parent();
 	}
 	return (status);
 }

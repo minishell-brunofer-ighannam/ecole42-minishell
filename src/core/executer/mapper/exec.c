@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 15:41:42 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 15:52:54 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/08 17:39:33 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	ft_free_exec(void *exec)
 	if (exec_node && exec_node->redirect)
 		exec_node->redirect->destroy(
 			&exec_node->redirect, ft_free_item_redirect);
+	if (exec_node)
+		exec_node->flag_n = 0;
 	if (exec_node->destroy == true)
 		ft_destroy_exec(exec_node_ref);
 }
