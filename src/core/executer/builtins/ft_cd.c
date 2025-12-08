@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 11:31:58 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 17:05:55 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/08 18:58:55 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	ft_cd(t_binary_tree_node *node)
 
 	ht = ft_find_ht(ft_get_ht_env(node), "PWD")->content;
 	old_pwd = ft_strdup(((t_env_value *)ht->value)->value);
-	pwd = getcwd(NULL, 0);
 	if (ft_verify_cd(node) == 1)
 		return (1);
+	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
 		perror("getcwd");

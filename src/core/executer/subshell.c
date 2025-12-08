@@ -6,19 +6,19 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 18:22:09 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 17:48:50 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:29:45 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int ft_wait_subshell(pid_t pid);
+static int	ft_wait_subshell(pid_t pid);
 
 int	ft_execute_subshell(t_binary_tree_node *node, t_ast *ast)
 {
 	int		status;
 	pid_t	pid;
-	
+
 	if (ft_get_flag_n(node) == 0)
 	{
 		ft_init_sig_ignore();
@@ -39,10 +39,10 @@ int	ft_execute_subshell(t_binary_tree_node *node, t_ast *ast)
 	return (status);
 }
 
-static int ft_wait_subshell(pid_t pid)
+static int	ft_wait_subshell(pid_t pid)
 {
-	int status;
-	int sig;
+	int	status;
+	int	sig;
 
 	status = 0;
 	waitpid(pid, &status, 0);
@@ -51,7 +51,7 @@ static int ft_wait_subshell(pid_t pid)
 	else if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);
-    	return (128 + sig);
+		return (128 + sig);
 	}
 	return (status);
 }

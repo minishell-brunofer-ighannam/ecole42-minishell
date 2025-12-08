@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 15:41:42 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 17:39:33 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:12:03 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	ft_free_exec(void *exec)
 	t_exec	**exec_node_ref;
 	t_exec	*exec_node;
 
+	ft_set_sig(0);
 	exec_node_ref = exec;
 	if (!exec_node_ref || !*exec_node_ref)
 		return ;

@@ -6,18 +6,19 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:44:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 15:05:30 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:28:09 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-int ft_execute_builtin(t_binary_tree_node *node, t_ast *ast)
+int	ft_execute_builtin(t_binary_tree_node *node, t_ast *ast)
 {
-	if (ft_strcmp(ft_get_tokens(node)[0]->value, "export") == 0) 
+	if (ft_strcmp(ft_get_tokens(node)[0]->value, "export") == 0)
 	{
 		if (ft_get_tokens(node)[1])
-			return (ft_export(ft_get_ht_env(node), ft_get_tokens(node)[1]->value));
+			return (ft_export(ft_get_ht_env(node),
+					ft_get_tokens(node)[1]->value));
 		else
 			return (ft_export(ft_get_ht_env(node), NULL));
 	}
@@ -42,4 +43,3 @@ int ft_execute_builtin(t_binary_tree_node *node, t_ast *ast)
 		return (ft_exit(node, ast));
 	return (0);
 }
-

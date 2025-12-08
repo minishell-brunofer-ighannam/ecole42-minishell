@@ -6,20 +6,22 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 17:43:10 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:28:46 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-static void ft_destroy_tree_cmd(char *path, t_binary_tree_node *node, t_ast *ast);
-static void ft_verify_path_cmd(char *path, t_binary_tree_node *node, t_ast *ast, int status);
-static int ft_wait_cmd(char *path, pid_t pid, t_binary_tree_node *node);
-static int ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast);
+static void	ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
+				t_ast *ast);
+static void	ft_verify_path_cmd(char *path, t_binary_tree_node *node, t_ast *ast,
+				int status);
+static int	ft_wait_cmd(char *path, pid_t pid, t_binary_tree_node *node);
+static int	ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast);
 
-int ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
+int	ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 {
-	int status;
+	int	status;
 
 	status = 0;
 	ft_built_args(node);
@@ -43,12 +45,12 @@ int ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 	return (status);
 }
 
-static int ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast)
+static int	ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast)
 {
-	char *path;
-	int status;
-	pid_t pid;
-	
+	char	*path;
+	int		status;
+	pid_t	pid;
+
 	status = 0;
 	path = ft_find_path(ft_get_ht_env(node), ft_get_argv(node)[0]);
 	if (!path)
@@ -59,10 +61,10 @@ static int ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast)
 	else
 	{
 		if (ft_get_flag_n(node) == 0)
-			{
-				ft_init_sig_ignore();
-				ft_set_flag_n(node, 1);
-			}
+		{
+			ft_init_sig_ignore();
+			ft_set_flag_n(node, 1);
+		}
 		else
 			signal(SIGINT, SIG_IGN);
 		pid = fork();
@@ -72,7 +74,7 @@ static int ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast)
 			ft_init_sig_child();
 			status = execve(path, ft_get_argv(node), ft_get_envp(node));
 			ft_destroy_tree_cmd(path, node, ast);
-			exit (126);		
+			exit(126);
 		}
 		status = ft_wait_cmd(path, pid, node);
 		ft_init_sig_parent();
@@ -80,7 +82,8 @@ static int ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast)
 	return (status);
 }
 
-static void ft_destroy_tree_cmd(char *path, t_binary_tree_node *node, t_ast *ast)
+static void	ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
+		t_ast *ast)
 {
 	free(path);
 	ft_free_argv(node);
@@ -88,9 +91,10 @@ static void ft_destroy_tree_cmd(char *path, t_binary_tree_node *node, t_ast *ast
 	ast->destroy(&ast, free_ast_node);
 }
 
-static void ft_verify_path_cmd(char *path, t_binary_tree_node *node, t_ast *ast, int status)
+static void	ft_verify_path_cmd(char *path, t_binary_tree_node *node, t_ast *ast,
+		int status)
 {
-	struct stat s;
+	struct stat	s;
 
 	if (stat(path, &s) == -1)
 	{
@@ -101,7 +105,7 @@ static void ft_verify_path_cmd(char *path, t_binary_tree_node *node, t_ast *ast,
 		if (errno == ENOENT)
 			status = 127;
 		ft_destroy_tree_cmd(path, node, ast);
-		exit (status);
+		exit(status);
 	}
 	if (S_ISDIR(s.st_mode))
 		ft_print_error_cmd(0, path);
@@ -110,14 +114,14 @@ static void ft_verify_path_cmd(char *path, t_binary_tree_node *node, t_ast *ast,
 	if (S_ISDIR(s.st_mode) || !(s.st_mode & S_IXUSR))
 	{
 		ft_destroy_tree_cmd(path, node, ast);
-		exit (126);
+		exit(126);
 	}
 }
 
-static int ft_wait_cmd(char *path, pid_t pid, t_binary_tree_node *node)
+static int	ft_wait_cmd(char *path, pid_t pid, t_binary_tree_node *node)
 {
-	int status;
-	int sig;
+	int	status;
+	int	sig;
 
 	status = 0;
 	waitpid(pid, &status, 0);
@@ -128,9 +132,7 @@ static int ft_wait_cmd(char *path, pid_t pid, t_binary_tree_node *node)
 	else if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);
-		// if (sig == SIGINT) 
-       	// 	write(1, "\n", 1);
-    	return (128 + sig);
+		return (128 + sig);
 	}
 	return (status);
 }
