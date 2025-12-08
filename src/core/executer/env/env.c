@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:25:06 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/04 10:50:37 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 18:00:24 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	ft_get_key_value(const char *s, char **key_value);
 
 t_linkedlist_array	*ft_init_ht_env(char **envp)
 {
@@ -31,18 +33,23 @@ t_linkedlist_array	*ft_init_ht_env(char **envp)
 
 void	ft_split_key_value(const char *s, char **key_value)
 {
-	int		len;
-	char	*key;
-	char	*value;
-	int		i;
-
-	len = 0;
 	if (!s)
 	{
 		key_value[0] = NULL;
 		key_value[1] = NULL;
 		return ;
 	}
+	ft_get_key_value(s, key_value);
+}
+
+static void	ft_get_key_value(const char *s, char **key_value)
+{
+	int		len;
+	char	*key;
+	char	*value;
+	int		i;
+
+	len = 0;
 	while (s[len] && s[len] != '=')
 		len++;
 	key = ft_calloc(len + 1, sizeof(char));
