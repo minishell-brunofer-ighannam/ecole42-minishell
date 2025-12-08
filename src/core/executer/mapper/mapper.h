@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mapper.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 16:02:47 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/08 17:25:27 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ struct						s_exec
 	char					**argv;
 	int						fds[2];
 	bool					destroy;
+	int						flag_n;
 };
 
 t_exec						*ft_built_exec(char **envp);

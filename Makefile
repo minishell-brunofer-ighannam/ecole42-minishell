@@ -87,7 +87,7 @@ PROCESS = $(EXEC_DIR)/process/child_process.c
 # ..... ENV FILES .....
 ENV = $(EXEC_DIR)/env/env.c $(EXEC_DIR)/env/expand_var.c $(EXEC_DIR)/env/expand_glob_i.c $(EXEC_DIR)/env/expand_glob_ii.c
 
-EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd.c $(EXEC_DIR)/redirect.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc_i.c \
+EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd_i.c $(EXEC_DIR)/cmd_ii.c $(EXEC_DIR)/redirect.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc_i.c \
 	$(EXEC_DIR)/here_doc_ii.c $(EXEC_DIR)/cmd_builtin.c $(EXEC_DIR)/tree.c $(EXEC_DIR)/and.c $(EXEC_DIR)/or.c $(EXEC_DIR)/subshell.c \
 	$(EXEC_DIR)/executer.c  \
 	$(EXEC_DIR)/mapper/ast_node_props.c $(EXEC_DIR)/mapper/exec.c $(EXEC_DIR)/mapper/argv.c $(EXEC_DIR)/mapper/env.c \

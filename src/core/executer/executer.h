@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 18:28:39 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 09:37:26 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,9 @@ void				free_ast_node(void *arg);
 // CMD
 char				*ft_find_path(t_linkedlist_array *ht_env, char *cmd);
 int					ft_execute_cmd(t_binary_tree_node *node, t_ast *ast);
-void				*ft_child_task_func_cmd(t_child_process *process,
-						t_child_process_callback_args args);
 int					ft_expand_tokens(t_binary_tree_node *node);
 void				ft_built_args(t_binary_tree_node *node);
+void				ft_print_error_cmd(int error, char *path);
 
 // CMD BUILTIN
 int					ft_execute_builtin(t_binary_tree_node *node, t_ast *ast);
