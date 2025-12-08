@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 14:29:26 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:27:57 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_execute_heredocs(t_binary_tree_node *node)
 	t_linkedlist		*heredoc;
 	t_linkedlist_node	*item_list;
 
+	ft_init_sig_heredoc();
 	heredoc = ft_find_all_heredoc(node);
 	(*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc = heredoc;
 	(*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc_files = ft_new_linkedlist();
@@ -29,7 +30,7 @@ int	ft_execute_heredocs(t_binary_tree_node *node)
 	{
 		if (ft_process_heredoc(item_list) != 0)
 		{
-			//heredoc->destroy(&heredoc, NULL);
+			ft_set_sig(0);
 			return (130);
 		}
 		item_list = item_list->prev;
@@ -63,7 +64,8 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 	}
 	close(fd);
 	free(delimit);
-	((*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc_files)->push(((*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc_files), file);
+	((*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc_files)->push(((*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc_files),
+		file);
 	return (0);
 }
 
@@ -77,8 +79,11 @@ static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable,
 	while (1)
 	{
 		line = readline("> ");
-		if (!line && ft_get_sig() == SIGINT)
+		if (ft_get_sig() == SIGINT)
+		{
+			free(line);
 			return (130);
+		}
 		if (!line)
 		{
 			ft_putstr_fd("minishell: warning: here-document ", 1);

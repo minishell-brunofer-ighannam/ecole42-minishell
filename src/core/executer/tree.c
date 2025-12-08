@@ -6,21 +6,22 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:40:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 16:00:55 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:29:36 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-int ft_execute_tree(t_ast *ast)
+int	ft_execute_tree(t_ast *ast)
 {
-	int ret;
-	char *key_value;
-	char *value;
-	t_binary_tree_node *node;
+	int					ret;
+	char				*key_value;
+	char				*value;
+	t_binary_tree_node	*node;
 
 	node = ast->tree->root;
 	ret = ft_execute_heredocs(node);
+	ft_init_sig_parent();
 	if (ret != 0)
 	{
 		value = ft_itoa(ret);
@@ -43,9 +44,9 @@ int ft_execute_tree(t_ast *ast)
 	return (ret);
 }
 
-int ft_execute_node(t_binary_tree_node *node, t_ast	*ast)
+int	ft_execute_node(t_binary_tree_node *node, t_ast *ast)
 {
-	int ret;
+	int	ret;
 
 	ret = 0;
 	if (ft_is_redirect(node) == 1)
@@ -75,6 +76,3 @@ void	free_ast_node(void *arg)
 	node = (t_ast_node *)arg;
 	node->destroy(&node, ft_free_exec);
 }
-
-
-

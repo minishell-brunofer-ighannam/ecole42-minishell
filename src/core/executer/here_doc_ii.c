@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:39:37 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/03 15:49:25 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:29:23 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 char			*ft_generate_temp_file(void);
 t_linkedlist	*ft_find_all_heredoc(t_binary_tree_node *node);
-void			ft_dfs_find_heredoc(t_linkedlist *heredoc, t_binary_tree_node *node);
+void			ft_dfs_find_heredoc(t_linkedlist *heredoc,
+					t_binary_tree_node *node);
 
 char	*ft_generate_temp_file(void)
 {
@@ -49,7 +50,7 @@ t_linkedlist	*ft_find_all_heredoc(t_binary_tree_node *node)
 	return (heredoc);
 }
 
-void	ft_dfs_find_heredoc(t_linkedlist *heredoc, t_binary_tree_node *node) // dfs = Depth-First Search — Busca em Profundidade
+void	ft_dfs_find_heredoc(t_linkedlist *heredoc, t_binary_tree_node *node)
 {
 	if (!node)
 		return ;

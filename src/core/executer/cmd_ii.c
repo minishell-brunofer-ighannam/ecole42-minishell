@@ -6,17 +6,17 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:12:11 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 22:38:37 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:29:12 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-int ft_expand_tokens(t_binary_tree_node *node)
+int	ft_expand_tokens(t_binary_tree_node *node)
 {
-	t_token **token;
-	int i;
-	t_expansion_build *build;
+	t_token				**token;
+	int					i;
+	t_expansion_build	*build;
 
 	i = 0;
 	token = ft_get_tokens(node);
@@ -26,14 +26,14 @@ int ft_expand_tokens(t_binary_tree_node *node)
 		build->destroy(&build);
 		i++;
 	}
-	return(i);
+	return (i);
 }
 
-void ft_built_args(t_binary_tree_node *node)
+void	ft_built_args(t_binary_tree_node *node)
 {
-	t_token **token;
-	int i;
-	int j;
+	t_token	**token;
+	int		i;
+	int		j;
 
 	ft_init_argv(node, ft_expand_tokens(node) + 1);
 	i = 0;
@@ -50,7 +50,7 @@ void ft_built_args(t_binary_tree_node *node)
 	}
 }
 
-void ft_print_error_cmd(int error, char *path)
+void	ft_print_error_cmd(int error, char *path)
 {
 	if (error == EACCES)
 	{
@@ -75,5 +75,5 @@ void ft_print_error_cmd(int error, char *path)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
-	}	
+	}
 }

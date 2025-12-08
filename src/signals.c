@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 13:16:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/08 17:24:13 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:12:57 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void ft_init_sig_parent(void)
     sa.sa_handler = ft_handle_sig_parent;
     sigaction(SIGINT, &sa, NULL);
     signal(SIGQUIT, SIG_IGN);
+    ft_set_sig(SIGINT);
 }
 
 void ft_handle_sig_parent(int sig)
@@ -69,22 +70,32 @@ void ft_handle_sig_ignore(int sig)
     ft_set_sig(SIGINT);
 }
 
-void ft_init_sig_pipe(void)
+void ft_init_sig_heredoc(void)
 {
 	struct sigaction sa;
 
     sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-    sa.sa_handler = ft_handle_sig_pipe;
+    sa.sa_flags = 0;
+    sa.sa_handler = ft_handle_sig_heredoc;
     sigaction(SIGINT, &sa, NULL);
     signal(SIGQUIT, SIG_IGN);
 }
 
-void ft_handle_sig_pipe(int sig)
+void ft_handle_sig_heredoc(int sig)
 {
-	(void)sig;
+    (void)sig;
+    write(1, "\n", 1);
+    ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+    //ioctl(STDIN_FILENO, TIOCSTI, "\n");
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
+    rl_done = 1;
     ft_set_sig(SIGINT);
 }
+
 
 void ft_init_sig_child(void)
 {
