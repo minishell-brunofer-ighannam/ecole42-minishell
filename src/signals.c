@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 13:16:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/05 14:14:10 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 17:24:13 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,41 +25,78 @@ void ft_set_sig(int value)
     g_sig = (volatile sig_atomic_t)value;
 }
 
-void	ft_handle_sigint(int sig) //ctrl+C
+void ft_init_sig_parent(void)
 {
-	ft_putchar_fd('\n', 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	ft_set_sig((volatile sig_atomic_t)sig);	
+	struct sigaction sa;
+
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART;
+    sa.sa_handler = ft_handle_sig_parent;
+    sigaction(SIGINT, &sa, NULL);
+    signal(SIGQUIT, SIG_IGN);
 }
 
-void	ft_handle_sig_parent(void)
-{
-	signal(SIGINT, ft_handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	ft_handle_sig_child(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);	
-}
-
-void	ft_handle_sig_heredoc(void)
-{
-	ft_set_sig(0);
-	signal(SIGINT, ft_handle_sigint_heredoc);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	ft_handle_sigint_heredoc(int sig)
+void ft_handle_sig_parent(int sig)
 {
 	(void)sig;
-	ft_set_sig(130);
-    rl_done = 1;
-	write(1, "\n", 1);
+    write(1, "\n", 1);
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
+    //rl_done = 1;
+    ft_set_sig(SIGINT);
 }
+
+void ft_init_sig_ignore(void)
+{
+	struct sigaction sa;
+
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART;
+    sa.sa_handler = ft_handle_sig_ignore;
+    sigaction(SIGINT, &sa, NULL);
+    signal(SIGQUIT, SIG_IGN);
+}
+
+void ft_handle_sig_ignore(int sig)
+{
+	(void)sig;
+    write(1, "\n", 1);
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    //rl_redisplay();
+    //rl_done = 1;
+    ft_set_sig(SIGINT);
+}
+
+void ft_init_sig_pipe(void)
+{
+	struct sigaction sa;
+
+    sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+    sa.sa_handler = ft_handle_sig_pipe;
+    sigaction(SIGINT, &sa, NULL);
+    signal(SIGQUIT, SIG_IGN);
+}
+
+void ft_handle_sig_pipe(int sig)
+{
+	(void)sig;
+    ft_set_sig(SIGINT);
+}
+
+void ft_init_sig_child(void)
+{
+	struct sigaction sa;
+
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sa.sa_handler = SIG_DFL;
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGQUIT, &sa, NULL);
+}
+
 /**
  * # Sets up custom signal handlers for the program.
  *

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 12:30:16 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 14:29:26 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static int	ft_process_heredoc(t_linkedlist_node *item_list);
 static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable,
 				t_binary_tree_node *node);
-//static void	ft_free_heredoc(void *arg);
 
 int	ft_execute_heredocs(t_binary_tree_node *node)
 {
@@ -37,17 +36,6 @@ int	ft_execute_heredocs(t_binary_tree_node *node)
 	}
 	return (0);
 }
-
-// static void	ft_free_heredoc(void *arg)
-// {
-// 	t_linkedlist_node	*node;
-// 	t_redirect			*redirect;
-
-// 	node = (t_linkedlist_node *)arg;
-// 	redirect = (t_redirect *)(node->content);
-// 	free(redirect->file);
-// 	redirect->file = NULL;
-// }
 
 static int	ft_process_heredoc(t_linkedlist_node *item_list)
 {
@@ -86,7 +74,6 @@ static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable,
 	t_token				*token;
 	t_expansion_build	*build;
 
-	ft_handle_sig_heredoc();
 	while (1)
 	{
 		line = readline("> ");
@@ -98,6 +85,12 @@ static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable,
 			ft_putstr_fd("delimited by end-of-file (wanted `", 1);
 			ft_putstr_fd(delimit, 1);
 			ft_putstr_fd("')\n", 1);
+			return (0);
+		}
+		if (ft_get_sig() == SIGINT)
+		{
+			free(line);
+			ft_set_sig(0);
 			return (0);
 		}
 		if (ft_strcmp(line, delimit) == 0)
