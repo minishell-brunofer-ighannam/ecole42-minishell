@@ -16,11 +16,11 @@ LIBFT_INCLUDES = -I $(LIBFT_DIR)/includes -I $(LIBFT_DIR)/dependency_includes
 # ============== COMPILATION COMMANDS =================
 INCLUDES = -I includes $(LIBFT_INCLUDES)
 CC = cc
-# CFLAGS = -Wall -Werror -Wextra -g3 -Ofast -march=native -flto -funroll-loops $(INCLUDES)
 CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
+DESTDIR= $(HOME)/bin
+INSTALL_PATH= $(DESTDIR)/$(NAME)
 
 # ============== SRC FILES =================
-
 
 # ------------ LEXER FILES -----------------
 SPLITTER_DIR = src/core/lexer/splitter
@@ -93,6 +93,9 @@ EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd_i.c $(EXEC_DIR)/cmd_ii.c $(EX
 	$(EXEC_DIR)/mapper/ast_node_props.c $(EXEC_DIR)/mapper/exec.c $(EXEC_DIR)/mapper/argv.c $(EXEC_DIR)/mapper/env.c \
 	$(EXEC_DIR)/mapper/fds.c $(EXEC_DIR)/mapper/heredoc.c $(EXEC_DIR)/mapper/redirects.c $(EXEC_DIR)/mapper/mapper_signals.c
 
+# ----------------- SIGNAL FILES -----------------
+SIGNAL = src/core/signals/signals_i.c src/core/signals/signals_ii.c
+
 # ----------------- READER FILES -----------------
 READER_DIR = src/core/reader
 READER = $(READER_DIR)/get_prompt.c $(READER_DIR)/reader.c
@@ -100,7 +103,7 @@ READER = $(READER_DIR)/get_prompt.c $(READER_DIR)/reader.c
 UTILS = src/utils/array_str.c src/utils/commands.c src/utils/print.c
 
 
-SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(PARSER_FILES) $(BUILTINS) $(READER) $(PROCESS) $(ENV) $(EXECUTER) $(UTILS) src/signals.c
+SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(PARSER_FILES) $(BUILTINS) $(READER) $(PROCESS) $(ENV) $(EXECUTER) $(UTILS) $(SIGNAL)
 
 
 
@@ -135,14 +138,18 @@ lexer ast_build parser
 # ********************************************           ********************************************
 # ***************************************************************************************************
 
-all: $(NAME)
+all: $(INSTALL_PATH) stats
+
+
+$(INSTALL_PATH): $(NAME)
+	@mkdir -p $(DESTDIR)
+	@install -m 755 $(NAME) $(DESTDIR)/
 
 stats:
-	clear
 	@printf "$(BOLD)$(LIGHT_CYAN)src stats:$(RESET)\n"
 #	=================== FILES AMOUNT INFO =====================
 	@printf " - Total Files:$(BOLD) "
-	@printf "%s\n$(RESET)" $(shell find src -type f | wc -l)
+	@printf "%s\n$(RESET)" $(shell find src -type f ! -name '*.o' | wc -l)
 
 	@printf "    * Total Images:$(BOLD) "
 	@printf "%8s\n$(RESET)" $(shell find src \( -name "*.png" -o -name "*.jpg -o -name "*.jpeg -o -name "*.webp""" \) | wc -l) | tr ' ' '.'
@@ -310,14 +317,6 @@ run_valgrind:
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$<$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(MLX):
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@make -s -C $(MLX_DIR) SLEEP="$(SLEEP)"
-
-minilibx:
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@make -s -C $(MLX_DIR) SLEEP="$(SLEEP)"
-
 
 clean:
 	@echo "$(LIGHT_RED)>> $(BOLD)cleanning$(RESET) $(LIGHT_CYAN)./src$(RESET)..." && sleep $(SLEEP)
@@ -340,4 +339,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re minilibx
+.PHONY: all clean fclean re

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:25:02 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 17:40:47 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:10:44 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft.h"
 # include <stdbool.h>
 
-# define TEXT_LIGHT_BLACK "\001\033[90m\002" // light gray
+# define TEXT_LIGHT_BLACK "\001\033[90m\002"
 # define TEXT_LIGHT_RED "\001\033[91m\002"
 # define TEXT_LIGHT_GREEN "\001\033[92m\002"
 # define TEXT_LIGHT_YELLOW "\001\033[93m\002"
