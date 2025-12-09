@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 13:27:30 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 13:29:27 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:48:33 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,4 @@ void	ft_handle_sig_heredoc(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	ft_set_sig(SIGINT);
-}
-
-void	ft_init_sig_child(void)
-{
-	struct sigaction	sa;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sa.sa_handler = SIG_DFL;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
 }
