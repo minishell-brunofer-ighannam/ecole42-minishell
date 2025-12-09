@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:26 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/07 20:20:41 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 16:38:12 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static char	*ft_aux_find_path(char **possible_paths, char *cmd);
 char	*ft_find_path(t_linkedlist_array *ht_env, char *cmd)
 {
 	char	*path;
-	char	**posiible_paths;
+	char	**possible_paths;
 
-	posiible_paths = ft_possible_paths(ht_env);
-	path = ft_aux_find_path(posiible_paths, cmd);
-	ft_clean_array_str(posiible_paths);
+	possible_paths = ft_possible_paths(ht_env);
+	path = ft_aux_find_path(possible_paths, cmd);
+	ft_clean_array_str(possible_paths);
 	return (path);
 }
 
@@ -54,7 +54,13 @@ static char	*ft_aux_find_path(char **possible_paths, char *cmd)
 		return (ft_strdup(cmd));
 	i = -1;
 	if (!possible_paths || ft_strlen(cmd) == 0)
+	{
+		path = ft_strjoin(cmd, " : command not found");
+		ft_putstr_fd(path, STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		free(path);
 		return (NULL);
+	}
 	while (possible_paths[++i])
 	{
 		path = ft_strjoin(possible_paths[i], "/");

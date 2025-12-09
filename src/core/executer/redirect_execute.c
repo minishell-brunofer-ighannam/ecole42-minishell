@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 20:43:14 by valero            #+#    #+#             */
-/*   Updated: 2025/12/09 11:19:28 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 16:04:42 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ static int	ft_execute_redirect_in(t_linkedlist_node *node)
 	file = open(content->file, O_RDONLY);
 	if (file == -1)
 	{
-		perror("open");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->file, STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		return (1);
 	}
 	dup2(file, STDIN_FILENO);

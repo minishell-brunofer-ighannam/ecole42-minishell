@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 11:02:43 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 14:43:26 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,17 @@
 # define EXECUTER_H
 
 # include "../../data_structures/data_structures.h"
-# include "../../signals.h"
-# include "../lexer/lexer.h"
 # include "../parser/parser.h"
+# include "../signals/signals.h"
 # include "builtins/builtins.h"
 # include "env/env.h"
 # include "mapper/mapper.h"
-# include "process/process.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <stdio.h>
 # include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 
 typedef struct s_redirect
@@ -40,7 +39,6 @@ int					ft_executer(const char *line, void *exec);
 // TREE
 int					ft_execute_tree(t_ast *ast);
 int					ft_execute_node(t_binary_tree_node *node, t_ast *ast);
-void				free_ast_node(void *arg);
 
 // CMD
 char				*ft_find_path(t_linkedlist_array *ht_env, char *cmd);
@@ -55,7 +53,6 @@ void				ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
 int					ft_execute_builtin(t_binary_tree_node *node, t_ast *ast);
 
 // REDIRECT
-
 int					ft_is_redirect(t_binary_tree_node *node);
 int					ft_visit_redirect(t_binary_tree_node *node, t_ast *ast);
 int					ft_execute_redirect(t_binary_tree_node *node);

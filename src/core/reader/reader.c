@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:57:07 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/08 20:19:13 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:01:02 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	ft_reader(int (*executer)(const char *line, void *exec),
 		status = executer(line, &exec);
 		free(line);
 	}
+	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	destroy_exec(&exec);
 	return (status);
 }

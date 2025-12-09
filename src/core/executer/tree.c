@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:40:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 12:28:21 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/09 14:38:08 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,6 @@ int	ft_execute_node(t_binary_tree_node *node, t_ast *ast)
 	if (ft_get_type(node) == AST_NODE_SUBSHELL)
 		ret = ft_execute_subshell(node, ast);
 	return (ret);
-}
-
-void	free_ast_node(void *arg)
-{
-	t_ast_node	*node;
-
-	if (!arg)
-		return ;
-	node = (t_ast_node *)arg;
-	node->destroy(&node, ft_free_exec);
 }
 
 static int	ft_ret_not_zero(int ret, t_binary_tree_node *node, t_ast *ast)
