@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 13:16:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/08 20:12:57 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 00:27:44 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void ft_init_sig_parent(void)
     sa.sa_handler = ft_handle_sig_parent;
     sigaction(SIGINT, &sa, NULL);
     signal(SIGQUIT, SIG_IGN);
-    ft_set_sig(SIGINT);
 }
 
 void ft_handle_sig_parent(int sig)
@@ -95,7 +94,6 @@ void ft_handle_sig_heredoc(int sig)
     rl_done = 1;
     ft_set_sig(SIGINT);
 }
-
 
 void ft_init_sig_child(void)
 {
