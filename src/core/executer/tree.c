@@ -6,11 +6,13 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:40:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 23:12:30 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 12:09:48 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
+
+static int ft_ret_not_zero(int ret, t_binary_tree_node *node, t_ast *ast);
 
 int	ft_execute_tree(t_ast *ast)
 {
@@ -23,15 +25,7 @@ int	ft_execute_tree(t_ast *ast)
 	ret = ft_execute_heredocs(node);
 	ft_init_sig_parent();
 	if (ret != 0)
-	{
-		value = ft_itoa(ret);
-		key_value = ft_strjoin("?=", value);
-		ft_set(ft_get_ht_env(node), key_value);
-		free(key_value);
-		free(value);
-		ast->destroy(&ast, free_ast_node);
-		return (ret);
-	}
+		return (ft_ret_not_zero(ret, node, ast));
 	ret = ft_execute_node(node, ast);
 	value = ft_itoa(ret);
 	key_value = ft_strjoin("?=", value);
@@ -75,4 +69,18 @@ void	free_ast_node(void *arg)
 		return ;
 	node = (t_ast_node *)arg;
 	node->destroy(&node, ft_free_exec);
+}
+
+static int ft_ret_not_zero(int ret, t_binary_tree_node *node, t_ast *ast)
+{
+	char *value;
+	char *key_value;
+
+	value = ft_itoa(ret);
+	key_value = ft_strjoin("?=", value);
+	ft_set(ft_get_ht_env(node), key_value);
+	free(key_value);
+	free(value);
+	ast->destroy(&ast, free_ast_node);
+	return (ret);
 }

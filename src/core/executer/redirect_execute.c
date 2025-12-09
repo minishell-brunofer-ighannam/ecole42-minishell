@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_execute.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 20:43:14 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 21:40:21 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 11:19:28 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static int	ft_execute_redirect_node(t_linkedlist_node **node_redir, int *size)
 	int			ret;
 	t_redirect	*content;
 
+	ret = 0;
 	content = (t_redirect *)((*node_redir)->content);
 	if (content->type == AST_NODE_REDIRECT_IN
 		|| content->type == AST_NODE_HERE_DOC_IN)
@@ -71,8 +72,6 @@ static int	ft_execute_redirect_in(t_linkedlist_node *node)
 		return (1);
 	}
 	dup2(file, STDIN_FILENO);
-	if (content->type == AST_NODE_HERE_DOC_IN)
-		unlink(content->file);
 	close(file);
 	return (0);
 }

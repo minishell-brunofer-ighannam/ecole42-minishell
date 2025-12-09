@@ -6,13 +6,15 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:57:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 00:15:42 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 10:51:10 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
 static int	ft_wait(pid_t pid_left, pid_t pid_right, int fd[2]);
+static void	ft_child_left(t_binary_tree_node *node, t_ast *ast, int fd[2]);
+static void	ft_child_rigth(t_binary_tree_node *node, t_ast *ast, int fd[2]);
 
 int	ft_execute_pipe(t_binary_tree_node *node, t_ast *ast)
 {
@@ -31,34 +33,39 @@ int	ft_execute_pipe(t_binary_tree_node *node, t_ast *ast)
 		signal(SIGINT, SIG_IGN);
 	pid_left = fork();
 	if (pid_left == 0)
-	{
-		printf("PID LEFT: %d\n", getpid());
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		status = ft_execute_node(node->left, ast);
-		ft_set_flag_destroy_exec(node);
-		ast->destroy(&ast, free_ast_node);	
-		exit(status);
-	}
-	//waitpid(pid_left, NULL, 0);
+		ft_child_left(node, ast, fd);
 	pid_right = fork();
 	if (pid_right == 0)
-	{
-		printf("PID RIGHT: %d\n", getpid());
-		close(fd[1]);
-		if (ft_get_type(node->right) != AST_NODE_HERE_DOC_IN
-			&& ft_get_type(node->right) != AST_NODE_REDIRECT_IN)
-			dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		status = ft_execute_node(node->right, ast);
-		ft_set_flag_destroy_exec(node);
-		ast->destroy(&ast, free_ast_node);
-		exit(status);
-	}
+		ft_child_rigth(node, ast, fd);
 	status = ft_wait(pid_left, pid_right, fd);
 	ft_init_sig_parent();
 	return (status);
+}
+
+static void	ft_child_left(t_binary_tree_node *node, t_ast *ast, int fd[2])
+{
+	int	status;
+
+	close(fd[0]);
+	dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
+	status = ft_execute_node(node->left, ast);
+	ft_set_flag_destroy_exec(node);
+	ast->destroy(&ast, free_ast_node);
+	exit(status);
+}
+
+static void	ft_child_rigth(t_binary_tree_node *node, t_ast *ast, int fd[2])
+{
+	int	status;
+
+	close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	status = ft_execute_node(node->right, ast);
+	ft_set_flag_destroy_exec(node);
+	ast->destroy(&ast, free_ast_node);
+	exit(status);
 }
 
 static int	ft_wait(pid_t pid_left, pid_t pid_right, int fd[2])

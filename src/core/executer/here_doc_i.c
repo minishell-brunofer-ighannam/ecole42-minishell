@@ -6,45 +6,48 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 20:27:57 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 12:12:09 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-static int	ft_process_heredoc(t_linkedlist_node *item_list);
-static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable,
+static int	ft_process_heredoc(t_linkedlist_node *item_list, char *file);
+static int	ft_read_line_heredoc(int fd, char *delimit, int is_expandable,
 				t_binary_tree_node *node);
+static int	ft_ctrl_c_d_heredoc(int fd, char *file, char *delimit, char id);
 
 int	ft_execute_heredocs(t_binary_tree_node *node)
 {
 	t_linkedlist		*heredoc;
 	t_linkedlist_node	*item_list;
+	t_exec				*exec;
 
 	ft_init_sig_heredoc();
 	heredoc = ft_find_all_heredoc(node);
-	(*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc = heredoc;
-	(*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc_files = ft_new_linkedlist();
-	item_list = heredoc->last;
+	exec = *(t_exec **)((t_ast_node *)(node->content))->exec;
+	exec->heredoc = heredoc;
+	exec->heredoc_files = ft_new_linkedlist();
+	item_list = heredoc->first;
 	while (item_list)
 	{
-		if (ft_process_heredoc(item_list) != 0)
+		if (ft_process_heredoc(item_list, NULL) != 0)
 		{
 			ft_set_sig(0);
 			return (130);
 		}
-		item_list = item_list->prev;
+		item_list = item_list->next;
 	}
 	return (0);
 }
 
-static int	ft_process_heredoc(t_linkedlist_node *item_list)
+static int	ft_process_heredoc(t_linkedlist_node *item_list, char *file)
 {
 	t_binary_tree_node	*node;
 	char				*delimit;
-	char				*file;
 	int					fd;
 	int					is_expandable;
+	t_exec				*exec;
 
 	file = ft_generate_temp_file();
 	fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0666);
@@ -55,6 +58,17 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 	else
 		is_expandable = 0;
 	if (ft_read_line_heredoc(fd, delimit, is_expandable, node) != 0)
+		return (ft_ctrl_c_d_heredoc(fd, file, delimit, 'c'));
+	close(fd);
+	free(delimit);
+	exec = *(t_exec **)(((t_ast_node *)(node->content))->exec);
+	exec->heredoc_files->push(exec->heredoc_files, file);
+	return (0);
+}
+
+static int	ft_ctrl_c_d_heredoc(int fd, char *file, char *delimit, char id)
+{
+	if (id == 'c')
 	{
 		close(fd);
 		unlink(file);
@@ -62,14 +76,18 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list)
 		free(delimit);
 		return (130);
 	}
-	close(fd);
-	free(delimit);
-	((*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc_files)->push(((*(t_exec **)(((t_ast_node *)(node->content))->exec))->heredoc_files),
-		file);
+	else if (id == 'd')
+	{
+		ft_putstr_fd("minishell: warning: here-document ", 1);
+		ft_putstr_fd("delimited by end-of-file (wanted `", 1);
+		ft_putstr_fd(delimit, 1);
+		ft_putstr_fd("')\n", 1);
+		return (0);
+	}
 	return (0);
 }
 
-static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable,
+static int	ft_read_line_heredoc(int fd, char *delimit, int is_expandable,
 		t_binary_tree_node *node)
 {
 	char				*line;
@@ -82,22 +100,11 @@ static int	ft_read_line_heredoc(int fd, const char *delimit, int is_expandable,
 		if (ft_get_sig() == SIGINT)
 		{
 			free(line);
+			ft_set_sig(0);
 			return (130);
 		}
 		if (!line)
-		{
-			ft_putstr_fd("minishell: warning: here-document ", 1);
-			ft_putstr_fd("delimited by end-of-file (wanted `", 1);
-			ft_putstr_fd(delimit, 1);
-			ft_putstr_fd("')\n", 1);
-			return (0);
-		}
-		if (ft_get_sig() == SIGINT)
-		{
-			free(line);
-			ft_set_sig(0);
-			return (0);
-		}
+			return (ft_ctrl_c_d_heredoc(fd, NULL, delimit, 'd'));
 		if (ft_strcmp(line, delimit) == 0)
 		{
 			free(line);
