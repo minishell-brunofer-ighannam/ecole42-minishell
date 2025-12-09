@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_ii.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:12:11 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 11:02:28 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 12:25:50 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,3 @@ void	ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
 	ft_set_flag_destroy_exec(node);
 	ast->destroy(&ast, free_ast_node);
 }
-
