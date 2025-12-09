@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 12:12:09 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 12:52:28 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list, char *file);
 static int	ft_read_line_heredoc(int fd, char *delimit, int is_expandable,
 				t_binary_tree_node *node);
 static int	ft_ctrl_c_d_heredoc(int fd, char *file, char *delimit, char id);
+static void	ft_tokenize_build_heredoc(t_binary_tree_node *node, char *line,
+				int fd);
 
 int	ft_execute_heredocs(t_binary_tree_node *node)
 {
@@ -90,9 +92,7 @@ static int	ft_ctrl_c_d_heredoc(int fd, char *file, char *delimit, char id)
 static int	ft_read_line_heredoc(int fd, char *delimit, int is_expandable,
 		t_binary_tree_node *node)
 {
-	char				*line;
-	t_token				*token;
-	t_expansion_build	*build;
+	char	*line;
 
 	while (1)
 	{
@@ -111,18 +111,25 @@ static int	ft_read_line_heredoc(int fd, char *delimit, int is_expandable,
 			break ;
 		}
 		if (is_expandable == 1 && ft_strcmp(line, "\n") != 0)
-		{
-			token = ft_tokenize(line, 0, NULL,
-					ft_create_expander_callbacks(ft_get_tokens(node)[0]->expand_var,
-						NULL));
-			build = token->build_expansion(token, ft_get_ht_env(node));
-			ft_putendl_fd(token->last_build->token_expanded, fd);
-			build->destroy(&build);
-			token->destroy(&token);
-		}
+			ft_tokenize_build_heredoc(node, line, fd);
 		else
 			ft_putendl_fd(line, fd);
 		free(line);
 	}
 	return (0);
+}
+
+static void	ft_tokenize_build_heredoc(t_binary_tree_node *node, char *line,
+		int fd)
+{
+	t_token				*token;
+	t_expansion_build	*build;
+
+	token = ft_tokenize(line, 0, NULL,
+			ft_create_expander_callbacks(ft_get_tokens(node)[0]->expand_var,
+				NULL));
+	build = token->build_expansion(token, ft_get_ht_env(node));
+	ft_putendl_fd(token->last_build->token_expanded, fd);
+	build->destroy(&build);
+	token->destroy(&token);
 }
