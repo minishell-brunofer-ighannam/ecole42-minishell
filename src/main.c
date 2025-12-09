@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 17:07:25 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 21:43:37 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 12:47:57 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_set_sig(0);
 	ft_init_sig_parent();
 	return (ft_reader(ft_executer, (void *(*)(char **))ft_built_exec,
-			ft_destroy_exec, envp));
+		ft_destroy_exec, envp));
 }
 
 // int	main(int argc, char **argv, char **envp)
