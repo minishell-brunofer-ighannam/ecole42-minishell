@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitter.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 21:41:48 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:23:58 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@
 /**
  * # t_splited_prompt
  *
- * Estrutura que representa o resultado final do splitter.
- * Armazena:
- * - `chuncks`: array de substrings extraídas.
- * - `coords`: pares {start, end} no string original.
- * - `len`: número de tokens.
- * - `destroy`: callback para liberar a estrutura.
+ * Structure representing the final result
+ * of the splitter.
+ * Stores:
+ * - `chuncks`: array of extracted substrings.
+ * - `coords`: {start, end} pairs in the
+ *   original string.
+ * - `len`: number of tokens.
+ * - `destroy`: callback to free the structure.
  *
- * É o objeto final retornado ao usuário.
+ * This is the final object returned to the user.
  */
 typedef struct s_splited_prompt	t_splited_prompt;
 struct s_splited_prompt

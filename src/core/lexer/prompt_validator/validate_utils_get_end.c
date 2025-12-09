@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_utils_get_end.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:55:11 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 15:30:00 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 17:57:23 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 /**
  * # get_end
  *
- * Encontra a posição de fechamento de uma estrutura:
- * aspas, backquotes, parênteses ou `$()`.
+ * Finds the closing position of a structure:
+ * quotes, backquotes, parentheses, or `$()`.
  *
- * Lógica:
- * - Avança até o próximo caractere especial compatível.
- * - Retorna a posição final do bloco.
+ * Logic:
+ * - Advances to the next matching special
+ *   character.
+ * - Returns the final position of the block.
  */
 int	get_end(const char *str, int idx,
 			bool (*is_special_char)(const char *str, int idx, char *chars),
@@ -51,11 +52,13 @@ int	get_end(const char *str, int idx,
 /**
  * # get_end_parens
  *
- * Encontra a posição de fechamento da estrutura: parênteses `(`.
+ * Finds the closing position of a structure:
+ * parentheses `(`.
  *
- * Lógica:
- * - Avança até o próximo caractere especial compatível.
- * - Retorna a posição final do bloco.
+ * Logic:
+ * - Advances to the next matching special
+ *   character.
+ * - Returns the final position of the block.
  */
 int	get_end_parens(const char *str, int idx,
 			bool (*is_special_char)(const char *str, int idx, char *chars),
@@ -90,11 +93,13 @@ int	get_end_parens(const char *str, int idx,
 /**
  * # get_end_dollar_parens
  *
- * Encontra a posição de fechamento da estrutura: `$(`.
+ * Finds the closing position of a structure:
+ * `$(`.
  *
- * Lógica:
- * - Avança até o próximo caractere especial compatível.
- * - Retorna a posição final do bloco.
+ * Logic:
+ * - Advances to the next matching special
+ *   character.
+ * - Returns the final position of the block.
  */
 int	get_end_dollar_parens(const char *str, int idx,
 			bool (*is_special_char)(const char *str, int idx, char *chars),

@@ -14,18 +14,18 @@
 #include "../../utils/utils.h"
 
 /**
-*  # ft_coord_dup
-*
-* Duplica uma coordenada [start, end].
-*
-* Lógica:
-* - Aloca novo vetor de 2 inteiros.
-* - Copia start e end do original.
-*
-* Papel:
-* Fornece coordenadas independentes quando múltiplas estruturas
-* precisam referenciar os mesmos limites da string.
-*/
+ * # ft_coord_dup
+ *
+ * Duplicates a coordinate [start, end].
+ *
+ * Logic:
+ * - Allocates a new array of 2 integers.
+ * - Copies start and end from the original.
+ *
+ * Role:
+ * Provides independent coordinates when multiple structures
+ * need to reference the same string boundaries.
+ */
 int	*ft_coord_dup(int *coord)
 {
 	int	*new_coord;
@@ -37,18 +37,18 @@ int	*ft_coord_dup(int *coord)
 }
 
 /**
-*  # ft_new_coord
-*
-* Cria uma nova coordenada [start, end].
-*
-* Lógica:
-* - Aloca vetor de 2 inteiros.
-* - Atribui valores baseados nos argumentos recebidos.
-*
-* Papel:
-* Utilitário simples para registrar regiões da string original,
-* usado tanto pelo splitter quanto pelo lexer.
-*/
+ * # ft_new_coord
+ *
+ * Creates a new coordinate [start, end].
+ *
+ * Logic:
+ * - Allocates an array of 2 integers.
+ * - Assigns values based on the given arguments.
+ *
+ * Role:
+ * Simple utility to record regions of the original string,
+ * used by both the splitter and the lexer.
+ */
 int	*ft_new_coord(int start, int end)
 {
 	int	*new_coord;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refine_raw_token_push.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 07:45:01 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 23:10:51 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:16:19 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@ static void	ft_push_grouped_token_part(
 /**
  * # ft_refined_token_push
  *
- * Decide como inserir o token refinado dentro da lista:
- * - Se é o primeiro push daquele índice, cria token direto
- *   a partir da coordenada original.
- * - Senão, determina o novo start a partir do último chunk
- *   já inserido.
+ * Decides how to insert the refined token
+ * into the list:
+ * - If it's the first push for that index,
+ *   creates the token directly from the
+ *   original coordinate.
+ * - Otherwise, determines the new start
+ *   from the last chunk already inserted.
  *
- * Encaminha para `ft_push_ungrouped_token`,
- * `ft_push_grouped_token_part` ou
+ * Delegates to `ft_push_ungrouped_token`,
+ * `ft_push_grouped_token_part`, or
  * `ft_push_grouped_token_part_with_skipped_quotes`.
  */
 void	ft_refined_token_push(t_refined_token_push_params params)
@@ -57,8 +59,8 @@ void	ft_refined_token_push(t_refined_token_push_params params)
 /**
  * # ft_push_ungrouped_token
  *
- * Insere um token que não contém agrupamentos,
- * usando diretamente o intervalo completo do buffer.
+ * Inserts a token without any grouping,
+ * using the full buffer range directly.
  */
 static void	ft_push_ungrouped_token(
 				t_refined_token_push_params params
@@ -75,10 +77,12 @@ static void	ft_push_ungrouped_token(
 /**
  * # ft_push_grouped_token_part_with_skipped_quotes
  *
- * Usado quando o token continha múltiplas aspas consecutivas
- * que foram ignoradas na leitura.
+ * Used when the token contained multiple
+ * consecutive quotes that were skipped
+ * during parsing.
  *
- * Insere apenas o trecho válido, iniciando em last_start.
+ * Inserts only the valid slice, starting
+ * from `last_start`.
  */
 static void	ft_push_grouped_token_part_with_skipped_quotes(
 				t_refined_token_push_params params
@@ -95,8 +99,10 @@ static void	ft_push_grouped_token_part_with_skipped_quotes(
 /**
  * # ft_push_grouped_token_part
  *
- * Caso geral de tokens agrupados normais (ex: `|grep` ou `>file.txt`).
- * Insere o trecho usando o start calculado pelo caller.
+ * General case for normal grouped tokens
+ * (e.g., `|grep` or `>file.txt`).
+ * Inserts the slice using the start
+ * calculated by the caller.
  */
 static void	ft_push_grouped_token_part(
 				t_refined_token_push_params params

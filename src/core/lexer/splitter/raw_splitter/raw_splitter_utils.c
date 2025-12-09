@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raw_splitter_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:27:34 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 22:11:51 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:11:21 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 /**
  * # ft_raw_splitter_update_word_start
  *
- * Marca o índice inicial de uma palavra,
- * mas apenas quando o estado de aspas permite
- * (fora ou abrindo aspas).
+ * Marks the starting index of a word,
+ * but only when the quote state allows
+ * it (outside or opening quotes).
  */
 static void	ft_raw_splitter_update_word_start(
 		t_quote_info *quote_info, t_int_array *array, int idx)
@@ -29,9 +29,9 @@ static void	ft_raw_splitter_update_word_start(
 /**
  * # ft_raw_splitter_update_word_end
  *
- * Marca o encerramento de uma palavra.
- * Também lida com fechamento de aspas e
- * reinicialização do estado.
+ * Marks the end of a word.
+ * Also handles quote closing and
+ * state reset.
  */
 static void	ft_raw_splitter_update_word_end(
 		t_quote_info *quote_info, t_int_array *array, int idx)
@@ -50,18 +50,19 @@ static void	ft_raw_splitter_update_word_end(
 /**
  * # ft_quote_fsm_before_coord_extraction
  *
- * Atualiza o estado da FSM de aspas **antes** da extração
- * de coordenadas de palavras. É uma etapa auxiliar que
- * interpreta o caractere atual e ajusta `quote_info`
- * conforme regras internas de:
- * - entrada em aspas
- * - aspas consecutivas
- * - múltiplos fechamentos com backticks
- * - início/fim de bloco de aspas
+ * Updates the quote FSM state **before**
+ * extracting word coordinates. An auxiliary
+ * step that interprets the current character
+ * and adjusts `quote_info` according to
+ * internal rules for:
+ * - entering quotes
+ * - consecutive quotes
+ * - multiple backtick closings
+ * - start/end of a quoted block
  *
- * Essencial para que a fase posterior identifique corretamente
- * início/fim de palavras levando em conta regiões entre aspas.
- *
+ * Essential for the later phase to
+ * correctly identify word boundaries
+ * inside/outside quoted regions.
  */
 static void	ft_quote_fsm_before_coord_extraction(
 				const char *str, int i, t_quote_info *quote_info)
@@ -79,18 +80,20 @@ static void	ft_quote_fsm_before_coord_extraction(
 /**
  * # ft_raw_splitter_get_words_position
  *
- * Núcleo do parser. Varre o string caractere por caractere
- * e determina onde palavras começam e terminam.
+ * Core of the parser. Scans the string
+ * character by character and determines
+ * where words start and end.
  *
- * Lógica:
- * - Mantém uma FSM (Finite State Machine) de aspas via `t_quote_info`.
- * - Detecta:
- *      * início de palavra
- *      * fim de palavra
- *      * transições entre estados de aspas
- * - Preenche `array` com pares {start, end}.
+ * Logic:
+ * - Maintains a quote FSM via `t_quote_info`.
+ * - Detects:
+ *      * word start
+ *      * word end
+ *      * transitions between quote states
+ * - Fills `array` with {start, end} pairs.
  *
- * É a etapa mais complexa do sistema.
+ * This is the most complex stage of
+ * the system.
  */
 void	ft_raw_splitter_get_words_position(
 			const char *str, t_int_array *array)

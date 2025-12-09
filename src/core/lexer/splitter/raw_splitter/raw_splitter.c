@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raw_splitter.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:35:20 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 21:45:25 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:12:45 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@ static int				ft_split_with_coords(char const *src,
 /**
  * # ft_raw_splitter
  *
- * Função principal de entrada. Varre a string original,
- * detecta limites de palavras (respeitando aspas) e monta
- * a estrutura final `t_splited_prompt`.
+ * Main entry function. Scans the original
+ * string, detects word boundaries (respecting
+ * quotes), and builds the final
+ * `t_splited_prompt` structure.
  *
- * Lógica:
- * - Aloca vetor de coordenadas.
- * - Identifica posições de início/fim via
+ * Logic:
+ * - Allocates a coordinates array.
+ * - Identifies start/end positions via
  *   `ft_raw_splitter_get_words_position`.
- * - Converte coordenadas em substrings com `ft_run_split`.
+ * - Converts coordinates into substrings
+ *   with `ft_run_split`.
  */
 t_splited_prompt	*ft_raw_splitter(char const *str)
 {
@@ -54,13 +56,15 @@ t_splited_prompt	*ft_raw_splitter(char const *str)
 /**
  * # ft_run_split
  *
- * Converte o array de coordenadas em tokens reais.
+ * Converts the coordinates array into
+ * actual tokens.
  *
- * Lógica:
- * - Cria estrutura `t_splited_prompt`.
- * - Aloca array de strings conforme quantidade de pares.
- * - Copia cada trecho usando `coord_arr`.
- * - Constrói o array de coordenadas final.
+ * Logic:
+ * - Creates a `t_splited_prompt` structure.
+ * - Allocates a string array based on the
+ *   number of coordinate pairs.
+ * - Copies each slice using `coord_arr`.
+ * - Builds the final coordinates array.
  */
 static t_splited_prompt	*ft_run_split(
 							char const *str,
@@ -94,10 +98,10 @@ static t_splited_prompt	*ft_run_split(
 /**
  * # ft_delete_words
  *
- * Libera um array parcial de strings em caso de erro
- * durante a criação dos tokens.
+ * Frees a partial string array in case
+ * of an error during token creation.
  *
- * Função utilitária de limpeza.
+ * Utility cleanup function.
  */
 static void	ft_delete_words(char ***str, int end)
 {
@@ -114,13 +118,16 @@ static void	ft_delete_words(char ***str, int end)
 /**
  * # ft_split_with_coords
  *
- * Substring splitter baseado em coordenadas.
+ * Substring splitter based on coordinates.
  *
- * Lógica:
- * - Para cada par {start,end}, aloca e copia o trecho.
- * - Em erro, limpa tudo com `ft_delete_words`.
+ * Logic:
+ * - For each {start,end} pair, allocates
+ *   and copies the slice.
+ * - On error, cleans everything with
+ *   `ft_delete_words`.
  *
- * Não interpreta aspas; apenas corta pelos índices fornecidos.
+ * Does not interpret quotes; only cuts
+ * using the provided indices.
  */
 static int	ft_split_with_coords(char const *src,
 		int *coord_arr, int coord_arr_len, char **words)

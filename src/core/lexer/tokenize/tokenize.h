@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:58:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/08 15:33:43 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:42:40 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@
 /**
  * # t_token_type
  *
- * Enum compacto que representa tipos de tokens.
- * Cada item combina chars usando bit-shifts para permitir
- * identificação rápida e comparação direta por inteiro.
+ * Compact enum representing token types.
+ * Each item combines chars using bit-shifts to allow
+ * fast identification and direct integer comparison.
  *
- * Lógica:
- * - Tokens de 1 char usam diretamente o próprio caractere.
- * - Tokens de 2 chars usam (c1 << 8 | c2).
- * - TOKEN_UNKNOWN usa 'u''n''k' empacotado como inteiro.
+ * Logic:
+ * - 1-char tokens use the character directly.
+ * - 2-char tokens use (c1 << 8 | c2).
+ * - TOKEN_UNKNOWN uses 'u''n''k' packed as an integer.
  */
 typedef enum e_token_type			t_token_type;
 enum e_token_type
@@ -57,11 +57,11 @@ enum e_token_type
 /**
  * # t_expansion_build
  *
- * Armazena o resultado final de uma expansão de variável/glob.
- * Contém:
- * - glob_error: mensagem se falha na expansão de glob.
- * - token_expanded: token final sem aspas e com expansões aplicadas.
- * - destroy: libera a estrutura.
+ * Stores the final result of a variable/glob expansion.
+ * Contains:
+ * - glob_error: message if glob expansion failed.
+ * - token_expanded: final token without quotes and with expansions applied.
+ * - destroy: frees the structure.
  */
 typedef struct s_expansion_build	t_expansion_build;
 struct s_expansion_build
@@ -74,20 +74,20 @@ struct s_expansion_build
 /**
  * # t_token
  *
- * Representa um token já classificado e apto a expansão.
- * Campos:
- * - value: string original do token.
- * - type: tipo classificado via ft_get_token_type().
- * - position: índice do token na linha original.
- * - coord_in_src: coordenadas de início/fim na string original.
- * - sintaxe_error: erro sintático detectado.
- * - feature_out_of_scope: indica recursos ainda não suportados.
- * - last_build: cache da expansão realizada (para evitar refazer).
- * - expand_var: callback para expansão de variáveis.
- * - expand_glob: callback para expansão glob.
- * - build_expansion: função que executa toda a lógica de expansão.
- * - destroy: destrói o token.
- * - expandable_object: dados sobre o que pode ser expandido.
+ * Represents a token already classified and ready for expansion.
+ * Fields:
+ * - value: original token string.
+ * - type: classified type via ft_get_token_type().
+ * - position: token index in the original line.
+ * - coord_in_src: start/end coordinates in the original string.
+ * - syntax_error: detected syntax error.
+ * - feature_out_of_scope: indicates unsupported features.
+ * - last_build: cache of the expansion performed (avoids recomputation).
+ * - expand_var: callback for variable expansion.
+ * - expand_glob: callback for glob expansion.
+ * - build_expansion: function executing the full expansion logic.
+ * - destroy: destroys the token.
+ * - expandable_object: data about what can be expanded.
  */
 typedef struct s_token				t_token;
 struct s_token
@@ -116,9 +116,9 @@ typedef char						**(*t_expand_glob_clbk)(
 /**
  * # t_expander_callbacks
  *
- * Guarda os callbacks necessários:
- * - expand_var: variável → string expandida
- * - expand_glob: glob → lista de strings
+ * Stores the necessary callbacks:
+ * - expand_var: variable → expanded string
+ * - expand_glob: glob → list of strings
  */
 typedef struct s_expander_callbacks	t_expander_callbacks;
 struct s_expander_callbacks

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_expansion_result.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 17:17:19 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 15:33:09 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:38:24 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static t_expansion_build	*ft_remove_quotes(
 /**
  * # ft_build_expansion_result
  *
- * Monta o t_expansion_build final.
+ * Builds the final t_expansion_build.
  *
- * Lógica:
- * - Chama ft_remove_quotes() que aplica regras de remoção
- *   de aspas do shell.
- * - Usa glob_input ou valores expandidos.
+ * Logic:
+ * - Calls ft_remove_quotes() to apply shell quote
+ *   removal rules.
+ * - Uses glob_input or expanded values.
  */
 t_expansion_build	*ft_build_expansion_result(t_token *token, char *glob_input)
 {
@@ -51,17 +51,17 @@ t_expansion_build	*ft_build_expansion_result(t_token *token, char *glob_input)
 /**
  * # ft_remove_quotes
  *
- * Remove aspas externas e ajusta resultado final.
+ * Removes external quotes and adjusts the final result.
  *
- * Lógica:
- * - Se houve erro no glob (padrões não encontrados):
- *   - Usa ft_separate_quote_chuncks() para capturar string sem aspas
- *     e salvar em glob_error.
- * - Caso contrário:
- *   - Usa expanded_glob_value se existir.
- *   - Senão expanded_value.
- *   - Senão original_token.
- * - Gera versão sem aspas via to_noquotes_string().
+ * Logic:
+ * - If there was a glob error (pattern not found):
+ *   - Uses ft_separate_quote_chuncks() to capture the
+ *     unquoted string and save it in glob_error.
+ * - Otherwise:
+ *   - Uses expanded_glob_value if available.
+ *   - Else uses expanded_value.
+ *   - Else uses original_token.
+ * - Generates a no-quotes version via to_noquotes_string().
  */
 static t_expansion_build	*ft_remove_quotes(
 								t_expandable_object *object,
@@ -97,11 +97,11 @@ static t_expansion_build	*ft_remove_quotes(
 /**
  * # ft_expansion_build_dup
  *
- * Duplica um t_expansion_build.
+ * Duplicates a t_expansion_build.
  *
- * Lógica:
- * - Se havia erro → copia apenas glob_error.
- * - Caso contrário → copia token_expanded.
+ * Logic:
+ * - If there was an error → copies only glob_error.
+ * - Otherwise → copies token_expanded.
  */
 t_expansion_build	*ft_expansion_build_dup(t_expansion_build *last_build)
 {
@@ -122,7 +122,7 @@ t_expansion_build	*ft_expansion_build_dup(t_expansion_build *last_build)
 /**
  * # ft_destroy_expansion_build
  *
- * Libera glob_error, token_expanded e a struct.
+ * Frees glob_error, token_expanded, and the struct.
  */
 static void	*ft_destroy_expansion_build(t_expansion_build **self_ref)
 {
@@ -141,7 +141,7 @@ static void	*ft_destroy_expansion_build(t_expansion_build **self_ref)
 /**
  * # ft_create_expansion_build
  *
- * Constrói struct vazia com destroy definido.
+ * Constructs an empty struct with destroy defined.
  */
 static t_expansion_build	*ft_create_expansion_build(void)
 {

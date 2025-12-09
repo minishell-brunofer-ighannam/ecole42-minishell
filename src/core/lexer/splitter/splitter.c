@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 22:36:19 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 23:29:27 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:23:26 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,23 @@
 /**
  * # ft_splitter
  *
- * Função de alto nível que unifica todo o fluxo:
- * recebe a string bruta, executa o refinamento completo
- * e retorna o `t_splited_prompt` final.
+ * High-level function that unifies the
+ * entire flow: takes the raw string,
+ * performs full refinement, and returns
+ * the final `t_splited_prompt`.
  *
- * Papel:
- * - Serve como interface simples para o usuário.
- * - Encapsula a lógica interna (`ft_raw_splitter` + refinamento).
- * - Garante que sempre retorna apenas o resultado final já filtrado.
+ * Role:
+ * - Serves as a simple interface for the user.
+ * - Encapsulates internal logic
+ *   (`ft_raw_splitter` + refinement).
+ * - Ensures it always returns only the
+ *   final filtered result.
  *
- * Observação:
- * Não realiza nenhuma lógica própria — delega tudo para
- * `ft_refined_splitter`, que coordena o processo completo.
+ * Note:
+ * Does not implement any logic itself —
+ * delegates everything to
+ * `ft_refined_splitter`, which manages
+ * the full process.
  */
 t_splited_prompt	*ft_splitter(char const *str)
 {

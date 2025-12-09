@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expandable_object_internal.h                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:05:35 by valero            #+#    #+#             */
-/*   Updated: 2025/11/24 23:13:37 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:24:41 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,22 @@
 /**
  * # t_expandable_section
  *
- * Estrutura intermediária usada para coletar seções do token
- * que podem conter expansões (`$VAR`, `$1`, `$?`, etc.).
+ * Intermediate structure used to collect
+ * token sections that may contain
+ * expansions (`$VAR`, `$1`, `$?`, etc.).
  *
- * Armazena:
- * - `list`: lista encadeada com as seções de texto.
- * - `coord_list`: mesmas seções, mas guardando {start, end}.
- * - `array` / `coord_array`: versões lineares das listas.
+ * Stores:
+ * - `list`: linked list of text sections.
+ * - `coord_list`: same sections, storing
+ *   {start, end}.
+ * - `array` / `coord_array`: linear
+ *   versions of the lists.
  *
- * Finalidade:
- * Servir como “buffer de descoberta”. Tudo que pode ser expandido
- * passa por aqui antes de ser filtrado e montado no objeto final.
+ * Purpose:
+ * Serves as a "discovery buffer." Anything
+ * that can be expanded passes through here
+ * before being filtered and assembled
+ * into the final object.
  */
 typedef struct s_expandable_section			t_expandable_section;
 struct s_expandable_section

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_singlequotes.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 15:26:37 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 15:26:41 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 17:56:08 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 /**
  * # ft_validate_singlequotes
  *
- * Validação simples:
- * Aspas simples nunca permitem aninhamento interno.
- * Basta verificar pares corretos de `'`.
+ * Simple validation:
+ * Single quotes never allow inner
+ * nesting. You only need to check
+ * for correct `'` pairs.
  */
 int	ft_validate_singlequotes(const char *line)
 {

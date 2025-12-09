@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:57:24 by valero            #+#    #+#             */
-/*   Updated: 2025/11/21 12:48:03 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:22:46 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 /**
  * # ft_is_quote
  *
- * Checa se o caractere é uma aspa válida
- * (simples, dupla ou listada em `other_symbols`)
- * e respeita regras de escape via backslash.
+ * Checks if a character is a valid quote
+ * (single, double, or listed in
+ * `other_symbols`) and respects escape
+ * rules via backslash.
  */
 bool	ft_is_quote(const char *str, int idx, char *other_symbols)
 {
