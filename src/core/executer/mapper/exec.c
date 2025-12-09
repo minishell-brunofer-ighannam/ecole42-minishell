@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 15:41:42 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 20:12:03 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 23:37:49 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,8 @@ void	ft_destroy_exec(void *exec)
 	if (!exec_node_ref || !*exec_node_ref)
 		return ;
 	exec_node = *exec_node_ref;
-	if (exec_node->fds[0] != -1)
-		close(exec_node->fds[0]);
-	if (exec_node->fds[1] != -1)
-		close(exec_node->fds[1]);
-	exec_node->fds[0] = -1;
-	exec_node->fds[1] = -1;
+	close(exec_node->fds[0]);
+	close(exec_node->fds[1]);
 	if (exec_node->ht_env)
 	{
 		exec_node->ht_env->destroy(&(exec_node->ht_env), ft_free_item_ht_env);

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 20:27:13 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 21:23:13 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int	ft_execute_redirect_in(t_linkedlist_node *node)
 		return (1);
 	}
 	dup2(file, STDIN_FILENO);
+	if (content->type == AST_NODE_HERE_DOC_IN)
+		unlink(content->file);
 	close(file);
 	return (0);
 }
@@ -116,8 +118,6 @@ int	ft_execute_redirect_out(t_linkedlist_node *node)
 		return (1);
 	}
 	dup2(file, STDOUT_FILENO);
-	if (content->type == AST_NODE_HERE_DOC_IN)
-		unlink(content->file);
 	close(file);
 	return (0);
 }
