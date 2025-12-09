@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 12:57:32 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/07 18:31:08 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 12:51:14 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,5 @@
 # include "../src/utils/utils.h"
 # include "../src/core/executer/mapper/mapper.h"
 # include "../src/core/reader/reader.h"
-
-# define PROMPT_GREEN	"\001\033[32m\002"
-# define PROMPT_MAGENTA	"\001\033[35m\002"
-# define PROMPT_RESET	"\001\033[0m\002"
-# define PROMPT_ISA		PROMPT_GREEN"isaghannam"PROMPT_RESET
-# define PROMPT_BRUNO	PROMPT_GREEN"brunovalero"PROMPT_RESET
-# define PROMPT_SHELL	PROMPT_MAGENTA"minishell"PROMPT_RESET
-# define PROMPT PROMPT_ISA"&"PROMPT_BRUNO":"PROMPT_SHELL"$> "
-
-int		get_sig(void);
-void	set_sig(int value);
 
 #endif

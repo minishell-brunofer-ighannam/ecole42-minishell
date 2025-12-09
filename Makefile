@@ -100,7 +100,7 @@ READER = $(READER_DIR)/get_prompt.c $(READER_DIR)/reader.c
 UTILS = src/utils/array_str.c src/utils/commands.c src/utils/print.c
 
 
-SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(PARSER_FILES) $(BUILTINS) $(READER) $(PROCESS) $(ENV) $(EXECUTER) $(UTILS) src/signals.c src/globals.c
+SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(PARSER_FILES) $(BUILTINS) $(READER) $(PROCESS) $(ENV) $(EXECUTER) $(UTILS) src/signals.c
 
 
 
