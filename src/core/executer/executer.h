@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 09:37:26 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/08 21:41:27 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,10 @@ void				ft_print_error_cmd(int error, char *path);
 int					ft_execute_builtin(t_binary_tree_node *node, t_ast *ast);
 
 // REDIRECT
+
 int					ft_is_redirect(t_binary_tree_node *node);
 int					ft_visit_redirect(t_binary_tree_node *node, t_ast *ast);
 int					ft_execute_redirect(t_binary_tree_node *node);
-int					ft_execute_redirect_in(t_linkedlist_node *node);
-int					ft_execute_redirect_out(t_linkedlist_node *node);
-int					ft_execute_append_out(t_linkedlist_node *node);
 void				ft_free_item_redirect(void *content);
 
 // HEREDOC

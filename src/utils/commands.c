@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 22:22:24 by valero            #+#    #+#             */
-/*   Updated: 2025/12/07 20:14:18 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/08 21:26:02 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int	is_reserved_token(char *str, int idx)
 			|| (str[idx] == '&' && ft_strchr("&>", str[idx + 1]))
 			|| (str[idx] == '<' && ft_strchr("<>", str[idx + 1]))
 			|| (str[idx] == '|' && str[idx + 1] == '|')
-			|| (str[idx] == '2' && str[idx + 1] == '>' && str[idx + 2] != '&')
 			|| (str[idx] == '$' && str[idx + 1] == '('))
 	)
 		return (2);
