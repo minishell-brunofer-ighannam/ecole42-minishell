@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refine_raw_token.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 01:29:30 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 23:08:10 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:16:44 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,20 @@
 /**
  * # ft_refine_raw_token
  *
- * Coração do refinamento de cada token bruto.
+ * Core of refining each raw token.
  *
- * Lógica:
- * - Prepara variáveis internas e buffer.
- * - Calcula tamanho real do token pelas coordenadas.
- * - Executa o parser de agrupamentos e aspas via
- *   `ft_manage_grouped_and_ungrouped_tokens`.
- * - Caso tenha sobrado conteúdo pendente em new_token,
- *   empurra com `ft_refined_token_push`.
+ * Logic:
+ * - Prepares internal variables and buffer.
+ * - Calculates the token's actual size
+ *   using the coordinates.
+ * - Runs the grouping and quote parser
+ *   via `ft_manage_grouped_and_ungrouped_tokens`.
+ * - If there is leftover content in
+ *   `new_token`, pushes it with
+ *   `ft_refined_token_push`.
  *
- * Responsável por aplicar toda a lógica de segmentação fina.
+ * Responsible for applying all fine-grained
+ * segmentation logic.
  */
 void	ft_refine_raw_token(
 				t_chunck raw_token,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raw_splitter_internal.h                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 20:07:48 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 21:43:55 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:07:56 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 /**
  * # t_quote_state
  *
- * Estado interno do parser de aspas.
- * Representa transições entre abertura, conteúdo e
- * fechamento de aspas, usado para decidir quando
- * iniciar/terminar tokens.
+ * Internal state of the quote parser.
+ * Represents transitions between opening,
+ * content, and closing of quotes. Used
+ * to decide when to start/end tokens.
  */
 typedef enum e_quote_state							t_quote_state;
 enum e_quote_state
@@ -37,11 +37,14 @@ enum e_quote_state
 /**
  * # t_quote_info
  *
- * Conjunto de informações sobre o estado atual das aspas.
- * - `state`: estado da FSM.
- * - `open_quote_type`: tipo de aspas atualmente abertas.
+ * Set of information about the current
+ * state of quotes.
+ * - `state`: FSM state.
+ * - `open_quote_type`: type of quote
+ *   currently open.
  *
- * Controla toda a lógica de delimitação de palavras dentro/fora de aspas.
+ * Controls all logic for word delimiting
+ * inside/outside quotes.
  */
 typedef struct s_quote_info							t_quote_info;
 struct s_quote_info
@@ -53,10 +56,12 @@ struct s_quote_info
 /**
  * # t_int_array
  *
- * Estrutura auxiliar para armazenar dinamicamente os índices
- * de início e fim de cada palavra detectada.
+ * Helper structure to dynamically store
+ * start and end indices of each detected
+ * word.
  *
- * Usada durante a varredura inicial da string.
+ * Used during the initial scan of the
+ * string.
  */
 typedef struct s_int_array							t_int_array;
 struct s_int_array

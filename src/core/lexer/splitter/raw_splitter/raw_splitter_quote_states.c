@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 20:46:14 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/07 18:57:28 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:09:38 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /**
  * # ft_raw_splitter_update_quote_state
  *
- * Atualiza o estado da máquina de aspas,
- * decidindo se estamos abrindo, entrando,
- * fechando ou saindo de aspas.
+ * Updates the state of the quote FSM,
+ * deciding if we are opening, inside,
+ * closing, or exiting quotes.
  *
- * Lógica:
- * - Possui dois fluxos: quando é fim de palavra
- *   e quando é apenas um caractere normal.
- * - Controla o valor `open_quote_type`.
+ * Logic:
+ * - Has two flows: end-of-word and
+ *   normal character.
+ * - Controls the value of `open_quote_type`.
  */
 void	ft_raw_splitter_update_quote_state(
 				t_quote_info *quote_info, char quote, bool is_word_end)
@@ -56,13 +56,13 @@ void	ft_raw_splitter_update_quote_state(
 /**
  * # ft_is_start_quote_after_multiple_closing
  *
- * Detecta caso específico onde uma nova aspa
- * inicia imediatamente após múltiplos fechamentos,
- * envolvendo backticks.
+ * Detects the specific case where a new
+ * quote starts immediately after multiple
+ * closings, involving backticks.
  *
  * ---
  *
- * ## Exemplo:
+ * ## Example:
  * `...end""""""""new start"`
  */
 bool	ft_is_start_quote_after_multiple_closing(
@@ -75,12 +75,12 @@ bool	ft_is_start_quote_after_multiple_closing(
 /**
  * # ft_has_entered_quote
  *
- * Determina se o parser acabou de entrar
- * no conteúdo interno de uma aspa.
+ * Determines if the parser has just
+ * entered the internal content of a quote.
  *
  * ---
  *
- * ## Exemplo:
+ * ## Example:
  * `..."entered a quote...`
  */
 bool	ft_has_entered_quote(const char *str, int i, t_quote_state state)
@@ -91,15 +91,14 @@ bool	ft_has_entered_quote(const char *str, int i, t_quote_state state)
 /**
  * # ft_is_start_consecutive_quote
  *
- * Detecta aspas consecutivas (ex: `''''''`)
- * que mudam o tipo de aspa aberta.
+ * Detects consecutive quotes (e.g. `''''''`)
+ * that change the type of open quote.
  *
- * Útil para padrões não convencionais de backticks.
+ * Useful for unconventional backtick patterns.
  *
  * ---
  *
- * ## Exemplo:
- *
+ * ## Example:
  * `...starting consecutive quotes""""""...`
  */
 bool	ft_is_start_consecutive_quote(
@@ -113,14 +112,13 @@ bool	ft_is_start_consecutive_quote(
 /**
  * # ft_is_start_or_end_quote
  *
- * Verifica se a posição atual marca início
- * ou término de um bloco entre aspas,
- * levando em conta o tipo de aspa aberto.
+ * Checks if the current position marks
+ * the start or end of a quoted block,
+ * considering the type of open quote.
  *
  * ---
  *
- * ## Exemplo:
- *
+ * ## Example:
  * `...before"start or end of quotes"after...`
  */
 bool	ft_is_start_or_end_quote(

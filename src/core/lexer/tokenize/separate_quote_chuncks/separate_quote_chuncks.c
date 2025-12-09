@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   separate_quote_chuncks.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 20:10:11 by valero            #+#    #+#             */
-/*   Updated: 2025/11/23 17:17:06 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:35:35 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,16 @@ static void				push_singlequote_section(
 /**
  * # ft_separate_quote_chuncks
  *
- * Função principal do módulo. Percorre a string original e
- * divide em seções: sem aspas, entre aspas duplas e entre
- * aspas simples. Mantém coordenadas de cada trecho.
+ * Main function of the module. Scans the original
+ * string and splits it into sections: unquoted,
+ * double-quoted, and single-quoted. Keeps coordinates
+ * for each segment.
  *
- * Lógica:
- * - Controla estados de aspas (simples/duplas).
- * - Detecta início/fim de cada tipo de seção.
- * - Empilha seções e coordenadas em listas.
- * - Converte listas em arrays para uso posterior.
+ * Logic:
+ * - Manages quote states (single/double).
+ * - Detects start/end of each section type.
+ * - Pushes sections and coordinates into lists.
+ * - Converts lists into arrays for later use.
  */
 t_token_separated_sections	*ft_separate_quote_chuncks(const char *str)
 {
@@ -71,12 +72,12 @@ t_token_separated_sections	*ft_separate_quote_chuncks(const char *str)
 /**
  * # update_token_section
  *
- * Atualiza o estado atual de aspas durante a varredura.
+ * Updates the current quote state during scanning.
  *
- * Lógica:
- * - Liga/desliga flags de aspas simples e duplas.
- * - Garante alternância correta entre `'` e `"`,
- *   respeitando o shell (uma aspa só fecha a mesma aspa).
+ * Logic:
+ * - Turns single and double quote flags on/off.
+ * - Ensures correct alternation between `'` and `"`,
+ *   following shell rules (a quote only closes itself).
  */
 static void	update_token_section(
 				const char *str, int *i,
@@ -106,12 +107,12 @@ static void	update_token_section(
 /**
  * # push_non_quote_section
  *
- * Coleta trecho contínuo sem aspas.
+ * Collects a continuous unquoted segment.
  *
- * Lógica:
- * - Avança até encontrar `'` ou `"`.
- * - Empilha substring correspondente e suas coordenadas.
- * - Usado somente quando nenhuma aspa está ativa.
+ * Logic:
+ * - Advances until encountering `'` or `"`.
+ * - Pushes the substring and its coordinates.
+ * - Used only when no quote is active.
  */
 static void	push_non_quote_section(
 				t_token_separated_sections *exp_sections, const char *str,
@@ -142,13 +143,13 @@ static void	push_non_quote_section(
 /**
  * # push_doublequote_section
  *
- * Coleta trecho completo entre aspas duplas `"..."`,
- * incluindo as aspas na substring.
+ * Collects a complete double-quoted segment `"..."`,
+ * including the quotes in the substring.
  *
- * Lógica:
- * - Verifica se o estado está em doublequote.
- * - Avança até a próxima `"`.
- * - Empilha substring inteira + coordenadas.
+ * Logic:
+ * - Checks if the state is in doublequote.
+ * - Advances until the next `"`.
+ * - Pushes the full substring and coordinates.
  */
 static void	push_doublequote_section(
 				t_token_separated_sections *exp_sections,
@@ -179,13 +180,14 @@ static void	push_doublequote_section(
 /**
  * # push_singlequote_section
  *
- * Coleta trecho `'...'` completo, preservando as aspas.
+ * Collects a complete single-quoted segment `'...'`,
+ * preserving the quotes.
  *
- * Lógica:
- * - Varre até a próxima `'`.
- * - Empilha substring e coordenadas.
- * - Essencial porque conteúdo entre aspas simples
- *   nunca deve sofrer expansão.
+ * Logic:
+ * - Scans until the next `'`.
+ * - Pushes substring and coordinates.
+ * - Essential because content inside single quotes
+ *   must never be expanded.
  */
 static void	push_singlequote_section(
 				t_token_separated_sections *exp_sections,

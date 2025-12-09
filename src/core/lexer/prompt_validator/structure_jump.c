@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structure_jump.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 08:55:01 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/08 14:26:17 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 19:48:28 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,18 @@ static void	ft_update_indexes(
 /**
  * # jump_to_closing
  *
- * Função chave para navegação de estruturas aninhadas.
- * Avança o índice até o caractere de fechamento correto,
- * respeitando o tipo da estrutura (", ', `, (), $()).
+ * Key function for navigating nested
+ * structures. Advances the index until
+ * the correct closing character,
+ * respecting the structure type
+ * (", ', `, (), $()).
  *
- * Lógica:
- * - Determina o caractere de fechamento.
- * - Usa `verify_char` para detectar erros dentro do bloco.
- * - Caso não haja erro interno, pula até `get_end`.
+ * Logic:
+ * - Determines the closing character.
+ * - Uses `verify_char` to detect errors
+ *   inside the block.
+ * - If no internal error is found,
+ *   jumps directly to `get_end`.
  */
 void	jump_to_closing(
 	t_jump_to_closing_params params,
@@ -104,8 +108,12 @@ void	jump_quotes(const char *line, int *idx)
 {
 	if (ft_is_special_char(line, *idx, "\""))
 		*idx = get_end(line, *idx, ft_is_special_char, "\"") + 1;
+	if (*idx && !line[*idx - 1])
+		(*idx)--;
 	if (ft_is_special_char(line, *idx, "'"))
 		*idx = get_end(line, *idx, ft_is_special_char, "'") + 1;
+	if (*idx && !line[*idx - 1])
+		(*idx)--;
 }
 
 static char	ft_get_corresponding_closing(const char *str)

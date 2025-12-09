@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:05:15 by valero            #+#    #+#             */
-/*   Updated: 2025/11/22 15:54:23 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:26:32 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,18 @@ static	t_expandable_object	*ft_create_expansion_data(
 /**
  * # ft_create_expandable_object
  *
- * Construtor principal do objeto de expansão.
+ * Main constructor for the expandable object.
  *
- * Lógica:
- * - Aloca e inicializa `t_expandable_object`.
- * - Chama `ft_create_expansion_data` para detectar expansões.
- * - Copia `original_value` do token.
- * - Define callback `destroy`.
+ * Logic:
+ * - Allocates and initializes
+ *   `t_expandable_object`.
+ * - Calls `ft_create_expansion_data` to detect
+ *   expansions.
+ * - Copies `original_value` from the token.
+ * - Sets the `destroy` callback.
  *
- * Função-chave: inicializa tudo que será usado na expansão.
+ * Key function: initializes everything that
+ * will be used for expansion.
  */
 t_expandable_object	*ft_create_expandable_object(t_token *token)
 {
@@ -57,16 +60,19 @@ t_expandable_object	*ft_create_expandable_object(t_token *token)
 /**
  * # ft_copy_expansion_into_object
  *
- * Copia do `t_expandable_section` apenas as chaves selecionadas
- * para dentro do `t_expandable_object`.
+ * Copies only selected keys from
+ * `t_expandable_section` into
+ * `t_expandable_object`.
  *
- * Lógica:
- * - Conta quantidade de chaves.
- * - Copia coordenadas com `copy_coord_array`.
- * - Copia chaves com `copy_array`.
+ * Logic:
+ * - Counts the number of keys.
+ * - Copies coordinates with
+ *   `copy_coord_array`.
+ * - Copies keys with `copy_array`.
  *
- * É o passo em que as expansões descobertas viram dados concretos
- * dentro do objeto final.
+ * This is the step where discovered
+ * expansions become concrete data in
+ * the final object.
  */
 static bool	ft_copy_expansion_into_object(
 				t_expandable_object **object,
@@ -93,15 +99,17 @@ static bool	ft_copy_expansion_into_object(
 /**
  * # ft_create_expansion_data
  *
- * Núcleo da descoberta de expansões.
+ * Core of expansion discovery.
  *
- * Lógica:
- * - Separa trechos respeitando aspas com `ft_find_expandable`.
- * - Verifica presença de globs via `ft_has_globs`.
- * - Extrai apenas chaves realmente expansíveis com `ft_find_keys_to_expand`.
- * - Copia esses dados para o objeto final.
+ * Logic:
+ * - Splits sections respecting quotes
+ *   using `ft_find_expandable`.
+ * - Checks for globs via `ft_has_globs`.
+ * - Extracts only truly expandable keys
+ *   with `ft_find_keys_to_expand`.
+ * - Copies this data into the final object.
  *
- * É o “scanner” principal do módulo.
+ * Main "scanner" of the module.
  */
 static	t_expandable_object	*ft_create_expansion_data(
 								t_expandable_object **object,
@@ -129,14 +137,17 @@ static	t_expandable_object	*ft_create_expansion_data(
 /**
  * # ft_destroy_expandable_object
  *
- * Destrói completamente um `t_expandable_object`.
+ * Completely destroys a
+ * `t_expandable_object`.
  *
- * Lógica:
- * - Libera original_value, expanded_value e glob_value.
- * - Libera matrizes de coordenadas e de chaves.
- * - Libera expanded_chunks.
+ * Logic:
+ * - Frees `original_value`, `expanded_value`,
+ *   and `glob_value`.
+ * - Frees coordinate and key arrays.
+ * - Frees `expanded_chunks`.
  *
- * Focado em evitar vazamentos, já que a estrutura tem vários níveis.
+ * Focused on avoiding leaks, as the structure
+ * has multiple levels.
  */
 static void	*ft_destroy_expandable_object(t_expandable_object **self_ref)
 {
@@ -165,12 +176,14 @@ static void	*ft_destroy_expandable_object(t_expandable_object **self_ref)
 /**
  * # ft_has_globs
  *
- * Verifica se alguma seção contém `*` *fora de aspas duplas*.
+ * Checks if any section contains `*` *outside
+ * of double quotes*.
  *
- * Importante porque:
- * - Glob só é aplicado em conteúdo não-quoted.
+ * Important because:
+ * - Glob is only applied to non-quoted content.
  *
- * Retorna `true` se houver glob válido, `false` senão.
+ * Returns `true` if a valid glob exists,
+ * `false` otherwise.
  */
 static bool	ft_has_globs(t_expandable_section *expandable_sections)
 {

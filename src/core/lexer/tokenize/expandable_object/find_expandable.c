@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 01:12:37 by valero            #+#    #+#             */
-/*   Updated: 2025/11/22 15:14:36 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:29:38 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,18 @@ static void	ft_push_section(
 /**
  * # ft_find_expandable
  *
- * Primeira etapa da análise: encontrar *todas* as seções possíveis
- * que possam conter expansões.
+ * First step of analysis: find *all* sections
+ * that may contain expansions.
  *
- * Lógica:
- * - Fragmenta o token respeitando aspas com `ft_separate_quote_chuncks`.
- * - Pula trechos dentro de aspas simples.
- * - Push das seções e coordenadas em `exp_sections`.
- * - Converte listas para arrays.
+ * Logic:
+ * - Splits the token respecting quotes using
+ *   `ft_separate_quote_chuncks`.
+ * - Skips sections inside single quotes.
+ * - Pushes sections and coordinates into
+ *   `exp_sections`.
+ * - Converts lists into arrays.
  *
- * Base bruta para todo o restante da análise.
+ * Raw base for the rest of the analysis.
  */
 t_expandable_section	*ft_find_expandable(const char *str)
 {
@@ -63,11 +65,12 @@ t_expandable_section	*ft_find_expandable(const char *str)
 /**
  * # ft_push_section
  *
- * Insere uma seção candidata à expansão dentro do `t_expandable_section`.
+ * Inserts a candidate section for expansion
+ * into `t_expandable_section`.
  *
- * Lógica:
- * - Duplica texto da seção.
- * - Duplica coordenada correspondente.
+ * Logic:
+ * - Duplicates the section text.
+ * - Duplicates the corresponding coordinate.
  */
 static void	ft_push_section(
 				t_expandable_section *exp_sections,

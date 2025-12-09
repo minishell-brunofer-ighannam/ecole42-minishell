@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_validator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:02:05 by valero            #+#    #+#             */
-/*   Updated: 2025/11/29 16:35:32 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 17:51:15 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,24 @@
 /**
  * # prompt_validator
  *
- * Executa todos os validadores de estruturas aninhadas:
- * - aspas simples
- * - parênteses normais
- * - aspas duplas
+ * Runs all validators for nested
+ * structures:
+ * - single quotes
+ * - normal parentheses
+ * - double quotes
  * - `$()` (dollar-parens)
  * - backquotes
  *
- * Retorna:
- * - índice do erro mais “profundo” (menor índice válido)
- * - ou -1 se estiver tudo correto.
+ * Returns:
+ * - index of the deepest error
+ *   (smallest valid index)
+ * - or -1 if everything is correct.
  *
- * Lógica:
- * - Executa cada validador separadamente.
- * - Armazena os resultados em `checks`.
- * - Retorna o menor índice com `ft_get_smaller`.
+ * Logic:
+ * - Runs each validator separately.
+ * - Stores the results in `checks`.
+ * - Returns the smallest index
+ *   using `ft_get_smaller`.
  */
 int	ft_prompt_validator(const char *line)
 {

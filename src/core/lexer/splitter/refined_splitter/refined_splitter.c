@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refined_splitter.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:52:01 by valero            #+#    #+#             */
-/*   Updated: 2025/11/20 23:07:08 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:21:53 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,16 @@ static void	refine_tokens(
 /**
  * # ft_refined_splitter
  *
- * Pipeline completo do refinamento:
- * - Usa `ft_raw_splitter` para criar tokens brutos.
- * - Cria array de listas para receber tokens refinados.
- * - Refina cada token com `refine_tokens`.
- * - Converte listas em matriz final com `copy_to_matrix`.
- * - Libera estruturas temporárias.
+ * Complete refinement pipeline:
+ * - Uses `ft_raw_splitter` to create raw tokens.
+ * - Creates an array of lists to hold refined tokens.
+ * - Refines each token with `refine_tokens`.
+ * - Converts lists into the final matrix with
+ *   `copy_to_matrix`.
+ * - Frees temporary structures.
  *
- * Retorna um `t_splited_prompt` devidamente limpado e final.
+ * Returns a properly cleaned and finalized
+ * `t_splited_prompt`.
  */
 t_splited_prompt	*ft_refined_splitter(char const *str)
 {
@@ -51,10 +53,11 @@ t_splited_prompt	*ft_refined_splitter(char const *str)
 /**
  * # refine_tokens
  *
- * Itera sobre todos os tokens brutos do raw_split
- * e chama `ft_refine_raw_token` para analisar cada um.
+ * Iterates over all raw tokens from the
+ * raw split and calls `ft_refine_raw_token`
+ * to process each one.
  *
- * Responsável apenas pelo loop externo.
+ * Responsible only for the outer loop.
  */
 static void	refine_tokens(
 				t_linkedlist_array *refined_tokens,
@@ -115,8 +118,10 @@ static void	copy_to_matrix(
 /**
  * # free_chunck
  *
- * Wrapper simples que chama o destrutor de `t_chunck`.
- * Necessário para passar como callback ao destruir listas.
+ * Simple wrapper that calls the destructor
+ * of `t_chunck`.
+ * Needed to pass as a callback when
+ * destroying lists.
  */
 void	free_chunck(void *ptr)
 {

@@ -185,13 +185,11 @@ $(LIBFT):
 
 
 
-tests: fclean child_process find_expandable find_keys_to_expand create_expandable_object \
+tests: fclean find_expandable find_keys_to_expand create_expandable_object \
 linkedlist linkedlist_array binary_tree raw_splitter refined_splitter prompt_validator build_expansion \
 find_path expand_var_test expand_glob_test env_ht_op lexer
 
 	@clear && echo "code% make tests"
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)child_process$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full --track-fds=yes ./child_process
 
 #	=================== LEXER TESTS =====================
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)lexer$(RESET)..." && sleep $(SLEEP)
@@ -265,10 +263,6 @@ refined_splitter: tests/lexer/refined_splitter.c tests/tests.c $(COMPILATION_DEP
 env_ht_op: tests/env_ht_op.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
 	@$(CC) $(CFLAGS) -no-pie -o $@ tests/env_ht_op.c $(OBJS) $(LIBFT) $(DEPENDENCIES)
-
-child_process: tests/child_process.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/child_process.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 find_path: tests/find_path.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)

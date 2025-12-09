@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:59:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/28 16:35:34 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:41:14 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /**
  * # ft_tokenize
  *
- * Cria e retorna um token a partir de uma substring.
- * Encapsula ft_create_token().
+ * Creates and returns a token from a substring.
+ * Wraps ft_create_token().
  *
- * Lógica:
- * - Aloca token.
- * - Copia valor, posição e coordenadas.
- * - Define callbacks.
- * - Classifica tipo.
+ * Logic:
+ * - Allocates the token.
+ * - Copies value, position, and coordinates.
+ * - Sets callbacks.
+ * - Classifies the type.
  */
 t_token	*ft_tokenize(
 			const char *chunck,

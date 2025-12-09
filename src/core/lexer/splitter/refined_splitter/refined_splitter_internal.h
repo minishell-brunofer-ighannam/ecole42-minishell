@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refined_splitter_internal.h                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 20:21:30 by valero            #+#    #+#             */
-/*   Updated: 2025/11/24 23:13:37 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:17:26 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,21 @@
 /**
  * # t_refine_raw_token_vars
  *
- * Variáveis internas usadas durante o refinamento de um token bruto.
- * Mantém estado do parsing: posição atual, buffer acumulado,
- * controle de aspas e limites do novo token.
+ * Internal variables used during the
+ * refinement of a raw token.
+ * Maintains parsing state: current
+ * position, accumulated buffer,
+ * quote tracking, and new token limits.
  *
- * Campos chave:
- * - new_token: buffer temporário onde o token refinado é montado.
- * - idx / idx_new_token: índices do token original e do refinado.
- * - found_quote: indica se estamos dentro de uma aspa.
- * - last_start: coord. absoluta do início de um trecho agrupado.
+ * Key fields:
+ * - `new_token`: temporary buffer where
+ *   the refined token is built.
+ * - `idx` / `idx_new_token`: indices of
+ *   the original and refined token.
+ * - `found_quote`: indicates if we are
+ *   inside a quote.
+ * - `last_start`: absolute coordinate of
+ *   the start of a grouped slice.
  */
 typedef struct s_refine_raw_token_params	t_refine_raw_token_vars;
 struct s_refine_raw_token_params
@@ -45,11 +51,13 @@ struct s_refine_raw_token_params
 /**
  * # t_refined_token_push_params
  *
- * Estrutura de escopo usada ao inserir tokens refinados na lista.
- * Carrega: token bruto, posição original, buffer parcial e o array
- * que receberá os novos chunks.
+ * Scope structure used when inserting
+ * refined tokens into the list.
+ * Contains: raw token, original position,
+ * partial buffer, and the array that
+ * will receive the new chunks.
  *
- * É passada para funções especializadas de push.
+ * Passed to specialized push functions.
  */
 typedef struct s_refined_token_push_params	t_refined_token_push_params;
 struct s_refined_token_push_params

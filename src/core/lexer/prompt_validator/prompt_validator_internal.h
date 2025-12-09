@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_validator_internal.h                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:04:48 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 15:30:30 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 17:50:38 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,18 @@
 /**
  * # t_char_checker
  *
- * Pequena estrutura auxiliar usada para isolar um contexto:
- * - `str`: string original.
- * - `idx`: índice de início da análise.
- * - `chars`: caracteres especiais que delimitam a estrutura.
- * - `is_special_char`: função usada para identificar esses caracteres.
+ * Small helper structure used to isolate
+ * a context:
  *
- * Serve como pacote de dados para `verify_char`.
+ * - `str`: original string.
+ * - `idx`: starting index for analysis.
+ * - `chars`: special characters that
+ *   delimit the structure.
+ * - `is_special_char`: function used to
+ *   identify those characters.
+ *
+ * Serves as a data package for
+ * `verify_char`.
  */
 typedef struct s_char_checker
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 21:48:52 by valero            #+#    #+#             */
-/*   Updated: 2025/11/29 20:46:35 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:04:59 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 /**
  * # verify_char
  *
- * Extrai um trecho da string que representa uma estrutura
- * delimitada e o envia para o validador apropriado.
+ * Extracts a substring representing a delimited structure
+ * and passes it to the corresponding validator.
  *
- * Lógica:
- * - Cria substring usando `get_end` como limite.
- * - Executa o validador nessa substring.
- * - Se o validador localizar erro, retorna o índice relativo.
+ * Behavior:
+ * - Builds a substring using `get_end` as the end index.
+ * - Calls the validator on that substring.
+ * - If the validator finds an error, returns the relative index.
  */
 int	verify_char(t_char_checker checker, int (*verify)(const char *line))
 {
@@ -41,8 +41,8 @@ int	verify_char(t_char_checker checker, int (*verify)(const char *line))
 /**
  * # ft_char_checker
  *
- * Inicializa um `t_char_checker` com os dados necessários
- * para validação de estruturas internas.
+ * Initializes a `t_char_checker` with the necessary data
+ * for validating internal structures.
  */
 t_char_checker	ft_char_checker(const char *str, int idx, char *chars,
 					bool (*is_special_char)(
@@ -60,10 +60,12 @@ t_char_checker	ft_char_checker(const char *str, int idx, char *chars,
 /**
  * # ft_get_smaller
  *
- * Dado um array de índices, retorna o menor índice válido
- * (>= 0). Se todos forem inválidos, retorna -1.
+ * Given an array of indices, returns the
+ * smallest valid index (>= 0). If all
+ * are invalid, returns -1.
  *
- * Usado para decidir qual erro tem prioridade.
+ * Used to decide which error has
+ * priority.
  */
 int	ft_get_smaller(int len, int *arr)
 {
@@ -81,8 +83,10 @@ int	ft_get_smaller(int len, int *arr)
 /**
  * # fill_int_array
  *
- * Inicializa um array de inteiros com um único valor.
- * Utilidade simples para preparação de arrays de índices.
+ * Initializes an integer array with a
+ * single value.
+ * Simple utility for preparing index
+ * arrays.
  */
 void	fill_int_array(int *array, int len, int value)
 {
