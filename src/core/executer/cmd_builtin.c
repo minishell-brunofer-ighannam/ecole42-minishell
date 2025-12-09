@@ -6,23 +6,17 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:44:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 20:28:09 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 10:58:07 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
+static int	ft_execute_builtin_aux(t_binary_tree_node *node, t_ast *ast);
+
 int	ft_execute_builtin(t_binary_tree_node *node, t_ast *ast)
 {
-	if (ft_strcmp(ft_get_tokens(node)[0]->value, "export") == 0)
-	{
-		if (ft_get_tokens(node)[1])
-			return (ft_export(ft_get_ht_env(node),
-					ft_get_tokens(node)[1]->value));
-		else
-			return (ft_export(ft_get_ht_env(node), NULL));
-	}
-	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "env") == 0)
+	if (ft_strcmp(ft_get_tokens(node)[0]->value, "env") == 0)
 		ft_env(ft_get_ht_env(node));
 	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "set") == 0)
 		ft_set(ft_get_ht_env(node), ft_get_tokens(node)[1]->value);
@@ -33,13 +27,28 @@ int	ft_execute_builtin(t_binary_tree_node *node, t_ast *ast)
 		else
 			ft_unset(ft_get_ht_env(node), NULL);
 	}
-	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "cd") == 0)
-		return (ft_cd(node));
-	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "pwd") == 0)
-		return (ft_pwd(node));
 	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "echo") == 0)
 		ft_echo(node);
+	else
+		return (ft_execute_builtin_aux(node, ast));
+	return (0);
+}
+
+static int	ft_execute_builtin_aux(t_binary_tree_node *node, t_ast *ast)
+{
+	if (ft_strcmp(ft_get_tokens(node)[0]->value, "export") == 0)
+	{
+		if (ft_get_tokens(node)[1])
+			return (ft_export(ft_get_ht_env(node),
+					ft_get_tokens(node)[1]->value));
+		else
+			return (ft_export(ft_get_ht_env(node), NULL));
+	}
+	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "pwd") == 0)
+		return (ft_pwd(node));
 	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "exit") == 0)
 		return (ft_exit(node, ast));
+	else if (ft_strcmp(ft_get_tokens(node)[0]->value, "cd") == 0)
+		return (ft_cd(node));
 	return (0);
 }

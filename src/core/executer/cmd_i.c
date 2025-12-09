@@ -6,18 +6,18 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 20:28:46 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:03:49 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-static void	ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
-				t_ast *ast);
 static void	ft_verify_path_cmd(char *path, t_binary_tree_node *node, t_ast *ast,
 				int status);
 static int	ft_wait_cmd(char *path, pid_t pid, t_binary_tree_node *node);
 static int	ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast);
+static void	ft_child(char *path, t_binary_tree_node *node, t_ast *ast,
+				int status);
 
 int	ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 {
@@ -54,10 +54,7 @@ static int	ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast)
 	status = 0;
 	path = ft_find_path(ft_get_ht_env(node), ft_get_argv(node)[0]);
 	if (!path)
-	{
-		ft_free_argv(node);
 		status = 127;
-	}
 	else
 	{
 		if (ft_get_flag_n(node) == 0)
@@ -69,26 +66,21 @@ static int	ft_execute_not_built_in(t_binary_tree_node *node, t_ast *ast)
 			signal(SIGINT, SIG_IGN);
 		pid = fork();
 		if (pid == 0)
-		{
-			ft_verify_path_cmd(path, node, ast, status);
-			ft_init_sig_child();
-			status = execve(path, ft_get_argv(node), ft_get_envp(node));
-			ft_destroy_tree_cmd(path, node, ast);
-			exit(126);
-		}
+			ft_child(path, node, ast, status);
 		status = ft_wait_cmd(path, pid, node);
-		ft_init_sig_parent();
 	}
+	ft_free_argv(node);
 	return (status);
 }
 
-static void	ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
-		t_ast *ast)
+static void	ft_child(char *path, t_binary_tree_node *node, t_ast *ast,
+		int status)
 {
-	free(path);
-	ft_free_argv(node);
-	ft_set_flag_destroy_exec(node);
-	ast->destroy(&ast, free_ast_node);
+	ft_verify_path_cmd(path, node, ast, status);
+	ft_init_sig_child();
+	status = execve(path, ft_get_argv(node), ft_get_envp(node));
+	ft_destroy_tree_cmd(path, node, ast);
+	exit(126);
 }
 
 static void	ft_verify_path_cmd(char *path, t_binary_tree_node *node, t_ast *ast,
@@ -125,6 +117,7 @@ static int	ft_wait_cmd(char *path, pid_t pid, t_binary_tree_node *node)
 
 	status = 0;
 	waitpid(pid, &status, 0);
+	ft_init_sig_parent();
 	free(path);
 	ft_free_argv(node);
 	if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 0)

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:12:11 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 20:29:12 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:02:28 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,3 +77,13 @@ void	ft_print_error_cmd(int error, char *path)
 		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 	}
 }
+
+void	ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
+		t_ast *ast)
+{
+	free(path);
+	ft_free_argv(node);
+	ft_set_flag_destroy_exec(node);
+	ast->destroy(&ast, free_ast_node);
+}
+

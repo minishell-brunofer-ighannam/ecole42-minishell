@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 00:35:36 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:02:43 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int					ft_execute_cmd(t_binary_tree_node *node, t_ast *ast);
 int					ft_expand_tokens(t_binary_tree_node *node);
 void				ft_built_args(t_binary_tree_node *node);
 void				ft_print_error_cmd(int error, char *path);
+void				ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
+						t_ast *ast);
 
 // CMD BUILTIN
 int					ft_execute_builtin(t_binary_tree_node *node, t_ast *ast);
