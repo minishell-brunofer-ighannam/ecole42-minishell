@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 12:52:28 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:54:09 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_execute_heredocs(t_binary_tree_node *node)
 	exec = *(t_exec **)((t_ast_node *)(node->content))->exec;
 	exec->heredoc = heredoc;
 	exec->heredoc_files = ft_new_linkedlist();
-	item_list = heredoc->first;
+	item_list = heredoc->last;
 	while (item_list)
 	{
 		if (ft_process_heredoc(item_list, NULL) != 0)
@@ -38,7 +38,7 @@ int	ft_execute_heredocs(t_binary_tree_node *node)
 			ft_set_sig(0);
 			return (130);
 		}
-		item_list = item_list->next;
+		item_list = item_list->prev;
 	}
 	return (0);
 }
