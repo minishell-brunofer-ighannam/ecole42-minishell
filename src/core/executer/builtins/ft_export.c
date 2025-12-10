@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 15:40:29 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 23:17:43 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/10 17:37:00 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_export(t_linkedlist_array *ht_env, const char *key_value)
 	if (value->value || !ft_find_ht(ht_env, content->key))
 		ft_include_item_ht(ht_env, content, ft_free_item_ht_env);
 	else
-		ft_free_content_ht(content);	
+		ft_free_content_ht(content);
 	return (0);
 }
 
