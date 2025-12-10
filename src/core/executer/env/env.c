@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:25:06 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 18:00:24 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 23:19:46 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	ft_get_key_value(const char *s, char **key_value);
+static void			ft_get_key_value(const char *s, char **key_value, int i,
+						int len);
 
 t_linkedlist_array	*ft_init_ht_env(char **envp)
 {
@@ -33,38 +34,43 @@ t_linkedlist_array	*ft_init_ht_env(char **envp)
 
 void	ft_split_key_value(const char *s, char **key_value)
 {
+	int	len;
+
+	len = 0;
 	if (!s)
 	{
 		key_value[0] = NULL;
 		key_value[1] = NULL;
 		return ;
 	}
-	ft_get_key_value(s, key_value);
-}
-
-static void	ft_get_key_value(const char *s, char **key_value)
-{
-	int		len;
-	char	*key;
-	char	*value;
-	int		i;
-
-	len = 0;
 	while (s[len] && s[len] != '=')
 		len++;
-	key = ft_calloc(len + 1, sizeof(char));
-	i = -1;
+	ft_get_key_value(s, key_value, -1, len);
+}
+
+static void	ft_get_key_value(const char *s, char **key_value, int i, int len)
+{
+	char	*key;
+	char	*value;
+
+	if (len == 0)
+	{
+		key_value[0] = NULL;
+		key_value[1] = NULL;
+		return ;
+	}
+	else
+		key = ft_calloc(len + 1, sizeof(char));
 	while (s[++i] && s[i] != '=')
 		key[i] = s[i];
-	i++;
 	if (ft_strlen(s) - len == 0)
 		value = NULL;
 	else
 	{
 		value = ft_calloc(ft_strlen(s) - len + 1, sizeof(char));
 		len = 0;
-		while (s[i])
-			value[len++] = s[i++];
+		while (s[++i])
+			value[len++] = s[i];
 	}
 	key_value[0] = key;
 	key_value[1] = value;
