@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_expansion_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 13:48:52 by brunofer          #+#    #+#             */
-/*   Updated: 2025/11/24 13:30:33 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:39:35 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 /**
  * # ft_normilize_char_matrix
  *
- * Junta um char** em uma string única separada por espaço.
+ * Joins a char** into a single string separated by spaces.
  *
- * Lógica:
- * - Calcula tamanho total (somatório dos tamanhos + espaços).
- * - Copia cada string da matriz para o buffer final.
- * - Insere espaço entre elas.
- * - Destroi a matriz.
+ * Logic:
+ * - Calculates the total length (sum of string lengths + spaces).
+ * - Copies each string from the matrix into the final buffer.
+ * - Inserts spaces between them.
+ * - Frees the matrix.
  */
 char	*ft_normilize_char_matrix(char **matrix)
 {
@@ -55,13 +55,13 @@ char	*ft_normilize_char_matrix(char **matrix)
 /**
  * # ft_merge_copy_unit
  *
- * Copia um passo da mesclagem:
- * - Se ainda está antes de uma coordenada → copia literal.
- * - Se não há coordenadas válidas → copia literal.
- * - A	o atingir coordenada da variável → copia o chunk expandido
- *   e avança índices para depois da variável.
+ * Copies a single step of the merge:
+ * - If still before a coordinate → copy literally.
+ * - If there are no valid coordinates → copy literally.
+ * - Upon reaching a variable coordinate → copy the expanded
+ *   chunk and advance indices past the variable.
  *
- * Executa a lógica unitária do merge.
+ * Executes the unit logic of the merge.
  */
 static void	ft_merge_copy_unit(t_expandable_object *obj,
 				int *idx, int *main_i, int *exp_i)
@@ -94,17 +94,17 @@ static void	ft_merge_copy_unit(t_expandable_object *obj,
 /**
  * # ft_merge_expansion
  *
- * Reconstrói o valor expandido.
+ * Reconstructs the expanded value.
  *
- * Lógica:
- * - Inicializa buffer final e índices.
- * - Percorre original e coordenadas das variáveis.
- * - A cada iteração delega à auxiliar qual conteúdo copiar:
- *      1. caractere literal
- *      1. ou chunk expandido
- * - Repete até consumir original e todas as expansões.
+ * Logic:
+ * - Initializes the final buffer and indices.
+ * - Iterates over the original string and variable coordinates.
+ * - Each iteration delegates to the helper which content to copy:
+ *      1. literal character
+ *      2. or expanded chunk
+ * - Repeats until the original string and all expansions are consumed.
  *
- * É um merge manual entre string original e substituições.
+ * It's a manual merge between the original string and substitutions.
  */
 void	ft_merge_expansion(t_token *token)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   separate_quote_chuncks.h                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 16:52:40 by valero            #+#    #+#             */
-/*   Updated: 2025/11/23 17:16:00 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:36:28 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@
 /**
  * # t_token_section
  *
- * Representa um trecho isolado do token após a separação por aspas.
- * Guarda a substring crua, o tipo de aspa que a delimitou e
- * um callback de destruição.
+ * Represents an isolated token segment after splitting
+ * by quotes. Stores the raw substring, the type of
+ * quote that delimited it, and a destroy callback.
  *
- * Uso:
- * - Identificar a natureza do trecho (sem aspas, "aspado", 'aspado')
- * - Permitir reconstrução e varredura sem perder informação estrutural.
+ * Usage:
+ * - Identify the nature of the segment (unquoted,
+ *   double-quoted, single-quoted).
+ * - Allow reconstruction and scanning without losing
+ *   structural information.
  */
 typedef struct s_token_section				t_token_section;
 struct s_token_section
@@ -37,16 +39,16 @@ struct s_token_section
 /**
  * # t_token_separated_sections
  *
- * Container principal que armazena todas as seções separadas.
- * Mantém listas de seções e coordenadas, arrays equivalentes
- * e callbacks utilitários.
+ * Main container storing all separated sections.
+ * Maintains lists of sections and coordinates,
+ * equivalent arrays, and utility callbacks.
  *
- * Lógica:
- * - Coletar trechos unitários enquanto a string é varrida.
- * - Guardar coordenadas para reconstrução precisa.
- * - Converter listas em arrays para acesso rápido.
- * - Fornecer destruição segura e função para reconstruir
- *   a string sem aspas externas.
+ * Logic:
+ * - Collect individual segments while scanning the string.
+ * - Store coordinates for precise reconstruction.
+ * - Convert lists to arrays for fast access.
+ * - Provide safe destruction and a function to
+ *   reconstruct the string without external quotes.
  */
 typedef struct s_token_separated_sections	t_token_separated_sections;
 struct s_token_separated_sections

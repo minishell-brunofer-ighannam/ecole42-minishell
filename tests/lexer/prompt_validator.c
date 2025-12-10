@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 23:14:30 by valero            #+#    #+#             */
-/*   Updated: 2025/12/07 13:21:04 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:27:36 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,4 +238,11 @@ void	test_set2(void)
 	print_test_and_result(test, print_result, &result);
 	ft_print_structure_not_closed_error(prompt, result);
 
+	test.teste_number = 21;
+	prompt = "> '";
+	test.test_input = "> '";
+	result = ft_prompt_validator(prompt);
+	test.test_ok = result == 2;
+	print_test_and_result(test, print_result, &result);
+	ft_print_structure_not_closed_error(prompt, result);
 }

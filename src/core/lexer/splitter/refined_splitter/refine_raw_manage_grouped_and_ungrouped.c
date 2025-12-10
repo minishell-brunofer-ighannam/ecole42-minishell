@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:58:40 by valero            #+#    #+#             */
-/*   Updated: 2025/12/07 16:15:25 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:14:47 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,18 @@ static void	manage_quote_behavior(
 /**
  * # ft_manage_grouped_and_ungrouped_tokens
  *
- * Loop principal do parser de caracteres.
+ * Main loop of the character parser.
  *
- * Regras:
- * - Detecta aspas e delega a lógica para `manage_quote_behavior`.
- * - Quando não está dentro de aspas, detecta operadores reservados
- *   via `filter_reserved_tokens`.
- * - Copia caracteres normais para o buffer final.
+ * Rules:
+ * - Detects quotes and delegates logic
+ *   to `manage_quote_behavior`.
+ * - When outside quotes, detects reserved
+ *   operators via `filter_reserved_tokens`.
+ * - Copies normal characters to the final
+ *   buffer.
  *
- * É quem controla a navegação real no token bruto.
+ * Controls the actual navigation of
+ * raw tokens.
  */
 void	ft_manage_grouped_and_ungrouped_tokens(
 			t_refined_token_push_params scope)
@@ -62,8 +65,9 @@ void	ft_manage_grouped_and_ungrouped_tokens(
 /**
  * # ft_jump_useless_quotes
  *
- * Avança o índice por cima de aspas consecutivas inúteis.
- * Usado quando sequências como `""""` aparecem.
+ * Advances the index over consecutive
+ * useless quotes. Used when sequences
+ * like `""""` appear.
  */
 static void	ft_jump_useless_quotes(char *str, int *curr_idx)
 {
@@ -78,15 +82,17 @@ static void	ft_jump_useless_quotes(char *str, int *curr_idx)
 /**
  * # manage_quote_behavior
  *
- * Implementa toda a lógica de abertura e fechamento de aspas:
- * - Detecta início de um agrupamento.
- * - Pula aspas redundantes.
- * - Atualiza found_quote.
- * - Registra coordenada inicial do grupo.
- * - Copia o caractere correspondente para new_token.
+ * Implements all quote opening and
+ * closing logic:
+ * - Detects the start of a group.
+ * - Skips redundant quotes.
+ * - Updates `found_quote`.
+ * - Records the group's starting coordinate.
+ * - Copies the corresponding character to
+ *   `new_token`.
  *
- * É a parte mais sensível para casos como:
- * `"oi""""tudo bem?"`.
+ * This is the most sensitive part for
+ * cases like `"hi""""how are you?"`.
  */
 static void	manage_quote_behavior(
 				t_chunck token, t_refine_raw_token_vars *refine)
@@ -121,14 +127,16 @@ static void	manage_quote_behavior(
 /**
  * # filter_reserved_tokens
  *
- * Identifica operadores reservados (`|`, `>`>, `<<`, `>`, `<`, ...).
+ * Identifies reserved operators
+ * (`|`, `>>`, `<<`, `>`, `<`, ...).
  *
- * Lógica:
- * - Só atua quando não estamos dentro de aspas.
- * - Se havia texto acumulado antes do operador,
- *   empurra-o como um token separado.
- * - Cria um chunk para o operador.
- * - Avança o índice pela largura do operador.
+ * Logic:
+ * - Only acts when outside quotes.
+ * - If there was text before the operator,
+ *   pushes it as a separate token.
+ * - Creates a chunk for the operator.
+ * - Advances the index by the operator's
+ *   width.
  */
 static void	filter_reserved_tokens(
 				t_chunck token, int curr_idx, t_linkedlist_array *refineds,

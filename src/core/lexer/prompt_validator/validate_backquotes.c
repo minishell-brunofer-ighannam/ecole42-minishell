@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_backquotes.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 15:09:09 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 15:09:11 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 17:53:13 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,17 @@ static void	update_open_index(int *open_idx, int curr_idx);
 /**
  * # ft_validate_backquotes
  *
- * Verifica se os backquotes estão corretamente abertos e fechados.
- * Também detecta estruturas internas que possam causar erro.
+ * Checks whether backquotes are properly
+ * opened and closed. Also detects inner
+ * structures that may cause errors.
  *
- * Lógica:
- * - Percorre o texto alternando entre estados “aberto/fechado”.
- * - Se encontrar estruturas internas, delega a `jump_inner_structures`.
- * - Retorna índice do erro ou -1 se válido.
+ * Logic:
+ * - Scans the text, alternating between
+ *   “open/closed” states.
+ * - If it finds inner structures, it
+ *   delegates to `jump_inner_structures`.
+ * - Returns the error index, or -1 if
+ *   everything is valid.
  */
 int	ft_validate_backquotes(const char *line)
 {
@@ -44,7 +48,7 @@ int	ft_validate_backquotes(const char *line)
 		if (open_backquotes_index > -1)
 			jump_inner_structures(
 				line, &i, other_openning_idx, open_backquotes_index);
-		if (!line[i])
+		if ((i && !line[i - 1]) || !line[i])
 			break ;
 		if (ft_is_special_char(line, i, "`"))
 			update_open_index(&open_backquotes_index, i);
@@ -55,15 +59,16 @@ int	ft_validate_backquotes(const char *line)
 }
 
 /**
- * # jump_inner_structures (variações internas)
+ * # jump_inner_structures (internal variations)
  *
- * Avança por estruturas internas quando já se está dentro
- * de outra estrutura. Evita falsos positivos.
+ * Advances through inner structures when
+ * already inside another structure.
+ * Prevents false positives.
  *
- * Tipos que podem ser pulados:
- * - aspas duplas
- * - aspas simples
- * - parênteses
+ * Types that can be skipped:
+ * - double quotes
+ * - single quotes
+ * - parentheses
  * - backquotes
  * - `$()`
  */
@@ -94,10 +99,11 @@ static void	jump_inner_structures(
 }
 
 /**
- * # update_open_index (versão simples)
+ * # update_open_index (simple version)
  *
- * Alterna estado de abertura/fechamento de estruturas simples
- * como aspas ou backquotes.
+ * Toggles the open/close state of simple
+ * structures such as quotes or
+ * backquotes.
  */
 static void	update_open_index(int *open_idx, int curr_idx)
 {

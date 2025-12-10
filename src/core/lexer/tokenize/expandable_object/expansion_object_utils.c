@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:14:58 by valero            #+#    #+#             */
-/*   Updated: 2025/11/22 15:13:50 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:28:50 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ static void	*ft_destroy_expandable_sections(
 /**
  * # ft_create_expandable_sections
  *
- * Cria um `t_expandable_section` vazio.
+ * Creates an empty `t_expandable_section`.
  *
- * Lógica:
- * - Aloca.
- * - Cria `list` e `coord_list`.
- * - Atribui callbacks:
+ * Logic:
+ * - Allocates memory.
+ * - Creates `list` and `coord_list`.
+ * - Assigns callbacks:
  *   - `copy_array`
  *   - `copy_coord_array`
  *   - `destroy`
  *
- * É o container geral para trechos a serem analisados.
+ * General container for sections to be analyzed.
  */
 t_expandable_section	*ft_create_expandable_sections(void)
 {
@@ -54,11 +54,12 @@ t_expandable_section	*ft_create_expandable_sections(void)
 /**
  * # ft_destroy_expandable_sections
  *
- * Destrói completamente um `t_expandable_section`.
+ * Completely destroys a `t_expandable_section`.
  *
- * Lógica:
- * - Libera matriz `array` e `coord_array`.
- * - Destrói `list` e `coord_list` com seus conteúdos.
+ * Logic:
+ * - Frees the `array` and `coord_array`.
+ * - Destroys `list` and `coord_list` along
+ *   with their contents.
  */
 static void	*ft_destroy_expandable_sections(
 			t_expandable_section **self_ref)
@@ -84,13 +85,15 @@ static void	*ft_destroy_expandable_sections(
 /**
  * # ft_copy_matrix
  *
- * Duplica o array de strings de `t_expandable_section`.
+ * Duplicates the string array of
+ * `t_expandable_section`.
  *
- * Lógica:
- * - Conta elementos.
- * - Duplica item a item com `ft_strdup`.
+ * Logic:
+ * - Counts elements.
+ * - Duplicates each item using `ft_strdup`.
  *
- * Usado para copiar resultados sem mexer no buffer original.
+ * Used to copy results without modifying
+ * the original buffer.
  */
 static char	**ft_copy_matrix(t_expandable_section *sections)
 {
@@ -121,13 +124,14 @@ static char	**ft_copy_matrix(t_expandable_section *sections)
 /**
  * # ft_copy_coord_matrix
  *
- * Duplica a matriz de coordenadas.
+ * Duplicates the coordinate matrix.
  *
- * Lógica:
- * - Itera coordenada por coordenada.
- * - Duplica usando `ft_coord_dup`.
+ * Logic:
+ * - Iterates through each coordinate.
+ * - Duplicates using `ft_coord_dup`.
  *
- * Usado pelo objeto final para armazenar coordenadas próprias.
+ * Used by the final object to store its
+ * own coordinates.
  */
 int	**ft_copy_coord_matrix(void *arg)
 {

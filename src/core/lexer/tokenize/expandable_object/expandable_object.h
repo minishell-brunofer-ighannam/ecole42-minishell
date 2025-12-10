@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expandable_object.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:05:39 by valero            #+#    #+#             */
-/*   Updated: 2025/11/24 03:44:11 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:27:27 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,38 +18,53 @@
 /**
  * # t_token
  *
- * Representa um token já classificado e apto a expansão.
- * Campos:
- * - value: string original do token.
- * - type: tipo classificado via ft_get_token_type().
- * - position: índice do token na linha original.
- * - coord_in_src: coordenadas de início/fim na string original.
- * - sintaxe_error: erro sintático detectado.
- * - feature_out_of_scope: indica recursos ainda não suportados.
- * - last_build: cache da expansão realizada (para evitar refazer).
- * - expand_var: callback para expansão de variáveis.
- * - expand_glob: callback para expansão glob.
- * - build_expansion: função que executa toda a lógica de expansão.
- * - destroy: destrói o token.
- * - expandable_object: dados sobre o que pode ser expandido.
+ * Represents a token that is already classified
+ * and ready for expansion.
+ *
+ * Fields:
+ * - `value`: original token string.
+ * - `type`: type classified via
+ *   `ft_get_token_type()`.
+ * - `position`: token index in the original line.
+ * - `coord_in_src`: start/end coordinates in
+ *   the original string.
+ * - `sintaxe_error`: detected syntax error.
+ * - `feature_out_of_scope`: indicates
+ *   unsupported features.
+ * - `last_build`: cache of performed expansion
+ *   (to avoid redoing).
+ * - `expand_var`: callback for variable expansion.
+ * - `expand_glob`: callback for glob expansion.
+ * - `build_expansion`: function executing all
+ *   expansion logic.
+ * - `destroy`: destroys the token.
+ * - `expandable_object`: data about what
+ *   can be expanded.
  */
 typedef struct s_token				t_token;
 
 /**
  * # t_expandable_object
  *
- * Estrutura final entregue para o módulo de expansão.
+ * Final structure delivered to the expansion
+ * module.
  *
- * Armazena:
- * - `original_value`: valor original do token.
- * - `expanded_value`: expansão sem glob.
- * - `expanded_glob_value`: expansão com glob aplicado.
- * - `expandable_keys`: array de chaves encontradas ($USER, $?).
- * - `expandable_coord_keys`: coordenadas originais dessas chaves.
- * - `has_globs`: marca se alguma chave contém `*` fora de aspas.
- * - `expanded_chuncks`: substrings resultantes após expansão.
+ * Stores:
+ * - `original_value`: original token value.
+ * - `expanded_value`: expansion without glob.
+ * - `expanded_glob_value`: expansion with
+ *   glob applied.
+ * - `expandable_keys`: array of found keys
+ *   ($USER, $?).
+ * - `expandable_coord_keys`: original
+ *   coordinates of these keys.
+ * - `has_globs`: marks if any key contains `*`
+ *   outside quotes.
+ * - `expanded_chuncks`: substrings resulting
+ *   from the expansion.
  *
- * É o objeto que o minishell realmente usa para substituir valores.
+ * This is the object that the minishell
+ * actually uses to substitute values.
  */
 typedef struct s_expandable_object	t_expandable_object;
 struct s_expandable_object

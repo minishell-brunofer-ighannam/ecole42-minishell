@@ -21,19 +21,19 @@ static t_lexer	*ft_create_lexer(
 					t_expander_callbacks callbacks);
 
 /**
-*  # ft_lexer
-*
-* Função de alto nível. Une splitter + lexer.
-*
-* Lógica:
-* - Chama ft_splitter() para dividir a linha bruta em chunks.
-* - Prepara callbacks de expansão (variáveis e glob).
-* - Cria a estrutura final via ft_create_lexer().
-*
-* Responsabilidade:
-* É a entrada principal. Entrega um t_lexer completamente
-* preparado para a fase de expansão.
-*/
+ * # ft_lexer
+ *
+ * High-level function. Combines splitter + lexer.
+ *
+ * Logic:
+ * - Calls ft_splitter() to divide the raw line into chunks.
+ * - Prepares expansion callbacks (variables and glob).
+ * - Creates the final structure via ft_create_lexer().
+ *
+ * Responsibility:
+ * Main entry point. Returns a fully prepared t_lexer
+ * ready for the expansion phase.
+ */
 t_lexer	*ft_lexer(
 						const char *prompt,
 						t_expand_var_clbk expand_var,
@@ -63,24 +63,24 @@ t_lexer	*ft_lexer(
 }
 
 /**
-*  # ft_create_lexer
-*
-* Constrói t_lexer a partir do resultado do splitter.
-*
-* Lógica:
-* - Aloca a estrutura principal.
-* - Copia a prompt original (para debug e reconstruções).
-* - Cria o array de tokens com tamanho exato.
-* - Percorre o splitter de trás para frente:
-*       - Para cada chunk, cria um token via ft_tokenize().
-*       - Passa coordenadas e callbacks de expansão.
-* - Em caso de erro: destrói tudo com segurança.
-* - Associa o callback destroy().
-*
-* Papel:
-* Converter cada substring do splitter em um token completo,
-* preservando posição, tipos e metadados necessários.
-*/
+ * # ft_create_lexer
+ *
+ * Constructs a t_lexer from the splitter result.
+ *
+ * Logic:
+ * - Allocates the main structure.
+ * - Copies the original prompt (for debugging and reconstruction).
+ * - Creates the token array with the exact size.
+ * - Iterates over the splitter chunks in reverse order:
+ *       - For each chunk, creates a token via ft_tokenize().
+ *       - Passes coordinates and expansion callbacks.
+ * - On error: safely destroys all allocated memory.
+ * - Associates the destroy() callback.
+ *
+ * Role:
+ * Converts each substring from the splitter into a complete token,
+ * preserving position, types, and necessary metadata.
+ */
 static t_lexer	*ft_create_lexer(
 								const char *prompt,
 								t_splited_prompt **split,
@@ -112,22 +112,22 @@ static t_lexer	*ft_create_lexer(
 }
 
 /**
-*  # ft_destroy_lexer
-*
-* Destrutor completo da estrutura t_lexer.
-*
-* Lógica:
-* - Libera a prompt original copiada.
-* - Percorre o vetor de tokens em ordem reversa:
-*       - Para cada token, chama token->destroy().
-* - Libera o vetor de tokens.
-* - Libera a própria estrutura.
-* - Zera o ponteiro externo.
-*
-* Papel:
-* Garantir limpeza total da árvore de tokens,
-* evitando qualquer vazamento de memória.
-*/
+ * # ft_destroy_lexer
+ *
+ * Complete destructor for t_lexer structure.
+ *
+ * Logic:
+ * - Frees the copied original prompt.
+ * - Iterates over the token array in reverse:
+ *       - Calls token->destroy() for each token.
+ * - Frees the token array.
+ * - Frees the t_lexer structure itself.
+ * - Sets external pointer to NULL.
+ *
+ * Role:
+ * Ensures total cleanup of the token tree,
+ * preventing any memory leaks.
+ */
 static void	*ft_destroy_lexer(t_lexer	**self_ref)
 {
 	t_lexer	*self;

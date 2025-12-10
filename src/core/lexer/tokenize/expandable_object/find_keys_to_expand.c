@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_keys_to_expand.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 23:05:14 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 15:34:17 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:30:58 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,18 @@ static void	ft_track_keys(
 /**
  * # ft_find_keys_to_expand
  *
- * Filtra *apenas* as partes realmente expansíveis.
+ * Filters *only* the truly expandable parts.
  *
- * Lógica:
- * - Itera todas as seções encontradas.
- * - Usa `ft_extract_keys` para extrair chaves ($X, ${var}, $?).
- * - Converte listas para arrays.
- * - Destrói estrutura original, retornando só o filtrado.
+ * Logic:
+ * - Iterates over all found sections.
+ * - Uses `ft_extract_keys` to extract keys
+ *   ($X, ${var}, $?).
+ * - Converts lists into arrays.
+ * - Destroys the original structure, returning
+ *   only the filtered data.
  *
- * Função essencial: separa “seções com potencial” de “chaves reais”.
+ * Essential function: separates “potential
+ * sections” from “actual keys”.
  */
 t_expandable_section	*ft_find_keys_to_expand(
 		t_expandable_section *expandable_sections)
@@ -63,14 +66,17 @@ t_expandable_section	*ft_find_keys_to_expand(
 /**
  * # ft_extract_keys
  *
- * Extrai chaves de expansão dentro de uma seção.
+ * Extracts expansion keys within a section.
  *
- * Lógica:
- * - Percorre `token_section`.
- * - Detecta `$`.
- *   - Se o caractere seguinte for especial → chave curta (`$1`, `$?`).
- *   - Senão, chama `ft_track_keys` para chaves longas ($VAR).
- * - Cria coordenadas corretas relativas à string original.
+ * Logic:
+ * - Traverses `token_section`.
+ * - Detects `$`:
+ *   - If the next character is special → short
+ *     key (`$1`, `$?`).
+ *   - Otherwise, calls `ft_track_keys` for
+ *     long keys ($VAR).
+ * - Creates correct coordinates relative to
+ *   the original string.
  */
 static void	ft_extract_keys(
 		char *token_section, int *coords,
@@ -103,14 +109,17 @@ static void	ft_extract_keys(
 /**
  * # ft_track_keys
  *
- * Lida com chaves do tipo `$VAR_NAME`.
+ * Handles keys like `$VAR_NAME`.
  *
- * Lógica:
- * - Avança caracter por caracter verificando `ft_is_key_char`.
- * - Armazena substring completa.
- * - Cria coordenada relativa ao token original.
+ * Logic:
+ * - Advances character by character checking
+ *   `ft_is_key_char`.
+ * - Stores the complete substring.
+ * - Creates coordinates relative to the
+ *   original token.
  *
- * É onde ocorre a lógica mais sensível do parsing de variáveis.
+ * This is where the most sensitive logic
+ * of variable parsing occurs.
  */
 static void	ft_track_keys(
 		int *section_idx, char *token_section,
@@ -136,11 +145,12 @@ static void	ft_track_keys(
 /**
  * # ft_is_key_char
  *
- * Verifica se o caractere faz parte de um nome de variável.
+ * Checks if a character is part of a
+ * variable name.
  *
- * Regras:
- * - Primeiro char: letra ou `_`.
- * - Restante: alfanumérico ou `_`.
+ * Rules:
+ * - First char: letter or `_`.
+ * - Remaining chars: alphanumeric or `_`.
  */
 static bool	ft_is_key_char(char key_char, bool is_first)
 {

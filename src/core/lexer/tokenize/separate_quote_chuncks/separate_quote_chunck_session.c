@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   separate_quote_chunck_session.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 14:31:47 by valero            #+#    #+#             */
-/*   Updated: 2025/11/23 17:17:38 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:32:11 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static void	*ft_destroy_token_session(t_token_section **self_ref);
 /**
  * # ft_create_token_session
  *
- * Cria um t_token_section a partir de um trecho.
+ * Creates a `t_token_section` from a substring.
  *
- * Lógica:
- * - Duplica a substring.
- * - Define tipo de aspa.
- * - Atribui callback de destruição.
+ * Logic:
+ * - Duplicates the substring.
+ * - Sets the quote type.
+ * - Assigns the destroy callback.
  */
 t_token_section	*ft_create_token_session(char *session, char quote_type)
 {
@@ -39,12 +39,12 @@ t_token_section	*ft_create_token_session(char *session, char quote_type)
 /**
  * # ft_token_session_dup
  *
- * Duplica um t_token_section existente.
+ * Duplicates an existing `t_token_section`.
  *
- * Lógica:
- * - Copia seção e tipo de aspa.
- * - Mantém o mesmo callback destroy.
- * - Usado para conversão de listas → arrays.
+ * Logic:
+ * - Copies the section and quote type.
+ * - Keeps the same destroy callback.
+ * - Used for converting lists → arrays.
  */
 t_token_section	*ft_token_session_dup(t_token_section *token_session)
 {
@@ -61,11 +61,12 @@ t_token_section	*ft_token_session_dup(t_token_section *token_session)
 /**
  * # ft_token_session_destroy_callback
  *
- * Callback para destruir um t_token_section
- * ao liberar listas genéricas.
+ * Callback to destroy a `t_token_section`
+ * when freeing generic lists.
  *
- * Lógica:
- * - Encaminha para o método destroy interno.
+ * Logic:
+ * - Forwards the call to the internal
+ *   destroy method.
  */
 void	ft_token_session_destroy_callback(void *arg)
 {
@@ -78,12 +79,12 @@ void	ft_token_session_destroy_callback(void *arg)
 /**
  * # ft_destroy_token_session
  *
- * Destrói de forma segura um t_token_section.
+ * Safely destroys a `t_token_section`.
  *
- * Lógica:
- * - Libera substring.
- * - Libera estrutura.
- * - Zera ponteiro chamador.
+ * Logic:
+ * - Frees the substring.
+ * - Frees the structure.
+ * - Sets the caller pointer to NULL.
  */
 static void	*ft_destroy_token_session(t_token_section **self_ref)
 {

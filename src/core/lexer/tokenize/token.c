@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/08 15:28:19 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:40:37 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ static void			*ft_destroy_token(t_token **self_ref);
 /**
  * # ft_create_token
  *
- * Construtor completo de t_token.
+ * Complete constructor for t_token.
  *
- * Lógica:
- * - Aloca a struct.
- * - Duplica string e coordenadas.
- * - Atribui callbacks.
- * - Classifica via ft_get_token_type().
- * - Se TOKEN_UNKNOWN → cria expandable_object
- *   pois pode conter $VAR ou padrões glob.
- * - Define destroy().
+ * Logic:
+ * - Allocates the struct.
+ * - Duplicates the string and coordinates.
+ * - Assigns callbacks.
+ * - Classifies via ft_get_token_type().
+ * - If TOKEN_UNKNOWN → creates expandable_object
+ *   as it may contain $VAR or glob patterns.
+ * - Sets destroy().
  */
 t_token	*ft_create_token(const char *value, int position, int *coord_in_src,
 		t_expander_callbacks callbacks)
@@ -74,12 +74,12 @@ static char	*ft_token_remove_quotes(t_token *self)
 /**
  * # ft_get_token_type
  *
- * Classifica o token segundo operadores do shell.
+ * Classifies the token according to shell operators.
  *
- * Lógica:
- * - Se tem 1 char e pertence aos símbolos conhecidos → retorna char.
- * - Se tem 2 chars e combinações conhecidas → retorna (c1<<8 | c2).
- * - Caso contrário → TOKEN_UNKNOWN.
+ * Logic:
+ * - If 1 char and it belongs to known symbols → returns the char.
+ * - If 2 chars and known combinations → returns (c1<<8 | c2).
+ * - Otherwise → TOKEN_UNKNOWN.
  */
 static t_token_type	ft_get_token_type(const char *token)
 {
@@ -102,13 +102,15 @@ static t_token_type	ft_get_token_type(const char *token)
 /**
  * # ft_destroy_token
  *
- * Libera memória do token e seus subcomponentes.
- * Libera:
+ * Frees the token and its subcomponents.
+ *
+ * Frees:
  * - value
- * - expandable_object e seus campos
+ * - expandable_object and its fields
  * - coord_in_src
  * - last_build
- * Depois zera ponteiro.
+ *
+ * Then nullifies the pointer.
  */
 static void	*ft_destroy_token(t_token **self_ref)
 {
