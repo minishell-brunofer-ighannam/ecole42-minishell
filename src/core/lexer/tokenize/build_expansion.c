@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:09:42 by valero            #+#    #+#             */
-/*   Updated: 2025/11/28 16:43:29 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/10 12:52:50 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static void	ft_build_chuncks(t_token *token, t_linkedlist_array *ht_env)
 	len_keys = 0;
 	while (keys[len_keys])
 		len_keys++;
-	object = token->expandable_object;
 	object->expanded_chuncks = ft_calloc(len_keys + 1, sizeof(char *));
 	len_keys = -1;
 	while (keys[++len_keys])

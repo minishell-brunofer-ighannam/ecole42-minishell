@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 11:31:58 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 20:06:07 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/10 11:46:38 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	ft_cd(t_binary_tree_node *node)
 
 static int	ft_verify_cd(t_binary_tree_node *node, char *old_pwd)
 {
-	if (ft_get_argv(node)[1] == NULL)
+	if (ft_get_argv(node)[1] == NULL || ft_strcmp(ft_get_argv(node)[1],
+			"~") == 0)
 		return (ft_cd_without_arg(node, old_pwd));
 	if (ft_get_argv(node)[2] != NULL)
 	{
@@ -72,13 +73,11 @@ static void	ft_update_ht(t_binary_tree_node *node, char *pwd, char *old_pwd)
 
 	item_list_pwd = (t_linkedlist_node *)ft_find_ht(ft_get_ht_env(node), "PWD");
 	key_value_pwd = ft_strjoin("PWD=", pwd);
-	if (item_list_pwd)
-		ft_set(ft_get_ht_env(node), key_value_pwd);
+	ft_set(ft_get_ht_env(node), key_value_pwd);
 	item_list_old_pwd = (t_linkedlist_node *)ft_find_ht(ft_get_ht_env(node),
 			"OLDPWD");
 	key_value_old_pwd = ft_strjoin("OLDPWD=", old_pwd);
-	if (item_list_old_pwd)
-		ft_set(ft_get_ht_env(node), key_value_old_pwd);
+	ft_set(ft_get_ht_env(node), key_value_old_pwd);
 	free(key_value_old_pwd);
 	free(key_value_pwd);
 	free(old_pwd);

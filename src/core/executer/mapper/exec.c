@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 15:41:42 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 23:37:49 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/10 16:03:22 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ void	ft_free_exec(void *exec)
 		return ;
 	exec_node = *exec_node_ref;
 	if (exec_node && exec_node->heredoc_files)
-		exec_node->heredoc_files->destroy(
-			&exec_node->heredoc_files, ft_free_heredoc_file_item);
+		exec_node->heredoc_files->destroy(&exec_node->heredoc_files,
+			ft_free_heredoc_file_item);
 	if (exec_node && exec_node->heredoc)
 		exec_node->heredoc->destroy(&exec_node->heredoc, NULL);
 	if (exec_node && exec_node->redirect)
-		exec_node->redirect->destroy(
-			&exec_node->redirect, ft_free_item_redirect);
+		exec_node->redirect->destroy(&exec_node->redirect,
+			ft_free_item_redirect);
 	if (exec_node)
 		exec_node->flag_n = 0;
 	if (exec_node->destroy == true)

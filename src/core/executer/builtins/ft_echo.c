@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 13:41:19 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 17:04:05 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/10 13:30:45 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	ft_echo(t_binary_tree_node *node)
 		i++;
 	while (token[i])
 	{
-		ft_putstr_fd(token[i]->last_build->token_expanded, STDOUT_FILENO);
+		if (token[i]->last_build->token_expanded == NULL)
+			ft_putstr_fd(token[i]->last_build->glob_error, STDOUT_FILENO);
+		else
+			ft_putstr_fd(token[i]->last_build->token_expanded, STDOUT_FILENO);
 		if (token[i + 1])
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
