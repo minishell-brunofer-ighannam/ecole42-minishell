@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 17:03:41 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/07 18:06:17 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/09 22:57:14 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_get_prompt(void)
 
 	isa_nick = ft_bold_green("isaghannam");
 	bruno_nick = ft_bold_green("brunovalero");
-	minishell = ft_bold_magenta("brunovalero");
+	minishell = ft_bold_magenta("minishell");
 	prompt = ft_concat_prompt_parts(isa_nick, bruno_nick, minishell);
 	free(isa_nick);
 	free(bruno_nick);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_i.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 18:11:06 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 21:22:16 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	ft_child(char *path, t_binary_tree_node *node, t_ast *ast,
 {
 	ft_verify_path_cmd(path, node, ast, status);
 	ft_init_sig_child();
-	status = execve(path, ft_get_argv(node), ft_get_envp(node));	
+	status = execve(path, ft_get_argv(node), ft_get_envp(node));
 	ft_destroy_tree_cmd(path, node, ast);
 	exit(126);
 }

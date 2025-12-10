@@ -76,7 +76,7 @@ src/data_structures/binary_tree/binary_tree_node.c src/data_structures/binary_tr
 EXEC_DIR = src/core/executer
 
 # ..... BUILTINS FILES .....
-BUILTINS = $(EXEC_DIR)/builtins/ft_env.c $(EXEC_DIR)/builtins/ft_export.c \
+BUILTINS = $(EXEC_DIR)/builtins/ft_env.c $(EXEC_DIR)/builtins/ft_export.c $(EXEC_DIR)/builtins/ft_export_ii.c \
 $(EXEC_DIR)/builtins/ft_set.c $(EXEC_DIR)/builtins/ft_unset.c $(EXEC_DIR)/builtins/builtins.c \
 $(EXEC_DIR)/builtins/ft_cd.c $(EXEC_DIR)/builtins/ft_pwd.c $(EXEC_DIR)/builtins/ft_echo.c \
 $(EXEC_DIR)/builtins/ft_exit.c
