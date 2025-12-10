@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/09 18:40:37 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/10 12:47:46 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,13 @@ static t_token_type	ft_get_token_type(const char *token)
 	int	len;
 
 	len = ft_strlen(token);
-	if (len == 1 && ft_strchr("|()<>;&", token[0]))
+	if (len == 1 && ft_strchr("|()<>", token[0]))
 		return (token[0]);
 	else if (len == 2
 		&& ((token[0] == '>' && ft_strchr("|&>", token[1]))
-			|| (token[0] == '&' && ft_strchr("&>", token[1]))
-			|| (token[0] == '<' && ft_strchr("<>", token[1]))
-			|| (token[0] == '|' && token[1] == '|')
-			|| (token[0] == '2' && token[1] == '>')))
+			|| (token[0] == '&' && ft_strchr("&", token[1]))
+			|| (token[0] == '<' && ft_strchr("<", token[1]))
+			|| (token[0] == '|' && token[1] == '|')))
 		return (token[0] << 8 | token[1]);
 	else
 		return (TOKEN_UNKNOWN);

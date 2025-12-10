@@ -61,7 +61,8 @@ $(AST_BUILD_DIR)/ast_build_utils.c $(AST_BUILD_DIR)/ast_build.c $(AST_BUILD_DIR)
 
 SYNTAX_DIR = $(PARSER_DIR)/syntactic_analysis
 SYNTAX_FILES = $(SYNTAX_DIR)/analyse_logic_node.c $(SYNTAX_DIR)/analyse_pipe_node.c \
-$(SYNTAX_DIR)/analyse_redirect_node.c $(SYNTAX_DIR)/syntactic_analysis.c $(SYNTAX_DIR)/analyse_subshell_node.c
+$(SYNTAX_DIR)/analyse_redirect_node.c $(SYNTAX_DIR)/syntactic_analysis.c $(SYNTAX_DIR)/analyse_subshell_node.c \
+$(SYNTAX_DIR)/analyse_cmd_node.c
 
 PARSER_FILES = $(AST_BUILD_FILES) $(SYNTAX_FILES) $(AST_DIR)/ast.c $(AST_DIR)/print_ast.c $(AST_DIR)/properties.c \
 $(PARSER_DIR)/parser.c

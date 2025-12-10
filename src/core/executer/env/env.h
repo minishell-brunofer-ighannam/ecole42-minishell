@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:52:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/24 23:44:40 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/10 14:57:23 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "../../../data_structures/data_structures.h"
 # include "../../../utils/utils.h"
-# include <fcntl.h>
 # include <dirent.h>
+# include <fcntl.h>
 
 typedef struct s_env_value
 {
@@ -31,5 +31,8 @@ void				ft_free_item_ht_env(void *node_ht);
 char				*ft_expand_var(const char *s, t_linkedlist_array *ht_env);
 char				**ft_expand_glob(const char *s);
 int					ft_matched_glob(char *after_removal, char *to_match);
+char				*ft_remove_prefix(const char *s, char *prefix);
+char				**ft_put_prefix(char **matched, char *prefix);
+char				*ft_get_prefix(const char *s);
 
 #endif

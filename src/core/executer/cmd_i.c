@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_i.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 21:22:16 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/10 16:04:39 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ int	ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 		return (status);
 	}
 	status = ft_execute_not_built_in(node, ast);
+	ft_clean_redirect(node);
+	dup2(ft_get_fd_out(ast->tree->root), STDOUT_FILENO);
+	dup2(ft_get_fd_in(ast->tree->root), STDIN_FILENO);
 	return (status);
 }
 
