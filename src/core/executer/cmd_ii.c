@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_ii.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:12:11 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 12:25:50 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/10 11:48:01 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,12 @@ void	ft_built_args(t_binary_tree_node *node)
 	token = ft_get_tokens(node);
 	while (token[i])
 	{
-		if (token[i]->last_build->token_expanded[0] != '\0')
+		if (token[i]->last_build->token_expanded == NULL)
+		{
+			ft_set_argv(node, j, (char *)token[i]->last_build->glob_error);
+			j++;
+		}
+		else if (token[i]->last_build->token_expanded[0] != '\0')
 		{
 			ft_set_argv(node, j, token[i]->last_build->token_expanded);
 			j++;

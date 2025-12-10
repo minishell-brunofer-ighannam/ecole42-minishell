@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 15:55:45 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 15:57:12 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/10 16:03:32 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,15 @@ void	ft_push_redirect(t_binary_tree_node *node, t_redirect *content)
 	ast_node = (t_ast_node *)(node->content);
 	exec = *(t_exec **)(ast_node->exec);
 	exec->redirect->push(exec->redirect, content);
+}
+
+void	ft_clean_redirect(t_binary_tree_node *node)
+{
+	t_ast_node	*ast_node;
+	t_exec		*exec;
+
+	ast_node = (t_ast_node *)(node->content);
+	exec = *(t_exec **)(ast_node->exec);
+	if (exec && exec->redirect)
+		exec->redirect->destroy(&exec->redirect, ft_free_item_redirect);
 }

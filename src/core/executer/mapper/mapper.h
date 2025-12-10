@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 14:38:56 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/10 15:46:51 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ char						*ft_get_next_heredoc_file(t_binary_tree_node *node);
 int							ft_get_flag_n(t_binary_tree_node *node);
 void						ft_set_flag_n(t_binary_tree_node *node, int flag);
 void						free_ast_node(void *arg);
+void						ft_clean_redirect(t_binary_tree_node *node);
 
 #endif
