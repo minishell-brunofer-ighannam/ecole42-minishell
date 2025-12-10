@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:20:31 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 13:47:45 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/09 23:17:17 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@
 
 void	ft_env(t_linkedlist_array *ht_env);
 int		ft_export(t_linkedlist_array *ht_env, const char *key_value);
+void	ft_free_content_ht(t_ht *content);
 void	ft_set(t_linkedlist_array *ht_env, const char *key_value);
 void	ft_unset(t_linkedlist_array *ht_env, const char *key);
 int		ft_cd(t_binary_tree_node *node);
 int		ft_pwd(t_binary_tree_node *node);
 void	ft_echo(t_binary_tree_node *node);
 int		ft_exit(t_binary_tree_node *node, t_ast *ast);
-
 int		ft_is_builtin(const char *cmd);
 
 #endif

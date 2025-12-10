@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 15:40:29 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 17:03:48 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/09 23:17:43 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	ft_keys_export(t_linkedlist_array *export, char **keys_export);
 static void	ft_print_export(t_linkedlist_array *ht, char *key);
 static int	ft_validate_key_export(t_ht *content);
+static int	ft_not_valid_export(t_ht *content);
 
 int	ft_export(t_linkedlist_array *ht_env, const char *key_value)
 {
@@ -40,6 +41,8 @@ int	ft_export(t_linkedlist_array *ht_env, const char *key_value)
 		return (1);
 	if (value->value || !ft_find_ht(ht_env, content->key))
 		ft_include_item_ht(ht_env, content, ft_free_item_ht_env);
+	else
+		ft_free_content_ht(content);	
 	return (0);
 }
 
@@ -49,6 +52,8 @@ static int	ft_validate_key_export(t_ht *content)
 	char	*key;
 
 	key = content->key;
+	if (!key)
+		return (ft_not_valid_export(content));
 	i = -1;
 	while (key[++i])
 	{
@@ -59,17 +64,18 @@ static int	ft_validate_key_export(t_ht *content)
 		}
 	}
 	if (((ft_isalpha(key[0]) == 0) && key[0] != '_') || i == 0)
-	{
-		ft_putstr_fd("minishell: export: `", 2);
-		ft_putstr_fd(content->key, 2);
-		ft_putstr_fd(((t_env_value *)(content->value))->value, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		free(content->key);
-		free(content->value);
-		free(content);
-		return (0);
-	}
+		return (ft_not_valid_export(content));
 	return (1);
+}
+
+static int	ft_not_valid_export(t_ht *content)
+{
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(content->key, 2);
+	ft_putstr_fd(((t_env_value *)(content->value))->value, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	ft_free_content_ht(content);
+	return (0);
 }
 
 static void	ft_keys_export(t_linkedlist_array *export, char **keys_export)
