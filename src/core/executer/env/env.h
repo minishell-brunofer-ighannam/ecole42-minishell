@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:52:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/10 14:57:23 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/10 17:32:24 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int					ft_matched_glob(char *after_removal, char *to_match);
 char				*ft_remove_prefix(const char *s, char *prefix);
 char				**ft_put_prefix(char **matched, char *prefix);
 char				*ft_get_prefix(const char *s);
+char				**ft_match_glob(char **curr_repo, char *after_removal);
 
 #endif

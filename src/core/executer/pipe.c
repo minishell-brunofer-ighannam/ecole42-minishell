@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:57:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 10:51:10 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/10 18:12:13 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	ft_wait(pid_t pid_left, pid_t pid_right, int fd[2])
 	if (WIFSIGNALED(status_left))
 	{
 		sig = WTERMSIG(status_left);
-		return (128 + sig);
+		return (0);
 	}
 	if (WIFEXITED(status_right) != 0 && WEXITSTATUS(status_right) != 0)
 		return (WEXITSTATUS(status_right));

@@ -3,16 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   expand_glob_ii.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 15:42:31 by ighannam          #+#    #+#             */
-/*   Updated: 2025/11/17 02:24:43 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/10 17:39:58 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "env.h"
 
 static void	ft_handle_star(int *star, int *match, int *i, int j);
 static void	ft_handle_match(int *i, int *j);
 static void	ft_handle_not_match(int *i, int star, int *j, int *match);
+
+char	**ft_match_glob(char **curr_repo, char *after_removal)
+{
+	char	**matched;
+	int		size_matched;
+	int		i;
+
+	if (!curr_repo)
+		return (ft_calloc(1, sizeof(char *)));
+	size_matched = 0;
+	i = -1;
+	while (curr_repo[++i])
+	{
+		if (ft_matched_glob(after_removal, curr_repo[i]) == 1)
+			size_matched++;
+	}
+	matched = ft_calloc(size_matched + 1, sizeof(char *));
+	i = -1;
+	size_matched = 0;
+	while (curr_repo[++i])
+	{
+		if (ft_matched_glob(after_removal, curr_repo[i]) == 1)
+		{
+			matched[size_matched] = ft_strdup(curr_repo[i]);
+			size_matched++;
+		}
+	}
+	return (matched);
+}
 
 int	ft_matched_glob(char *after_removal, char *to_match)
 {
