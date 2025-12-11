@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:09:04 by valero            #+#    #+#             */
-/*   Updated: 2025/12/11 10:05:41 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:07:52 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ char	**ft_get_args(t_token **tokens)
 	i = -1;
 	while (tokens[++i])
 	{
-		if (!tokens[i]->expandable_object->has_globs
+		if (!tokens[i]->expandable_object)
+			list->push(list, ft_matrixify((char *)tokens[i]->value));
+		else if (!tokens[i]->expandable_object->has_globs
 			&& *tokens[i]->last_build->token_expanded)
 			list->push(list,
 				ft_matrixify(tokens[i]->last_build->token_expanded));
@@ -38,8 +40,6 @@ char	**ft_get_args(t_token **tokens)
 			list->push(list, ft_matrixify(tokens[i]->last_build->glob_error));
 	}
 	args = ft_merge_matrix(list);
-	if (!args)
-		return (list->destroy(&list, ft_destroy_matrix));
 	list->destroy(&list, ft_destroy_matrix);
 	return (args);
 }
