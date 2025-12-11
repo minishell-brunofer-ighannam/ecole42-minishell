@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 22:22:24 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 21:26:02 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/11 12:16:38 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ bool	ft_is_valid_backslash(const char *str, int idx)
 {
 	int	counter;
 
+	return (false);
 	if (!idx)
 		return (str[idx] == '\\');
 	counter = 0;
