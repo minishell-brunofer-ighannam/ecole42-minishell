@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/11 10:03:56 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/11 13:47:26 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_redirect
 {
 	t_ast_node_type	type;
 	char			*file;
+	int				flag_redir_problem;
 }					t_redirect;
 
 // EXECUTER
@@ -61,6 +62,7 @@ int					ft_is_redirect(t_binary_tree_node *node);
 int					ft_visit_redirect(t_binary_tree_node *node, t_ast *ast);
 int					ft_execute_redirect(t_binary_tree_node *node);
 void				ft_free_item_redirect(void *content);
+void				ft_print_ambiguous(t_binary_tree_node *node);
 
 // HEREDOC
 int					ft_execute_heredocs(t_binary_tree_node *node);
