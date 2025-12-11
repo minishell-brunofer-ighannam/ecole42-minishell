@@ -21,6 +21,7 @@
 static void	test1(t_linkedlist_array	*env);
 static void	test2(t_linkedlist_array	*env);
 static void	test3(t_linkedlist_array	*env);
+static void	test4(t_linkedlist_array	*env);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -32,6 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	test1(env);
 	test2(env);
 	test3(env);
+	test4(env);
 	env->destroy(&env, ft_free_item_ht_env);
 }
 
@@ -138,6 +140,39 @@ static void	test3(t_linkedlist_array	*env)
 	test.teste_number = 3;
 	test.test_input = "\"cmd_not_found\"";
 	char	*expected_array[] = {"cmd_not_found", NULL};
+	t_lexer *lexer = ft_lexer(test.test_input, ft_expand_var, ft_expand_glob);
+	t_token				**token;
+	t_expansion_build	*expansion;
+	int					idx = -1;
+	int					right_tokens = 0;
+	while (++idx < lexer->size)
+	{
+		token = &lexer->tokens[idx];
+		expansion = (*token)->build_expansion(*token, env);
+		if (!ft_strncmp(expansion->token_expanded, expected_array[idx], ft_strlen(expected_array[idx]) + 1))
+			right_tokens++;
+		expansion->destroy(&expansion);
+	}
+	test.test_ok = right_tokens == lexer->size;
+	t_print	print_struct;
+	print_struct.lexer = lexer;
+	print_struct.env = env;
+	print_test_and_result(test, print_result, &print_struct);
+	lexer->destroy(&lexer);
+}
+
+static void	test4(t_linkedlist_array	*env)
+{
+	t_test					test;
+
+	ft_export(env, "USER=lexer");
+	ft_export(env, "PLACE=42");
+	ft_export(env, "TOWN=SaoPaulo");
+	ft_export(env, "STATE=SP");
+	ft_export(env, "COUNTRY=BR");
+	test.teste_number = 4;
+	test.test_input = "\"e\"c'h'o oi";
+	char	*expected_array[] = {"echo", "oi", NULL};
 	t_lexer *lexer = ft_lexer(test.test_input, ft_expand_var, ft_expand_glob);
 	t_token				**token;
 	t_expansion_build	*expansion;
