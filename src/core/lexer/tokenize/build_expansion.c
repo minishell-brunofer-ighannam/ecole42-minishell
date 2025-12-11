@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:09:42 by valero            #+#    #+#             */
-/*   Updated: 2025/12/10 12:52:50 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:38:47 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ static char	*ft_expand_globs(t_token *token);
 /**
  * # ft_build_expansion
  *
- * Função central da expansão.
+ * Central expansion function.
  *
- * Lógica:
- * - Se já existe last_build → retorna cópia.
- * - Se não é expansível → devolve token como está.
- * - ft_build_chuncks: expande variáveis detectadas.
- * - ft_merge_expansion: junta partes não-expandidas + expandidas.
- * - ft_expand_globs: se contiver globs, tenta expandir.
- * - ft_build_expansion_result: remove aspas externas e monta final.
- * - Guarda em last_build para futuras chamadas.
+ * Logic:
+ * - If last_build already exists → return a copy.
+ * - If it is not expandable → return the token as is.
+ * - ft_build_chunks: expands detected variables.
+ * - ft_merge_expansion: merges non-expanded + expanded parts.
+ * - ft_expand_globs: if it contains globs, attempts to expand them.
+ * - ft_build_expansion_result: removes outer quotes and builds the final string.
+ * - Stores the result in last_build for future calls.
  */
 t_expansion_build	*ft_build_expansion(
 						t_token *token,
@@ -59,14 +59,14 @@ t_expansion_build	*ft_build_expansion(
 }
 
 /**
- * # ft_build_chuncks
+ * # ft_build_chunks
  *
- * Expande todas as variáveis encontradas no token.
+ * Expands all variables found in the token.
  *
- * Lógica:
- * - Conta quantas keys expansíveis existem.
- * - Aloca expanded_chuncks.
- * - Para cada key → chama expand_var().
+ * Logic:
+ * - Counts how many expandable keys exist.
+ * - Allocates expanded_chunks.
+ * - For each key → calls expand_var().
  */
 static void	ft_build_chuncks(t_token *token, t_linkedlist_array *ht_env)
 {
@@ -91,13 +91,13 @@ static void	ft_build_chuncks(t_token *token, t_linkedlist_array *ht_env)
 /**
  * # ft_create_expanded_value
  *
- * Calcula o tamanho final após substituir variáveis.
+ * Calculates the final size after variable substitution.
  *
- * Lógica:
- * - Começa com tamanho original.
- * - Subtrai trechos ocupados pelas variáveis.
- * - Soma tamanhos das strings expandidas.
- * - Aloca expanded_value com tamanho final.
+ * Logic:
+ * - Starts with the original size.
+ * - Subtracts the sections occupied by variables.
+ * - Adds the sizes of the expanded strings.
+ * - Allocates expanded_value with the final size.
  */
 int	ft_create_expanded_value(t_token *token)
 {
@@ -124,15 +124,15 @@ int	ft_create_expanded_value(t_token *token)
 /**
  * # ft_expand_globs
  *
- * Aplica expansão glob se houver padrões (* ? []).
+ * Applies glob expansion if patterns (* ? []) are present.
  *
- * Lógica:
- * - Usa expanded_value se existir; senão usa original_value.
- * - Se houver globs:
- *   - Executa expand_glob() (callback externo).
- *   - Converte matriz de strings em uma única string
- *     separada por espaços via ft_normilize_char_matrix().
- * - Retorna copia do input usado.
+ * Logic:
+ * - Uses expanded_value if it exists; otherwise uses original_value.
+ * - If globs are present:
+ *   - Runs expand_glob() (external callback).
+ *   - Converts the string matrix into a single
+ *     space-separated string via ft_normilize_char_matrix().
+ * - Returns a copy of the input used.
  */
 static char	*ft_expand_globs(t_token *token)
 {

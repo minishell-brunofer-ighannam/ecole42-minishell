@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_execute.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 20:43:14 by valero            #+#    #+#             */
-/*   Updated: 2025/12/11 15:43:28 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:47:04 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static int	ft_execute_redirect_in(t_linkedlist_node *node)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->file, STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (1);
 	}
 	dup2(file, STDIN_FILENO);
@@ -97,7 +98,10 @@ static int	ft_execute_redirect_out(t_linkedlist_node *node)
 	file = open(content->file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (file == -1)
 	{
-		perror("open");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->file, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (1);
 	}
 	dup2(file, STDOUT_FILENO);
@@ -119,7 +123,10 @@ static int	ft_execute_append_out(t_linkedlist_node *node)
 	file = open(content->file, O_WRONLY | O_CREAT | O_APPEND, 0666);
 	if (file == -1)
 	{
-		perror("open");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->file, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (1);
 	}
 	dup2(file, STDOUT_FILENO);
