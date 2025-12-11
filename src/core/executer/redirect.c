@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 21:47:42 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/11 11:37:03 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ void	ft_free_item_redirect(void *content)
 		return ;
 	content_redirect = (t_redirect *)content;
 	if (content_redirect->type == AST_NODE_HERE_DOC_IN)
+	{
+		unlink(content_redirect->file);
 		free(content_redirect->file);
+	}
 	content_redirect->type = AST_NODE_UNKNOWN;
 	content_redirect->file = NULL;
 	free(content_redirect);

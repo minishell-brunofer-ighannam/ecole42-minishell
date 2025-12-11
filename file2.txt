@@ -1,0 +1,14 @@
+file2.txt
+includes
+libft
+Makefile
+minishell
+minishell.excalidraw
+minishell_tester-main
+minishell_tester-main.zip
+mini_tests
+readline.supp
+README.md
+src
+tests
+text.txt
