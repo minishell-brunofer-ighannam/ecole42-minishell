@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_ii_get_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:09:04 by valero            #+#    #+#             */
-/*   Updated: 2025/12/10 22:49:36 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/11 10:05:41 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
 static char	**ft_matrixify(char *str);
-static char	**ft_matrix_dup(char **src);
 static int	ft_get_matrix_len(t_linkedlist *list);
 static char	**ft_merge_matrix(t_linkedlist *list);
 
@@ -22,21 +21,20 @@ char	**ft_get_args(t_token **tokens)
 	char				**args;
 	int					i;
 	t_linkedlist		*list;
-	t_splited_prompt	*splitted;
 
 	list = ft_new_linkedlist();
 	i = -1;
 	while (tokens[++i])
 	{
-		if (!tokens[i]->expandable_object->has_globs)
-			list->push(list, ft_matrixify((char *)tokens[i]->value));
-		else if (tokens[i]->last_build->token_expanded)
-		{
-			splitted = ft_raw_splitter(tokens[i]->last_build->token_expanded);
-			list->push(list, ft_matrix_dup(splitted->chuncks));
-			splitted->destroy(&splitted);
-		}
-		else
+		if (!tokens[i]->expandable_object->has_globs
+			&& *tokens[i]->last_build->token_expanded)
+			list->push(list,
+				ft_matrixify(tokens[i]->last_build->token_expanded));
+		else if (tokens[i]->last_build->token_expanded
+			&& *tokens[i]->last_build->token_expanded)
+			ft_push_glob_expanded(tokens[i], list);
+		else if (tokens[i]->last_build->glob_error
+			&& *tokens[i]->last_build->glob_error)
 			list->push(list, ft_matrixify(tokens[i]->last_build->glob_error));
 	}
 	args = ft_merge_matrix(list);
@@ -56,27 +54,6 @@ static char	**ft_matrixify(char *str)
 	matrix[0] = ft_strdup(str);
 	if (!matrix[0])
 		return (ft_destroy_char_matrix(&matrix));
-	return (matrix);
-}
-
-static char	**ft_matrix_dup(char **src)
-{
-	char	**matrix;
-	int		len;
-
-	len = 0;
-	while (src[len])
-		len++;
-	matrix = ft_calloc(len + 1, sizeof(char *));
-	if (!matrix)
-		return (NULL);
-	len = -1;
-	while (src[++len])
-	{
-		matrix[len] = ft_strdup(src[len]);
-		if (!matrix[len])
-			return (ft_destroy_char_matrix(&matrix));
-	}
 	return (matrix);
 }
 

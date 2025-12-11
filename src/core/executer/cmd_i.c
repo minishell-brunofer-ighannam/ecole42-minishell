@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_i.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/10 22:26:26 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/11 10:49:13 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,13 @@ int	ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 	int	status;
 
 	status = 0;
-	// ft_built_args(node);
 	ft_build_args_alternative(node);
 	if (ft_execute_redirect(node) == 1)
 	{
 		ft_free_argv(node);
 		return (1);
 	}
-	if (ft_get_argv(node)[0] == NULL)
+	if (!ft_get_argv(node) || ft_get_argv(node)[0] == NULL)
 	{
 		ft_free_argv(node);
 		return (status);

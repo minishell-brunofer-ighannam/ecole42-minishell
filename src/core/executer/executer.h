@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/10 22:25:39 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/11 10:03:56 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,48 +34,49 @@ typedef struct s_redirect
 }					t_redirect;
 
 // EXECUTER
-int				ft_executer(const char *line, void *exec);
+int					ft_executer(const char *line, void *exec);
 
 // TREE
-int				ft_execute_tree(t_ast *ast);
-int				ft_execute_node(t_binary_tree_node *node, t_ast *ast);
+int					ft_execute_tree(t_ast *ast);
+int					ft_execute_node(t_binary_tree_node *node, t_ast *ast);
 
 // CMD
-void			ft_destroy_matrix(void *arg);
-char			**ft_get_args(t_token **tokens);
-void			ft_build_args_alternative(t_binary_tree_node *node);
-char			*ft_find_path(t_linkedlist_array *ht_env, char *cmd);
-int				ft_execute_cmd(t_binary_tree_node *node, t_ast *ast);
-int				ft_expand_tokens(t_binary_tree_node *node);
-void			ft_built_args(t_binary_tree_node *node);
-void			ft_print_error_cmd(int error, char *path);
-void			ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
-					t_ast *ast);
+void				ft_destroy_matrix(void *arg);
+char				**ft_get_args(t_token **tokens);
+void				ft_build_args_alternative(t_binary_tree_node *node);
+void				ft_push_glob_expanded(t_token *token, t_linkedlist *list);
+char				*ft_find_path(t_linkedlist_array *ht_env, char *cmd);
+int					ft_execute_cmd(t_binary_tree_node *node, t_ast *ast);
+int					ft_expand_tokens(t_binary_tree_node *node);
+void				ft_built_args(t_binary_tree_node *node);
+void				ft_print_error_cmd(int error, char *path);
+void				ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
+						t_ast *ast);
 
 // CMD BUILTIN
-int				ft_execute_builtin(t_binary_tree_node *node, t_ast *ast);
+int					ft_execute_builtin(t_binary_tree_node *node, t_ast *ast);
 
 // REDIRECT
-int				ft_is_redirect(t_binary_tree_node *node);
-int				ft_visit_redirect(t_binary_tree_node *node, t_ast *ast);
-int				ft_execute_redirect(t_binary_tree_node *node);
-void			ft_free_item_redirect(void *content);
+int					ft_is_redirect(t_binary_tree_node *node);
+int					ft_visit_redirect(t_binary_tree_node *node, t_ast *ast);
+int					ft_execute_redirect(t_binary_tree_node *node);
+void				ft_free_item_redirect(void *content);
 
 // HEREDOC
-int				ft_execute_heredocs(t_binary_tree_node *node);
-char			*ft_generate_temp_file(void);
-void			ft_dfs_find_heredoc(t_linkedlist *heredoc,
-					t_binary_tree_node *node);
-t_linkedlist	*ft_find_all_heredoc(t_binary_tree_node *node);
+int					ft_execute_heredocs(t_binary_tree_node *node);
+char				*ft_generate_temp_file(void);
+void				ft_dfs_find_heredoc(t_linkedlist *heredoc,
+						t_binary_tree_node *node);
+t_linkedlist		*ft_find_all_heredoc(t_binary_tree_node *node);
 
 // PIPE
-int				ft_execute_pipe(t_binary_tree_node *node, t_ast *ast);
+int					ft_execute_pipe(t_binary_tree_node *node, t_ast *ast);
 
 // SUBSHELL
-int				ft_execute_subshell(t_binary_tree_node *node, t_ast *ast);
+int					ft_execute_subshell(t_binary_tree_node *node, t_ast *ast);
 
 // AND OR
-int				ft_execute_and(t_binary_tree_node *node, t_ast *ast);
-int				ft_execute_or(t_binary_tree_node *node, t_ast *ast);
+int					ft_execute_and(t_binary_tree_node *node, t_ast *ast);
+int					ft_execute_or(t_binary_tree_node *node, t_ast *ast);
 
 #endif

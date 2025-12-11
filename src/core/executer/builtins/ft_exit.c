@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 14:42:13 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/08 17:06:40 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/11 11:10:26 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 static int	ft_verify_number(char *str);
 
-int	ft_exit(t_binary_tree_node *node, t_ast	*ast)
+int	ft_exit(t_binary_tree_node *node, t_ast *ast)
 {
-	int	status;
+	int		status;
+	char	*number;
 
+	if (ft_get_tokens(node)[1]->last_build->token_expanded)
+		number = ft_get_tokens(node)[1]->last_build->token_expanded;
+	else
+		number = ft_get_tokens(node)[1]->last_build->glob_error;
 	if (!node->parent)
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (ft_get_argv(node)[1] == NULL)
 		status = 0;
-	else if (ft_verify_number(ft_get_argv(node)[1]) == 2)
+	else if (ft_verify_number(number) == 2)
 		status = 2;
 	else if (ft_get_argv(node)[2] != NULL)
 	{
