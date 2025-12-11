@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 14:42:13 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/11 11:10:26 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:30:47 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ int	ft_exit(t_binary_tree_node *node, t_ast *ast)
 	int		status;
 	char	*number;
 
-	if (ft_get_tokens(node)[1]->last_build->token_expanded)
-		number = ft_get_tokens(node)[1]->last_build->token_expanded;
-	else
-		number = ft_get_tokens(node)[1]->last_build->glob_error;
+	number = ft_get_argv(node)[1];
 	if (!node->parent)
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (ft_get_argv(node)[1] == NULL)
@@ -47,6 +44,8 @@ static int	ft_verify_number(char *str)
 {
 	int	i;
 
+	if (!str)
+		return (0);
 	i = 1;
 	if (str[0] != '+' && str[0] != '-' && ft_isdigit(str[0]) == 0)
 	{
