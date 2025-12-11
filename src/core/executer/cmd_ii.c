@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:12:11 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/10 11:48:01 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/11 17:09:26 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,22 @@ void	ft_print_error_cmd(int error, char *path)
 	}
 }
 
-void	ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
-		t_ast *ast)
+void	ft_destroy_tree_cmd(char *path, t_binary_tree_node *node, t_ast *ast)
 {
 	free(path);
 	ft_free_argv(node);
 	ft_set_flag_destroy_exec(node);
 	ast->destroy(&ast, free_ast_node);
+}
+
+void	ft_reset_fd(t_binary_tree_node *node, t_ast *ast)
+{
+	t_linkedlist	**redirects;
+
+	redirects = ft_get_list_redirects(node);
+	if (redirects && *redirects)
+	{
+		dup2(ft_get_fd_out(ast->tree->root), STDOUT_FILENO);
+		dup2(ft_get_fd_in(ast->tree->root), STDIN_FILENO);
+	}
 }

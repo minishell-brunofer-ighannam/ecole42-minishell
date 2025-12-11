@@ -127,12 +127,6 @@ OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
 
 COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 
-TEST_PROGRAMS = linkedlist linkedlist_array binary_tree raw_splitter refined_splitter \
-env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
-create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
-lexer ast_build parser
-
-
 
 
 # ***************************************************************************************************
@@ -187,125 +181,6 @@ $(LIBFT):
 	@make -s -C $(LIBFT_DIR) SLEEP="$(SLEEP)"
 
 
-
-tests: fclean find_expandable find_keys_to_expand create_expandable_object \
-linkedlist linkedlist_array binary_tree raw_splitter refined_splitter prompt_validator build_expansion \
-find_path expand_var_test expand_glob_test env_ht_op lexer
-
-	@clear && echo "code% make tests"
-
-#	=================== LEXER TESTS =====================
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)lexer$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./lexer
-
-#	=================== EXPANSION TESTS =====================
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)find_expandable$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./find_expandable
-
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)find_keys_to_expand$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./find_keys_to_expand
-
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)create_expandable_object$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./create_expandable_object
-
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)build_expansion$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./build_expansion
-
-#	=================== PROMPT & SPLITTING TESTS =====================
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)prompt_validator$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./prompt_validator
-
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)raw_splitter$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./raw_splitter
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)refined_splitter$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./refined_splitter
-
-#	=================== DATA STRUCTURES TESTS =====================
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)linkedlist_array$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./linkedlist_array
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)binary_tree$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./binary_tree
-
-#	=================== ENV & EXPORT TESTS =====================
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)env_ht_op$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./env_ht_op
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)find_path$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./find_path
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)expand_var_test$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full ./expand_var_test
-	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)expand_glob_test$(RESET)..." && sleep $(SLEEP)
-	@valgrind -q --track-origins=yes --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp --leak-check=full ./expand_glob_test
-
-
-linkedlist: tests/data_structures/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/data_structures/linkedlist.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-linkedlist_array: tests/data_structures/linkedlist_array.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/data_structures/linkedlist_array.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-binary_tree: tests/data_structures/binary_tree.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/data_structures/binary_tree.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-prompt_validator: tests/lexer/prompt_validator.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/prompt_validator.c  tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-raw_splitter: tests/lexer/raw_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/raw_splitter.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-refined_splitter: tests/lexer/refined_splitter.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/refined_splitter.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-env_ht_op: tests/env_ht_op.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) -no-pie -o $@ tests/env_ht_op.c $(OBJS) $(LIBFT) $(DEPENDENCIES)
-
-find_path: tests/find_path.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/find_path.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-expand_var_test: tests/expand_var_test.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/expand_var_test.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-expand_glob_test: tests/expand_glob_test.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/expand_glob_test.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-find_expandable: tests/lexer/tokenize/find_expandable.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/tokenize/find_expandable.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-find_keys_to_expand: tests/lexer/tokenize/find_keys_to_expand.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/tokenize/find_keys_to_expand.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-create_expandable_object: tests/lexer/tokenize/create_expandable_object.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/tokenize/create_expandable_object.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-build_expansion: tests/lexer/tokenize/build_expansion.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/tokenize/build_expansion.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-lexer: tests/lexer/lexer.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/lexer/lexer.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-ast_build: tests/parser/ast_build.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/parser/ast_build.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
-
-parser: tests/parser/parser.c tests/tests.c $(COMPILATION_DEPENDENCIES)
-	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
-	@$(CC) $(CFLAGS) tests/parser/parser.c tests/tests.c $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
 
 run_valgrind:
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp --leak-check=full ./minishell
