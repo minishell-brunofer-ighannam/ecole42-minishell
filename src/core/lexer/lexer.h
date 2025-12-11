@@ -14,6 +14,7 @@
 # define LEXER_H
 
 # include "tokenize/tokenize.h"
+# include "splitter/splitter.h"
 # include <stdbool.h>
 
 /**
