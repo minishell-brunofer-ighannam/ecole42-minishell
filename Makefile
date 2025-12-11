@@ -16,7 +16,7 @@ LIBFT_INCLUDES = -I $(LIBFT_DIR)/includes -I $(LIBFT_DIR)/dependency_includes
 # ============== COMPILATION COMMANDS =================
 INCLUDES = -I includes $(LIBFT_INCLUDES)
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
+CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
 DESTDIR= $(HOME)/bin
 INSTALL_PATH= $(DESTDIR)/$(NAME)
 
@@ -115,7 +115,8 @@ MAIN_PROGRAM=src/main.c
 
 # ============== PROGRAM DEPENDENCIES =================
 
-DEPENDENCIES = -lreadline -pie
+# DEPENDENCIES = -lreadline -pie
+DEPENDENCIES = -lreadline
 
 # ============== CUSOM SLEEP =================
 SLEEP = 0.07

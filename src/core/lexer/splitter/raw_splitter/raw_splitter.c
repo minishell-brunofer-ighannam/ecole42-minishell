@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:35:20 by valero            #+#    #+#             */
-/*   Updated: 2025/12/09 18:12:45 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:08:26 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_splited_prompt	*ft_raw_splitter(char const *str)
 
 	if (!str)
 		return (NULL);
-	coord_arr = (int *)malloc((ft_strlen((char *)str) + 1) * sizeof(int));
+	coord_arr = (int *)ft_calloc((ft_strlen((char *)str) + 3), sizeof(int));
 	if (!coord_arr)
 		return (NULL);
 	array.array = coord_arr;

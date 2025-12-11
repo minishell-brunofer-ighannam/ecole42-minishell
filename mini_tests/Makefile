@@ -16,8 +16,8 @@ LIBFT_INCLUDES = -I $(LIBFT_DIR)/includes -I $(LIBFT_DIR)/dependency_includes
 # ============== COMPILATION COMMANDS =================
 INCLUDES = -I includes $(LIBFT_INCLUDES)
 CC = cc
-# CFLAGS = -Wall -Werror -Wextra -g3 -Ofast -march=native -flto -funroll-loops $(INCLUDES)
-CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
+# CFLAGS = -Wall -Werror -Wextra -g3 -fPIE $(INCLUDES)
+CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
 
 # ============== SRC FILES =================
 
@@ -88,7 +88,7 @@ ENV = $(EXEC_DIR)/env/env.c $(EXEC_DIR)/env/expand_var.c $(EXEC_DIR)/env/expand_
 
 EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd.c $(EXEC_DIR)/redirect.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc_i.c \
 	$(EXEC_DIR)/here_doc_ii.c $(EXEC_DIR)/cmd_builtin.c $(EXEC_DIR)/tree.c $(EXEC_DIR)/and.c $(EXEC_DIR)/or.c $(EXEC_DIR)/subshell.c \
-	$(EXEC_DIR)/mapper/mapper.c 
+	$(EXEC_DIR)/mapper/mapper.c
 
 
 UTILS = src/utils/array_str.c src/utils/commands.c src/utils/print.c
@@ -104,7 +104,8 @@ MAIN_PROGRAM=src/main.c
 
 # ============== PROGRAM DEPENDENCIES =================
 
-DEPENDENCIES = -lreadline -pie
+# DEPENDENCIES = -lreadline -pie
+DEPENDENCIES = -lreadline
 
 # ============== CUSOM SLEEP =================
 SLEEP = 0.07
