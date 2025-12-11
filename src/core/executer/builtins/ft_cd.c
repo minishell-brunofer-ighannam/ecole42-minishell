@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 11:31:58 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/10 11:46:38 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/10 21:00:51 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static void	ft_update_ht(t_binary_tree_node *node, char *pwd, char *old_pwd)
 	char				*key_value_pwd;
 	char				*key_value_old_pwd;
 
+	(void)item_list_old_pwd;
+	(void)item_list_pwd;
 	item_list_pwd = (t_linkedlist_node *)ft_find_ht(ft_get_ht_env(node), "PWD");
 	key_value_pwd = ft_strjoin("PWD=", pwd);
 	ft_set(ft_get_ht_env(node), key_value_pwd);

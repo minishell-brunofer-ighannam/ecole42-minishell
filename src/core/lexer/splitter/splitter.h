@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitter.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:38:47 by valero            #+#    #+#             */
-/*   Updated: 2025/12/09 18:23:58 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/10 21:19:57 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ struct s_splited_prompt
 	void	*(*destroy)(t_splited_prompt **self_ref);
 };
 
+t_splited_prompt	*ft_raw_splitter(char const *str);
 t_splited_prompt	*ft_splitter(char const *str);
 
 #endif
