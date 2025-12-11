@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/11 14:05:52 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/11 15:47:35 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	ft_visit_redirect(t_binary_tree_node *node, t_ast *ast)
 			content->flag_redir_problem = 1;
 		content->file = ft_get_tokens(node)[1]->last_build->token_expanded;
 	}
+	content->value = (char *)ft_get_tokens(node)[1]->value;
 	ft_free_argv(node);
 	content->type = ft_get_type(node);
 	ft_push_redirect(node, content);
@@ -82,9 +83,14 @@ void	ft_free_item_redirect(void *content)
 	content_redirect = NULL;
 }
 
-void	ft_print_ambiguous(t_binary_tree_node *node)
+void	ft_print_ambiguous(void *content)
 {
+	t_redirect	*content_redirect;
+
+	if (!content)
+		return ;
+	content_redirect = content;
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(ft_get_tokens(node)[1]->value, 2);
+	ft_putstr_fd(content_redirect->value, 2);
 	ft_putstr_fd(": ambiguous redirect\n", 2);
 }
