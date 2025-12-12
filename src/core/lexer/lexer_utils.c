@@ -13,6 +13,8 @@
 #include "lexer_internal.h"
 #include "../../utils/utils.h"
 
+static void	ft_print_error_message(const char *src, int error_idx);
+
 /**
  * # ft_coord_dup
  *
@@ -68,7 +70,7 @@ void	ft_print_structure_not_closed_error(const char *src, int error_idx)
 	if (!src || error_idx < 0)
 		return ;
 	i = -1;
-	while (src[++i] && i < error_idx + error_idx)
+	while (src[++i] && i < error_idx + 20)
 	{
 		curr_char[0] = src[i];
 		if (i != error_idx)
@@ -85,5 +87,13 @@ void	ft_print_structure_not_closed_error(const char *src, int error_idx)
 		else
 			ft_print_bold_read("^", 2);
 	}
-	ft_print_bold_read("syntax error: structure not closed\n", 2);
+	ft_print_error_message(src, error_idx);
+}
+
+static void	ft_print_error_message(const char *src, int error_idx)
+{
+	if (src[error_idx] == ')')
+		ft_print_bold_read("  syntax error: closing unopened structure\n", 2);
+	else
+		ft_print_bold_read("  syntax error: structure not closed\n", 2);
 }
