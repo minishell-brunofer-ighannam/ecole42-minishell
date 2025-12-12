@@ -13,6 +13,7 @@
 #include "lexer_internal.h"
 #include "lexer.h"
 
+static bool		ft_isempty(const char *prompt);
 static void		*ft_destroy_lexer(
 					t_lexer	**self_ref);
 static t_lexer	*ft_create_lexer(
@@ -44,7 +45,7 @@ t_lexer	*ft_lexer(
 	t_expander_callbacks	callbacks;
 	int						error_idx;
 
-	if (!prompt || !*prompt)
+	if (!prompt || !*prompt || ft_isempty(prompt))
 		return (NULL);
 	error_idx = ft_prompt_validator(prompt);
 	if (error_idx > -1)
@@ -147,4 +148,15 @@ static void	*ft_destroy_lexer(t_lexer	**self_ref)
 	free(self);
 	*self_ref = NULL;
 	return (NULL);
+}
+
+static bool	ft_isempty(const char *prompt)
+{
+	int	i;
+
+	i = -1;
+	while (prompt[++i])
+		if (!((prompt[i] >= 9 && prompt[i] <= 13) || prompt[i] == 32))
+			return (false);
+	return (true);
 }
