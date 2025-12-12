@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argv.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 15:58:00 by valero            #+#    #+#             */
-/*   Updated: 2025/12/11 11:10:49 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/11 23:33:25 by valero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ void	ft_free_argv(t_binary_tree_node *node)
 	t_ast_node	*ast_node;
 	t_exec		*exec;
 	char		**argv;
-	int			i;
 
-	i = 0;
 	argv = NULL;
 	if (!node)
 		return ;
