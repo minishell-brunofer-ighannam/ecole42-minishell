@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:18:47 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/12 21:21:00 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 11:57:23 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ int	ft_executer(const char *line, void *exec)
 	}
 	callbacks = ft_create_expander_callbacks(ft_expand_var, ft_expand_glob);
 	ast = ft_parser(line, callbacks, exec_ref, free_ast_node);
-	if (ast)
-		status = ft_execute_tree(ast);
+	if (!ast)
+	{
+		ft_set((*exec_ref)->ht_env, "?=2");
+		return (2);
+	}
+	status = ft_execute_tree(ast);
 	return (status);
 }
