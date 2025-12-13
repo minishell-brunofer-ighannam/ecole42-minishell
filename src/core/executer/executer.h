@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/13 12:01:08 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 18:21:24 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int					ft_visit_redirect(t_binary_tree_node *node, t_ast *ast);
 int					ft_execute_redirect(t_binary_tree_node *node);
 void				ft_free_item_redirect(void *content);
 void				ft_print_ambiguous(void *content);
+void				ft_print_error_redirect(char *error, t_redirect *content);
 
 // HEREDOC
 int					ft_execute_heredocs(t_binary_tree_node *node);
