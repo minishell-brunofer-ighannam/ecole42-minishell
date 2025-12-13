@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refine_raw_manage_grouped_and_ungrouped.c          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:58:40 by valero            #+#    #+#             */
-/*   Updated: 2025/12/12 13:52:36 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/13 11:57:53 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,33 @@ static bool	ft_handle_consecutive_quotes(
  * raw tokens.
  */
 void	ft_manage_grouped_and_ungrouped_tokens(
-			t_refined_token_push_params scope)
+			t_refined_token_push_params scp)
 {
-	while (scope.raw_token.chunck[++scope.var->idx])
+	while (scp.raw_token.chunck[++scp.var->idx])
 	{
-		if (ft_is_quote(scope.raw_token.chunck, scope.var->idx, NULL))
-			manage_quote_behavior(scope.raw_token, scope.var);
+		if (ft_is_quote(scp.raw_token.chunck, scp.var->idx, NULL))
+			manage_quote_behavior(scp.raw_token, scp.var);
 		else
 		{
-			while (scope.raw_token.chunck[scope.var->idx]
-				&& !scope.var->found_quote
-				&& is_reserved_token(scope.raw_token.chunck, scope.var->idx))
-				filter_reserved_tokens(scope.raw_token, scope.idx_raw_token,
-					scope.refineds, scope.var);
-			if (scope.raw_token.chunck[scope.var->idx])
+			while (scp.raw_token.chunck[scp.var->idx]
+				&& !scp.var->found_quote
+				&& is_reserved_token(scp.raw_token.chunck, scp.var->idx))
+				filter_reserved_tokens(scp.raw_token, scp.idx_raw_token,
+					scp.refineds, scp.var);
+			if (scp.raw_token.chunck[scp.var->idx])
 			{
-				if (ft_is_quote(scope.raw_token.chunck, scope.var->idx, NULL))
-					manage_quote_behavior(scope.raw_token, scope.var);
+				if (ft_is_quote(scp.raw_token.chunck, scp.var->idx, NULL))
+					manage_quote_behavior(scp.raw_token, scp.var);
 				else
-					scope.var->new_token[scope.var->idx_new_token++]
-						= scope.raw_token.chunck[scope.var->idx];
+					scp.var->new_token[scp.var->idx_new_token++]
+						= scp.raw_token.chunck[scp.var->idx];
 			}
 			else
 				break ;
 		}
 	}
-	if (!scope.refineds->nodes_amount && !scope.var->idx_new_token)
-		++scope.var->idx_new_token;
+	if (!scp.refineds->list[scp.idx_raw_token]->size && !scp.var->idx_new_token)
+		++scp.var->idx_new_token;
 }
 
 /**
