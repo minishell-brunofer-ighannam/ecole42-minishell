@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:04:15 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/13 12:03:36 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:55:05 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	ft_execute_cmd(t_binary_tree_node *node, t_ast *ast)
 	{
 		status = ft_execute_builtin(node, ast);
 		ft_free_argv(node);
+		ft_reset_fd(node, ast);
+		ft_clean_redirect(node);
 		return (status);
 	}
 	status = ft_execute_not_built_in(node, ast);

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 12:01:52 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/13 12:02:08 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 12:36:46 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_status_cmd_with_null_path(t_binary_tree_node *node)
 {
-	if (ft_get_argv(node)[0] == NULL && !ft_get_tokens(node)[0]->value[0])
-		return (127);
-	else
+	if (ft_get_argv(node)[0] == NULL && ft_get_tokens(node)[0]->value[0])
 		return (0);
+	else
+		return (127);
 }

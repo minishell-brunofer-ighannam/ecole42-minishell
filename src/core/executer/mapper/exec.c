@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 15:41:42 by valero            #+#    #+#             */
-/*   Updated: 2025/12/11 13:44:30 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:33:16 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_exec	*ft_built_exec(char **envp)
 	exec->ht_env = ft_init_ht_env(envp);
 	exec->fds[0] = dup(STDIN_FILENO);
 	exec->fds[1] = dup(STDOUT_FILENO);
+	exec->fd_out_pipe = -1;
 	exec->destroy = false;
 	return (exec);
 }
@@ -68,6 +69,8 @@ void	ft_destroy_exec(void *exec)
 	exec_node = *exec_node_ref;
 	close(exec_node->fds[0]);
 	close(exec_node->fds[1]);
+	if (exec_node->fd_out_pipe != -1)
+		close(exec_node->fd_out_pipe);
 	if (exec_node->ht_env)
 	{
 		exec_node->ht_env->destroy(&(exec_node->ht_env), ft_free_item_ht_env);

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:44:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/11 10:48:09 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:07:13 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	ft_execute_builtin_aux(t_binary_tree_node *node, t_ast *ast)
 	{
 		if (ft_get_tokens(node)[1])
 			return (ft_export(ft_get_ht_env(node),
-					ft_get_tokens(node)[1]->value));
+					ft_get_tokens(node)));
 		else
 			return (ft_export(ft_get_ht_env(node), NULL));
 	}
