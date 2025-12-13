@@ -6,17 +6,20 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:26 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/13 12:21:59 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:50:14 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
 static char	**ft_possible_paths(t_linkedlist_array *ht_env);
-static char	*ft_aux_find_path(char **possible_paths, char *cmd, t_binary_tree_node *node);
-static int	ft_print_cmd_not_found(char **possible_paths, char *cmd, t_binary_tree_node *node);
+static char	*ft_aux_find_path(char **possible_paths, char *cmd,
+				t_binary_tree_node *node);
+static int	ft_print_cmd_not_found(char **possible_paths, char *cmd,
+				t_binary_tree_node *node);
 
-char	*ft_find_path(t_linkedlist_array *ht_env, char *cmd, t_binary_tree_node *node)
+char	*ft_find_path(t_linkedlist_array *ht_env, char *cmd,
+		t_binary_tree_node *node)
 {
 	char	*path;
 	char	**possible_paths;
@@ -45,7 +48,8 @@ static char	**ft_possible_paths(t_linkedlist_array *ht_env)
 	return (possible_paths);
 }
 
-static char	*ft_aux_find_path(char **possible_paths, char *cmd, t_binary_tree_node *node)
+static char	*ft_aux_find_path(char **possible_paths, char *cmd,
+		t_binary_tree_node *node)
 {
 	int		i;
 	char	*path;
@@ -71,11 +75,13 @@ static char	*ft_aux_find_path(char **possible_paths, char *cmd, t_binary_tree_no
 	return (NULL);
 }
 
-static int	ft_print_cmd_not_found(char **possible_paths, char *cmd, t_binary_tree_node *node)
+static int	ft_print_cmd_not_found(char **possible_paths, char *cmd,
+		t_binary_tree_node *node)
 {
 	char	*path;
 
-	if (!possible_paths || (cmd == NULL && !ft_get_tokens(node)[0]->value[0]) || !ft_strcmp("..", cmd))
+	if (!possible_paths || (cmd == NULL && !ft_get_tokens(node)[0]->value[0])
+		|| !ft_strcmp("..", cmd))
 	{
 		if (!cmd)
 			path = ft_strdup("'': command not found");
