@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:26 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/13 11:54:05 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 12:21:59 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static char	*ft_aux_find_path(char **possible_paths, char *cmd, t_binary_tree_no
 	char	*path;
 	char	*path_temp;
 
+	if (ft_strchr(cmd, '/'))
+		return (ft_strdup(cmd));
 	if (ft_print_cmd_not_found(possible_paths, cmd, node) == 1)
 		return (NULL);
 	i = -1;

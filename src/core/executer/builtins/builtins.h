@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:20:31 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 23:17:17 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:06:51 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 # include <unistd.h>
 
 void	ft_env(t_linkedlist_array *ht_env);
-int		ft_export(t_linkedlist_array *ht_env, const char *key_value);
+int		ft_export(t_linkedlist_array *ht_env, t_token **tokens);
+int		ft_export_include(t_linkedlist_array *ht_env, const char *key_value);
 void	ft_free_content_ht(t_ht *content);
 void	ft_set(t_linkedlist_array *ht_env, const char *key_value);
 void	ft_unset(t_linkedlist_array *ht_env, const char *key);
