@@ -6,12 +6,13 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 23:05:14 by valero            #+#    #+#             */
-/*   Updated: 2025/12/13 16:58:36 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/13 18:11:09 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expandable_object_internal.h"
 
+static int	ft_get_src_idx(char **array, int chunk_idx, int src_idx, int curr_idx);
 static void	ft_extract_keys(t_expandable_section *expandable_sections,
 				int idx, t_expandable_section *exp_keys, int *coord_in_src);
 
@@ -80,6 +81,7 @@ static void	ft_extract_keys(
 	char		*token_section;
 	int			*coords;
 
+	(void)coord_in_src;
 	token_section = expandable_sections->array[idx];
 	coords = expandable_sections->coord_array[idx];
 	section_idx = -1;
@@ -90,11 +92,28 @@ static void	ft_extract_keys(
 			ft_push_expandable_key(
 				expandable_sections, idx, exp_keys, &section_idx);
 		else if (ft_is_special_char(token_section, section_idx, "$")
-			&& ft_is_special_char(exp_keys->src, coord_in_src[0] + 1, "\"'"))
+			&& ft_is_special_char(exp_keys->src,
+				ft_get_src_idx(expandable_sections->array,
+					idx, coord_in_src[0], section_idx), "\"'"))
 		{
 			exp_keys->list->push(exp_keys->list, ft_strdup(""));
 			new_coord = ft_new_coord(coords[0], coords[0]);
 			exp_keys->coord_list->push(exp_keys->coord_list, new_coord);
 		}
 	}
+}
+
+static int	ft_get_src_idx(
+				char **array, int chunk_idx,
+				int src_idx, int curr_idx)
+{
+	int	len;
+
+	len = 0;
+	while (chunk_idx >= 0)
+	{
+		len += ft_strlen(array[chunk_idx]);
+		chunk_idx--;
+	}
+	return (src_idx + len + curr_idx);
 }
