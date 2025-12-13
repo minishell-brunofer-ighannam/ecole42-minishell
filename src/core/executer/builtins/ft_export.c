@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 15:40:29 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/10 17:37:00 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:17:47 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,28 @@ static void	ft_print_export(t_linkedlist_array *ht, char *key);
 static int	ft_validate_key_export(t_ht *content);
 static int	ft_not_valid_export(t_ht *content);
 
-int	ft_export(t_linkedlist_array *ht_env, const char *key_value)
+int ft_export(t_linkedlist_array *ht_env, t_token **tokens)
+{
+	int i;
+	int status_temp;
+	int status;
+
+	if (!tokens)
+		return (ft_export_include(ht_env, NULL));
+	i = 1;
+	status = 0;
+	status_temp = 0;
+	while (tokens[i])
+	{
+		status_temp = ft_export_include(ht_env, tokens[i]->last_build->token_expanded);
+		if (status_temp != 0)
+			status = status_temp;
+		i++;
+	}
+	return (status);
+}
+
+int	ft_export_include(t_linkedlist_array *ht_env, const char *key_value)
 {
 	char		**keys_export;
 	int			i;
