@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 15:54:09 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 19:50:52 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,12 +124,23 @@ static void	ft_tokenize_build_heredoc(t_binary_tree_node *node, char *line,
 {
 	t_token				*token;
 	t_expansion_build	*build;
+	int					coords[2];
 
-	token = ft_tokenize(line, 0, NULL,
+	coords[0] = 0;
+	coords[1] = ft_strlen(line) - 1;
+	token = ft_tokenize(line, 0, (int *)coords,
 			ft_create_expander_callbacks(ft_get_tokens(node)[0]->expand_var,
 				NULL));
 	build = token->build_expansion(token, ft_get_ht_env(node));
-	ft_putendl_fd(token->last_build->token_expanded, fd);
+	if (token->expandable_object)
+	{
+		if (token->last_build->token_expanded)
+			ft_putendl_fd(token->last_build->token_expanded, fd);
+		else
+			ft_putendl_fd(token->last_build->glob_error, fd);
+	}
+	else
+		ft_putendl_fd((char *)token->value, fd);
 	build->destroy(&build);
 	token->destroy(&token);
 }
