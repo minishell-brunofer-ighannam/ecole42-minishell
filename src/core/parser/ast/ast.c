@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:03:17 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 13:12:58 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/13 15:29:45 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,18 @@ t_ast	*ft_create_ast(t_lexer *lexer)
 	}
 	ast->lexer = lexer;
 	ast->print = ft_print_ast;
+	ast->destroy = ft_destroy_ast;
+	return (ast);
+}
+
+t_ast	*ft_create_ast_error(t_ast_error error)
+{
+	t_ast	*ast;
+
+	ast = ft_calloc(1, sizeof(t_ast));
+	if (!ast)
+		return (NULL);
+	ast->error = error;
 	ast->destroy = ft_destroy_ast;
 	return (ast);
 }
@@ -81,8 +93,10 @@ static void	*ft_destroy_ast(t_ast **self_ref, void (*free_content)(void *arg))
 	if (!self_ref || !*self_ref)
 		return (NULL);
 	self = *self_ref;
-	self->tree->destroy(&self->tree, free_content);
-	self->lexer->destroy(&self->lexer);
+	if (self->tree)
+		self->tree->destroy(&self->tree, free_content);
+	if (self->lexer)
+		self->lexer->destroy(&self->lexer);
 	free(self);
 	*self_ref = NULL;
 	return (NULL);

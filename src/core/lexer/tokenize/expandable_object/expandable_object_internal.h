@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:05:35 by valero            #+#    #+#             */
-/*   Updated: 2025/12/09 18:24:41 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:55:38 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "../../../../utils/utils.h"
 # include "../../lexer_internal.h"
 # include "../separate_quote_chuncks/separate_quote_chuncks.h"
+# include "expandable_object.h"
 
 /**
  * # t_expandable_section
@@ -42,6 +43,7 @@
 typedef struct s_expandable_section			t_expandable_section;
 struct s_expandable_section
 {
+	const char		*src;
 	t_linkedlist	*list;
 	t_linkedlist	*coord_list;
 	char			**array;
@@ -50,10 +52,15 @@ struct s_expandable_section
 	int				**(*copy_coord_array)(void *arg);
 	void			*(*destroy)(t_expandable_section **self_ref);
 };
-t_expandable_section		*ft_create_expandable_sections(void);
+t_expandable_section		*ft_create_expandable_sections(const char *str);
 int							**ft_copy_coord_matrix(void *arg);
 t_expandable_section		*ft_find_expandable(const char *str);
 t_expandable_section		*ft_find_keys_to_expand(
-								t_expandable_section *expandable_sections);
+								t_expandable_section *expandable_sections,
+								const char *src, int *coord_in_src);
+void						ft_push_expandable_key(
+								t_expandable_section *expandable_sections,
+								int idx, t_expandable_section *exp_keys,
+								int *section_idx);
 
 #endif

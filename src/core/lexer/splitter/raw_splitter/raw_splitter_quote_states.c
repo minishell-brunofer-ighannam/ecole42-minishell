@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raw_splitter_quote_states.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 20:46:14 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/11 11:11:39 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 17:16:18 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,7 @@ bool	ft_is_start_or_end_quote(const char *str, int i,
 	return ((!i && ft_is_quote(str, i, "`") && !ft_is_quote(str, i + 1, "`"))
 		|| (i && ft_is_quote(str, i, "`") && !ft_is_quote(str, i + 1, "`")
 			&& !ft_is_quote(str, i - 1, "`") && (!quote_info.open_quote_type
-				|| quote_info.open_quote_type == str[i])));
+				|| quote_info.open_quote_type == str[i]))
+		|| (i && ft_is_quote(str, i, "`")
+			&& !ft_is_quote(str, i + 1, "`") && !quote_info.open_quote_type));
 }

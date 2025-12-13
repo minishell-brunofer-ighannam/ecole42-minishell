@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 01:12:37 by valero            #+#    #+#             */
-/*   Updated: 2025/12/09 18:29:38 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/13 12:04:51 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_expandable_section	*ft_find_expandable(const char *str)
 	t_linkedlist_node			*coord_node;
 	t_token_section				*section_content;
 
-	exp_sections = ft_create_expandable_sections();
+	exp_sections = ft_create_expandable_sections(str);
 	sep_sections = ft_separate_quote_chuncks(str);
 	section_node = sep_sections->list->first;
 	coord_node = sep_sections->coord_list->first;

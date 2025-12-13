@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:05:15 by valero            #+#    #+#             */
-/*   Updated: 2025/12/09 18:26:32 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:06:38 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void					*ft_destroy_expandable_object(
 								t_expandable_object **self_ref);
 static	t_expandable_object	*ft_create_expansion_data(
 								t_expandable_object **object,
-								t_token *token);
+								t_token *token, const char *src);
 
 /**
  * # ft_create_expandable_object
@@ -38,14 +38,15 @@ static	t_expandable_object	*ft_create_expansion_data(
  * Key function: initializes everything that
  * will be used for expansion.
  */
-t_expandable_object	*ft_create_expandable_object(t_token *token)
+t_expandable_object	*ft_create_expandable_object(
+						t_token *token, const char *src)
 {
 	t_expandable_object	*object;
 
 	object = ft_calloc(1, sizeof(t_expandable_object));
 	if (!object)
 		return (NULL);
-	if (!ft_create_expansion_data(&object, token))
+	if (!ft_create_expansion_data(&object, token, src))
 		return (NULL);
 	object->original_value = (const char *)ft_strdup(token->value);
 	if (!object->original_value)
@@ -113,7 +114,7 @@ static bool	ft_copy_expansion_into_object(
  */
 static	t_expandable_object	*ft_create_expansion_data(
 								t_expandable_object **object,
-								t_token *token)
+								t_token *token, const char *src)
 {
 	t_expandable_section	*expandable_sections;
 	t_expandable_section	*keys_to_expand;
@@ -122,7 +123,8 @@ static	t_expandable_object	*ft_create_expansion_data(
 	if (!expandable_sections)
 		return (ft_destroy_expandable_object(object));
 	(*object)->has_globs = ft_has_globs(expandable_sections);
-	keys_to_expand = ft_find_keys_to_expand(expandable_sections);
+	keys_to_expand = ft_find_keys_to_expand(expandable_sections,
+			src, token->coord_in_src);
 	if (!keys_to_expand)
 		return (ft_destroy_expandable_object(object));
 	if (!ft_copy_expansion_into_object(object, keys_to_expand))

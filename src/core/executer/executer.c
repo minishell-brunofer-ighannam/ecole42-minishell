@@ -28,11 +28,13 @@ int	ft_executer(const char *line, void *exec)
 	}
 	callbacks = ft_create_expander_callbacks(ft_expand_var, ft_expand_glob);
 	ast = ft_parser(line, callbacks, exec_ref, free_ast_node);
-	if (!ast)
+	if (ast && ast->error)
 	{
+		ast->destroy(&ast, free_ast_node);
 		ft_set((*exec_ref)->ht_env, "?=2");
 		return (2);
 	}
-	status = ft_execute_tree(ast);
+	if (ast)
+		status = ft_execute_tree(ast);
 	return (status);
 }

@@ -13,6 +13,7 @@
 #include "lexer_internal.h"
 #include "lexer.h"
 
+t_lexer			*ft_creater_lexer_error(t_lexer_error error);
 static bool		ft_isempty(const char *prompt);
 static void		*ft_destroy_lexer(
 					t_lexer	**self_ref);
@@ -51,7 +52,7 @@ t_lexer	*ft_lexer(
 	if (error_idx > -1)
 	{
 		ft_print_structure_not_closed_error(prompt, error_idx);
-		return (NULL);
+		return (ft_creater_lexer_error(LEXER_ERROR_STRUCTURE_NOT_CLOSED));
 	}
 	splited = ft_splitter(prompt);
 	if (!splited)
@@ -87,29 +88,41 @@ static t_lexer	*ft_create_lexer(
 								t_splited_prompt **split,
 								t_expander_callbacks callbacks)
 {
-	t_lexer		*tk_prompt;
+	t_lexer		*lexer;
 	t_token		**curr_token;
 
-	tk_prompt = ft_calloc(1, sizeof(t_lexer));
-	if (!tk_prompt)
+	lexer = ft_calloc(1, sizeof(t_lexer));
+	if (!lexer)
 		return (NULL);
-	tk_prompt->size = (*split)->len;
-	tk_prompt->original_prompt = (const char *)ft_strdup(prompt);
-	tk_prompt->tokens = ft_calloc((*split)->len + 1, sizeof(t_token *));
+	lexer->size = (*split)->len;
+	lexer->original_prompt = (const char *)ft_strdup(prompt);
+	lexer->tokens = ft_calloc((*split)->len + 1, sizeof(t_token *));
 	while (--(*split)->len >= 0)
 	{
-		curr_token = &tk_prompt->tokens[(*split)->len];
-		*curr_token = ft_tokenize((*split)->chuncks[(*split)->len],
-				(*split)->len, (*split)->coords[(*split)->len], callbacks);
+		curr_token = &lexer->tokens[(*split)->len];
+		*curr_token = ft_tokenize(prompt, (*split)->len,
+				(*split)->coords[(*split)->len], callbacks);
 		if (!*curr_token)
 		{
 			(*split)->destroy(split);
-			return (ft_destroy_lexer(&tk_prompt));
+			return (ft_destroy_lexer(&lexer));
 		}
 	}
 	(*split)->destroy(split);
-	tk_prompt->destroy = ft_destroy_lexer;
-	return (tk_prompt);
+	lexer->destroy = ft_destroy_lexer;
+	return (lexer);
+}
+
+t_lexer	*ft_creater_lexer_error(t_lexer_error error)
+{
+	t_lexer		*lexer;
+
+	lexer = ft_calloc(1, sizeof(t_lexer));
+	if (!lexer)
+		return (NULL);
+	lexer->error = error;
+	lexer->destroy = ft_destroy_lexer;
+	return (lexer);
 }
 
 /**

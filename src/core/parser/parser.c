@@ -6,29 +6,35 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:37:53 by valero            #+#    #+#             */
-/*   Updated: 2025/12/07 20:22:39 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/13 17:23:01 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_internal.h"
 
-static int	ft_get_syntact_error(t_ast *ast);
-static void	ft_print_syntact_error(t_ast *ast, int error_idx);
-static void	ft_print_original_prompt(
-				const char *original_prompt, t_token *target_token);
+static t_ast	*ft_verify_syntax(t_ast *ast, void (*free_content)(void *arg));
+static int		ft_get_syntact_error(t_ast *ast);
+static void		ft_print_syntact_error(t_ast *ast, int error_idx);
+static void		ft_print_original_prompt(
+					const char *original_prompt, t_token *target_token);
 
 t_ast	*ft_parser(const char *prompt, t_expander_callbacks callbacks,
 			void *exec, void (*free_content)(void *arg))
 {
 	t_ast	*ast;
 	t_lexer	*lexer;
-	int		syntact_error;
 
 	if (!prompt)
 		return (NULL);
 	lexer = ft_lexer(prompt, callbacks.expand_var, callbacks.expand_glob);
 	if (!lexer)
 		return (NULL);
+	if (lexer->error == LEXER_ERROR_STRUCTURE_NOT_CLOSED)
+	{
+		ast = ft_create_ast_error((t_ast_error)lexer->error);
+		lexer->destroy(&lexer);
+		return (ast);
+	}
 	ast = ft_ast_build(lexer, exec);
 	if (!ast)
 	{
@@ -36,12 +42,20 @@ t_ast	*ft_parser(const char *prompt, t_expander_callbacks callbacks,
 			lexer->destroy(&lexer);
 		return (NULL);
 	}
+	return (ft_verify_syntax(ast, free_content));
+}
+
+static t_ast	*ft_verify_syntax(t_ast *ast, void (*free_content)(void *arg))
+{
+	int	syntact_error;
+
 	ft_syntactic_analysis(ast);
 	syntact_error = ft_get_syntact_error(ast);
 	if (syntact_error > -1)
 	{
 		ft_print_syntact_error(ast, syntact_error);
-		return (ast->destroy(&ast, free_content));
+		ast->destroy(&ast, free_content);
+		return (ft_create_ast_error(AST_ERROR_SYNTAX_ERROR));
 	}
 	return (ast);
 }

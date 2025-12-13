@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 20:30:55 by valero            #+#    #+#             */
-/*   Updated: 2025/12/08 11:41:14 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/13 15:29:55 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,20 @@ struct							s_ast_node
 			void (*free_exec)(void *exec));
 };
 
+typedef enum e_ast_error		t_ast_error;
+enum e_ast_error
+{
+	AST_ERROR_NULL = 0,
+	AST_ERROR_STRUCTURE_NOT_CLOSED = 1,
+	AST_ERROR_SYNTAX_ERROR = 1,
+};
+
 typedef struct s_ast			t_ast;
 struct							s_ast
 {
 	t_lexer						*lexer;
 	t_binary_tree				*tree;
+	t_ast_error					error;
 	void						(*print)(t_ast *self);
 	void						*(*destroy)(t_ast **self_ref,
 			void (*free_content)(void *arg));
@@ -65,6 +74,7 @@ bool		ft_is_pipe_node(t_ast_node *node);
 bool		ft_is_reserved_node(t_ast_node *node);
 t_ast_node	*ft_create_ast_node(t_token **tokens,
 				t_ast_node_type type, void *exec);
+t_ast		*ft_create_ast_error(t_ast_error error);
 t_ast		*ft_create_ast(t_lexer *lexer);
 
 #endif
