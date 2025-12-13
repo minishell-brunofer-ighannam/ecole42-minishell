@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/11 17:09:41 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 12:01:08 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,14 @@ void				ft_destroy_matrix(void *arg);
 char				**ft_get_args(t_token **tokens);
 void				ft_build_args_alternative(t_binary_tree_node *node);
 void				ft_push_glob_expanded(t_token *token, t_linkedlist *list);
-char				*ft_find_path(t_linkedlist_array *ht_env, char *cmd);
+char				*ft_find_path(t_linkedlist_array *ht_env, char *cmd,
+						t_binary_tree_node *node);
 int					ft_execute_cmd(t_binary_tree_node *node, t_ast *ast);
 int					ft_expand_tokens(t_binary_tree_node *node);
 void				ft_built_args(t_binary_tree_node *node);
 void				ft_print_error_cmd(int error, char *path);
 void				ft_reset_fd(t_binary_tree_node *node, t_ast *ast);
+int					ft_status_cmd_with_null_path(t_binary_tree_node *node);
 void				ft_destroy_tree_cmd(char *path, t_binary_tree_node *node,
 						t_ast *ast);
 
