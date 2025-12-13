@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:12:11 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/11 17:09:26 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:23:26 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,14 @@ void	ft_reset_fd(t_binary_tree_node *node, t_ast *ast)
 	redirects = ft_get_list_redirects(node);
 	if (redirects && *redirects)
 	{
-		dup2(ft_get_fd_out(ast->tree->root), STDOUT_FILENO);
+		if (ft_get_fd_out_pipe(node) != -1)
+		{
+			dup2(ft_get_fd_out_pipe(node), STDOUT_FILENO);
+			close(ft_get_fd_out_pipe(node));
+			ft_set_fd_out_pipe(node, -1);
+		}
+		else
+			dup2(ft_get_fd_out(ast->tree->root), STDOUT_FILENO);
 		dup2(ft_get_fd_in(ast->tree->root), STDIN_FILENO);
 	}
 }

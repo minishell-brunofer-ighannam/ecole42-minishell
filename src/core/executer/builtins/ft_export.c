@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 15:40:29 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/10 17:37:00 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:51:12 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ft_print_export(t_linkedlist_array *ht, char *key);
 static int	ft_validate_key_export(t_ht *content);
 static int	ft_not_valid_export(t_ht *content);
 
-int	ft_export(t_linkedlist_array *ht_env, const char *key_value)
+int	ft_export_include(t_linkedlist_array *ht_env, const char *key_value)
 {
 	char		**keys_export;
 	int			i;

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:54:56 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/11 13:40:01 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:19:43 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ struct						s_exec
 	int						fds[2];
 	bool					destroy;
 	int						flag_n;
+	int						fd_out_pipe;
 };
 
 t_exec						*ft_built_exec(char **envp);
@@ -59,5 +60,8 @@ int							ft_get_flag_n(t_binary_tree_node *node);
 void						ft_set_flag_n(t_binary_tree_node *node, int flag);
 void						free_ast_node(void *arg);
 void						ft_clean_redirect(t_binary_tree_node *node);
+void						ft_set_fd_out_pipe(t_binary_tree_node *node,
+								int fd);
+int							ft_get_fd_out_pipe(t_binary_tree_node *node);
 
 #endif
