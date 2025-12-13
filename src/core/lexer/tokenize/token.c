@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:38:57 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/10 12:47:46 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/13 17:19:30 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void			*ft_destroy_token(t_token **self_ref);
  *   as it may contain $VAR or glob patterns.
  * - Sets destroy().
  */
-t_token	*ft_create_token(const char *value, int position, int *coord_in_src,
+t_token	*ft_create_token(const char *src, int position, int *coord_in_src,
 		t_expander_callbacks callbacks)
 {
 	t_token	*token;
@@ -41,7 +41,8 @@ t_token	*ft_create_token(const char *value, int position, int *coord_in_src,
 		return (NULL);
 	token->expand_var = callbacks.expand_var;
 	token->expand_glob = callbacks.expand_glob;
-	token->value = (const char *)ft_strdup(value);
+	token->value = (const char *)ft_substr(src, coord_in_src[0],
+			coord_in_src[1] - coord_in_src[0] + 1);
 	token->position = position;
 	if (coord_in_src)
 		token->coord_in_src = ft_coord_dup(coord_in_src);
@@ -52,7 +53,7 @@ t_token	*ft_create_token(const char *value, int position, int *coord_in_src,
 	token->type = ft_get_token_type(token->value);
 	if (token->type == TOKEN_UNKNOWN)
 	{
-		token->expandable_object = ft_create_expandable_object(token);
+		token->expandable_object = ft_create_expandable_object(token, src);
 		if (!token->expandable_object)
 			return (ft_destroy_token(&token));
 	}

@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:59:37 by brunofer          #+#    #+#             */
-/*   Updated: 2025/12/09 18:41:14 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/13 12:33:33 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@
  * - Classifies the type.
  */
 t_token	*ft_tokenize(
-			const char *chunck,
+			const char *src,
 			int idx,
 			int *coord_in_src,
 			t_expander_callbacks callbacks)
 {
 	t_token	*token;
 
-	token = ft_create_token(chunck, idx, coord_in_src, callbacks);
+	token = ft_create_token(src, idx, coord_in_src, callbacks);
 	if (!token)
 		return (NULL);
 	return (token);

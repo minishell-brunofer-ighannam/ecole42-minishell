@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 16:05:39 by valero            #+#    #+#             */
-/*   Updated: 2025/12/09 18:27:27 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/13 14:06:58 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ struct s_expandable_object
 	void				*(*destroy)(t_expandable_object **self_ref);
 };
 
-t_expandable_object	*ft_create_expandable_object(t_token *token);
+t_expandable_object	*ft_create_expandable_object(
+						t_token *token, const char *src);
 
 #endif

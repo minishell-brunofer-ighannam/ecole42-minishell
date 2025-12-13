@@ -6,7 +6,7 @@
 /*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:14:58 by valero            #+#    #+#             */
-/*   Updated: 2025/12/09 18:28:50 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:11:05 by brunofer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@ static void	*ft_destroy_expandable_sections(
  *
  * General container for sections to be analyzed.
  */
-t_expandable_section	*ft_create_expandable_sections(void)
+t_expandable_section	*ft_create_expandable_sections(const char *str)
 {
 	t_expandable_section	*exp_sections;
 
 	exp_sections = ft_calloc(1, sizeof(t_expandable_section));
 	if (!exp_sections)
 		return (NULL);
+	exp_sections->src = str;
 	exp_sections->list = ft_new_linkedlist();
 	if (!exp_sections->list)
 		return (ft_destroy_expandable_sections(&exp_sections));

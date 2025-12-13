@@ -17,6 +17,13 @@
 # include "splitter/splitter.h"
 # include <stdbool.h>
 
+typedef enum e_lexer_error	t_lexer_error;
+enum e_lexer_error
+{
+	LEXER_ERROR_NULL = 0,
+	LEXER_ERROR_STRUCTURE_NOT_CLOSED = 1,
+};
+
 /**
  * # t_lexer
  *
@@ -33,13 +40,14 @@
  * Centralizes the tokenization result and provides a single point
  * for cleanup and lifecycle management of all tokens.
  */
-typedef struct s_lexer	t_lexer;
+typedef struct s_lexer		t_lexer;
 struct s_lexer
 {
-	t_token		**tokens;
-	const char	*original_prompt;
-	int			size;
-	void		*(*destroy)(t_lexer **self_ref);
+	t_token			**tokens;
+	t_lexer_error	error;
+	const char		*original_prompt;
+	int				size;
+	void			*(*destroy)(t_lexer **self_ref);
 };
 
 bool	ft_is_redirect_token(t_token *token);

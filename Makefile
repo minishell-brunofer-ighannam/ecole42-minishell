@@ -39,7 +39,7 @@ $(PROMPT_VAL_DIR)/validate_utils_get_end_skip_inner.c
 TOKENIZE_DIR = src/core/lexer/tokenize
 EXP_OBJECT_DIR = $(TOKENIZE_DIR)/expandable_object
 EXP_OBJECT_FILES = $(EXP_OBJECT_DIR)/expandable_object.c $(EXP_OBJECT_DIR)/expansion_object_utils.c \
-$(EXP_OBJECT_DIR)/find_expandable.c $(EXP_OBJECT_DIR)/find_keys_to_expand.c
+$(EXP_OBJECT_DIR)/find_expandable.c $(EXP_OBJECT_DIR)/find_keys_to_expand.c $(EXP_OBJECT_DIR)/find_keys_to_expand_utils.c
 
 SEP_QUOTES_DIR = $(TOKENIZE_DIR)/separate_quote_chuncks
 SEP_QUOTES_FILES = $(SEP_QUOTES_DIR)/separate_quote_chuncks.c $(SEP_QUOTES_DIR)/separate_quote_chuncks_utils.c \
