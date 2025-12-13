@@ -89,7 +89,7 @@ PROCESS = $(EXEC_DIR)/process/child_process.c
 ENV = $(EXEC_DIR)/env/env.c $(EXEC_DIR)/env/expand_var.c $(EXEC_DIR)/env/expand_glob_i.c $(EXEC_DIR)/env/expand_glob_ii.c $(EXEC_DIR)/env/expand_glob_iii.c
 
 EXECUTER = $(EXEC_DIR)/find_path.c $(EXEC_DIR)/cmd_i.c $(EXEC_DIR)/cmd_ii.c $(EXEC_DIR)/cmd_iii.c $(EXEC_DIR)/cmd_ii_build_args.c $(EXEC_DIR)/cmd_ii_get_args.c \
-	$(EXEC_DIR)/redirect.c $(EXEC_DIR)/redirect_execute.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc_i.c \
+	$(EXEC_DIR)/redirect.c $(EXEC_DIR)/redirect_execute.c $(EXEC_DIR)/redirect_print_error.c $(EXEC_DIR)/pipe.c $(EXEC_DIR)/here_doc_i.c \
 	$(EXEC_DIR)/here_doc_ii.c $(EXEC_DIR)/cmd_builtin.c $(EXEC_DIR)/tree.c $(EXEC_DIR)/and.c $(EXEC_DIR)/or.c $(EXEC_DIR)/subshell.c \
 	$(EXEC_DIR)/executer.c  \
 	$(EXEC_DIR)/mapper/ast_node_props.c $(EXEC_DIR)/mapper/exec.c $(EXEC_DIR)/mapper/argv.c $(EXEC_DIR)/mapper/env.c \
@@ -112,6 +112,7 @@ SRC_FILES = $(STRUCTURES) $(LEXER_FILES) $(PARSER_FILES) $(BUILTINS) $(READER) $
 
 # ============== PROGRAM FILES =================
 MAIN_PROGRAM=src/main.c
+TEST_PROGRAM=src/main_test.c
 
 # ============== PROGRAM DEPENDENCIES =================
 
@@ -124,13 +125,14 @@ SLEEP = 0.07
 # ============== COMPILATION =================
 OBJS = $(SRC_FILES:%.c=%.o)
 OBJ_MAIN_PROGRAM = $(MAIN_PROGRAM:%.c=%.o)
+OBJ_TEST_PROGRAM = $(TEST_PROGRAM:%.c=%.o)
 
 COMPILATION_DEPENDENCIES = $(LIBFT) $(OBJS)
 
 TEST_PROGRAMS = linkedlist linkedlist_array binary_tree raw_splitter refined_splitter \
 env_ht_op child_process prompt_validator find_expandable find_keys_to_expand \
 create_expandable_object build_expansion  find_path expand_var_test expand_glob_test \
-lexer ast_build parser
+lexer ast_build parser valgrind_test
 
 
 
@@ -238,6 +240,12 @@ find_path expand_var_test expand_glob_test env_ht_op lexer
 	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)expand_glob_test$(RESET)..." && sleep $(SLEEP)
 	@valgrind -q --track-origins=yes --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp --leak-check=full ./expand_glob_test
 
+
+valgrind_test: $(COMPILATION_DEPENDENCIES) $(OBJ_TEST_PROGRAM)
+	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)
+	@$(CC) $(CFLAGS) $(OBJ_TEST_PROGRAM) $(OBJS) $(LIBFT) -o $@ $(DEPENDENCIES)
+	@echo "$(LIGHT_GREEN)$(BOLD)testting$(RESET) $(LIGHT_CYAN)$@$(RESET)..." && sleep $(SLEEP)
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --leak-check=full --track-fds=yes --suppressions=readline.supp ./$@ test_valgrind.spec > test_log 2>&1
 
 linkedlist: tests/data_structures/linkedlist.c tests/tests.c $(COMPILATION_DEPENDENCIES)
 	@echo "$(LIGHT_GREEN)>> $(BOLD)compiling$(RESET) $(LIGHT_CYAN)./$@$(RESET)..." && sleep $(SLEEP)

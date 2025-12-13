@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:39:08 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/11 15:47:35 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/13 18:11:19 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,15 @@ void	ft_free_item_redirect(void *content)
 void	ft_print_ambiguous(void *content)
 {
 	t_redirect	*content_redirect;
+	char		*temp;
+	char		*msg;
 
 	if (!content)
 		return ;
 	content_redirect = content;
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(content_redirect->value, 2);
-	ft_putstr_fd(": ambiguous redirect\n", 2);
+	temp = ft_strjoin("minishell: ", content_redirect->value);
+	msg = ft_strjoin(temp, ": ambiguous redirect");
+	ft_putendl_fd(msg, STDERR_FILENO);
+	free(temp);
+	free(msg);
 }
