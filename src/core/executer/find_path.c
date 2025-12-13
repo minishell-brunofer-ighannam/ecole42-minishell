@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:26 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 19:49:06 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/12 21:24:33 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ static char	*ft_aux_find_path(char **possible_paths, char *cmd)
 	char	*path;
 	char	*path_temp;
 
-	if (ft_strchr(cmd, '/'))
-		return (ft_strdup(cmd));
-	i = -1;
-	if (!possible_paths || ft_strlen(cmd) == 0)
+	if (!possible_paths || cmd == NULL || !ft_strcmp("..", cmd))
 	{
 		ft_print_cmd_not_found(cmd);
 		return (NULL);
 	}
+	if (ft_strchr(cmd, '/'))
+		return (ft_strdup(cmd));
+	i = -1;
 	while (possible_paths[++i])
 	{
 		path = ft_strjoin(possible_paths[i], "/");
@@ -78,7 +78,10 @@ static void	ft_print_cmd_not_found(char *cmd)
 {
 	char	*path;
 
-	path = ft_strjoin(cmd, " : command not found");
+	if (!cmd)
+		path = ft_strdup("'': command not found");
+	else
+		path = ft_strjoin(cmd, ": command not found");
 	ft_putstr_fd(path, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	free(path);
