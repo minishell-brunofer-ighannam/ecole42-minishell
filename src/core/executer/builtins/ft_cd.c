@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valero <valero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 11:31:58 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/10 21:00:51 by valero           ###   ########.fr       */
+/*   Updated: 2025/12/12 21:35:15 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,15 @@ static int	ft_verify_cd(t_binary_tree_node *node, char *old_pwd)
 	}
 	if (chdir((ft_get_tokens(node))[1]->last_build->token_expanded) == -1)
 	{
-		perror("cd");
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+    	ft_putstr_fd(old_pwd, STDERR_FILENO);
+   		ft_putstr_fd(": ", STDERR_FILENO);
+		if (errno == ESTALE)
+        	ft_putendl_fd("No such file or directory", STDERR_FILENO);
+    	else
+		{	
+        	ft_putendl_fd(strerror(errno), STDERR_FILENO);
+		}
 		free(old_pwd);
 		return (1);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:50:52 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/09 12:27:38 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/12 21:21:24 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,6 @@ static char	*ft_get_pid(void)
 	buf[bytes_read] = '\0';
 	pid_int = ft_atoi(buf);
 	pid = ft_itoa(pid_int);
+	close(fd);
 	return (pid);
 }
