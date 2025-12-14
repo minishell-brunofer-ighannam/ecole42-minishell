@@ -1,23 +1,6 @@
 {
-	readline_internal_leaks
-	Memcheck:Leak
-	match-leak-kinds: reachable
-	...
-	obj:*libreadline*
-}
-
-{
-	history_internal_leaks
-	Memcheck:Leak
-	match-leak-kinds: reachable
-	...
-	obj:*libhistory*
-}
-
-{
-	tinfo_ncurses_leaks
-	Memcheck:Leak
-	match-leak-kinds: reachable
-	...
-	obj:*libtinfo*
+   ignore_libreadline_memory_errors
+   Memcheck:Leak
+   ...
+   obj:*/libreadline.so.*
 }

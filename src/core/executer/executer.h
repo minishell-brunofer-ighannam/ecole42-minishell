@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:44 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/13 18:21:24 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/14 20:01:58 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,16 @@ char				*ft_generate_temp_file(void);
 void				ft_dfs_find_heredoc(t_linkedlist *heredoc,
 						t_binary_tree_node *node);
 t_linkedlist		*ft_find_all_heredoc(t_binary_tree_node *node);
+void				ft_tokenize_build_heredoc_alternative(
+						t_binary_tree_node *node,
+						char *line, int fd);
+t_token				*ft_create_token_hd(t_token_separated_sections *chunks,
+						int i, t_binary_tree_node *node, int j);
+void				ft_putstr_heredoc(t_token *token,
+						t_token_separated_sections *chunks, int fd, int i);
+void				ft_put_str_token_expanded(
+						t_token_separated_sections *chunks,
+						int i, int fd, t_token *token);
 
 // PIPE
 int					ft_execute_pipe(t_binary_tree_node *node, t_ast *ast);

@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:40:26 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/13 18:08:57 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/14 20:00:56 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ static int	ft_print_cmd_not_found(char **possible_paths, char *cmd,
 
 	if (!possible_paths || (cmd == NULL
 			&& !ft_get_tokens(node)[0]->last_build->token_expanded[0]
-			&& ft_get_tokens(node)[0]->value[0] != '$') || !ft_strcmp("..",
-			cmd))
+		&& ft_get_tokens(node)[0]->value[0] != '$') || !ft_strcmp("..",
+		cmd))
 	{
 		if (!cmd)
 			path = ft_strdup("'': command not found");
