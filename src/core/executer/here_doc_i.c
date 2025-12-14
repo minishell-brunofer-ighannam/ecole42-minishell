@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:49:25 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/13 19:50:52 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/14 19:57:52 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ static int	ft_process_heredoc(t_linkedlist_node *item_list, char *file);
 static int	ft_read_line_heredoc(int fd, char *delimit, int is_expandable,
 				t_binary_tree_node *node);
 static int	ft_ctrl_c_d_heredoc(int fd, char *file, char *delimit, char id);
-static void	ft_tokenize_build_heredoc(t_binary_tree_node *node, char *line,
+void		ft_tokenize_build_heredoc(t_binary_tree_node *node, char *line,
 				int fd);
+void		ft_tokenize_build_heredoc_alternative(t_binary_tree_node *node,
+				char *line, int fd);
 
 int	ft_execute_heredocs(t_binary_tree_node *node)
 {
@@ -111,7 +113,7 @@ static int	ft_read_line_heredoc(int fd, char *delimit, int is_expandable,
 			break ;
 		}
 		if (is_expandable == 1 && ft_strcmp(line, "\n") != 0)
-			ft_tokenize_build_heredoc(node, line, fd);
+			ft_tokenize_build_heredoc_alternative(node, line, fd);
 		else
 			ft_putendl_fd(line, fd);
 		free(line);
@@ -119,8 +121,7 @@ static int	ft_read_line_heredoc(int fd, char *delimit, int is_expandable,
 	return (0);
 }
 
-static void	ft_tokenize_build_heredoc(t_binary_tree_node *node, char *line,
-		int fd)
+void	ft_tokenize_build_heredoc(t_binary_tree_node *node, char *line, int fd)
 {
 	t_token				*token;
 	t_expansion_build	*build;

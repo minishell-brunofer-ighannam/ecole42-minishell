@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_keys_to_expand.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brunofer <brunofer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 23:05:14 by valero            #+#    #+#             */
-/*   Updated: 2025/12/13 19:29:16 by brunofer         ###   ########.fr       */
+/*   Updated: 2025/12/14 20:02:51 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ static void	ft_extract_keys(
 	int			*coords;
 	int			len_src;
 	int			src_idx;
-
 
 	len_src = ft_strlen(exp_keys->src);
 	token_section = expandable_sections->array[idx];
