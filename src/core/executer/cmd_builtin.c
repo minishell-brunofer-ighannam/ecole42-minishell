@@ -6,7 +6,7 @@
 /*   By: ighannam <ighannam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:44:23 by ighannam          #+#    #+#             */
-/*   Updated: 2025/12/13 13:07:13 by ighannam         ###   ########.fr       */
+/*   Updated: 2025/12/15 10:40:56 by ighannam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	ft_execute_builtin(t_binary_tree_node *node, t_ast *ast)
 {
 	if (ft_strcmp(ft_get_argv(node)[0], "env") == 0)
 		ft_env(ft_get_ht_env(node));
-	else if (ft_strcmp(ft_get_argv(node)[0], "set") == 0)
-		ft_set(ft_get_ht_env(node), ft_get_tokens(node)[1]->value);
 	else if (ft_strcmp(ft_get_argv(node)[0], "unset") == 0)
 	{
 		if (ft_get_tokens(node)[1])
